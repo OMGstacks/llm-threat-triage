@@ -9,7 +9,7 @@
 
 A portfolio repo built to demonstrate readiness for a **Technical Intelligence Analyst (TIA)** role focused on frontier-AI threats — investigating how large language models (not networks) break: prompt injection, jailbreaks, sensitive-data leakage, and other novel harms, using **Python + SQL**.
 
-I'm a security / incident-management professional transitioning into frontier-AI threat intelligence. This repo is the proof of work: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of the TIA job.
+I'm a security / incident-management professional transitioning into frontier-AI threat intelligence. This repo is the proof of work: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of a TIA.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
