@@ -1,0 +1,182 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@page { size: Letter; margin: 0.5in; }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color:#0f172a; font-size:10px; line-height:1.42; margin:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+h1 { font-size:23px; margin:0; letter-spacing:-.01em; }
+.sub { color:#334155; font-size:11.5px; margin-top:3px; font-weight:600; }
+.by { color:#64748b; font-size:9.5px; margin-top:3px; }
+.lead { font-size:10.5px; margin:6px 0 0; }
+.diagram { margin:5px 0 2px; border:1px solid #e2e8f0; border-radius:8px; padding:5px 8px; }
+.diagram svg { width:100%; height:auto; max-height:232px; display:block; }
+.cols { display:flex; gap:18px; margin-top:6px; }
+.col { flex:1; }
+h2 { font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; color:#1e293b; border-bottom:1.5px solid #cbd5e1; padding-bottom:2px; margin:8px 0 4px; }
+ul { margin:3px 0; padding-left:15px; }
+li { margin:2px 0; }
+.stats { display:flex; flex-wrap:wrap; gap:6px; }
+.stat { background:#f1f5f9; border:1px solid #e2e8f0; border-radius:6px; padding:5px 8px; flex:1 1 28%; }
+.stat b { font-size:16px; display:block; color:#0f172a; line-height:1.1; }
+.stat span { font-size:8px; color:#475569; }
+code { background:#f1f5f9; padding:0 3px; border-radius:3px; font-size:9px; }
+footer { margin-top:11px; border-top:1.5px solid #cbd5e1; padding-top:6px; color:#475569; font-size:9px; }
+.pill { display:inline-block; background:#0f172a; color:#fff; border-radius:4px; padding:1px 7px; font-size:8.5px; margin:1px 1px; }
+strong.k { color:#0f172a; }
+</style></head><body>
+<h1>LLM Log Triage</h1>
+<div class="sub">An LLM threat-detection pipeline — Python + SQL applied to adversarial-ML log analysis</div>
+<div class="by">Izu Uhiara · Targeting: Technical Intelligence Analyst, Strategic Intelligence &amp; Analysis (SIA), OpenAI · github.com/OMGstacks/openai-tia-prep</div>
+<p class="lead">Frontier-AI threat intelligence means investigating how large language models break — prompt injection, jailbreaks, data exfiltration — not how networks break. This project does that work end to end: it ingests deliberately <strong class="k">messy</strong> LLM interaction logs, normalizes them, flags adversarial activity with detectors <strong class="k">dual-mapped to the OWASP LLM Top 10 (2025) and MITRE ATLAS</strong>, and answers investigative questions in SQL — the day-to-day of <strong class="k">surfacing novel harms and abuse patterns</strong> and turning them into <strong class="k">structured, decision-ready intelligence</strong>.</p>
+<div class="diagram">
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="500" viewBox="0 0 1240 500" font-family="ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <style>
+    .box{fill:#f1f5f9;stroke:#334155;stroke-width:1.5;}
+    .accent{fill:#1e293b;stroke:#0f172a;stroke-width:1.5;}
+    .db{fill:#e2e8f0;stroke:#334155;stroke-width:1.5;}
+    .flow{stroke:#334155;stroke-width:2;fill:none;}
+    .t{fill:#0f172a;}
+    .tw{fill:#f8fafc;}
+    .s{fill:#475569;}
+    .sw{fill:#cbd5e1;}
+  </style>
+
+  <rect width="1240" height="500" fill="#ffffff"/>
+  <!-- canvas 1240x500; band 320-470; pills 402-448 (52px bottom margin) -->
+
+
+  <!-- title -->
+  <text x="40" y="46" font-size="27" font-weight="700" class="t">LLM Log Triage — detection pipeline</text>
+  <text x="40" y="74" font-size="15" class="s">Messy LLM logs in → adversarial-ML findings out · every finding mapped to OWASP LLM Top 10 (2025) + MITRE ATLAS</text>
+
+  <!-- ===== pipeline (boxes centered vertically at y=210) ===== -->
+
+  <!-- 1. Messy logs -->
+  <rect class="box" x="40" y="150" width="165" height="120" rx="10"/>
+  <text x="122" y="186" font-size="16" font-weight="700" text-anchor="middle" class="t">Messy logs</text>
+  <text x="122" y="210" font-size="12" text-anchor="middle" class="s">JSONL · 6+ timestamp</text>
+  <text x="122" y="228" font-size="12" text-anchor="middle" class="s">formats, aliased &amp;</text>
+  <text x="122" y="246" font-size="12" text-anchor="middle" class="s">missing fields</text>
+
+  <path class="flow" d="M205,210 L241,210" marker-end="url(#arrow)"/>
+
+  <!-- 2. normalize.py -->
+  <rect class="box" x="243" y="150" width="165" height="120" rx="10"/>
+  <text x="325" y="186" font-size="16" font-weight="700" text-anchor="middle" class="t">normalize.py</text>
+  <text x="325" y="210" font-size="12" text-anchor="middle" class="s">→ canonical schema</text>
+  <text x="325" y="228" font-size="12" text-anchor="middle" class="s">recovers 156 bad ts</text>
+  <text x="325" y="246" font-size="12" text-anchor="middle" class="s">/ 63 missing IDs</text>
+
+  <path class="flow" d="M408,210 L444,210" marker-end="url(#arrow)"/>
+
+  <!-- 3. events DB (cylinder) -->
+  <g>
+    <path class="db" d="M446,168 v84 a65,12 0 0 0 130,0 v-84"/>
+    <ellipse class="db" cx="511" cy="168" rx="65" ry="12"/>
+    <text x="511" y="206" font-size="12" text-anchor="middle" class="s">SQLite</text>
+    <text x="511" y="226" font-size="16" font-weight="700" text-anchor="middle" class="t">events</text>
+  </g>
+
+  <path class="flow" d="M576,210 L609,210" marker-end="url(#arrow)"/>
+
+  <!-- 4. detectors.py (accent) -->
+  <rect class="accent" x="611" y="150" width="180" height="120" rx="10"/>
+  <text x="701" y="186" font-size="16" font-weight="700" text-anchor="middle" class="tw">detectors.py</text>
+  <text x="701" y="210" font-size="12" text-anchor="middle" class="sw">9 detectors —</text>
+  <text x="701" y="228" font-size="12" text-anchor="middle" class="sw">evasion-resistant,</text>
+  <text x="701" y="246" font-size="12" text-anchor="middle" class="sw">channel-aware</text>
+
+  <path class="flow" d="M791,210 L824,210" marker-end="url(#arrow)"/>
+
+  <!-- 5. detections DB (cylinder) -->
+  <g>
+    <path class="db" d="M826,168 v84 a70,12 0 0 0 140,0 v-84"/>
+    <ellipse class="db" cx="896" cy="168" rx="70" ry="12"/>
+    <text x="896" y="203" font-size="12" text-anchor="middle" class="s">SQLite</text>
+    <text x="896" y="222" font-size="16" font-weight="700" text-anchor="middle" class="t">detections</text>
+    <text x="896" y="240" font-size="11" text-anchor="middle" class="s">OWASP + ATLAS</text>
+  </g>
+
+  <path class="flow" d="M966,210 L999,210" marker-end="url(#arrow)"/>
+
+  <!-- 6. outputs -->
+  <rect class="box" x="1001" y="150" width="200" height="120" rx="10"/>
+  <text x="1101" y="186" font-size="16" font-weight="700" text-anchor="middle" class="t">Triage report + CLI</text>
+  <text x="1101" y="210" font-size="12" text-anchor="middle" class="s">7 analyst SQL queries</text>
+  <text x="1101" y="228" font-size="12" text-anchor="middle" class="s">incl. consumption &amp;</text>
+  <text x="1101" y="246" font-size="12" text-anchor="middle" class="s">session-escalation</text>
+
+  <!-- ===== framework band ===== -->
+  <rect x="40" y="320" width="1161" height="150" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="60" y="352" font-size="16" font-weight="700" class="t">Every finding → OWASP LLM Top 10 (2025) + MITRE ATLAS technique</text>
+  <text x="60" y="376" font-size="13" class="s">Evasion-resistant matching (NFKC · zero-width · spaced-letter · leetspeak) + base64 / hex payload decoding before re-checking</text>
+
+  <!-- OWASP pills -->
+  <g font-size="12.5" font-weight="600">
+    <rect x="60"   y="402" width="180" height="46" rx="9" fill="#0f172a"/>
+    <text x="150"  y="424" text-anchor="middle" class="tw">LLM01</text>
+    <text x="150"  y="440" text-anchor="middle" class="sw">Prompt Injection</text>
+
+    <rect x="250"  y="402" width="180" height="46" rx="9" fill="#0f172a"/>
+    <text x="340"  y="424" text-anchor="middle" class="tw">LLM02</text>
+    <text x="340"  y="440" text-anchor="middle" class="sw">Sensitive Info</text>
+
+    <rect x="440"  y="402" width="180" height="46" rx="9" fill="#0f172a"/>
+    <text x="530"  y="424" text-anchor="middle" class="tw">LLM05</text>
+    <text x="530"  y="440" text-anchor="middle" class="sw">Output Handling</text>
+
+    <rect x="630"  y="402" width="180" height="46" rx="9" fill="#0f172a"/>
+    <text x="720"  y="424" text-anchor="middle" class="tw">LLM06</text>
+    <text x="720"  y="440" text-anchor="middle" class="sw">Excessive Agency</text>
+
+    <rect x="820"  y="402" width="180" height="46" rx="9" fill="#0f172a"/>
+    <text x="910"  y="424" text-anchor="middle" class="tw">LLM07</text>
+    <text x="910"  y="440" text-anchor="middle" class="sw">Prompt Leakage</text>
+
+    <rect x="1010" y="402" width="180" height="46" rx="9" fill="#334155"/>
+    <text x="1100" y="424" text-anchor="middle" class="tw">LLM10</text>
+    <text x="1100" y="440" text-anchor="middle" class="sw">Consumption (SQL)</text>
+  </g>
+</svg>
+</div>
+<div class="cols">
+  <div class="col">
+    <h2>What it does</h2>
+    <ul>
+      <li>Ingests messy JSONL logs (6+ timestamp formats incl. epoch, aliased/missing fields, nested metadata) → canonical schema, recovering <strong class="k">156 unparseable timestamps</strong> and <strong class="k">63 missing IDs</strong> in the sample run.</li>
+      <li><strong class="k">9 channel-aware detectors</strong>: direct / indirect / encoded prompt injection, jailbreak, system-prompt extraction, excessive agency, sensitive-info disclosure (inbound + output), improper output handling / exfil.</li>
+      <li><strong class="k">Evasion-resistant</strong>: NFKC + zero-width + spaced-letter + leetspeak folding, and base64 / hex payload decoding before re-checking.</li>
+      <li>SQLite store + <strong class="k">7 analyst SQL queries</strong>, incl. an LLM10 consumption-anomaly query and a multi-turn session-escalation correlation.</li>
+    </ul>
+    <h2>I red-teamed my own tool</h2>
+    <p>An adversarial self-review of the detection code surfaced real bugs — fixed and locked behind tests: a timestamp parser silently turning <code>20260301</code> into a 1970 date; a rule firing on every role; unicode / leetspeak / base64 evasions bypassing every regex; and Luhn-less false-positive card matches.</p>
+    <h2>Frameworks spoken</h2>
+    <p><span class="pill">LLM01 Prompt Injection</span> <span class="pill">LLM02 Sensitive Info</span> <span class="pill">LLM05 Output Handling</span> <span class="pill">LLM06 Excessive Agency</span> <span class="pill">LLM07 Prompt Leakage</span> <span class="pill">LLM10 Consumption</span> + MITRE ATLAS techniques (AML.T0051 / T0054 / T0056 / T0057 …).</p>
+  </div>
+  <div class="col">
+    <h2>Results — reproducible run (seed 7)</h2>
+    <div class="stats">
+      <div class="stat"><b>800</b><span>events ingested</span></div>
+      <div class="stat"><b>150</b><span>events flagged</span></div>
+      <div class="stat"><b>217</b><span>findings</span></div>
+      <div class="stat"><b>83</b><span>tests passing</span></div>
+      <div class="stat"><b>7</b><span>analyst SQL queries</span></div>
+      <div class="stat"><b>9</b><span>detectors</span></div>
+    </div>
+    <h2>Built with</h2>
+    <p>Python (standard-library-only at runtime) · SQLite · pytest · GitHub Actions CI. Red-team tooling: Microsoft <strong class="k">PyRIT</strong> (runnable offline probe), NVIDIA <strong class="k">garak</strong>, <strong class="k">promptfoo</strong> — plus an offline harness that grades attacks with the same detection engine.</p>
+    <h2>Why it maps to the role (SIA, OpenAI)</h2>
+    <ul>
+      <li><strong class="k">Surface novel harms &amp; abuse patterns</strong> with an ensemble of technical tools and discovery methods — 9 detectors, base64/leetspeak decoding, and a PyRIT/garak/promptfoo red-team loop.</li>
+      <li><strong class="k">SQL, Python &amp; AI tooling that improves analysis speed, coverage, and consistency</strong> — a std-lib pipeline, 7 analyst queries, and a tested CLI + CI for repeatable results.</li>
+      <li><strong class="k">Structured, decision-ready intelligence</strong> — findings dual-mapped to OWASP/ATLAS with a severity rollup; repeat-offender &amp; session-escalation queries identify, validate, and prioritize risk.</li>
+      <li><strong class="k">Anomaly detection for low-prevalence patterns</strong> — consumption-anomaly &amp; multi-turn correlation queries surface rare/novel behavior (a natural fit for PyOD-style tooling).</li>
+      <li><strong class="k">A zero-to-one analysis turned into a reusable tool</strong> — built from scratch into a documented, tested, maintainable workflow, not a one-off notebook.</li>
+    </ul>
+  </div>
+</div>
+<footer>Full source, 83 tests, framework references, and red-team scaffolds: <strong class="k">github.com/OMGstacks/openai-tia-prep</strong> &nbsp;·&nbsp; This pipeline is a heuristic triage tool for log analysis, not a production WAF.</footer>
+</body></html>

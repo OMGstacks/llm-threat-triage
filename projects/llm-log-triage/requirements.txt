@@ -1,0 +1,4 @@
+# The flagship project intentionally uses ONLY the Python standard library
+# (sqlite3, re, json, argparse) so it clones-and-runs anywhere with zero setup.
+# The only dev dependency is the test runner.
+pytest>=7.0

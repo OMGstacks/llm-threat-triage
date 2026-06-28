@@ -1,0 +1,70 @@
+# garak run config — openai-tia-prep red-team scaffold
+# ---------------------------------------------------------------------------
+# Run with:
+#     export OPENAI_API_KEY=sk-...          # required for a real target
+#     python -m garak --config garak_config.yaml
+#
+# Every UNCOMMENTED key below is verified against garak's core config schema
+# (garak/resources/garak.core.yaml) and is safe to run as-is — you only need to
+# point `target_name` at a model you are authorized to test. Commented keys are
+# optional opt-ins (their VALUES vary by provider/version, so confirm before use).
+# garak merges this over its built-in defaults; unset keys keep their defaults.
+#   Schema: https://github.com/NVIDIA/garak    (also `python -m garak --help`)
+# ---------------------------------------------------------------------------
+
+# -- system: how garak executes (concurrency, verbosity) ---------------------
+system:
+  verbose: 0                 # bump to 1/2 for more console detail
+  parallel_attempts: 4       # concurrent probe attempts (speed vs rate-limits)
+  lite: true                 # smaller/faster prompt subset — good for a first run
+  # parallel_requests: 4     # concurrent model calls; raise only if your quota allows
+
+# -- run: scan-wide behavior (cost knobs live here) --------------------------
+run:
+  seed: 1337                 # reproducible buff/sampling order
+  generations: 3             # responses per prompt — KEEP LOW to control cost
+  eval_threshold: 0.5        # detector score above which an attempt counts as a hit
+  deprefix: true             # strip the echoed prompt from the response before judging
+  soft_probe_prompt_cap: 64  # cap prompts per probe for a cheaper, bounded run
+
+# -- plugins: the target model + which attacks to run ------------------------
+plugins:
+  # --- Target (a "generator"). Set to a model you are authorized to test. ---
+  target_type: openai        # openai | huggingface | ollama | rest | ggml | test
+  target_name: gpt-4o-mini   # cheap OpenAI model for baselines
+  # Tip: target_type: test  /  target_name: Blank  -> free offline mock (no key, no cost).
+
+  # --- Probes (the attacks). An explicit small list keeps a run scoped & cheap. ---
+  # "all" runs the full battery (expensive). These map to OWASP LLM01
+  # (injection/jailbreak/evasion) and LLM02/LLM07 (leakage / prompt extraction).
+  probe_spec: promptinject,dan,encoding,leakreplay
+
+  # --- Detectors (the judges). "auto" = let each probe pick its own. ---
+  detector_spec: auto
+  extended_detectors: false  # set true to also run each probe's non-default detectors
+
+  # --- Buffs (prompt mutators). Mirrors the flagship's evasion-resistance theme:
+  # encoding obfuscation is exactly what the llm-log-triage EncodedPayloadDetector
+  # is built to catch. Uncomment to test the target against obfuscated variants. ---
+  # buff_spec: encoding,paraphrase
+
+  # --- Per-plugin parameter overrides (nested under provider -> class). ---
+  # Param/class names vary by garak version — confirm with `python -m garak --list_generators`.
+  # generators:
+  #   openai:
+  #     OpenAIGenerator:
+  #       temperature: 0.7
+  #       max_tokens: 256
+
+# -- reporting: where results land -------------------------------------------
+reporting:
+  report_prefix: tia_baseline_2026q2   # -> tia_baseline_2026q2.report.jsonl / .html
+  report_dir: garak_runs               # output directory (created if absent)
+  # taxonomy: owasp                     # tag hits by a taxonomy (value depends on garak version)
+
+# ---------------------------------------------------------------------------
+# Cost & authorization reminder:
+#   * Real targets cost money and require the provider key (e.g. OPENAI_API_KEY).
+#   * Develop against target_type: test (free offline mock) or a local HF/Ollama model.
+#   * Scan ONLY endpoints you own or are authorized in writing to test.
+# ---------------------------------------------------------------------------

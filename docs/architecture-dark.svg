@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="500" viewBox="0 0 1240 500" font-family="ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrowd" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#8b949e"/>
+    </marker>
+  </defs>
+  <style>
+    .box{fill:#161b22;stroke:#30363d;stroke-width:1.5;}
+    .accent{fill:#1f6feb;stroke:#388bfd;stroke-width:1.5;}
+    .db{fill:#21262d;stroke:#30363d;stroke-width:1.5;}
+    .flow{stroke:#8b949e;stroke-width:2;fill:none;}
+    .t{fill:#e6edf3;}
+    .tw{fill:#ffffff;}
+    .s{fill:#8b949e;}
+    .sw{fill:#c9d1d9;}
+  </style>
+
+  <rect width="1240" height="500" fill="#0d1117"/>
+
+  <!-- title -->
+  <text x="40" y="46" font-size="27" font-weight="700" class="t">LLM Log Triage — detection pipeline</text>
+  <text x="40" y="74" font-size="15" class="s">Messy LLM logs in → adversarial-ML findings out · every finding mapped to OWASP LLM Top 10 (2025) + MITRE ATLAS</text>
+
+  <!-- 1. Messy logs -->
+  <rect class="box" x="40" y="150" width="165" height="120" rx="10"/>
+  <text x="122" y="186" font-size="16" font-weight="700" text-anchor="middle" class="t">Messy logs</text>
+  <text x="122" y="210" font-size="12" text-anchor="middle" class="s">JSONL · 6+ timestamp</text>
+  <text x="122" y="228" font-size="12" text-anchor="middle" class="s">formats, aliased &amp;</text>
+  <text x="122" y="246" font-size="12" text-anchor="middle" class="s">missing fields</text>
+
+  <path class="flow" d="M205,210 L241,210" marker-end="url(#arrowd)"/>
+
+  <!-- 2. normalize.py -->
+  <rect class="box" x="243" y="150" width="165" height="120" rx="10"/>
+  <text x="325" y="186" font-size="16" font-weight="700" text-anchor="middle" class="t">normalize.py</text>
+  <text x="325" y="210" font-size="12" text-anchor="middle" class="s">→ canonical schema</text>
+  <text x="325" y="228" font-size="12" text-anchor="middle" class="s">recovers 156 bad ts</text>
+  <text x="325" y="246" font-size="12" text-anchor="middle" class="s">/ 63 missing IDs</text>
+
+  <path class="flow" d="M408,210 L444,210" marker-end="url(#arrowd)"/>
+
+  <!-- 3. events DB -->
+  <g>
+    <path class="db" d="M446,168 v84 a65,12 0 0 0 130,0 v-84"/>
+    <ellipse class="db" cx="511" cy="168" rx="65" ry="12"/>
+    <text x="511" y="206" font-size="12" text-anchor="middle" class="s">SQLite</text>
+    <text x="511" y="226" font-size="16" font-weight="700" text-anchor="middle" class="t">events</text>
+  </g>
+
+  <path class="flow" d="M576,210 L609,210" marker-end="url(#arrowd)"/>
+
+  <!-- 4. detectors.py (accent) -->
+  <rect class="accent" x="611" y="150" width="180" height="120" rx="10"/>
+  <text x="701" y="186" font-size="16" font-weight="700" text-anchor="middle" class="tw">detectors.py</text>
+  <text x="701" y="210" font-size="12" text-anchor="middle" class="sw">9 detectors —</text>
+  <text x="701" y="228" font-size="12" text-anchor="middle" class="sw">evasion-resistant,</text>
+  <text x="701" y="246" font-size="12" text-anchor="middle" class="sw">channel-aware</text>
+
+  <path class="flow" d="M791,210 L824,210" marker-end="url(#arrowd)"/>
+
+  <!-- 5. detections DB -->
+  <g>
+    <path class="db" d="M826,168 v84 a70,12 0 0 0 140,0 v-84"/>
+    <ellipse class="db" cx="896" cy="168" rx="70" ry="12"/>
+    <text x="896" y="203" font-size="12" text-anchor="middle" class="s">SQLite</text>
+    <text x="896" y="222" font-size="16" font-weight="700" text-anchor="middle" class="t">detections</text>
+    <text x="896" y="240" font-size="11" text-anchor="middle" class="s">OWASP + ATLAS</text>
+  </g>
+
+  <path class="flow" d="M966,210 L999,210" marker-end="url(#arrowd)"/>
+
+  <!-- 6. outputs -->
+  <rect class="box" x="1001" y="150" width="200" height="120" rx="10"/>
+  <text x="1101" y="186" font-size="16" font-weight="700" text-anchor="middle" class="t">Triage report + CLI</text>
+  <text x="1101" y="210" font-size="12" text-anchor="middle" class="s">7 analyst SQL queries</text>
+  <text x="1101" y="228" font-size="12" text-anchor="middle" class="s">incl. consumption &amp;</text>
+  <text x="1101" y="246" font-size="12" text-anchor="middle" class="s">session-escalation</text>
+
+  <!-- framework band -->
+  <rect x="40" y="320" width="1161" height="150" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.5"/>
+  <text x="60" y="352" font-size="16" font-weight="700" class="t">Every finding → OWASP LLM Top 10 (2025) + MITRE ATLAS technique</text>
+  <text x="60" y="376" font-size="13" class="s">Evasion-resistant matching (NFKC · zero-width · spaced-letter · leetspeak) + base64 / hex payload decoding before re-checking</text>
+
+  <g font-size="12.5" font-weight="600">
+    <rect x="60"   y="402" width="180" height="46" rx="9" fill="#30363d" stroke="#444c56"/>
+    <text x="150"  y="424" text-anchor="middle" class="tw">LLM01</text>
+    <text x="150"  y="440" text-anchor="middle" class="sw">Prompt Injection</text>
+
+    <rect x="250"  y="402" width="180" height="46" rx="9" fill="#30363d" stroke="#444c56"/>
+    <text x="340"  y="424" text-anchor="middle" class="tw">LLM02</text>
+    <text x="340"  y="440" text-anchor="middle" class="sw">Sensitive Info</text>
+
+    <rect x="440"  y="402" width="180" height="46" rx="9" fill="#30363d" stroke="#444c56"/>
+    <text x="530"  y="424" text-anchor="middle" class="tw">LLM05</text>
+    <text x="530"  y="440" text-anchor="middle" class="sw">Output Handling</text>
+
+    <rect x="630"  y="402" width="180" height="46" rx="9" fill="#30363d" stroke="#444c56"/>
+    <text x="720"  y="424" text-anchor="middle" class="tw">LLM06</text>
+    <text x="720"  y="440" text-anchor="middle" class="sw">Excessive Agency</text>
+
+    <rect x="820"  y="402" width="180" height="46" rx="9" fill="#30363d" stroke="#444c56"/>
+    <text x="910"  y="424" text-anchor="middle" class="tw">LLM07</text>
+    <text x="910"  y="440" text-anchor="middle" class="sw">Prompt Leakage</text>
+
+    <rect x="1010" y="402" width="180" height="46" rx="9" fill="#1f6feb" stroke="#388bfd"/>
+    <text x="1100" y="424" text-anchor="middle" class="tw">LLM10</text>
+    <text x="1100" y="440" text-anchor="middle" class="sw">Consumption (SQL)</text>
+  </g>
+</svg>

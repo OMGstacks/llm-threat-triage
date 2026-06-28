@@ -1,0 +1,92 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+@page { size: Letter; margin: 0.4in; }
+* { box-sizing: border-box; }
+body { font-family:-apple-system,"Segoe UI",Helvetica,Arial,sans-serif; color:#0f172a; font-size:8.2px; line-height:1.34; margin:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+h1 { font-size:16px; margin:0; }
+.banner { background:#0f172a; color:#f8fafc; border-radius:6px; padding:7px 9px; margin:5px 0 7px; }
+.banner .pitch { font-size:9px; }
+.banner .mission { font-size:8px; color:#cbd5e1; margin-top:3px; }
+.nums { font-size:8px; color:#e2e8f0; margin-top:3px; }
+.nums b { color:#fff; }
+.cols { display:flex; gap:12px; }
+.col { flex:1; }
+h2 { font-size:8.5px; text-transform:uppercase; letter-spacing:.04em; color:#1e293b; border-bottom:1px solid #cbd5e1; padding-bottom:1px; margin:7px 0 3px; }
+table { border-collapse:collapse; width:100%; font-size:7.6px; }
+td { border:1px solid #e2e8f0; padding:2px 3px; }
+ul { margin:2px 0; padding-left:12px; }
+li { margin:1.5px 0; }
+code,.m { background:#f1f5f9; border-radius:2px; padding:0 2px; font-family:ui-monospace,Menlo,monospace; font-size:7.4px; }
+b.k { color:#0f172a; }
+.foot { margin-top:6px; border-top:1px solid #cbd5e1; padding-top:3px; color:#64748b; font-size:7.2px; }
+</style></head><body>
+<h1>TIA cheat-sheet — LLM threat intelligence (SIA)</h1>
+<div class="banner">
+  <div class="pitch"><b>30-sec pitch:</b> "I built <b>openai-tia-prep</b> — a Python + SQL pipeline that ingests messy LLM logs and flags prompt injection, jailbreaks &amp; data exfiltration, every finding mapped to OWASP LLM Top 10 + MITRE ATLAS. 800 events → 150 flagged / 217 findings, 9 detectors, 7 SQL queries incl. anomaly detection, 83 tests + CI. I red-teamed my own detectors and fixed the bugs."</div>
+  <div class="mission"><b>SIA mission:</b> monitor, analyze &amp; <b>forecast real-world abuse</b>, geopolitical/strategic threats → inform safety mitigations, product decisions, partnerships. Day-to-day: <b>surface novel harms</b> → <b>structured, decision-ready intelligence</b> via SQL + Python + AI tools.</div>
+  <div class="nums"><b>Numbers (seed 7):</b> 800 events · 156 bad-ts recovered · 63 IDs synthesized · <b>150 flagged</b> · <b>217 findings</b> (61C/126H/25M/5I) · 9 detectors · 7 queries · 83 tests · OWASP: LLM01 <b>132</b>, LLM05 29, LLM07 25, LLM02 22, LLM06 9.</div>
+</div>
+<div class="cols">
+  <div class="col">
+    <h2>OWASP LLM Top 10 — 2025</h2>
+    <table>
+      <tr><td><b>01</b> Prompt Injection</td><td><b>02</b> Sensitive Info Disclosure</td></tr>
+      <tr><td><b>03</b> Supply Chain</td><td><b>04</b> Data &amp; Model Poisoning</td></tr>
+      <tr><td><b>05</b> Improper Output Handling</td><td><b>06</b> Excessive Agency</td></tr>
+      <tr><td><b>07</b> System Prompt Leakage</td><td><b>08</b> Vector/Embedding Weaknesses</td></tr>
+      <tr><td><b>09</b> Misinformation</td><td><b>10</b> Unbounded Consumption</td></tr>
+    </table>
+    <div style="font-size:7.4px;color:#475569;margin-top:2px">Repo covers (detectors) 01/02/05/06/07; (SQL) 10 + multi-turn. Roadmap: 03/04/08/09.</div>
+    <h2>MITRE ATLAS — key techniques</h2>
+    <ul>
+      <li><span class="m">AML.T0051</span> LLM Prompt Injection (.000 Direct / .001 Indirect)</li>
+      <li><span class="m">AML.T0054</span> LLM Jailbreak · <span class="m">AML.T0056</span> LLM Meta Prompt Extraction</li>
+      <li><span class="m">AML.T0053</span> AI Agent Tool Invocation · <span class="m">AML.T0057</span> LLM Data Leakage</li>
+      <li><span class="m">AML.T0024</span> Exfiltration via AI Inference API</li>
+    </ul>
+    <div style="font-size:7.4px;color:#475569">ATLAS = ATT&amp;CK for ML: Recon → Model Access → Poisoning → ML Attack Staging → Exfiltration → Impact.</div>
+    <h2>Rapid-fire definitions</h2>
+    <ul>
+      <li><b class="k">Direct injection</b>: the user types the override.</li>
+      <li><b class="k">Indirect injection</b>: override rides in on ingested content (RAG/web/email/tool) — user may be innocent; worse (blurred trust boundary).</li>
+      <li><b class="k">Jailbreak</b>: defeats safety/policy (persona: DAN, "developer mode").</li>
+      <li><b class="k">Prompt leakage/extraction</b>: probe to reveal hidden prompt; best signal = canary token.</li>
+      <li><b class="k">Improper output handling</b>: downstream trusts output → XSS/SSRF/exfil/code-exec.</li>
+      <li><b class="k">Excessive agency</b>: too much tool/permission → unintended actions.</li>
+      <li><b class="k">Model extraction</b>: systematic queries to steal model/boundary (LLM10/T0024).</li>
+      <li><b class="k">Membership inference / inversion</b>: infer training membership / reconstruct data.</li>
+      <li><b class="k">Denial-of-wallet</b>: cost-exhaustion via expensive inference (LLM10).</li>
+      <li><b class="k">Data/model poisoning</b>: train-time corruption → backdoors (LLM04).</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h2>Detection principles (= your talking points)</h2>
+    <ul>
+      <li><b class="k">Channel-awareness</b> — same string benign from a user, critical from a RAG doc. Provenance is part of the verdict.</li>
+      <li><b class="k">Evasion-resistance</b> — normalize (NFKC, zero-width, spaced-letter, leetspeak) + decode base64/hex before matching.</li>
+      <li><b class="k">Output-side detection</b> — scan the response (secret leak, exfil link), not just input.</li>
+      <li><b class="k">Correlation &gt; single signals</b> — chain injection → tool call → egress; repeat offenders; multi-turn escalation.</li>
+      <li><b class="k">Signatures for known, anomaly (PyOD) for novel</b> — triage where they agree first.</li>
+      <li><b class="k">Rank + communicate</b> — Finding → Mechanism → Impact → Likelihood → Recommendation → Cost of inaction.</li>
+    </ul>
+    <h2>Mitigations (one-liners)</h2>
+    <ul>
+      <li><b class="k">Injection</b>: trust-tag/isolate untrusted content; treat all input as hostile; instruction hierarchy.</li>
+      <li><b class="k">Output handling</b>: contextual encoding; strip/allowlist markdown (kill image auto-fetch); no eval/shell/SQL on output.</li>
+      <li><b class="k">Leakage</b>: canary tokens; keep secrets out of prompts; output secret-scan.</li>
+      <li><b class="k">Excessive agency</b>: least-privilege tools; human-in-loop for high-impact actions.</li>
+      <li><b class="k">Unbounded consumption</b>: per-key rate/token/cost budgets; max-output caps; loop guards.</li>
+    </ul>
+    <h2>The 9 detectors (repo)</h2>
+    <ul>
+      <li>direct / indirect / encoded <b class="k">prompt injection</b> (LLM01)</li>
+      <li><b class="k">jailbreak</b> persona override (LLM01) · <b class="k">system-prompt extraction</b> (LLM07)</li>
+      <li><b class="k">excessive agency</b> probe (LLM06)</li>
+      <li><b class="k">sensitive disclosure</b> — output + inbound (LLM02)</li>
+      <li><b class="k">improper output handling</b> / exfil (LLM05)</li>
+    </ul>
+    <h2>If asked "where do regexes fail?"</h2>
+    <div style="font-size:7.8px">Obfuscation (base64/unicode/zero-width/multilingual) &amp; novel phrasings. Repo already folds unicode/spacing/leetspeak + decodes base64/hex; next layers = embedding-similarity to attack clusters, an LLM-judge classifier, canary tokens — each drops in as just another detector.</div>
+  </div>
+</div>
+<div class="foot">github.com/OMGstacks/openai-tia-prep · Heuristic triage for log analysis, not a production WAF.</div>
+</body></html>

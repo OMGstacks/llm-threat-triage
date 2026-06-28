@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local databases produced by the pipeline (the sample LOG file IS committed;
+# the generated .db is not — regenerate it with `make demo`).
+*.db
+*.db-wal
+*.db-shm
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+
+# Session handoff — local working note, intentionally NOT part of the public repo.
+# (Delete this line if you'd rather track it.)
+SESSION_HANDOFF.md
