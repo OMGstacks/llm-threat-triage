@@ -1,7 +1,8 @@
 # Cover letter — Technical Intelligence Analyst, Strategic Intelligence & Analysis (OpenAI)
 
-> Fill the `[brackets]` with your specifics. The project paragraph is factual — it
-> describes this repo, which the reader can open and run. Keep the full letter to one page.
+> Personalized for Izu Uhiara. The project paragraph is factual — it describes this repo,
+> which the reader can open and run. The current employer is anonymized for the public repo;
+> swap in the real name for versions you submit directly. Keep the full letter to one page.
 
 ---
 
@@ -28,23 +29,27 @@ of my own detectors and fixed real bugs — a timestamp parser silently corrupti
 that fired on the wrong role, and evasions that bypassed every regex — because a detection tool
 you haven't tried to break isn't one you can trust.
 
-That instinct comes from my background in [security / incident management]. For [N years] I've
-[triaged high-severity incidents / assigned severity under ambiguity / driven root-cause analysis
-and escalation] — [add one concrete, quantified win, e.g. "cut mean time-to-triage by X%"]. The
-domain is shifting from how networks break to how models break, but the core is identical:
-ingest noisy signals, separate confirmed from suspected, prioritize by impact, and hand
-leadership a decision, not a payload.
+That instinct isn't new for me. For nearly two decades I've worked in operations and incident
+management — most recently as **AVP, Security Incident Management** in a global bank's CISO
+organization, and before that running major-incident response for a national telecom (T-Mobile).
+My day-to-day is triaging high-severity incidents under ambiguity, assigning severity, driving
+root-cause analysis, and owning executive escalation — and, increasingly, leading AI enablement
+and governing how AI gets used across the org. The signals are shifting from how networks break
+to how models break, but the core is identical: ingest noisy inputs, separate confirmed from
+suspected, prioritize by impact, and hand leadership a decision, not a payload.
 
-What draws me specifically to OpenAI and SIA is [one or two genuine sentences — e.g. the chance
-to do this at the frontier, where the harms are novel and the stakes are real, and where
-intelligence directly informs how powerful systems are deployed]. I'd bring an investigative
+What draws me specifically to OpenAI and SIA is that it's the same investigative work I've done
+for years — monitor, analyze, forecast abuse — but at the frontier, where the harms are novel and
+the intelligence directly informs how powerful systems are deployed. Governing AI use cases inside
+a CISO organization gave me a close-up view of how fast these risks emerge and how little prior art
+exists to lean on; I want to do that work where it matters most. I'd bring an investigative
 mindset, real SQL and Python, fluency in the LLM-threat frameworks, and a demonstrated habit of
 turning a zero-to-one analysis into a reusable tool.
 
 Thank you for your consideration — I'd welcome the chance to walk through the project live.
 
-[Your name]
-[email] · [phone] · github.com/OMGstacks
+Izu Uhiara
+izu.uhiara@gmail.com · github.com/OMGstacks · linkedin.com/in/izu-uhiara-177b1052
 
 ---
 
@@ -56,9 +61,10 @@ logs and flags prompt injection, jailbreaks, and data exfiltration — nine dete
 finding mapped to OWASP LLM Top 10 (2025) + MITRE ATLAS, plus SQL anomaly queries for novel /
 low-prevalence patterns. 800 events → 150 flagged / 217 findings, 83 tests, CI; I red-teamed my
 own detectors and fixed the bugs. It's exactly the SIA loop — surface novel harms, turn them
-into structured, decision-ready intelligence. I pair it with [N years] in [security / incident
-management]: triage, severity, evidence, escalation, RCA — the same instincts, applied to how
-models break instead of networks.
+into structured, decision-ready intelligence. I pair it with nearly two decades in operations and
+incident management — now AVP, Security Incident Management in a global bank's CISO org, where I
+also lead AI enablement: triage, severity, evidence, escalation, RCA — the same instincts, applied
+to how models break instead of networks.
 
 ---
 
@@ -68,6 +74,7 @@ I'm targeting the Technical Intelligence Analyst role on OpenAI's Strategic Inte
 Analysis team. To show I can do the day-to-day, I built `openai-tia-prep` — a tested Python + SQL
 pipeline that triages messy LLM logs for prompt injection, jailbreaks, and exfiltration, mapped
 to OWASP LLM Top 10 + MITRE ATLAS, with SQL anomaly detection for novel patterns
-(github.com/OMGstacks/openai-tia-prep). Combined with [N years] in [security / incident
-management], it's the investigative-mindset-plus-Python/SQL profile the role asks for — could you
-point me to the right person or refer me in?
+(github.com/OMGstacks/openai-tia-prep). Combined with nearly two decades in incident management —
+currently AVP, Security Incident Management, plus AI-enablement leadership in a CISO org — it's the
+investigative-mindset-plus-Python/SQL profile the role asks for — could you point me to the right
+person or refer me in?

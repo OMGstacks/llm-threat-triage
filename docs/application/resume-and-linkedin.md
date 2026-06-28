@@ -1,17 +1,18 @@
 # Résumé + LinkedIn — Technical Intelligence Analyst (SIA, OpenAI)
 
-> `[brackets]` = your specifics. The **project** bullets are factual (verifiable in this repo);
-> the **experience** bullets are templates — keep the verbs and structure, drop in your real
-> situations and numbers.
+> Personalized for Izu Uhiara (current employer anonymized for the public repo). The **project**
+> bullets are factual (verifiable in this repo); the **experience** bullets are your real roles —
+> add hard metrics where you have them.
 
 ---
 
 ## Résumé — Summary line (top of CV)
 
-> Security / incident-management professional moving into **AI threat intelligence**. Strong
-> **Python + SQL**; fluent in the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**. Built and
-> shipped a tested LLM-log threat-detection pipeline (prompt injection, exfiltration, anomaly
-> detection). Investigative mindset: triage, severity, evidence, escalation, root-cause analysis.
+> Security incident management leader (AVP) and AI-enablement driver — ~20 years across operations,
+> major-incident response, and security operations, now focused on **AI threat intelligence**. Strong
+> **Python + SQL**; fluent in the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**. Built and shipped a
+> tested LLM-log threat-detection pipeline (prompt injection, exfiltration, anomaly detection).
+> Investigative core: triage, severity, evidence, escalation, root-cause analysis.
 
 ## Résumé — Selected project (lead with this)
 
@@ -30,14 +31,32 @@
 - Built a normalizer that recovers **156 unparseable timestamps** and **63 missing IDs** from
   deliberately messy logs — turning unqueryable data into a triage-ready dataset.
 
-## Résumé — Experience bullets (templates — make them yours)
+## Résumé — Experience (real roles — add metrics where you have them)
 
-- Triaged [volume] [security incidents / alerts] under ambiguity; built a severity rubric that
-  [cut mean time-to-triage by X% / reduced false escalations by Y%].
-- Led root-cause analysis on [recurring incident class]; shipped a [process/detection] fix that
-  [dropped recurrence by Z%].
-- Built [a tool / runbook / dashboard] that let [the team / N people] [do X] consistently —
-  replacing one-off manual work (a zero-to-one → reusable-tool pattern).
+- **AVP, Security Incident Management** — global bank, CISO organization (2025–present). Lead
+  security incident management and drive AI enablement: modernizing incident-management workflows,
+  governing global AI use cases, and pairing security-operations rigor with practical AI execution
+  to improve consistency and scale.
+- **Sr. Major Incident Management Analyst** — T-Mobile (2016–2024). Owned major-incident response
+  for a national telecom — triaged high-severity incidents under ambiguity, ran bridge calls,
+  assigned severity, and drove SLA adherence, executive escalation, and root-cause analysis to
+  prevent recurrence.
+- **Lead Application Support Analyst** — T-Mobile (2014–2016). Led application support and incident
+  response; turned recurring failures into process and reliability improvements.
+- **Senior Network Support Analyst** — Verizon Wireless (2007–2012). Diagnosed and resolved complex
+  network incidents; root-cause analysis on recurring fault classes.
+
+> Drop in real numbers wherever you have them — incident volume, MTTR/MTTA reduction, SLA %, number
+> of teams or analysts supported. Metrics turn each line from a duty into an achievement.
+
+## Résumé — Education & certifications
+
+- **Computer Engineering** — The University of Texas at Arlington
+- **Electrical & Electronics Engineering** — Kettering University
+- **Google Cloud: Core Infrastructure** (Google, 2024) · **Introduction to IT & AWS Cloud** (AWS) ·
+  **Certified ScrumMaster (CSM)**
+
+> Add degree level (B.S./M.S.) and any of your other certifications (your LinkedIn lists 12) here.
 
 ## Résumé — Skills (ATS keywords)
 
@@ -50,16 +69,16 @@
 
 ## LinkedIn — Headline (pick one)
 
-1. Security & incident response → **AI threat intelligence** | Python · SQL · OWASP LLM Top 10 · MITRE ATLAS | I build LLM-abuse detection
+1. Security Incident Management leader (AVP) building **AI threat intelligence** | Python · SQL · OWASP LLM Top 10 · MITRE ATLAS | I build LLM-abuse detection
 2. Technical Intelligence Analyst (LLM safety) | detecting prompt injection, jailbreaks & exfiltration with Python + SQL
 3. Turning messy LLM logs into decision-ready intelligence | adversarial-ML detection · anomaly detection · red teaming
 
 ## LinkedIn — About
 
-> I investigate how AI systems break. After [N years] in [security / incident management] —
-> triage, severity, evidence, escalation, root-cause analysis — I'm focused on the frontier
-> version of that work: surfacing novel harms and abuse patterns in LLM systems and turning them
-> into intelligence that changes how products ship.
+> I investigate how AI systems break. After nearly two decades in operations and incident
+> management — now AVP, Security Incident Management, where I also lead AI enablement across a CISO
+> organization — I'm focused on the frontier version of that work: surfacing novel harms and abuse
+> patterns in LLM systems and turning them into intelligence that changes how products ship.
 >
 > To prove it rather than claim it, I built **openai-tia-prep**: a tested Python + SQL pipeline
 > that ingests messy LLM interaction logs and flags prompt injection (direct, indirect, and
@@ -80,8 +99,15 @@
 and SIA's "monitor, analyze, forecast real-world abuse" charter is real for you. Avoid generic
 praise; name something specific you'd want to work on.)*
 
+> **Draft (make it yours):** I've spent my career in incident management, and lately — inside a CISO
+> organization — governing how AI actually gets used. That gave me a front-row view of how fast AI
+> risk emerges and how little prior art exists to lean on. SIA's charter (monitor, analyze, and
+> forecast real-world abuse at the frontier) is the same investigative loop I run today, but where
+> the harms are novel and the analysis directly shapes how powerful systems deploy — and I'd
+> specifically want to work on turning weak, early abuse signals into detection that scales.
+
 **Why this role, given your background?** The job is investigative analysis with Python + SQL
-applied to how models break. My [security / incident-management] background is exactly that
+applied to how models break. My security incident management background is exactly that
 investigative core — triage, severity, evidence, escalation, RCA — and I closed the
 domain/technical gap deliberately by building openai-tia-prep. I'm not pivoting blind; I've
 already done the work the role describes.
