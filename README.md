@@ -7,9 +7,9 @@
 [![OWASP LLM Top 10 (2025)](https://img.shields.io/badge/OWASP-LLM%20Top%2010%20(2025)-000000.svg)](reference/owasp-llm-top-10.md)
 [![MITRE ATLAS](https://img.shields.io/badge/MITRE-ATLAS-cc0000.svg)](reference/mitre-atlas.md)
 
-A portfolio repo built to demonstrate readiness for a **Technical Intelligence Analyst (TIA)** role focused on frontier-AI threats — investigating how large language models (not networks) break: prompt injection, jailbreaks, sensitive-data leakage, and other novel harms, using **Python + SQL**.
+A portfolio demonstrating hands-on **frontier-AI threat detection** — investigating how large language models (not networks) break: prompt injection, jailbreaks, sensitive-data leakage, and other novel harms, using **Python + SQL**. It's built to the shape of a **Technical Intelligence Analyst (TIA)** workflow.
 
-I'm a security / incident-management professional transitioning into frontier-AI threat intelligence. This repo is the proof of work: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of the TIA job.
+I work in **AI enablement**, and taking on the more advanced, adversarial side of AI — how models break, and how to catch it — is the next step on my roadmap. This repo is me building that capability in the open: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of TIA work.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
