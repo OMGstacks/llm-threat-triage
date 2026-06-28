@@ -185,7 +185,7 @@ Dual-mapping every finding to both frameworks is intentional: OWASP frames the *
 | `projects/llm-log-triage` (pipeline, detectors, SQL, tests) | ✅ Built, working, 83 tests passing |
 | `reference/` (OWASP, ATLAS, glossary) | ✅ Written |
 | `docs/interview-prep.md` | ✅ Written |
-| `red-team/` (PyRIT / Garak / Promptfoo) | 🚧 Scaffolded — runnable harnesses in progress |
-| CI workflow | 🚧 Planned (run `make test` on push) |
+| `red-team/` (PyRIT / Garak / Promptfoo) | 🚧 Scaffolded — runnable offline harness + PyRIT probe; Garak/Promptfoo configs |
+| CI workflow | ✅ Built — test suite + end-to-end smoke test on push (Python 3.10–3.12) |
 
 **Next:** wire the red-team scaffolds into runnable eval suites and feed their transcripts back through the triage pipeline, closing the loop from *generate attacks* → *detect* → *analyze*.
