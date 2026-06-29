@@ -2,9 +2,10 @@
 
 The same project maps to several roles in OpenAI's Intelligence / Investigations / Safety org.
 Below are tailored short letters (≈160 words each) for the closest adjacent roles, plus notes on
-what to emphasize and which gap to address honestly. `[brackets]` = your specifics.
+what to emphasize and which gap to address honestly. Personalized for Izu Uhiara; the current
+employer is anonymized for the public repo (swap in the real name for versions you submit directly).
 
-> Apply to the role whose JD verbs match your strengths. The flagship (`openai-tia-prep`) is
+> Apply to the role whose JD verbs match your strengths. The flagship (`llm-threat-triage`) is
 > evidence for **all** of these — what changes is which of its facets you lead with.
 
 ---
@@ -15,23 +16,24 @@ tooling, investigation templates, and dashboards; communicate via briefs and esc
 ([JD](https://openai.com/careers/technical-abuse-investigator-san-francisco/))
 
 **Fit:** near-perfect on the technical-tooling + investigation axis. **Gap to address:** "5+ years
-tracking threat actors in abuse domains" — lean on transferable [security/incident] years + the project.
+tracking threat actors in abuse domains" — lean on transferable security/incident-management years + the project.
 
 > Dear Hiring Manager,
 >
 > I'm applying for the Technical Abuse Investigator role on Intelligence & Investigations. The core
 > of the job — turning one-off insights into lightweight SQL/Python tooling that scales coverage and
-> reduces manual investigation — is exactly what I build. `openai-tia-prep`
-> (github.com/OMGstacks/openai-tia-prep) is a tested Python + SQL pipeline that ingests messy LLM
+> reduces manual investigation — is exactly what I build. `llm-threat-triage`
+> (github.com/OMGstacks/llm-threat-triage) is a tested Python + SQL pipeline that ingests messy LLM
 > logs, surfaces abuse signals (prompt injection, jailbreaks, data exfiltration) mapped to OWASP LLM
 > Top 10 + MITRE ATLAS, ranks them by severity, and ships investigation-ready output — every finding
 > with a matched snippet, rationale, and an escalation-ready brief template. It's 9 detectors, 7
 > analyst SQL queries incl. anomaly detection, 83 tests and CI — and I red-teamed my own detectors
 > and fixed the bugs. That's the "scale a one-off into a reusable tool" pattern the role asks for.
-> Paired with [N years] in [security / incident management] — tracking bad actors, triage,
-> escalation, RCA — I'd bring both the investigative instinct and the engineering to scale it.
+> Paired with 20 years in incident management — currently AVP, Security Incident
+> Management in a CISO org — triage, severity, escalation, and root-cause analysis — I'd bring both
+> the investigative instinct and the engineering to scale it.
 >
-> [Your name]
+> Izu Uhiara
 
 ---
 
@@ -42,7 +44,7 @@ emerging spaces; produce high-signal written outputs for technical + executive s
 ([JD](https://openai.com/careers/technical-threat-investigator-threat-intel-engineering-san-francisco/))
 
 **Fit:** strong on tooling-to-scale-investigations + ambiguity + comms. **Gap:** "investigating
-sophisticated threat actors / adversary tradecraft" — frame your [security/IR] background + the
+sophisticated threat actors / adversary tradecraft" — frame your incident-management background + the
 project's novel-coverage work.
 
 > Dear Hiring Manager,
@@ -50,17 +52,17 @@ project's novel-coverage work.
 > I'm applying for the Technical Threat Investigator role in Threat Intel Engineering. The part that
 > resonates is building tooling that scales investigative throughput in ambiguous, emerging spaces —
 > novel attacker behaviors where coverage doesn't exist yet. I built exactly that:
-> `openai-tia-prep` (github.com/OMGstacks/openai-tia-prep), a tested Python + SQL pipeline that
+> `llm-threat-triage` (github.com/OMGstacks/llm-threat-triage), a tested Python + SQL pipeline that
 > detects LLM-abuse TTPs — direct, indirect, and *obfuscated* prompt injection, jailbreaks,
 > exfiltration — mapped to OWASP LLM Top 10 + MITRE ATLAS, with SQL anomaly queries for the
 > low-prevalence patterns signatures miss. It deliberately handles the emerging/evasive edge:
 > base64/leetspeak decoding, multi-turn attack correlation, and a red-team harness that grades
 > attacks with the same engine. 9 detectors, 83 tests, CI; I adversarially reviewed my own detectors
-> and fixed what broke. With [N years] in [security / incident response] — adversary triage,
-> evidence, escalation — I operate well in fast, ambiguous problem spaces and turn investigations
+> and fixed what broke. With 20 years in incident management and security operations —
+> triage, evidence, escalation — I operate well in fast, ambiguous problem spaces and turn investigations
 > into high-signal written briefs.
 >
-> [Your name]
+> Izu Uhiara
 
 ---
 
@@ -78,17 +80,17 @@ and your build-to-learn trajectory.
 >
 > I'm applying for the Quantitative Intelligence Analyst role. What draws me is operationalizing the
 > *unmeasured* — taking ambiguous patterns and turning them into signals that support detection and
-> planning. `openai-tia-prep` (github.com/OMGstacks/openai-tia-prep) is my proof of that loop in
+> planning. `llm-threat-triage` (github.com/OMGstacks/llm-threat-triage) is my proof of that loop in
 > Python and SQL: it ingests messy human–AI interaction logs and converts them into structured,
 > measured signals — 217 findings across 800 events, mapped to OWASP LLM Top 10 + MITRE ATLAS, with
 > SQL anomaly detection (per-principal consumption outliers, multi-turn correlation) aimed squarely
 > at low-prevalence, not-yet-defined risks. I'm strongest in data wrangling, SQL, and turning
 > one-off analyses into reusable detection; I'm actively deepening the statistical/ML side
 > (anomaly detection with PyOD/Isolation Forest is the natural next layer on the same feature tables,
-> and I learn fastest by building — which this repo demonstrates). Combined with [N years] in
-> [security / risk], I'd bring rigor, data fluency, and a bias toward operationalizing insight.
+> and I learn fastest by building — which this repo demonstrates). Combined with 20 years
+> in security operations and incident management, I'd bring rigor, data fluency, and a bias toward operationalizing insight.
 >
-> [Your name]
+> Izu Uhiara
 
 ---
 
@@ -107,16 +109,16 @@ build as the rigor underneath your calls. **Gap:** strategic/all-source intellig
 > I'm applying for the AI Emerging Risks Analyst role. The work — spotting early warning signs and
 > turning weak signals into clear, prioritized risk calls — is the analytical instinct I've built a
 > career on, now aimed at frontier-AI harms. To ground that judgment in technical rigor, I built
-> `openai-tia-prep` (github.com/OMGstacks/openai-tia-prep): a Python + SQL pipeline that turns messy
+> `llm-threat-triage` (github.com/OMGstacks/llm-threat-triage): a Python + SQL pipeline that turns messy
 > LLM logs into prioritized, severity-ranked intelligence mapped to OWASP LLM Top 10 + MITRE ATLAS,
 > with anomaly detection for the low-prevalence patterns that are early warning signs of emerging
 > harms. It pairs quantitative signal (trends, outliers, severity) with qualitative framing (every
-> finding carries a plain-English rationale and a decision-ready brief). From [N years] in [security
-> / incident management], I'm practiced at all-source triage under ambiguity and converting it into
+> finding carries a plain-English rationale and a decision-ready brief). From 20 years in
+> incident management and security operations, I'm practiced at all-source triage under ambiguity and converting it into
 > recommendations leadership can act on — exactly the weak-signal-to-prioritized-call loop this role
 > runs at strategic scale.
 >
-> [Your name]
+> Izu Uhiara
 
 ---
 

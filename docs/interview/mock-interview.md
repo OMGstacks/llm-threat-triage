@@ -14,7 +14,7 @@ answer, then close the doc and say it out loud in your own words — memorized l
 
 **Q1. Walk me through your background and why you're making this move.**
 *Listening for:* a coherent story, not a random pivot; self-awareness.
-> Model: "I've spent [N years] in [security / incident management] — the core of that work is
+> Model: "I've spent 20 years in operations and incident management — now AVP, Security Incident Management — the core of that work is
 > investigation: triage noisy signals, assign severity, gather evidence, escalate, and root-cause
 > so it doesn't recur. The domain is shifting from how networks break to how *models* break, and
 > that's where I want to be. I didn't just decide that — I went and built the day-to-day: a

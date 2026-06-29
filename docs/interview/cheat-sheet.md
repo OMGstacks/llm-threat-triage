@@ -4,7 +4,7 @@
 > `cheat-sheet.pdf`, sits next to this file.)
 
 ## 30-second project pitch
-> "I built `openai-tia-prep` — a Python + SQL pipeline that ingests messy LLM logs and flags
+> "I built `llm-threat-triage` — a Python + SQL pipeline that ingests messy LLM logs and flags
 > prompt injection, jailbreaks, and data exfiltration, every finding mapped to OWASP LLM Top 10
 > and MITRE ATLAS. 800 events → 150 flagged / 217 findings, 9 detectors, 7 analyst SQL queries
 > including anomaly detection, 83 tests and CI. I red-teamed my own detectors and fixed the bugs."

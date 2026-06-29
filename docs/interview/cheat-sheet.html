@@ -21,7 +21,7 @@ b.k { color:#0f172a; }
 </style></head><body>
 <h1>TIA cheat-sheet — LLM threat intelligence (SIA)</h1>
 <div class="banner">
-  <div class="pitch"><b>30-sec pitch:</b> "I built <b>openai-tia-prep</b> — a Python + SQL pipeline that ingests messy LLM logs and flags prompt injection, jailbreaks &amp; data exfiltration, every finding mapped to OWASP LLM Top 10 + MITRE ATLAS. 800 events → 150 flagged / 217 findings, 9 detectors, 7 SQL queries incl. anomaly detection, 83 tests + CI. I red-teamed my own detectors and fixed the bugs."</div>
+  <div class="pitch"><b>30-sec pitch:</b> "I built <b>llm-threat-triage</b> — a Python + SQL pipeline that ingests messy LLM logs and flags prompt injection, jailbreaks &amp; data exfiltration, every finding mapped to OWASP LLM Top 10 + MITRE ATLAS. 800 events → 150 flagged / 217 findings, 9 detectors, 7 SQL queries incl. anomaly detection, 83 tests + CI. I red-teamed my own detectors and fixed the bugs."</div>
   <div class="mission"><b>SIA mission:</b> monitor, analyze &amp; <b>forecast real-world abuse</b>, geopolitical/strategic threats → inform safety mitigations, product decisions, partnerships. Day-to-day: <b>surface novel harms</b> → <b>structured, decision-ready intelligence</b> via SQL + Python + AI tools.</div>
   <div class="nums"><b>Numbers (seed 7):</b> 800 events · 156 bad-ts recovered · 63 IDs synthesized · <b>150 flagged</b> · <b>217 findings</b> (61C/126H/25M/5I) · 9 detectors · 7 queries · 83 tests · OWASP: LLM01 <b>132</b>, LLM05 29, LLM07 25, LLM02 22, LLM06 9.</div>
 </div>
@@ -88,5 +88,5 @@ b.k { color:#0f172a; }
     <div style="font-size:7.8px">Obfuscation (base64/unicode/zero-width/multilingual) &amp; novel phrasings. Repo already folds unicode/spacing/leetspeak + decodes base64/hex; next layers = embedding-similarity to attack clusters, an LLM-judge classifier, canary tokens — each drops in as just another detector.</div>
   </div>
 </div>
-<div class="foot">github.com/OMGstacks/openai-tia-prep · Heuristic triage for log analysis, not a production WAF.</div>
+<div class="foot">github.com/OMGstacks/llm-threat-triage · Heuristic triage for log analysis, not a production WAF.</div>
 </body></html>

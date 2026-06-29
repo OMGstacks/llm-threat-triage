@@ -1,4 +1,4 @@
-# Demo script — walking through `openai-tia-prep` (≈6 minutes)
+# Demo script — walking through `llm-threat-triage` (≈6 minutes)
 
 A beat-by-beat script for a live screen-share or a recorded Loom. Goal: show, don't tell —
 prove the pipeline runs, finds real attacks, resists evasion, and is tested. Keep narration
@@ -6,7 +6,7 @@ tight; let the terminal do the talking.
 
 ### Before you hit record
 ```bash
-git clone <your-repo> openai-tia-prep && cd openai-tia-prep/projects/llm-log-triage
+git clone <your-repo> llm-threat-triage && cd llm-threat-triage/projects/llm-log-triage
 python -m pip install -r requirements.txt        # just pytest
 clear
 ```
