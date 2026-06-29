@@ -1,4 +1,4 @@
-# garak run config — openai-tia-prep red-team scaffold
+# garak run config — llm-threat-triage red-team scaffold
 # ---------------------------------------------------------------------------
 # Run with:
 #     export OPENAI_API_KEY=sk-...          # required for a real target

@@ -16,7 +16,7 @@ surfacing novel harms and abuse patterns and turning them into intelligence that
 changes safety mitigations and product decisions. That's the work I've been teaching myself
 to do, and rather than just describe it, I built it.
 
-`openai-tia-prep` (github.com/OMGstacks/openai-tia-prep) is a working LLM-threat-detection
+`llm-threat-triage` (github.com/OMGstacks/llm-threat-triage) is a working LLM-threat-detection
 pipeline in Python and SQL. It ingests deliberately messy LLM interaction logs, normalizes
 them, and flags adversarial activity — prompt injection (direct, indirect, and base64/leetspeak-
 obfuscated), jailbreaks, system-prompt extraction, excessive agency, and data exfiltration —
@@ -55,8 +55,8 @@ izu.uhiara@gmail.com · github.com/OMGstacks · linkedin.com/in/izu-uhiara-177b1
 
 ## Short version (application form / "why you?" box, ~120 words)
 
-I build the thing instead of just claiming it. `openai-tia-prep`
-(github.com/OMGstacks/openai-tia-prep) is a working Python + SQL pipeline that ingests messy LLM
+I build the thing instead of just claiming it. `llm-threat-triage`
+(github.com/OMGstacks/llm-threat-triage) is a working Python + SQL pipeline that ingests messy LLM
 logs and flags prompt injection, jailbreaks, and data exfiltration — nine detectors, every
 finding mapped to OWASP LLM Top 10 (2025) + MITRE ATLAS, plus SQL anomaly queries for novel /
 low-prevalence patterns. 800 events → 150 flagged / 217 findings, 83 tests, CI; I red-teamed my
@@ -71,10 +71,10 @@ to how models break instead of networks.
 ## Referral / cold-email blurb (3 sentences)
 
 I'm targeting the Technical Intelligence Analyst role on OpenAI's Strategic Intelligence &
-Analysis team. To show I can do the day-to-day, I built `openai-tia-prep` — a tested Python + SQL
+Analysis team. To show I can do the day-to-day, I built `llm-threat-triage` — a tested Python + SQL
 pipeline that triages messy LLM logs for prompt injection, jailbreaks, and exfiltration, mapped
 to OWASP LLM Top 10 + MITRE ATLAS, with SQL anomaly detection for novel patterns
-(github.com/OMGstacks/openai-tia-prep). Combined with nearly two decades in incident management —
+(github.com/OMGstacks/llm-threat-triage). Combined with nearly two decades in incident management —
 currently AVP, Security Incident Management, plus AI-enablement leadership in a CISO org — it's the
 investigative-mindset-plus-Python/SQL profile the role asks for — could you point me to the right
 person or refer me in?

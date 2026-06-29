@@ -5,7 +5,7 @@
 > geopolitical risk, and strategic threats to inform safety mitigations, product decisions,
 > and partnerships. The day-to-day is **surfacing novel harms and abuse patterns** and turning
 > them into **structured, decision-ready intelligence**, using **SQL, Python, and AI-powered
-> tooling**. This dossier maps the `openai-tia-prep` repo to that role, gives framework
+> tooling**. This dossier maps the `llm-threat-triage` repo to that role, gives framework
 > cheat-sheets, drills likely questions, and sketches a study plan. The flagship project is the proof.
 
 ---

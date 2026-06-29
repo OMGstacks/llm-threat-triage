@@ -1,6 +1,6 @@
-# openai-tia-prep
+# llm-threat-triage
 
-[![CI](https://github.com/OMGstacks/openai-tia-prep/actions/workflows/ci.yml/badge.svg)](https://github.com/OMGstacks/openai-tia-prep/actions/workflows/ci.yml)
+[![CI](https://github.com/OMGstacks/llm-threat-triage/actions/workflows/ci.yml/badge.svg)](https://github.com/OMGstacks/llm-threat-triage/actions/workflows/ci.yml)
 [![tests](https://img.shields.io/badge/tests-83%20passing-brightgreen.svg)](projects/llm-log-triage/tests)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -50,7 +50,7 @@ $ python -m src.cli query --db triage.db --sql sql/analysis/04_indirect_injectio
 ## Repository map
 
 ```
-openai-tia-prep/
+llm-threat-triage/
 ├── README.md                      ← you are here
 ├── projects/
 │   └── llm-log-triage/            ← FLAGSHIP: messy-log → detection → SQL triage pipeline

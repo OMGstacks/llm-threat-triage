@@ -5,7 +5,7 @@ Below are tailored short letters (≈160 words each) for the closest adjacent ro
 what to emphasize and which gap to address honestly. Personalized for Izu Uhiara; the current
 employer is anonymized for the public repo (swap in the real name for versions you submit directly).
 
-> Apply to the role whose JD verbs match your strengths. The flagship (`openai-tia-prep`) is
+> Apply to the role whose JD verbs match your strengths. The flagship (`llm-threat-triage`) is
 > evidence for **all** of these — what changes is which of its facets you lead with.
 
 ---
@@ -22,8 +22,8 @@ tracking threat actors in abuse domains" — lean on transferable security/incid
 >
 > I'm applying for the Technical Abuse Investigator role on Intelligence & Investigations. The core
 > of the job — turning one-off insights into lightweight SQL/Python tooling that scales coverage and
-> reduces manual investigation — is exactly what I build. `openai-tia-prep`
-> (github.com/OMGstacks/openai-tia-prep) is a tested Python + SQL pipeline that ingests messy LLM
+> reduces manual investigation — is exactly what I build. `llm-threat-triage`
+> (github.com/OMGstacks/llm-threat-triage) is a tested Python + SQL pipeline that ingests messy LLM
 > logs, surfaces abuse signals (prompt injection, jailbreaks, data exfiltration) mapped to OWASP LLM
 > Top 10 + MITRE ATLAS, ranks them by severity, and ships investigation-ready output — every finding
 > with a matched snippet, rationale, and an escalation-ready brief template. It's 9 detectors, 7
@@ -52,7 +52,7 @@ project's novel-coverage work.
 > I'm applying for the Technical Threat Investigator role in Threat Intel Engineering. The part that
 > resonates is building tooling that scales investigative throughput in ambiguous, emerging spaces —
 > novel attacker behaviors where coverage doesn't exist yet. I built exactly that:
-> `openai-tia-prep` (github.com/OMGstacks/openai-tia-prep), a tested Python + SQL pipeline that
+> `llm-threat-triage` (github.com/OMGstacks/llm-threat-triage), a tested Python + SQL pipeline that
 > detects LLM-abuse TTPs — direct, indirect, and *obfuscated* prompt injection, jailbreaks,
 > exfiltration — mapped to OWASP LLM Top 10 + MITRE ATLAS, with SQL anomaly queries for the
 > low-prevalence patterns signatures miss. It deliberately handles the emerging/evasive edge:
@@ -80,7 +80,7 @@ and your build-to-learn trajectory.
 >
 > I'm applying for the Quantitative Intelligence Analyst role. What draws me is operationalizing the
 > *unmeasured* — taking ambiguous patterns and turning them into signals that support detection and
-> planning. `openai-tia-prep` (github.com/OMGstacks/openai-tia-prep) is my proof of that loop in
+> planning. `llm-threat-triage` (github.com/OMGstacks/llm-threat-triage) is my proof of that loop in
 > Python and SQL: it ingests messy human–AI interaction logs and converts them into structured,
 > measured signals — 217 findings across 800 events, mapped to OWASP LLM Top 10 + MITRE ATLAS, with
 > SQL anomaly detection (per-principal consumption outliers, multi-turn correlation) aimed squarely
@@ -109,7 +109,7 @@ build as the rigor underneath your calls. **Gap:** strategic/all-source intellig
 > I'm applying for the AI Emerging Risks Analyst role. The work — spotting early warning signs and
 > turning weak signals into clear, prioritized risk calls — is the analytical instinct I've built a
 > career on, now aimed at frontier-AI harms. To ground that judgment in technical rigor, I built
-> `openai-tia-prep` (github.com/OMGstacks/openai-tia-prep): a Python + SQL pipeline that turns messy
+> `llm-threat-triage` (github.com/OMGstacks/llm-threat-triage): a Python + SQL pipeline that turns messy
 > LLM logs into prioritized, severity-ranked intelligence mapped to OWASP LLM Top 10 + MITRE ATLAS,
 > with anomaly detection for the low-prevalence patterns that are early warning signs of emerging
 > harms. It pairs quantitative signal (trends, outliers, severity) with qualitative framing (every

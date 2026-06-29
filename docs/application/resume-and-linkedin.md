@@ -16,7 +16,7 @@
 
 ## Résumé — Selected project (lead with this)
 
-**LLM Log Triage — `openai-tia-prep`** · Python, SQL/SQLite, pytest, GitHub Actions · github.com/OMGstacks/openai-tia-prep
+**LLM Log Triage — `llm-threat-triage`** · Python, SQL/SQLite, pytest, GitHub Actions · github.com/OMGstacks/llm-threat-triage
 
 - Built an end-to-end LLM-log threat-detection pipeline (ingest → normalize → detect → SQL
   triage) that flags **150 of 800** sample events / **217 findings**, every finding mapped to the
@@ -80,7 +80,7 @@
 > organization — I'm focused on the frontier version of that work: surfacing novel harms and abuse
 > patterns in LLM systems and turning them into intelligence that changes how products ship.
 >
-> To prove it rather than claim it, I built **openai-tia-prep**: a tested Python + SQL pipeline
+> To prove it rather than claim it, I built **llm-threat-triage**: a tested Python + SQL pipeline
 > that ingests messy LLM interaction logs and flags prompt injection (direct, indirect, and
 > obfuscated), jailbreaks, system-prompt extraction, and data exfiltration — every finding mapped
 > to the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**, with SQL anomaly detection for the
@@ -89,7 +89,7 @@
 >
 > Fluent in: Python, SQL, the LLM-threat frameworks, and the red-team stack (PyRIT, garak,
 > promptfoo). Looking for technical intelligence / trust & safety / AI-security roles.
-> Repo: github.com/OMGstacks/openai-tia-prep
+> Repo: github.com/OMGstacks/llm-threat-triage
 
 ---
 
@@ -109,7 +109,7 @@ praise; name something specific you'd want to work on.)*
 **Why this role, given your background?** The job is investigative analysis with Python + SQL
 applied to how models break. My security incident management background is exactly that
 investigative core — triage, severity, evidence, escalation, RCA — and I closed the
-domain/technical gap deliberately by building openai-tia-prep. I'm not pivoting blind; I've
+domain/technical gap deliberately by building llm-threat-triage. I'm not pivoting blind; I've
 already done the work the role describes.
 
 **What's your biggest gap and how are you closing it?** Direct production LLM-abuse experience at
