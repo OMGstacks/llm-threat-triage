@@ -9,7 +9,7 @@
 
 A portfolio demonstrating hands-on **frontier-AI threat detection** — investigating how large language models (not networks) break: prompt injection, jailbreaks, sensitive-data leakage, and other novel harms, using **Python + SQL**. It's built to the shape of a **Technical Intelligence Analyst (TIA)** workflow.
 
-I lead **security incident management** and drive **AI enablement** within a global CISO organization — triage, severity, root-cause, and escalation, now aimed at how AI systems get used and misused. Detecting how models break is the next step on that roadmap, and this repo is me building the capability in the open: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of TIA work.
+I lead **security incident management** and design **governed, AI-assisted workflows** within a global CISO organization — triage, severity, root-cause, and escalation, now aimed at how AI systems get used and misused. Detecting how models break is the next step on that roadmap, and this repo is me building the capability in the open: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of TIA work.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">

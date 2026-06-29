@@ -8,11 +8,12 @@
 
 ## Résumé — Summary line (top of CV)
 
-> Security incident management leader (AVP) and AI-enablement driver — ~20 years across operations,
-> major-incident response, and security operations, now focused on **AI threat intelligence**. Strong
-> **Python + SQL**; fluent in the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**. Built and shipped a
-> tested LLM-log threat-detection pipeline (prompt injection, exfiltration, anomaly detection).
-> Investigative core: triage, severity, evidence, escalation, root-cause analysis.
+> Security operations & technical-intelligence leader (AVP) — **20 years** across major-incident
+> command, security incident management, application/network operations, and **governed AI-assisted
+> workflows**, now focused on **AI threat intelligence**. Strong **Python + SQL**; CompTIA **Security+**;
+> fluent in the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**. Built and shipped a tested LLM-log
+> threat-detection pipeline (prompt injection, exfiltration, anomaly detection). Investigative core:
+> triage, severity, evidence, escalation, root-cause analysis.
 
 ## Résumé — Selected project (lead with this)
 
@@ -31,39 +32,63 @@
 - Built a normalizer that recovers **156 unparseable timestamps** and **63 missing IDs** from
   deliberately messy logs — turning unqueryable data into a triage-ready dataset.
 
-## Résumé — Experience (real roles — add metrics where you have them)
+## Résumé — Experience
 
-- **AVP, Security Incident Management** — global bank, CISO organization (2025–present). Lead
-  security incident management and drive AI enablement: modernizing incident-management workflows,
-  governing global AI use cases, and pairing security-operations rigor with practical AI execution
-  to improve consistency and scale.
-- **Sr. Major Incident Management Analyst** — T-Mobile (2016–2024). Owned major-incident response
-  for a national telecom — triaged high-severity incidents under ambiguity, ran bridge calls,
-  assigned severity, and drove SLA adherence, executive escalation, and root-cause analysis to
-  prevent recurrence.
-- **Lead Application Support Analyst** — T-Mobile (2014–2016). Led application support and incident
-  response; turned recurring failures into process and reliability improvements.
-- **Senior Network Support Analyst** — Verizon Wireless (2007–2012). Diagnosed and resolved complex
-  network incidents; root-cause analysis on recurring fault classes.
+> Current employer anonymized for the public repo (a top-tier global bank); named in versions you
+> submit directly. Add hard numbers wherever you have them — they turn a duty into an achievement.
 
-> Drop in real numbers wherever you have them — incident volume, MTTR/MTTA reduction, SLA %, number
-> of teams or analysts supported. Metrics turn each line from a duty into an achievement.
+**Assistant Vice President, Security Incident Management** — global bank, CISO organization · 2025–present
+- Lead security incident management workstreams — post-containment coordination, governance alignment,
+  operational analysis, and process improvement across complex enterprise incident workflows.
+- Framed and advanced **governed AI-assisted workflows** for security incident analysis, reducing manual
+  data-handling steps while preserving analyst review, access controls, and control discipline.
+- Built proof-of-concept AI-enabled incident-analysis workflows end to end: requirements, non-production
+  test-data boundaries, access-control considerations, and structured output validation.
+- Converted recurring security-operations analysis needs into reusable workflow patterns for triage
+  support, structured summary drafting, and decision-support output.
+- Produced incident-trend analysis that surfaced containment-definition gaps and long-tail remediation
+  patterns, strengthening incident-response metrics ownership; established recurring AI-adoption forums
+  and reusable knowledge assets for responsible use across security operations.
 
-## Résumé — Education & certifications
+**Sr. Major Incident Management Analyst** — T-Mobile · 2016–2024
+- Led enterprise **major-incident command** for high-impact (P1/P2) service disruptions — aligning
+  technical, operational, and business stakeholders to accelerate restoration and reduce business impact.
+- Drove escalation discipline, communications cadence, and structured decision-making on live bridges;
+  acted as liaison between internal teams and external partners during critical events.
+- Owned post-incident root-cause analysis, identified recurring issues, and implemented permanent fixes
+  that reduced MTTR and fed continuous improvement; built and facilitated incident-response training.
 
-- **Computer Engineering** — The University of Texas at Arlington
-- **Electrical & Electronics Engineering** — Kettering University
-- **Google Cloud: Core Infrastructure** (Google, 2024) · **Introduction to IT & AWS Cloud** (AWS) ·
-  **Certified ScrumMaster (CSM)**
+**Lead Application Support Analyst** — T-Mobile · 2014–2016
+- Led application-support triage and production-issue coordination across dev, infrastructure, and
+  support teams; maintained production stability through proactive resolution and 24/7 on-call.
 
-> Add degree level (B.S./M.S.) and any of your other certifications (your LinkedIn lists 12) here.
+**Senior Network Support Analyst** — Verizon Wireless · 2007–2012
+- Network incident analysis, technical troubleshooting, escalation coordination, and recurring-issue
+  tracking in a high-pressure telecommunications environment.
+
+**Production / Maintenance Operations Group Leader** — General Motors · 2001–2005
+- Led frontline production and maintenance operations — uptime, safety, quality, and team execution
+  in a high-volume manufacturing environment.
+
+## Résumé — Education
+
+- **Computer Engineering** — The University of Texas at Arlington (2005–2007)
+- **Electrical & Electronics Engineering** — Kettering University (2001–2005) — GM Assembly co-op
+
+## Résumé — Certifications
+
+Certified ScrumMaster (CSM) · ITIL v3 Foundation · ITIL Practitioner · ITIL v4 Foundation ·
+**CompTIA Security+** · Artificial Intelligence on Microsoft Azure · Python Programming ·
+Ethical Hacking Foundations · Digital Forensic Investigation · AWS Cloud Practitioner (in progress)
 
 ## Résumé — Skills (ATS keywords)
 
-`Python` · `SQL` · `SQLite` · `threat intelligence` · `anomaly detection` · `PyOD` ·
-`OWASP LLM Top 10` · `MITRE ATLAS` · `prompt injection` · `jailbreak` · `data exfiltration` ·
-`LLM security` · `adversarial ML` · `red teaming` · `PyRIT` · `garak` · `promptfoo` ·
-`incident response` · `triage` · `root-cause analysis` · `detection engineering` · `pytest` · `CI/CD`
+`Python` · `SQL` · `SQLite` · `PostgreSQL` · `Splunk` · `Elasticsearch` · `Kibana` · `Grafana` ·
+`Power BI` · `Tableau` · `ServiceNow` · `Jira` · `Wireshark` · `AWS` · `Azure` · `Linux` ·
+`threat intelligence` · `anomaly detection` · `OWASP LLM Top 10` · `MITRE ATLAS` · `prompt injection` ·
+`jailbreak` · `data exfiltration` · `LLM security` · `adversarial ML` · `red teaming` · `PyRIT` ·
+`garak` · `promptfoo` · `incident management` · `major incident command` · `triage` ·
+`root-cause analysis` · `detection engineering` · `governed AI workflows` · `pytest` · `CI/CD`
 
 ---
 
@@ -75,10 +100,10 @@
 
 ## LinkedIn — About
 
-> I investigate how AI systems break. After nearly two decades in operations and incident
-> management — now AVP, Security Incident Management, where I also lead AI enablement across a CISO
-> organization — I'm focused on the frontier version of that work: surfacing novel harms and abuse
-> patterns in LLM systems and turning them into intelligence that changes how products ship.
+> I investigate how AI systems break. After 20 years in major-incident command and security incident
+> management — now an AVP designing governed, AI-assisted incident-analysis workflows in a global
+> bank's CISO organization — I'm focused on the frontier version of that work: surfacing novel harms
+> and abuse patterns in LLM systems and turning them into intelligence that changes how products ship.
 >
 > To prove it rather than claim it, I built **llm-threat-triage**: a tested Python + SQL pipeline
 > that ingests messy LLM interaction logs and flags prompt injection (direct, indirect, and

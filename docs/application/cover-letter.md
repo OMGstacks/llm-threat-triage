@@ -29,22 +29,22 @@ of my own detectors and fixed real bugs — a timestamp parser silently corrupti
 that fired on the wrong role, and evasions that bypassed every regex — because a detection tool
 you haven't tried to break isn't one you can trust.
 
-That instinct isn't new for me. For nearly two decades I've worked in operations and incident
-management — most recently as **AVP, Security Incident Management** in a global bank's CISO
-organization, and before that running major-incident response for a national telecom (T-Mobile).
-My day-to-day is triaging high-severity incidents under ambiguity, assigning severity, driving
-root-cause analysis, and owning executive escalation — and, increasingly, leading AI enablement
-and governing how AI gets used across the org. The signals are shifting from how networks break
-to how models break, but the core is identical: ingest noisy inputs, separate confirmed from
-suspected, prioritize by impact, and hand leadership a decision, not a payload.
+That instinct isn't new for me. For **20 years** I've worked in major-incident command and security
+operations — most recently as **AVP, Security Incident Management** in a global bank's CISO
+organization, and before that running enterprise major-incident command for a national telecom
+(T-Mobile). My day-to-day is triaging high-severity incidents under ambiguity, assigning severity,
+driving root-cause analysis, and owning executive escalation — and, increasingly, designing
+governed, AI-assisted workflows for how those incidents get analyzed. The signals are shifting from
+how networks break to how models break, but the core is identical: ingest noisy inputs, separate
+confirmed from suspected, prioritize by impact, and hand leadership a decision, not a payload.
 
 What draws me specifically to OpenAI and SIA is that it's the same investigative work I've done
 for years — monitor, analyze, forecast abuse — but at the frontier, where the harms are novel and
 the intelligence directly informs how powerful systems are deployed. Governing AI use cases inside
 a CISO organization gave me a close-up view of how fast these risks emerge and how little prior art
 exists to lean on; I want to do that work where it matters most. I'd bring an investigative
-mindset, real SQL and Python, fluency in the LLM-threat frameworks, and a demonstrated habit of
-turning a zero-to-one analysis into a reusable tool.
+mindset, CompTIA Security+ and real SQL and Python, fluency in the LLM-threat frameworks, and a
+demonstrated habit of turning a zero-to-one analysis into a reusable tool.
 
 Thank you for your consideration — I'd welcome the chance to walk through the project live.
 
@@ -61,7 +61,7 @@ logs and flags prompt injection, jailbreaks, and data exfiltration — nine dete
 finding mapped to OWASP LLM Top 10 (2025) + MITRE ATLAS, plus SQL anomaly queries for novel /
 low-prevalence patterns. 800 events → 150 flagged / 217 findings, 83 tests, CI; I red-teamed my
 own detectors and fixed the bugs. It's exactly the SIA loop — surface novel harms, turn them
-into structured, decision-ready intelligence. I pair it with nearly two decades in operations and
+into structured, decision-ready intelligence. I pair it with 20 years in operations and
 incident management — now AVP, Security Incident Management in a global bank's CISO org, where I
 also lead AI enablement: triage, severity, evidence, escalation, RCA — the same instincts, applied
 to how models break instead of networks.
@@ -74,7 +74,7 @@ I'm targeting the Technical Intelligence Analyst role on OpenAI's Strategic Inte
 Analysis team. To show I can do the day-to-day, I built `llm-threat-triage` — a tested Python + SQL
 pipeline that triages messy LLM logs for prompt injection, jailbreaks, and exfiltration, mapped
 to OWASP LLM Top 10 + MITRE ATLAS, with SQL anomaly detection for novel patterns
-(github.com/OMGstacks/llm-threat-triage). Combined with nearly two decades in incident management —
+(github.com/OMGstacks/llm-threat-triage). Combined with 20 years in incident management —
 currently AVP, Security Incident Management, plus AI-enablement leadership in a CISO org — it's the
 investigative-mindset-plus-Python/SQL profile the role asks for — could you point me to the right
 person or refer me in?

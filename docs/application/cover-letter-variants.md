@@ -29,7 +29,7 @@ tracking threat actors in abuse domains" — lean on transferable security/incid
 > with a matched snippet, rationale, and an escalation-ready brief template. It's 9 detectors, 7
 > analyst SQL queries incl. anomaly detection, 83 tests and CI — and I red-teamed my own detectors
 > and fixed the bugs. That's the "scale a one-off into a reusable tool" pattern the role asks for.
-> Paired with nearly two decades in incident management — currently AVP, Security Incident
+> Paired with 20 years in incident management — currently AVP, Security Incident
 > Management in a CISO org — triage, severity, escalation, and root-cause analysis — I'd bring both
 > the investigative instinct and the engineering to scale it.
 >
@@ -58,7 +58,7 @@ project's novel-coverage work.
 > low-prevalence patterns signatures miss. It deliberately handles the emerging/evasive edge:
 > base64/leetspeak decoding, multi-turn attack correlation, and a red-team harness that grades
 > attacks with the same engine. 9 detectors, 83 tests, CI; I adversarially reviewed my own detectors
-> and fixed what broke. With nearly two decades in incident management and security operations —
+> and fixed what broke. With 20 years in incident management and security operations —
 > triage, evidence, escalation — I operate well in fast, ambiguous problem spaces and turn investigations
 > into high-signal written briefs.
 >
@@ -87,7 +87,7 @@ and your build-to-learn trajectory.
 > at low-prevalence, not-yet-defined risks. I'm strongest in data wrangling, SQL, and turning
 > one-off analyses into reusable detection; I'm actively deepening the statistical/ML side
 > (anomaly detection with PyOD/Isolation Forest is the natural next layer on the same feature tables,
-> and I learn fastest by building — which this repo demonstrates). Combined with nearly two decades
+> and I learn fastest by building — which this repo demonstrates). Combined with 20 years
 > in security operations and incident management, I'd bring rigor, data fluency, and a bias toward operationalizing insight.
 >
 > Izu Uhiara
@@ -113,7 +113,7 @@ build as the rigor underneath your calls. **Gap:** strategic/all-source intellig
 > LLM logs into prioritized, severity-ranked intelligence mapped to OWASP LLM Top 10 + MITRE ATLAS,
 > with anomaly detection for the low-prevalence patterns that are early warning signs of emerging
 > harms. It pairs quantitative signal (trends, outliers, severity) with qualitative framing (every
-> finding carries a plain-English rationale and a decision-ready brief). From nearly two decades in
+> finding carries a plain-English rationale and a decision-ready brief). From 20 years in
 > incident management and security operations, I'm practiced at all-source triage under ambiguity and converting it into
 > recommendations leadership can act on — exactly the weak-signal-to-prioritized-call loop this role
 > runs at strategic scale.
