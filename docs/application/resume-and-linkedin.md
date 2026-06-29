@@ -34,8 +34,8 @@
 
 ## Résumé — Experience
 
-> Current employer anonymized for the public repo (a top-tier global bank); named in versions you
-> submit directly. Add hard numbers wherever you have them — they turn a duty into an achievement.
+> Current employer anonymized for the public repo (a global bank); named in versions you submit
+> directly. Add hard numbers wherever you have them — they turn a duty into an achievement.
 
 **Assistant Vice President, Security Incident Management** — global bank, CISO organization · 2025–present
 - Lead security incident management workstreams — post-containment coordination, governance alignment,

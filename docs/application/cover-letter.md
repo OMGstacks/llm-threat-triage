@@ -31,8 +31,8 @@ you haven't tried to break isn't one you can trust.
 
 That instinct isn't new for me. For **20 years** I've worked in major-incident command and security
 operations — most recently as **AVP, Security Incident Management** in a global bank's CISO
-organization, and before that running enterprise major-incident command for a national telecom
-(T-Mobile). My day-to-day is triaging high-severity incidents under ambiguity, assigning severity,
+organization, and before that running enterprise major-incident command at T-Mobile. My day-to-day
+is triaging high-severity incidents under ambiguity, assigning severity,
 driving root-cause analysis, and owning executive escalation — and, increasingly, designing
 governed, AI-assisted workflows for how those incidents get analyzed. The signals are shifting from
 how networks break to how models break, but the core is identical: ingest noisy inputs, separate
@@ -61,10 +61,10 @@ logs and flags prompt injection, jailbreaks, and data exfiltration — nine dete
 finding mapped to OWASP LLM Top 10 (2025) + MITRE ATLAS, plus SQL anomaly queries for novel /
 low-prevalence patterns. 800 events → 150 flagged / 217 findings, 83 tests, CI; I red-teamed my
 own detectors and fixed the bugs. It's exactly the SIA loop — surface novel harms, turn them
-into structured, decision-ready intelligence. I pair it with 20 years in operations and
-incident management — now AVP, Security Incident Management in a global bank's CISO org, where I
-also lead AI enablement: triage, severity, evidence, escalation, RCA — the same instincts, applied
-to how models break instead of networks.
+into structured, decision-ready intelligence. I pair it with 20 years in major-incident command and
+security operations — now AVP, Security Incident Management in a global bank's CISO org, where I
+also design governed, AI-assisted incident-analysis workflows: triage, severity, evidence,
+escalation, RCA — the same instincts, applied to how models break instead of networks.
 
 ---
 
@@ -74,7 +74,7 @@ I'm targeting the Technical Intelligence Analyst role on OpenAI's Strategic Inte
 Analysis team. To show I can do the day-to-day, I built `llm-threat-triage` — a tested Python + SQL
 pipeline that triages messy LLM logs for prompt injection, jailbreaks, and exfiltration, mapped
 to OWASP LLM Top 10 + MITRE ATLAS, with SQL anomaly detection for novel patterns
-(github.com/OMGstacks/llm-threat-triage). Combined with 20 years in incident management —
-currently AVP, Security Incident Management, plus AI-enablement leadership in a CISO org — it's the
-investigative-mindset-plus-Python/SQL profile the role asks for — could you point me to the right
-person or refer me in?
+(github.com/OMGstacks/llm-threat-triage). Combined with 20 years in major-incident command and
+security operations — currently AVP, Security Incident Management, plus governed AI-assisted
+workflow design in a CISO org — it's the investigative-mindset + Python/SQL profile the role asks
+for. Could you point me to the right person, or refer me in?
