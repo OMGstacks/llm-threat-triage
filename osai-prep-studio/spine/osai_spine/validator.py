@@ -71,6 +71,10 @@ class GradeResult:
 class ChallengeValidator:
     """Grades one learner submission against one lab manifest."""
 
+    # name -> owasp_id for every base detector, so a subtype finding can be mapped
+    # back to the class its base detector belongs to.
+    _DETECTOR_OWASP = {d["name"]: d["owasp_id"] for d in engine.detector_catalog()}
+
     def __init__(self, manifest: dict):
         self.manifest = manifest
         self.lab_id = manifest["id"]
@@ -78,6 +82,10 @@ class ChallengeValidator:
         self.expected_detector = tsg["detector_required"]
         owasp = (manifest.get("frameworks", {}) or {}).get("owasp", [])
         self.expected_owasp = owasp[0] if owasp else ""
+        # The class the *detector* belongs to (may differ from the lab's framing —
+        # e.g. L10 is framed LLM08 vector-weakness but graded by the LLM02 disclosure
+        # detector). Signal A also accepts a finding in this class.
+        self.detector_owasp = self._DETECTOR_OWASP.get(self.expected_detector, "")
 
     def grade(self, transcript, submitted_flag, server_seed, learner_id, attempt: int = 0) -> GradeResult:
         # --- Signal A: detector verdict over the transcript ---
@@ -86,11 +94,12 @@ class ChallengeValidator:
             findings.extend(engine.detect(event))
         fired = sorted({f.detector for f in findings})
         # Findings reliably carry owasp_id; some detectors (e.g. secret-leak) emit
-        # subtype-specific Finding.detector names, so Signal A passes when the named
-        # detector fires OR a finding for the expected OWASP class fires.
-        owasp_hit = bool(self.expected_owasp) and any(
-            f.owasp_id == self.expected_owasp for f in findings
-        )
+        # subtype-specific Finding.detector names. Signal A passes when the named
+        # detector fires, OR a finding matches the lab's framing OWASP class, OR a
+        # finding matches the expected detector's own class (covers cross-framing
+        # labs whose detector belongs to a different category than the lab framing).
+        owasp_classes = {c for c in (self.expected_owasp, self.detector_owasp) if c}
+        owasp_hit = any(f.owasp_id in owasp_classes for f in findings)
         signal_a = (self.expected_detector in fired) or owasp_hit
 
         notes = []
@@ -100,8 +109,9 @@ class ChallengeValidator:
                 f"{self.expected_owasp or 'the target class'} fired (fired: {fired or 'none'})"
             )
         elif self.expected_detector not in fired:
+            matched = sorted({f.owasp_id for f in findings if f.owasp_id in owasp_classes})
             notes.append(
-                f"Signal A satisfied via OWASP {self.expected_owasp} "
+                f"Signal A satisfied via OWASP class {matched} "
                 f"(subtype detector(s): {fired})"
             )
 
