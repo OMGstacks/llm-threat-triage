@@ -18,7 +18,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from . import flags
-from .labtarget import MockChatTarget, MockMcpTarget, MockRagTarget
+from .labtarget import MockMcpTarget, MockRagTarget, make_chat_target
 
 
 def _build_target(lab_id: str, flag: str):
@@ -26,7 +26,9 @@ def _build_target(lab_id: str, flag: str):
         return "rag", MockRagTarget(flag)
     if lab_id == "L11":
         return "mcp", MockMcpTarget(flag)
-    return "chat", MockChatTarget(flag)
+    # chat labs: the deterministic mock by default, or an Ollama-backed model when
+    # OSAI_OLLAMA=1 (the deploy-time realism upgrade) — same contract either way.
+    return "chat", make_chat_target(flag)
 
 
 def _make_handler(kind, target):
