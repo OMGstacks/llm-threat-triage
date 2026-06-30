@@ -70,29 +70,40 @@ def validate_taxonomy_ids(text: str, registry) -> list:
 
 
 class _Chunk:
-    __slots__ = ("source", "title", "text", "tier", "tf")
+    __slots__ = ("source", "title", "text", "tier", "section", "tf")
 
-    def __init__(self, source, title, text, tier):
+    def __init__(self, source, title, text, tier, section=None):
         self.source = source
         self.title = title
         self.text = text
         self.tier = tier
+        self.section = section  # nearest enclosing framework id (e.g. LLM01:2025), if any
         self.tf = Counter(_tokenize(title + " " + text))
 
 
 def _split_markdown(md_text: str):
-    """Split a markdown doc into (heading, body) sections."""
-    sections, title, buf = [], "(intro)", []
+    """Split a markdown doc into (heading, body, section_id) sections. ``section_id``
+    is the nearest enclosing heading that names a framework id (LLMxx:2025 / AML.T...),
+    so a chunk retrieved from a sub-section still reports which category it belongs to."""
+    sections, title, buf, section = [], "(intro)", [], None
     for line in md_text.splitlines():
-        if line.lstrip().startswith("#"):
+        stripped = line.lstrip()
+        if stripped.startswith("#"):
             if buf:
-                sections.append((title, "\n".join(buf)))
+                sections.append((title, "\n".join(buf), section))
                 buf = []
-            title = line.lstrip("#").strip() or title
+            level = len(stripped) - len(stripped.lstrip("#"))
+            title = stripped.lstrip("#").strip() or title
+            found = _TAXONOMY_ID.findall(line)
+            if found:
+                section = found[0]   # entering a framework-tagged section
+            elif level <= 2:
+                section = None       # a new top-level, non-framework section -> reset
+            # deeper (###+) non-id headings inherit the enclosing section
         else:
             buf.append(line)
     if buf:
-        sections.append((title, "\n".join(buf)))
+        sections.append((title, "\n".join(buf), section))
     return sections
 
 
@@ -107,11 +118,11 @@ class SourceLibrary:
             path = self.root / rel
             if not path.is_file():
                 continue
-            for title, body in _split_markdown(path.read_text(encoding="utf-8")):
+            for title, body, section in _split_markdown(path.read_text(encoding="utf-8")):
                 body = body.strip()
                 if len(body) < 40:
                     continue
-                self.chunks.append(_Chunk(rel, title, body[:1600], tier))
+                self.chunks.append(_Chunk(rel, title, body[:1600], tier, section))
         self._build_idf()
 
     def _build_idf(self):
@@ -154,6 +165,40 @@ def _lead(text: str, limit: int = 600) -> str:
     return text[:limit] + ("…" if len(text) > limit else "")
 
 
+# Authorized-lab-only scope guard (11-safety-legal-ethics.md, 04-evaluation-harness.md
+# §6). The tutor coaches technique against the training range and authorized labs only:
+# it refuses to help attack real/external/production systems and refuses to surface a
+# lab's flags, answer keys, or solutions. These are deterministic, offline checks so
+# the refusal gate holds with or without an LLM.
+_ATTACK_VERB = re.compile(
+    r"\b(attack|exploit|hack|jailbreak|phish|exfiltrate|bypass|compromise|pwn|ddos|"
+    r"breach|backdoor|takeover|deface|infiltrate|weaponiz)\w*", re.I)
+_REAL_TARGET = re.compile(
+    r"\b(openai|chatgpt|gpt-?[45]|gemini|bard|copilot|anthropic|claude\.ai|google|"
+    r"gmail|microsoft|azure|aws|amazon|facebook|meta|salesforce|okta|github|"
+    r"production|prod|real (?:company|customer|client|user|system|world)|"
+    r"live (?:system|site|target|api|model)|in the wild|my (?:employer|company|bank|"
+    r"org|organization))\b", re.I)
+_LAB_SCOPE = re.compile(
+    r"\b(lab|labs|megacorp|mock|sandbox|authoriz|range|exercise|L0\d|L1\d)\w*", re.I)
+_ANSWER_KEY = re.compile(r"\b(flag|flags|answer[ -]?key|solution|cheat)\w*", re.I)
+
+
+def scope_refusal(query: str):
+    """Return a refusal message if the query is out of the authorized-lab scope,
+    else ``None``. Two cases: answer-key/flag elicitation tied to a lab, and helping
+    to attack a real/external/production target."""
+    q = query or ""
+    if _ANSWER_KEY.search(q) and (_LAB_SCOPE.search(q) or "OSAI{" in q):
+        return ("I won't reveal lab flags, answer keys, or solutions — that defeats the "
+                "exercise. Ask me to explain the underlying technique instead.")
+    if _ATTACK_VERB.search(q) and _REAL_TARGET.search(q) and not _LAB_SCOPE.search(q):
+        return ("Authorized-lab scope only: I can't help attack real, external, or "
+                "production systems. I coach these techniques against the training "
+                "range and authorized labs.")
+    return None
+
+
 _GROUNDED_SYSTEM = (
     "You are the OSAI Prep Studio tutor for authorized AI red-team exam prep. "
     "Answer ONLY from the numbered SOURCES; if they don't support an answer, say so "
@@ -179,6 +224,16 @@ class Tutor:
         self.llm = llm  # optional LLMProvider; None -> extractive (default)
 
     def ask(self, query: str, mode: str = "tutor", k: int = 3) -> dict:
+        # Safety scope guard runs before retrieval — refusals never touch the corpus.
+        refusal = scope_refusal(query)
+        if refusal:
+            return {
+                "refused": True,
+                "abstained": False,
+                "mode": mode,
+                "answer": refusal,
+                "citations": [],
+            }
         hits = self.library.retrieve(query, k)
         top = hits[0][0] if hits else 0.0
         # A lone common-ish term must not ground a security answer: require >=2
@@ -190,6 +245,7 @@ class Tutor:
         if not grounded:
             return {
                 "abstained": True,
+                "refused": False,
                 "mode": mode,
                 "answer": (
                     "No source in the library supports a confident answer. Rephrase, "
@@ -201,7 +257,8 @@ class Tutor:
 
         best = hits[0][1]
         citations = [
-            {"source": c.source, "title": c.title, "tier": c.tier, "score": round(s, 4)}
+            {"source": c.source, "title": c.title, "tier": c.tier,
+             "section": c.section, "score": round(s, 4)}
             for s, c in hits
             if s >= ABSTAIN_THRESHOLD
         ]
@@ -210,6 +267,7 @@ class Tutor:
         answer = generated if generated is not None else _lead(best.text)
         result = {
             "abstained": False,
+            "refused": False,
             "mode": mode,
             "answer": answer,
             "generative": generated is not None,

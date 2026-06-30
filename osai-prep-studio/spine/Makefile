@@ -12,6 +12,10 @@ catalog:
 validate:
 	$(PY) -m osai_spine.cli validate-manifests
 
+# Run the tutor gold-set ship gate (04-evaluation-harness.md). Exits non-zero on fail.
+goldset:
+	$(PY) -m osai_spine.cli goldset
+
 # Run the HTTP grader service (Ctrl-C to stop).
 serve:
 	$(PY) -m osai_spine.cli serve
@@ -20,4 +24,4 @@ serve:
 loop:
 	$(PY) -m pytest -q tests/test_end_to_end_loop.py
 
-.PHONY: test catalog validate serve loop
+.PHONY: test catalog validate goldset serve loop

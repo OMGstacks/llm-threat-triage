@@ -65,6 +65,25 @@ def cmd_tutor(args) -> int:
     return 0
 
 
+def cmd_goldset(args) -> int:
+    from .goldset import GoldSetRunner, load_goldset
+
+    gs = load_goldset(args.goldset) if args.goldset else None
+    report = GoldSetRunner().run(gs)
+    if args.json:
+        print(json.dumps(report, indent=2))
+    else:
+        print(f"gold set: {report['total']} items {report['by_bank']}")
+        for k, v in report["metrics"].items():
+            print(f"  {'OK ' if report['gate'][k] else 'XXX'} {k}: {v}")
+        for k, v in report["soft_metrics"].items():
+            print(f"  ··· {k}: {v}  (tracked, not gated)")
+        if report["failures"]:
+            print("failures:", ", ".join(f"{f['id']}({f['bank']})" for f in report["failures"]))
+        print("SHIP GATE:", "PASS" if report["passed"] else "FAIL")
+    return 0 if report["passed"] else 1
+
+
 def cmd_report(args) -> int:
     from .report import ReportReviewer
 
@@ -156,6 +175,11 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--db", required=True)
     sp.add_argument("--learner", required=True)
     sp.set_defaults(fn=cmd_progress)
+
+    sp = sub.add_parser("goldset", help="run the tutor gold-set ship gate (04-evaluation-harness.md)")
+    sp.add_argument("--goldset", help="path to a gold-set JSON (defaults to gold/goldset.json)")
+    sp.add_argument("--json", action="store_true", help="emit the full JSON report")
+    sp.set_defaults(fn=cmd_goldset)
 
     sp = sub.add_parser("report", help="grade a learner finding vs the business-impact rubric")
     sp.add_argument("--finding", required=True, help="path to a finding JSON")
