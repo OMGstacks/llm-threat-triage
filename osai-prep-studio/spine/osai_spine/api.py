@@ -64,6 +64,11 @@ class ExamSubmitRequest(BaseModel):
     finding: dict = Field(default_factory=dict)
 
 
+class ReviewCardRequest(BaseModel):
+    card_id: int
+    grade: int
+
+
 def _dump(event: Event) -> dict:
     return event.model_dump() if hasattr(event, "model_dump") else event.dict()
 
@@ -131,6 +136,21 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     @app.get("/readiness/{learner_id}")
     def get_readiness(learner_id: str):
         return progress.readiness(learner_id, state.registry)
+
+    @app.post("/flashcards/{learner_id}/seed")
+    def seed_cards(learner_id: str):
+        return {"created": progress.seed_weakness_cards(learner_id, state.registry)}
+
+    @app.get("/flashcards/{learner_id}/due")
+    def due_cards(learner_id: str):
+        return progress.due_cards(learner_id)
+
+    @app.post("/flashcards/review")
+    def review_card(req: ReviewCardRequest):
+        try:
+            return progress.review_card(req.card_id, req.grade)
+        except KeyError:
+            raise HTTPException(status_code=404, detail="no such flashcard")
 
     @app.post("/tutor/ask")
     def tutor_ask(req: AskRequest):

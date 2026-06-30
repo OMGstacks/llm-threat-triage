@@ -69,6 +69,21 @@ def test_submit_records_progress():
     assert c.get("/readiness/alice").json()["score"] > 0
 
 
+def test_flashcards_endpoints():
+    c = _client()
+    # a failed attempt leaves weakness -> seed creates cards
+    flag = flags.derive_flag(SEED, "zoe", "L01")
+    tr = [{"role": "user", "source": "chat_ui", "content": "hello"}]
+    c.post("/labs/L01/submit", json={"learner_id": "zoe", "transcript": tr, "flag": "OSAI{bad}"})
+    created = c.post("/flashcards/zoe/seed").json()["created"]
+    assert len(created) >= 1
+    due = c.get("/flashcards/zoe/due").json()
+    assert len(due) == len(created)
+    r = c.post("/flashcards/review", json={"card_id": created[0], "grade": 5}).json()
+    assert r["interval_days"] == 1 and r["reps"] == 1
+    assert c.post("/flashcards/review", json={"card_id": 999999, "grade": 5}).status_code == 404
+
+
 def test_exam_flow_endpoints():
     c = _client()
     s = c.post("/exam/start", json={"learner_id": "alice", "lab_ids": ["L01", "L04"]}).json()

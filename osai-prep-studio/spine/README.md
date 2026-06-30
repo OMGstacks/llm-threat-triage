@@ -14,7 +14,7 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/manifest.py` | Lab-manifest load + schema validation (the binding rule / CI gate) | [12-content-authoring.md](../12-content-authoring.md) |
 | `osai_spine/validator.py` | The **two-signal** `ChallengeValidator` (detector verdict **and** evidence token) | [02-lab-range.md](../02-lab-range.md) §A.2 |
 | `osai_spine/tutor.py` | The **retrieval-grounded tutor core** — TF-IDF over the source library, citations, "no source, no confident answer" abstention, taxonomy anti-hallucination | [03-tutor-examiner-bot.md](../03-tutor-examiner-bot.md), [09a-source-library.md](../09a-source-library.md) |
-| `osai_spine/progress.py` | The **progress engine** — SQLite attempts, per-skill mastery (EMA on the shared taxonomy), XP, weakness heatmap, heuristic readiness | [05-progress-engine.md](../05-progress-engine.md), [14-readiness-model.md](../14-readiness-model.md) |
+| `osai_spine/progress.py` | The **progress engine** — SQLite attempts, per-skill mastery (EMA on the shared taxonomy), XP, weakness heatmap, heuristic readiness, and **SM-2 spaced-repetition flashcards** seeded from weakness | [05-progress-engine.md](../05-progress-engine.md), [14-readiness-model.md](../14-readiness-model.md) |
 | `osai_spine/report.py` | The **Report-Reviewer** — grades a learner finding vs the business-impact rubric; pre-fills/checks the OWASP classification from the transcript via the reused detectors | [08-reporting-and-canva.md](../08-reporting-and-canva.md), [19-business-impact-rubric.md](../19-business-impact-rubric.md) |
 | `osai_spine/exam.py` | The **Exam Simulator** — composes grade + review + progress into a timed, multi-target engagement with scoring, missed-path review, and a retake plan | [06-exam-simulator.md](../06-exam-simulator.md) |
 | `osai_spine/labtarget.py` | Deliberately-vulnerable **mock targets** — chat (L01), RAG (L02), and MCP-agent (L11) — stdlib stand-ins so the full loop runs without a real model | [02-lab-range.md](../02-lab-range.md), [21-world-class-additions.md](../21-world-class-additions.md) §B5 |
@@ -24,7 +24,7 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `deploy/` | `Dockerfile.grader`, `Dockerfile.labtarget`, hardened `docker-compose.yml` | [13-platform-threat-model.md](../13-platform-threat-model.md) |
 | `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `tutor` · `progress` · `report` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `labs/L01,L02,L04,L05,L07,L11.json` | Lab manifests: direct injection (L01), RAG indirect injection (L02), system-prompt extraction (L04), markdown exfil (L05), sensitive disclosure (L07), MCP tool misuse (L11) | [02-lab-range.md](../02-lab-range.md) |
-| `tests/` | 49 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **tutor**, the **progress engine**, the **Report-Reviewer**, the **Exam Simulator** (timed engagement/scoring/retake), the **stdlib HTTP service**, and the **FastAPI app** | — |
+| `tests/` | 53 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **tutor**, the **progress engine** + **SM-2 flashcards**, the **Report-Reviewer**, the **Exam Simulator**, the **stdlib HTTP service**, and the **FastAPI app** | — |
 
 **Design notes.** The **core** (taxonomy/flags/manifest/validator) and the stdlib service are **dependency-free**, to keep the repo's zero-dependency CI green; FastAPI is needed only for the deployable API (`requirements.txt`) and the FastAPI tests auto-skip when it's absent. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by path (overridable via `OSAI_DETECTORS_PATH` for containers).
 
@@ -51,8 +51,8 @@ A lab **passes** only when both signals fire: the manifest's `detector_required`
 
 ```bash
 make loop        # attack -> vulnerable mock target -> two-signal grade (no real LLM)
-make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{learner},/readiness/{learner},/exam/{id}/score
-                 #              POST /labs/{id}/submit, /tutor/ask, /reports/review, /exam/start, /exam/{id}/submit
+make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/flashcards/{l}/due,/exam/{id}/score
+                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review
 
 # ask the retrieval-grounded tutor (cited; abstains when the corpus can't support an answer)
 python -m osai_spine.cli tutor --query "what is indirect prompt injection"
