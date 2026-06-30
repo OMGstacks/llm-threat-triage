@@ -10,6 +10,8 @@ OffSec's exam requires a professional report documenting findings, impact, and r
 
 ### 2.1 Finding template
 
+> The **canonical** finding schema (full business-impact dimensions, severity model) is [19-business-impact-rubric.md](19-business-impact-rubric.md) §2; the abbreviated view below is the report-author's quick reference and must not diverge from it.
+
 ```yaml
 finding:
   title: "Indirect Prompt Injection Leaks Confidential HR Policy via RAG Assistant"

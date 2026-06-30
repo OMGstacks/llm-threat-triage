@@ -73,7 +73,8 @@ Each lesson below lists **objective · lab(s) · deliverable · assessment · ma
 
 ## 5. Lab coverage map (full catalog in [02-lab-range.md](02-lab-range.md))
 
-- **LLM01** L01/L02/L03 · **LLM02** L07 · **LLM03** L17 · **LLM04** L09 · **LLM05** L05/L06 · **LLM06** L16 · **LLM07** L04 · **LLM08** L08/L10 · **LLM09** woven into L14 + tutor anti-hallucination · **LLM10** L18/L19.
+- **LLM01** L01/L02/L03 · **LLM02** L07 · **LLM03** L17 (+ infra L18/L19) · **LLM04** L09 · **LLM05** L05/L06 (+ L13 RCE sink) · **LLM06** L16 · **LLM07** L04 · **LLM08** L08/L10 · **LLM09** woven into L14 + tutor anti-hallucination · **LLM10** L18/L19.
+- **Named OWASP Agentic threats (T1–T15):** mapped lab-by-lab in [15-framework-version-ledger.md](15-framework-version-ledger.md) §3.1 (core threats have direct labs; a few are forward-roadmap, flagged honestly).
 - **Agentic** (memory poisoning L15, tool misuse L11, privilege compromise L16, cascading hallucination/goal manipulation L14, tool shadowing + rug-pull L12, malicious code exec L13) · **MCP** L11–L13 · **RAG** L02/L08/L09/L10 · **cloud/infra** L18/L19 · **supply chain** L17 · **blue-team capstone** L20.
 - **Module coverage:** M1→T2; M2,M3,M5→T3; M4,M6,M7→T4; M8,M9→T5; M10,M11→T6.
 

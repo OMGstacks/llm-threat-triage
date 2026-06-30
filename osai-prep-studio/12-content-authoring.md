@@ -33,7 +33,7 @@ lab:
   ai300_module: "M5"
   readiness_gate: "R3"
   difficulty: "medium"
-  defense_level: "D4"                 # [17-defense-bypass-ladder.md]
+  defense_variants: ["D0", "D4", "D7"]   # >=3 from the D0-D8 scale; [17-defense-bypass-ladder.md]
   authorized_scope: ["local docker network", "seeded fake corpus", "lab callback server"]
   frameworks: { owasp: ["LLM01:2025", "LLM08:2025"], atlas: ["AML.T0051.001"] }
   reuse_asset: "indirect_prompt_injection"

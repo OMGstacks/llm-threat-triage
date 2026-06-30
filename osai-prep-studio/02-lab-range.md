@@ -68,7 +68,7 @@ sequenceDiagram
     end
 ```
 
-Each lab also carries a hidden **attack-path graph** ([16-attack-path-graphs.md](16-attack-path-graphs.md)) so the grade reflects *methodology* (recon → hypothesis → probe → exploit → impact → remediation → retest), not just the flag. Many high-value labs ship in three **defense-maturity variants** (D0 / D-mid / D-high) per [17-defense-bypass-ladder.md](17-defense-bypass-ladder.md). Every lab must satisfy the **lab quality bar** in §A.3.
+Each lab also carries a hidden **attack-path graph** ([16-attack-path-graphs.md](16-attack-path-graphs.md)) so the grade reflects *methodology* (recon → hypothesis → probe → exploit → impact → remediation → retest), not just the flag. Many high-value labs ship in **≥3 defense-maturity variants** drawn from the **D0–D8** scale (e.g., L02 → D0, D4, D7), per the per-family minimums in [17-defense-bypass-ladder.md](17-defense-bypass-ladder.md). Every lab must satisfy the **lab quality bar** in §A.3.
 
 ### A.3 Lab quality bar (no lab ships without it)
 
@@ -163,7 +163,7 @@ Legend: **OWASP/ATLAS** = primary mappings · **Mod** = AI-300 module · **Reuse
 
 ### Coverage & authoring order
 
-Coverage matrix is in [01-curriculum.md](01-curriculum.md) §5 (every LLM01–10, every named agentic threat, MCP, RAG, cloud/infra, supply chain, and a blue-team lab). **Authoring order:** reuse-heavy MVP first (**L01, L04, L07, L05**) → RAG cluster (L02, L08, L09, L10) → agentic/MCP cluster (L11–L16) → infra (L17–L19) → **L20 capstone last**.
+Coverage matrix is in [01-curriculum.md](01-curriculum.md) §5 (every LLM01–10, MCP, RAG, cloud/infra, supply chain, and a blue-team lab). The named OWASP Agentic threats (T1–T15) are mapped lab-by-lab in [15-framework-version-ledger.md](15-framework-version-ledger.md) §3.1, with forward-roadmap items flagged honestly. **Authoring order:** reuse-heavy MVP first (**L01, L04, L07, L05**) → RAG cluster (L02, L08, L09, L10) → agentic/MCP cluster (L11–L16) → infra (L17–L19) → **L20 capstone last**.
 
 ## Cross-references
 [01-curriculum.md](01-curriculum.md) · [03-tutor-examiner-bot.md](03-tutor-examiner-bot.md) (hint ladder) · [08-reporting-and-canva.md](08-reporting-and-canva.md) · [12-content-authoring.md](12-content-authoring.md) (lab manifest) · [13-platform-threat-model.md](13-platform-threat-model.md) (isolation) · [16-attack-path-graphs.md](16-attack-path-graphs.md) · [17-defense-bypass-ladder.md](17-defense-bypass-ladder.md)

@@ -41,6 +41,30 @@ Use these exact ids/names unless a later OWASP source supersedes them:
 
 Registered companions: **OWASP Agentic AI — Threats and Mitigations**, **MITRE ATLAS** (record the matrix version, e.g. v5.x, at ingest), **NIST AI RMF 1.0** + **AI 600-1 GenAI Profile** (12 risk categories), **NVIDIA AI Kill Chain**.
 
+### 3.1 Canonical OWASP Agentic threats (T1–T15) → lab mapping
+
+From OWASP **Agentic AI — Threats and Mitigations** (Agentic Security Initiative). IDs/names are pinned here so agentic coverage is **CI-verifiable** (the binding rule, [12-content-authoring.md](12-content-authoring.md)); `mapping_confidence` is `medium` until reconfirmed at ingest against the source (the exact T-numbering should be re-verified during the monthly ritual, [20-instructor-ops-runbook.md](20-instructor-ops-runbook.md)). "Roadmap" entries are honestly flagged as forward work ([21-world-class-additions.md](21-world-class-additions.md) §B9, §C).
+
+| ID | Threat | Lab(s) |
+|---|---|---|
+| T1 | Memory Poisoning | L15 |
+| T2 | Tool Misuse | L11, L16 |
+| T3 | Privilege Compromise | L16 |
+| T4 | Resource Overload | L19 |
+| T5 | Cascading Hallucination | L14 |
+| T6 | Intent Breaking & Goal Manipulation | L14 |
+| T7 | Misaligned & Deceptive Behaviors | roadmap (B9/C) |
+| T8 | Repudiation & Untraceability | L20 (logging/non-repudiation) |
+| T9 | Identity Spoofing & Impersonation | L12; deeper in roadmap (B9) |
+| T10 | Overwhelming Human-in-the-Loop | L16 |
+| T11 | Unexpected RCE & Code Attacks | L13 |
+| T12 | Agent Communication Poisoning | L14, L15; roadmap (B9) |
+| T13 | Rogue Agents in Multi-Agent Systems | L14; roadmap (B9) |
+| T14 | Human Attacks on Multi-Agent Systems | roadmap (C) |
+| T15 | Human Manipulation | roadmap (C) |
+
+Core agentic threats (T1–T6, T8, T10, T11) have direct labs; T7/T9/T12–T15 are partially covered or tracked as forward research — stated plainly rather than claimed as complete.
+
 ## 4. Per-item crosswalk object
 
 Every lesson, lab, question, and finding carries a crosswalk with explicit `mapping_confidence`:

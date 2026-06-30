@@ -135,7 +135,7 @@ Generates spaced-repetition cards from the learner's **skill-tags** — the same
 
 ### 3.5 Report-Reviewer (grades vs Finding schema + rubric)
 
-The mode that mirrors the **report-heavy reality of the OSAI exam** — where a professional report is weighted as heavily as the technical findings, and a strong technical run with a poor report can fail ([OSAI Exam Guide](https://help.offsec.com/hc/en-us/articles/46593096734612-OSAI-Exam-Guide), *medium-confidence on exact weighting*).
+The mode that mirrors the **report-heavy reality of the OSAI exam** — a professional report is a required deliverable, and whether it is weighted *as heavily as* the technical findings is **`pending` (OSAI-CLAIM-011, see [00b-exam-blueprint.md](00b-exam-blueprint.md))**, awaiting the final OSAI Exam Guide. We treat reporting as first-class regardless, because over-investing in it is the safe bet.
 
 - **Rubric basis:** the analyst runbook and case-study exemplars (`../docs/playbook/analyst-runbook.md`, `../docs/llm-log-triage-case-study.pdf`) plus the `Finding` dataclass and its `as_row()` schema (`../projects/llm-log-triage/src/detectors.py`).
 - **What it grades:** does each finding carry a valid `owasp_id` + `atlas_technique` (validated against `detector_catalog()`)? Correct severity? Reproduction steps that match a real evidence token? Clear impact + remediation? Professional structure?
@@ -150,7 +150,7 @@ The persona for Performance Mode and full mock engagements ([06-exam-simulator.m
 - **Persona:** terse, neutral, procedural. Acknowledges submissions; states whether an evidence token was accepted; nothing more.
 - **Hard constraints:** **no teaching, no hints, no Socratic questions, no encouragement, no framework explanation.** Lab-Hint ladder is disabled. The grounding gate still runs (so it never asserts a wrong fact), but its answer surface is collapsed to evidence-logging and procedural acknowledgement.
 - **What it logs:** evidence tokens (`/flag`, DB-state, callback hits), timestamps, phase (recon/exploit/post-exploit), and report submission — the engagement transcript that the scoring engine and post-exam review consume.
-- **Why:** mirrors the **24h proctored hands-on engagement + 24h report window** structure ([OSAI Exam FAQ](https://help.offsec.com/hc/en-us/articles/46669767163156-OSAI-Advanced-AI-Red-Teaming-Exam-FAQ)). Note OSAI **uniquely allows AI tools in-exam** ([AI Usage Policy](https://help.offsec.com/hc/en-us/articles/35549468971156-AI-Usage-Policy-in-OffSec-Exams), specific guidelines pending) — so the Exam Simulator has an **AI-assisted variant** (the bot stays available as a generic assistant but in examiner persona) and a **no-AI variant** (bot fully muted except evidence-logging), matching the dual-mode design throughout the suite.
+- **Why:** mirrors the **24h proctored hands-on engagement** (`confirmed`) plus a **report window whose length is `pending` (OSAI-CLAIM-010)** — see the claim ledger in [00b-exam-blueprint.md](00b-exam-blueprint.md) ([OSAI Exam FAQ](https://help.offsec.com/hc/en-us/articles/46669767163156-OSAI-Advanced-AI-Red-Teaming-Exam-FAQ)). Note OSAI **uniquely allows AI tools in-exam** ([AI Usage Policy](https://help.offsec.com/hc/en-us/articles/35549468971156-AI-Usage-Policy-in-OffSec-Exams), specific guidelines pending) — so the Exam Simulator has an **AI-assisted variant** (the bot stays available as a generic assistant but in examiner persona) and a **no-AI variant** (bot fully muted except evidence-logging), matching the dual-mode design throughout the suite.
 
 ### 3.7 No-Hints
 
@@ -261,11 +261,11 @@ The bot ships only when it passes the gold-set gate ([04-evaluation-harness.md](
 
 - OffSec AI-300 course — https://www.offsec.com/courses/ai-300/
 - OSAI Advanced AI Red Teaming Exam FAQ — https://help.offsec.com/hc/en-us/articles/46669767163156-OSAI-Advanced-AI-Red-Teaming-Exam-FAQ
-- OSAI Exam Guide — https://help.offsec.com/hc/en-us/articles/46593096734612-OSAI-Exam-Guide
+- OSAI Exam Guide (treated as **not-yet-final**; `pending` claims await it — do not cite as confirming) — https://help.offsec.com/hc/en-us/articles/46593096734612-OSAI-Exam-Guide
 - AI Usage Policy in OffSec Exams — https://help.offsec.com/hc/en-us/articles/35549468971156-AI-Usage-Policy-in-OffSec-Exams
 - OWASP Top 10 for LLM Apps — https://genai.owasp.org/llm-top-10/
 - OWASP GenAI Red Teaming Guide — https://genai.owasp.org/resource/genai-red-teaming-guide/
 - MITRE ATLAS — https://atlas.mitre.org/
 - PyRIT — https://github.com/microsoft/PyRIT · garak — https://github.com/NVIDIA/garak
 
-*Confidence note: exam structure (48h engagement+report, phase ordering, report weighting, in-exam AI allowance) is verified from OffSec FAQs/guide; module-to-mode mappings and exact weightings are medium-confidence from gated FAQ material and are labeled as such where asserted.*
+*Confidence note: only the **24h proctored technical window** and the **in-exam AI allowance** are `confirmed`. The **report-window length** (OSAI-CLAIM-010) and **whether the report is weighted as heavily as findings** (OSAI-CLAIM-011) are `pending` per the claim ledger in [00b-exam-blueprint.md](00b-exam-blueprint.md); the OSAI Exam Guide is treated as not-yet-final and must not be cited as confirming. Module-to-mode mappings are `inferred`. 00b is the authoritative source for all labeled exam facts.*

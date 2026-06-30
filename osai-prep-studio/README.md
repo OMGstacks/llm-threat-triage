@@ -55,7 +55,7 @@ OSAI Prep Studio turns passive AI-security study into reps in an authorized rang
 | M10 Synthesis / threat modeling | T6 | 08,19,20 | L20 | all (defensive) |
 | M11 Capstone (MegacorpAI) | T6 | 06,21 | L20 + engagement | all |
 
-OWASP coverage check: **LLM01** L01/L02/L03 · **LLM02** L07 · **LLM03** L17 · **LLM04** L09 · **LLM05** L05/L06 · **LLM06** L16 · **LLM07** L04 · **LLM08** L08/L10 · **LLM09** L14 + tutor anti-hallucination · **LLM10** L18/L19. Every module and every OWASP category is covered.
+OWASP coverage check: **LLM01** L01/L02/L03 · **LLM02** L07 · **LLM03** L17 (+ infra L18/L19) · **LLM04** L09 · **LLM05** L05/L06 (+ L13 RCE sink) · **LLM06** L16 · **LLM07** L04 · **LLM08** L08/L10 · **LLM09** L14 + tutor anti-hallucination · **LLM10** L18/L19. Named OWASP Agentic threats (T1–T15) are mapped in [15-framework-version-ledger.md](15-framework-version-ledger.md) §3.1. Every module and every OWASP category is covered.
 
 ## Hardening-layer traceability (from the world-class addendum)
 
@@ -75,7 +75,7 @@ OWASP coverage check: **LLM01** L01/L02/L03 · **LLM02** L07 · **LLM03** L17 ·
 
 ## Status
 
-Design-only blueprint, complete (25 documents). Building the platform is a **separately greenlit** phase, sequenced spine-first in [10-mvp-roadmap.md](10-mvp-roadmap.md). Authorized-lab-only; no proprietary OffSec content; all external claims cited and confidence-labeled.
+Design-only blueprint, complete — **25 files** (this README + 24 blueprint docs). Building the platform is a **separately greenlit** phase, sequenced spine-first in [10-mvp-roadmap.md](10-mvp-roadmap.md). Authorized-lab-only; no proprietary OffSec content; all external claims cited and confidence-labeled.
 
 ## Sources
 OffSec AI-300: <https://www.offsec.com/courses/ai-300/> · OSAI Exam FAQ: <https://help.offsec.com/hc/en-us/articles/46669767163156-OSAI-Advanced-AI-Red-Teaming-Exam-FAQ> · OWASP LLM Top 10 (2025): <https://genai.owasp.org/llm-top-10/> · OWASP Agentic Threats: <https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/> · MITRE ATLAS: <https://atlas.mitre.org/> · NIST AI RMF / 600-1: <https://www.nist.gov/itl/ai-risk-management-framework>
