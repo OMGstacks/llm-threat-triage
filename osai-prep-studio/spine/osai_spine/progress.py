@@ -50,9 +50,34 @@ CREATE TABLE IF NOT EXISTS flashcard (
   due_ts        REAL NOT NULL,
   created_ts    REAL NOT NULL
 );
+CREATE TABLE IF NOT EXISTS badge (
+  learner_id TEXT NOT NULL,
+  code       TEXT NOT NULL,
+  awarded_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (learner_id, code)
+);
 CREATE INDEX IF NOT EXISTS ix_attempt_learner ON attempt(learner_id);
 CREATE INDEX IF NOT EXISTS ix_card_due ON flashcard(learner_id, due_ts);
 """
+
+# Achievement badges (05-progress-engine.md §4 gamification). Each is awarded once,
+# the first time its predicate holds; predicates read only the shared-taxonomy
+# mastery/XP/readiness state so badges stay consistent with the rest of the engine.
+BADGE_DEFS = [
+    {"code": "first_blood", "title": "First Blood",
+     "desc": "Pass your first lab."},
+    {"code": "injection_specialist", "title": "Injection Specialist",
+     "desc": "Reach 0.75 mastery in Prompt Injection (LLM01)."},
+    {"code": "agentic_operator", "title": "Agentic Operator",
+     "desc": "Reach 0.5 mastery on any OWASP Agentic (T1-T15) threat."},
+    {"code": "privilege_breaker", "title": "Privilege Breaker",
+     "desc": "Reach 0.5 mastery in Excessive Agency (LLM06)."},
+    {"code": "centurion", "title": "Centurion",
+     "desc": "Earn 100 XP."},
+    {"code": "exam_ready", "title": "Exam Ready",
+     "desc": "Reach a readiness score of 750/1000."},
+]
+_BADGE_META = {b["code"]: b for b in BADGE_DEFS}
 
 
 class ProgressStore:
@@ -149,6 +174,83 @@ class ProgressStore:
             "note": "heuristic MVP score; the full R0-R5 model is in 14-readiness-model.md",
         }
 
+    # --- badges & leaderboard (gamification) -------------------------------
+    def _earned_codes(self, learner_id, registry) -> set:
+        """The set of badge codes whose predicate currently holds for a learner."""
+        m = self.mastery(learner_id)
+
+        def mas(tag):
+            return m.get(tag, {}).get("mastery", 0.0)
+
+        codes = set()
+        if self.attempts(learner_id)["passed"] >= 1:
+            codes.add("first_blood")
+        if mas("LLM01:2025") >= 0.75:
+            codes.add("injection_specialist")
+        if any(mas(t) >= 0.5 for t in registry.agentic):
+            codes.add("agentic_operator")
+        if mas("LLM06:2025") >= 0.5:
+            codes.add("privilege_breaker")
+        if self.xp(learner_id) >= 100:
+            codes.add("centurion")
+        if self.readiness(learner_id, registry)["score"] >= 750:
+            codes.add("exam_ready")
+        return codes
+
+    def award_badges(self, learner_id, registry) -> list:
+        """Award any newly-earned badges (idempotent). Returns the badges minted on
+        this call, in catalog order, so a caller can surface 'you just earned X'."""
+        earned = self._earned_codes(learner_id, registry)
+        have = {
+            r["code"] for r in self.conn.execute(
+                "SELECT code FROM badge WHERE learner_id=?", (learner_id,)
+            ).fetchall()
+        }
+        new = [b["code"] for b in BADGE_DEFS if b["code"] in earned and b["code"] not in have]
+        if new:
+            with self._lock:
+                for code in new:
+                    self.conn.execute(
+                        "INSERT OR IGNORE INTO badge(learner_id,code) VALUES(?,?)",
+                        (learner_id, code),
+                    )
+                self.conn.commit()
+        return [dict(_BADGE_META[c]) for c in new]
+
+    def badges(self, learner_id) -> list:
+        """All badges a learner has earned, in catalog order, with award timestamps."""
+        have = {
+            r["code"]: r["awarded_ts"] for r in self.conn.execute(
+                "SELECT code,awarded_ts FROM badge WHERE learner_id=?", (learner_id,)
+            ).fetchall()
+        }
+        return [dict(b, awarded_ts=have[b["code"]]) for b in BADGE_DEFS if b["code"] in have]
+
+    def leaderboard(self, registry, limit: int = 10) -> list:
+        """Rank every learner who has attempted a lab by XP, then labs passed, then
+        readiness (06/05). Deterministic: ties break on learner_id."""
+        learners = [
+            r["learner_id"] for r in self.conn.execute(
+                "SELECT DISTINCT learner_id FROM attempt"
+            ).fetchall()
+        ]
+        rows = []
+        for lid in learners:
+            att = self.attempts(lid)
+            rows.append({
+                "learner_id": lid,
+                "xp": self.xp(lid),
+                "passed": att["passed"],
+                "attempts": att["total"],
+                "badges": len(self.badges(lid)),
+                "readiness": self.readiness(lid, registry)["score"],
+            })
+        rows.sort(key=lambda r: (-r["xp"], -r["passed"], -r["readiness"], r["learner_id"]))
+        rows = rows[: max(0, int(limit))]
+        for i, r in enumerate(rows, 1):
+            r["rank"] = i
+        return rows
+
     # --- spaced repetition (SM-2) ------------------------------------------
     def add_card(self, learner_id, skill_tag, prompt, answer, now=None) -> int:
         now = float(now) if now is not None else time.time()
@@ -219,6 +321,7 @@ class ProgressStore:
             "attempts": self.attempts(learner_id),
             "xp": self.xp(learner_id),
             "mastery": self.mastery(learner_id),
+            "badges": self.badges(learner_id),
         }
         if registry is not None:
             out["readiness"] = self.readiness(learner_id, registry)

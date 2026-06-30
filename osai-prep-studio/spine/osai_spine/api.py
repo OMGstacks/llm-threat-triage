@@ -20,7 +20,7 @@ from pydantic import BaseModel, Field
 
 from . import engine
 from .exam import ExamSimulator
-from .progress import ProgressStore
+from .progress import BADGE_DEFS, ProgressStore
 from .report import ReportReviewer
 from .service import GraderState, _public_manifest
 from .tutor import Tutor
@@ -133,6 +133,9 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         )
         feedback = result.public_feedback()
         feedback["progress"] = progress.record_attempt(req.learner_id, manifest, result)
+        new_badges = progress.award_badges(req.learner_id, state.registry)
+        if new_badges:
+            feedback["new_badges"] = new_badges
         return feedback
 
     @app.get("/progress/{learner_id}")
@@ -142,6 +145,14 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     @app.get("/readiness/{learner_id}")
     def get_readiness(learner_id: str):
         return progress.readiness(learner_id, state.registry)
+
+    @app.get("/badges/{learner_id}")
+    def get_badges(learner_id: str):
+        return {"earned": progress.badges(learner_id), "catalog": BADGE_DEFS}
+
+    @app.get("/leaderboard")
+    def leaderboard(limit: int = 10):
+        return progress.leaderboard(state.registry, limit)
 
     @app.post("/flashcards/{learner_id}/seed")
     def seed_cards(learner_id: str):

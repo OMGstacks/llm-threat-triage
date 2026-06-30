@@ -69,6 +69,13 @@
     <div id="cards"></div>
     <div class="out" id="cardOut"></div>
   </section>
+
+  <section class="panel">
+    <h2>Achievements &amp; leaderboard</h2>
+    <div id="badges" class="muted">—</div>
+    <div class="row" style="margin-top:10px"><button id="board">Refresh leaderboard</button></div>
+    <div id="leaderboard"></div>
+  </section>
 </main>
 
 <script>
@@ -95,8 +102,10 @@ $('#submit').onclick = async () => {
   const transcript = [{role:'user', source:'chat_ui', content: $('#attack').value}];
   const r = await post(`/labs/${lab}/submit`, {learner_id: learner(), transcript, flag: $('#flag').value});
   const tag = r.passed ? '<span class="pill ok">PASSED</span>' : '<span class="pill bad">not yet</span>';
+  const earned = (r.new_badges && r.new_badges.length)
+    ? `\n★ earned: ${r.new_badges.map(b => b.title).join(', ')}` : '';
   $('#labOut').innerHTML = `${tag} signalA=${r.signal_a} signalB=${r.signal_b}\n` +
-     (r.feedback||[]).join('\n') + (r.progress ? `\nxp=${r.progress.xp} attempts=${JSON.stringify(r.progress.attempts)}` : '');
+     (r.feedback||[]).join('\n') + (r.progress ? `\nxp=${r.progress.xp} attempts=${JSON.stringify(r.progress.attempts)}` : '') + earned;
   refresh();
 };
 
@@ -116,7 +125,22 @@ async function refresh() {
   $('#heatmap').innerHTML = Object.entries(hm).map(([id,v]) =>
     `<div class="row" style="gap:6px"><span style="width:78px" class="muted">${id.replace(':2025','')}</span>
      <div class="bar" style="flex:1"><span style="width:${Math.round((v.mastery||0)*100)}%"></span></div></div>`).join('');
+  const bg = await j(`/badges/${learner()}`);
+  const have = new Set((bg.earned||[]).map(b => b.code));
+  $('#badges').innerHTML = (bg.catalog||[]).map(b =>
+    `<span class="pill ${have.has(b.code)?'ok':''}" title="${b.desc}">${have.has(b.code)?'★':'☆'} ${b.title}</span>`).join(' ');
+  loadBoard();
 }
+
+async function loadBoard() {
+  const rows = await j('/leaderboard');
+  $('#leaderboard').innerHTML = rows.length ? rows.map(r =>
+    `<div class="row" style="gap:6px"><span class="muted" style="width:26px">#${r.rank}</span>
+     <strong style="flex:1">${r.learner_id}</strong>
+     <span class="pill">xp ${r.xp}</span><span class="pill">${r.passed} passed</span>
+     <span class="pill">${r.badges}★</span></div>`).join('') : '<span class="muted">no entries yet</span>';
+}
+$('#board').onclick = loadBoard;
 
 $('#refresh').onclick = refresh;
 $('#seed').onclick = async () => { const r = await post(`/flashcards/${learner()}/seed`); $('#cardOut').textContent = `seeded ${r.created.length} cards`; showDue(); };

@@ -76,6 +76,9 @@ class ExamSimulator:
         card = self.reviewer.review(finding or {}, transcript)
         if self.progress is not None:
             self.progress.record_attempt(s["learner_id"], manifest, grade)
+            registry = getattr(self.state, "registry", None)
+            if registry is not None and hasattr(self.progress, "award_badges"):
+                self.progress.award_badges(s["learner_id"], registry)
 
         s["results"][lab_id] = {
             "passed": grade.passed,
