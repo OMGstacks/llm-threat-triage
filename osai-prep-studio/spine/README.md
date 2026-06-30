@@ -15,11 +15,14 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/validator.py` | The **two-signal** `ChallengeValidator` (detector verdict **and** evidence token) | [02-lab-range.md](../02-lab-range.md) §A.2 |
 | `osai_spine/labtarget.py` | Deliberately-vulnerable **mock targets** — chat (L01), RAG (L02), and MCP-agent (L11) — stdlib stand-ins so the full loop runs without a real model | [02-lab-range.md](../02-lab-range.md), [21-world-class-additions.md](../21-world-class-additions.md) §B5 |
 | `osai_spine/service.py` | A minimal **HTTP grader service** (stdlib `http.server`); answer-redacted learner responses | [07-architecture-and-stack.md](../07-architecture-and-stack.md), [13-platform-threat-model.md](../13-platform-threat-model.md) |
+| `osai_spine/api.py` | The **deployable FastAPI grader** (same contract; Pydantic models); `uvicorn osai_spine.api:app` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
+| `osai_spine/labserver.py` | HTTP wrapper that runs a mock target as the **lab-target container** entrypoint | [02-lab-range.md](../02-lab-range.md) |
+| `deploy/` | `Dockerfile.grader`, `Dockerfile.labtarget`, hardened `docker-compose.yml` | [13-platform-threat-model.md](../13-platform-threat-model.md) |
 | `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `labs/L01,L02,L04,L05,L07,L11.json` | Lab manifests: direct injection (L01), RAG indirect injection (L02), system-prompt extraction (L04), markdown exfil (L05), sensitive disclosure (L07), MCP tool misuse (L11) | [02-lab-range.md](../02-lab-range.md) |
-| `tests/` | 24 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), and the **HTTP service** | — |
+| `tests/` | 27 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **stdlib HTTP service**, and the **FastAPI app** | — |
 
-**Design notes.** Stdlib-only, to keep the repo's zero-dependency CI green. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by absolute path.
+**Design notes.** The **core** (taxonomy/flags/manifest/validator) and the stdlib service are **dependency-free**, to keep the repo's zero-dependency CI green; FastAPI is needed only for the deployable API (`requirements.txt`) and the FastAPI tests auto-skip when it's absent. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by path (overridable via `OSAI_DETECTORS_PATH` for containers).
 
 ## Run it
 
@@ -50,6 +53,19 @@ make serve       # run the HTTP grader (GET /health,/catalog,/labs,/labs/{id}; P
 `labtarget.MockChatTarget` plants a per-learner flag in its system prompt and "blocks the obvious, leaks on the subtle" — so the loop demonstrates a real direct-injection exploit end-to-end without a model. The HTTP service redacts the answer key: public lab views omit `two_signal_grading`/`reuse_asset`, and submit responses use `public_feedback()` (no expected detector or OWASP id).
 
 CI runs the suite + the manifest taxonomy gate on every change ([`.github/workflows/osai-spine.yml`](../../.github/workflows/osai-spine.yml)).
+
+### Deploy (FastAPI + Docker)
+
+```bash
+# local API (production entrypoint)
+pip install -r osai-prep-studio/spine/requirements.txt
+cd osai-prep-studio/spine && PYTHONPATH=. uvicorn osai_spine.api:app --host 0.0.0.0 --port 8077
+
+# containers: grader + an isolated L01 lab target (build context = repo root)
+cd osai-prep-studio/spine/deploy && docker compose up --build
+```
+
+The compose stack hardens the lab target per [13-platform-threat-model.md](../13-platform-threat-model.md): read-only rootfs, `no-new-privileges`, all caps dropped, CPU/memory limits, and an **internal** network (no egress to the internet). The CI `docker` job builds both images and smoke-runs the grader on every change. (Image build needs a registry-reachable Docker daemon; the local sandbox's is offline, so it's verified in CI.)
 
 ## Next (per the roadmap)
 

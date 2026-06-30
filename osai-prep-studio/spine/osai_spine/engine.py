@@ -10,12 +10,17 @@ engine, one taxonomy.
 from __future__ import annotations
 
 import importlib.util
+import os
 import sys
 from pathlib import Path
 
 # spine/osai_spine/engine.py -> parents: [0]=osai_spine [1]=spine [2]=osai-prep-studio [3]=repo root
 _REPO_ROOT = Path(__file__).resolve().parents[3]
-_DETECTORS_PATH = _REPO_ROOT / "projects" / "llm-log-triage" / "src" / "detectors.py"
+# Containers may relocate the engine; OSAI_DETECTORS_PATH overrides the in-repo path.
+_DETECTORS_PATH = Path(
+    os.environ.get("OSAI_DETECTORS_PATH")
+    or (_REPO_ROOT / "projects" / "llm-log-triage" / "src" / "detectors.py")
+)
 
 
 def _load_engine():
