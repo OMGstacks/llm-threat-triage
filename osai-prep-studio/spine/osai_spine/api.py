@@ -12,12 +12,13 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 from . import engine
+from .exam import ExamSimulator
 from .progress import ProgressStore
 from .report import ReportReviewer
 from .service import GraderState, _public_manifest
@@ -50,6 +51,19 @@ class ReviewRequest(BaseModel):
     transcript: List[Event] = Field(default_factory=list)
 
 
+class ExamStartRequest(BaseModel):
+    learner_id: str
+    lab_ids: Optional[List[str]] = None
+    duration_seconds: Optional[int] = None
+
+
+class ExamSubmitRequest(BaseModel):
+    lab_id: str
+    transcript: List[Event] = Field(default_factory=list)
+    flag: str = ""
+    finding: dict = Field(default_factory=dict)
+
+
 def _dump(event: Event) -> dict:
     return event.model_dump() if hasattr(event, "model_dump") else event.dict()
 
@@ -63,6 +77,7 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     tutor = Tutor(registry=state.registry)
     progress = ProgressStore(os.environ.get("OSAI_DB", ":memory:"))
     reviewer = ReportReviewer(state.registry)
+    exam = ExamSimulator(state, reviewer, progress)
 
     @app.get("/health")
     def health():
@@ -125,6 +140,25 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     def review_report(req: ReviewRequest):
         transcript = [_dump(e) for e in req.transcript] or None
         return reviewer.review(req.finding, transcript).to_dict()
+
+    @app.post("/exam/start")
+    def exam_start(req: ExamStartRequest):
+        return exam.start_session(req.learner_id, req.lab_ids, req.duration_seconds)
+
+    @app.post("/exam/{session_id}/submit")
+    def exam_submit(session_id: str, req: ExamSubmitRequest):
+        try:
+            return exam.submit(session_id, req.lab_id, [_dump(e) for e in req.transcript],
+                               req.flag, req.finding or None)
+        except KeyError:
+            raise HTTPException(status_code=404, detail="no such exam session")
+
+    @app.get("/exam/{session_id}/score")
+    def exam_score(session_id: str):
+        try:
+            return exam.score(session_id, state.registry)
+        except KeyError:
+            raise HTTPException(status_code=404, detail="no such exam session")
 
     return app
 

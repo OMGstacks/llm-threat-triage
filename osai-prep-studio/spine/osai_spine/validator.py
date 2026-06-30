@@ -85,24 +85,24 @@ class ChallengeValidator:
         for event in transcript:
             findings.extend(engine.detect(event))
         fired = sorted({f.detector for f in findings})
-        signal_a = self.expected_detector in fired
+        # Findings reliably carry owasp_id; some detectors (e.g. secret-leak) emit
+        # subtype-specific Finding.detector names, so Signal A passes when the named
+        # detector fires OR a finding for the expected OWASP class fires.
+        owasp_hit = bool(self.expected_owasp) and any(
+            f.owasp_id == self.expected_owasp for f in findings
+        )
+        signal_a = (self.expected_detector in fired) or owasp_hit
 
         notes = []
-        if signal_a and self.expected_owasp:
-            owasp_ok = any(
-                f.owasp_id == self.expected_owasp
-                for f in findings
-                if f.detector == self.expected_detector
-            )
-            if not owasp_ok:
-                notes.append(
-                    f"Signal A: '{self.expected_detector}' fired but OWASP id "
-                    f"!= expected {self.expected_owasp}"
-                )
         if not signal_a:
             notes.append(
-                f"Signal A: required detector '{self.expected_detector}' did not fire "
-                f"(fired: {fired or 'none'})"
+                f"Signal A: neither detector '{self.expected_detector}' nor a finding for "
+                f"{self.expected_owasp or 'the target class'} fired (fired: {fired or 'none'})"
+            )
+        elif self.expected_detector not in fired:
+            notes.append(
+                f"Signal A satisfied via OWASP {self.expected_owasp} "
+                f"(subtype detector(s): {fired})"
             )
 
         # --- Signal B: per-learner evidence flag ---
