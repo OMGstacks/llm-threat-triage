@@ -58,6 +58,13 @@ def cmd_flag(args) -> int:
     return 0
 
 
+def cmd_tutor(args) -> int:
+    from .tutor import Tutor
+
+    print(json.dumps(Tutor(registry=TaxonomyRegistry()).ask(args.query, args.mode), indent=2))
+    return 0
+
+
 def cmd_serve(args) -> int:
     from .service import build_server
 
@@ -99,6 +106,11 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--lab", required=True)
     sp.add_argument("--attempt", type=int, default=0)
     sp.set_defaults(fn=cmd_flag)
+
+    sp = sub.add_parser("tutor", help="ask the retrieval-grounded tutor (offline, cited)")
+    sp.add_argument("--query", required=True)
+    sp.add_argument("--mode", default="tutor")
+    sp.set_defaults(fn=cmd_tutor)
 
     sp = sub.add_parser("serve", help="run the HTTP grader service")
     sp.add_argument("--host", default="127.0.0.1")

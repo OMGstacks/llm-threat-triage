@@ -19,6 +19,7 @@ from pydantic import BaseModel, Field
 
 from . import engine
 from .service import GraderState, _public_manifest
+from .tutor import Tutor
 from .validator import ChallengeValidator
 
 _LABS_DIR = Path(__file__).resolve().parent.parent / "labs"
@@ -37,6 +38,11 @@ class SubmitRequest(BaseModel):
     attempt: int = 0
 
 
+class AskRequest(BaseModel):
+    query: str
+    mode: str = "tutor"
+
+
 def _dump(event: Event) -> dict:
     return event.model_dump() if hasattr(event, "model_dump") else event.dict()
 
@@ -47,10 +53,16 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         labs_dir or _LABS_DIR,
     )
     app = FastAPI(title="OSAI Prep Studio — Grader", version="0.1.0")
+    tutor = Tutor(registry=state.registry)
 
     @app.get("/health")
     def health():
-        return {"status": "ok", "engine": engine.ENGINE_PATH, "labs": sorted(state.labs)}
+        return {
+            "status": "ok",
+            "engine": engine.ENGINE_PATH,
+            "labs": sorted(state.labs),
+            "tutor_corpus_chunks": len(tutor.library.chunks),
+        }
 
     @app.get("/catalog")
     def catalog():
@@ -85,6 +97,10 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             transcript, req.flag, state.seed, req.learner_id, req.attempt
         )
         return result.public_feedback()
+
+    @app.post("/tutor/ask")
+    def tutor_ask(req: AskRequest):
+        return tutor.ask(req.query, req.mode)
 
     return app
 

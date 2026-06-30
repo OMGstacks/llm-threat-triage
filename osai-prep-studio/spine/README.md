@@ -13,14 +13,15 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/flags.py` | Per-learner `OSAI{…}` HMAC evidence flags (Signal B / anti-cheat) | [21-world-class-additions.md](../21-world-class-additions.md) §B4 |
 | `osai_spine/manifest.py` | Lab-manifest load + schema validation (the binding rule / CI gate) | [12-content-authoring.md](../12-content-authoring.md) |
 | `osai_spine/validator.py` | The **two-signal** `ChallengeValidator` (detector verdict **and** evidence token) | [02-lab-range.md](../02-lab-range.md) §A.2 |
+| `osai_spine/tutor.py` | The **retrieval-grounded tutor core** — TF-IDF over the source library, citations, "no source, no confident answer" abstention, taxonomy anti-hallucination | [03-tutor-examiner-bot.md](../03-tutor-examiner-bot.md), [09a-source-library.md](../09a-source-library.md) |
 | `osai_spine/labtarget.py` | Deliberately-vulnerable **mock targets** — chat (L01), RAG (L02), and MCP-agent (L11) — stdlib stand-ins so the full loop runs without a real model | [02-lab-range.md](../02-lab-range.md), [21-world-class-additions.md](../21-world-class-additions.md) §B5 |
 | `osai_spine/service.py` | A minimal **HTTP grader service** (stdlib `http.server`); answer-redacted learner responses | [07-architecture-and-stack.md](../07-architecture-and-stack.md), [13-platform-threat-model.md](../13-platform-threat-model.md) |
 | `osai_spine/api.py` | The **deployable FastAPI grader** (same contract; Pydantic models); `uvicorn osai_spine.api:app` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `osai_spine/labserver.py` | HTTP wrapper that runs a mock target as the **lab-target container** entrypoint | [02-lab-range.md](../02-lab-range.md) |
 | `deploy/` | `Dockerfile.grader`, `Dockerfile.labtarget`, hardened `docker-compose.yml` | [13-platform-threat-model.md](../13-platform-threat-model.md) |
-| `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
+| `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `tutor` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `labs/L01,L02,L04,L05,L07,L11.json` | Lab manifests: direct injection (L01), RAG indirect injection (L02), system-prompt extraction (L04), markdown exfil (L05), sensitive disclosure (L07), MCP tool misuse (L11) | [02-lab-range.md](../02-lab-range.md) |
-| `tests/` | 27 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **stdlib HTTP service**, and the **FastAPI app** | — |
+| `tests/` | 33 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **retrieval-grounded tutor** (grounding/abstention/anti-hallucination), the **stdlib HTTP service**, and the **FastAPI app** | — |
 
 **Design notes.** The **core** (taxonomy/flags/manifest/validator) and the stdlib service are **dependency-free**, to keep the repo's zero-dependency CI green; FastAPI is needed only for the deployable API (`requirements.txt`) and the FastAPI tests auto-skip when it's absent. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by path (overridable via `OSAI_DETECTORS_PATH` for containers).
 
@@ -47,7 +48,11 @@ A lab **passes** only when both signals fire: the manifest's `detector_required`
 
 ```bash
 make loop        # attack -> vulnerable mock target -> two-signal grade (no real LLM)
-make serve       # run the HTTP grader (GET /health,/catalog,/labs,/labs/{id}; POST /labs/{id}/submit)
+make serve       # run the HTTP grader (GET /health,/catalog,/labs,/labs/{id}; POST /labs/{id}/submit, /tutor/ask)
+
+# ask the retrieval-grounded tutor (cited; abstains when the corpus can't support an answer)
+python -m osai_spine.cli tutor --query "what is indirect prompt injection"
+python -m osai_spine.cli tutor --query "how to bake bread"   # -> abstains
 ```
 
 `labtarget.MockChatTarget` plants a per-learner flag in its system prompt and "blocks the obvious, leaks on the subtle" — so the loop demonstrates a real direct-injection exploit end-to-end without a model. The HTTP service redacts the answer key: public lab views omit `two_signal_grading`/`reuse_asset`, and submit responses use `public_feedback()` (no expected detector or OWASP id).

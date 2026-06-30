@@ -14,6 +14,8 @@ WORKDIR /app/spine
 COPY projects/llm-log-triage/src/detectors.py /app/engine/detectors.py
 # The spine package + lab manifests + prod deps.
 COPY osai-prep-studio/spine /app/spine
+# The tutor's curated source corpus (reference docs) — see 09a-source-library.md.
+COPY reference /app/reference
 RUN pip install --no-cache-dir -r requirements.txt \
     && useradd -m -u 10001 osai \
     && chown -R osai:osai /app

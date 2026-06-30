@@ -49,3 +49,11 @@ def test_submit_pass_and_no_answer_leak():
 
 def test_unknown_lab_404():
     assert _client().get("/labs/L99").status_code == 404
+
+
+def test_tutor_ask_grounds_and_abstains():
+    c = _client()
+    grounded = c.post("/tutor/ask", json={"query": "what is prompt injection"}).json()
+    assert grounded["abstained"] is False and grounded["citations"]
+    abstained = c.post("/tutor/ask", json={"query": "sourdough bread recipe at altitude"}).json()
+    assert abstained["abstained"] is True
