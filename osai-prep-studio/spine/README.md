@@ -13,11 +13,11 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/flags.py` | Per-learner `OSAI{…}` HMAC evidence flags (Signal B / anti-cheat) | [21-world-class-additions.md](../21-world-class-additions.md) §B4 |
 | `osai_spine/manifest.py` | Lab-manifest load + schema validation (the binding rule / CI gate) | [12-content-authoring.md](../12-content-authoring.md) |
 | `osai_spine/validator.py` | The **two-signal** `ChallengeValidator` (detector verdict **and** evidence token) | [02-lab-range.md](../02-lab-range.md) §A.2 |
-| `osai_spine/labtarget.py` | A deliberately-vulnerable **mock chat target** (stdlib stand-in for an Ollama-backed lab) so the full loop runs without a real model | [02-lab-range.md](../02-lab-range.md), [21-world-class-additions.md](../21-world-class-additions.md) §B5 |
+| `osai_spine/labtarget.py` | Deliberately-vulnerable **mock targets** — chat (L01), RAG (L02), and MCP-agent (L11) — stdlib stand-ins so the full loop runs without a real model | [02-lab-range.md](../02-lab-range.md), [21-world-class-additions.md](../21-world-class-additions.md) §B5 |
 | `osai_spine/service.py` | A minimal **HTTP grader service** (stdlib `http.server`); answer-redacted learner responses | [07-architecture-and-stack.md](../07-architecture-and-stack.md), [13-platform-threat-model.md](../13-platform-threat-model.md) |
 | `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
-| `labs/L01,L04,L05,L07.json` | The four reuse-heavy MVP lab manifests | [02-lab-range.md](../02-lab-range.md) |
-| `tests/` | 20 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loop**, and the **HTTP service** | — |
+| `labs/L01,L02,L04,L05,L07,L11.json` | Lab manifests: direct injection (L01), RAG indirect injection (L02), system-prompt extraction (L04), markdown exfil (L05), sensitive disclosure (L07), MCP tool misuse (L11) | [02-lab-range.md](../02-lab-range.md) |
+| `tests/` | 24 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), and the **HTTP service** | — |
 
 **Design notes.** Stdlib-only, to keep the repo's zero-dependency CI green. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by absolute path.
 
