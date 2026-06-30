@@ -154,12 +154,29 @@ def _lead(text: str, limit: int = 600) -> str:
     return text[:limit] + ("…" if len(text) > limit else "")
 
 
-class Tutor:
-    """Retrieval-first, citation-enforced, abstaining tutor (extractive answerer)."""
+_GROUNDED_SYSTEM = (
+    "You are the OSAI Prep Studio tutor for authorized AI red-team exam prep. "
+    "Answer ONLY from the numbered SOURCES; if they don't support an answer, say so "
+    "plainly. Never invent OWASP LLMxx:2025 or MITRE ATLAS (AML.T...) ids — use only "
+    "ids that appear in the sources. Be concise and cite sources by their [n] tag. "
+    "Authorized-lab scope only: refuse to help attack any real or non-lab system."
+)
 
-    def __init__(self, library=None, registry=None):
+
+class Tutor:
+    """Retrieval-first, citation-enforced, abstaining tutor.
+
+    The answer is **extractive** by default (grounded passage + citations), which is
+    what runs in CI. When an optional ``llm`` provider is supplied and usable, the
+    same grounded hits are handed to Claude to compose a fluent answer *strictly from
+    those sources* — the retrieval gate, abstention, citations, and taxonomy
+    validation are unchanged, and any failure falls back to the extractive answer.
+    """
+
+    def __init__(self, library=None, registry=None, llm=None):
         self.library = library or SourceLibrary()
         self.registry = registry
+        self.llm = llm  # optional LLMProvider; None -> extractive (default)
 
     def ask(self, query: str, mode: str = "tutor", k: int = 3) -> dict:
         hits = self.library.retrieve(query, k)
@@ -183,16 +200,19 @@ class Tutor:
             }
 
         best = hits[0][1]
-        answer = _lead(best.text)
         citations = [
             {"source": c.source, "title": c.title, "tier": c.tier, "score": round(s, 4)}
             for s, c in hits
             if s >= ABSTAIN_THRESHOLD
         ]
+        # Generative-but-grounded answer when an LLM is wired; else extractive.
+        generated = self._compose(query, hits)
+        answer = generated if generated is not None else _lead(best.text)
         result = {
             "abstained": False,
             "mode": mode,
             "answer": answer,
+            "generative": generated is not None,
             "citations": citations,
             "top_score": round(top, 4),
         }
@@ -203,3 +223,29 @@ class Tutor:
             if bad:
                 result["invalid_ids"] = bad
         return result
+
+    def _compose(self, query, hits):
+        """Compose a grounded answer from the retrieved ``hits`` via the LLM seam.
+        Returns ``None`` to signal "use the extractive fallback" — when no provider
+        is wired, the call errors, the output is empty, or the answer fails the
+        taxonomy guard (a hallucinated framework id)."""
+        if self.llm is None:
+            return None
+        corpus = "\n\n".join(
+            f"[{i + 1}] ({c.source} — {c.title}, tier {c.tier})\n{c.text}"
+            for i, (_s, c) in enumerate(hits)
+        )
+        try:
+            text = self.llm.complete(
+                _GROUNDED_SYSTEM,
+                f"QUESTION: {query}\n\nAnswer only from the SOURCES and cite them by [n].",
+                cached_prefix="SOURCES:\n" + corpus,
+                max_tokens=700,
+            )
+        except Exception:
+            return None
+        if not text:
+            return None
+        if self.registry is not None and validate_taxonomy_ids(text, self.registry):
+            return None  # rejected a hallucinated id -> fall back to extractive
+        return text

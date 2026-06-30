@@ -13,7 +13,8 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/flags.py` | Per-learner `OSAI{…}` HMAC evidence flags (Signal B / anti-cheat) | [21-world-class-additions.md](../21-world-class-additions.md) §B4 |
 | `osai_spine/manifest.py` | Lab-manifest load + schema validation (the binding rule / CI gate) | [12-content-authoring.md](../12-content-authoring.md) |
 | `osai_spine/validator.py` | The **two-signal** `ChallengeValidator` (detector verdict **and** evidence token) | [02-lab-range.md](../02-lab-range.md) §A.2 |
-| `osai_spine/tutor.py` | The **retrieval-grounded tutor core** — TF-IDF over the source library, citations, "no source, no confident answer" abstention, taxonomy anti-hallucination | [03-tutor-examiner-bot.md](../03-tutor-examiner-bot.md), [09a-source-library.md](../09a-source-library.md) |
+| `osai_spine/tutor.py` | The **retrieval-grounded tutor core** — TF-IDF over the source library, citations, "no source, no confident answer" abstention, taxonomy anti-hallucination; an optional **generative-but-grounded** answer composes from the same hits via the LLM seam, with an extractive fallback | [03-tutor-examiner-bot.md](../03-tutor-examiner-bot.md), [09a-source-library.md](../09a-source-library.md) |
+| `osai_spine/llm.py` | The optional **LLM provider seam / model router** — Anthropic (`claude-opus-4-8` quality tier + `claude-haiku-4-5` bulk tier), adaptive thinking, streaming, prompt caching; env-only key, OFF by default, graceful no-SDK/no-key fallback | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `osai_spine/progress.py` | The **progress engine** — SQLite attempts, per-skill mastery (EMA on the shared taxonomy), XP, weakness heatmap, heuristic readiness, **achievement badges** + a cross-learner **leaderboard**, and **SM-2 spaced-repetition flashcards** seeded from weakness | [05-progress-engine.md](../05-progress-engine.md), [14-readiness-model.md](../14-readiness-model.md) |
 | `osai_spine/report.py` | The **Report-Reviewer** — grades a learner finding vs the business-impact rubric; pre-fills/checks the OWASP classification from the transcript via the reused detectors | [08-reporting-and-canva.md](../08-reporting-and-canva.md), [19-business-impact-rubric.md](../19-business-impact-rubric.md) |
 | `osai_spine/exam.py` | The **Exam Simulator** — composes grade + review + progress into a timed, multi-target engagement with scoring, missed-path review, and a retake plan | [06-exam-simulator.md](../06-exam-simulator.md) |
@@ -76,6 +77,18 @@ cd osai-prep-studio/spine/deploy && docker compose up --build
 ```
 
 The compose stack hardens the lab target per [13-platform-threat-model.md](../13-platform-threat-model.md): read-only rootfs, `no-new-privileges`, all caps dropped, CPU/memory limits, and an **internal** network (no egress to the internet). The CI `docker` job builds both images and smoke-runs the grader on every change. (Image build needs a registry-reachable Docker daemon; the local sandbox's is offline, so it's verified in CI.)
+
+### Optional: the generative LLM layer
+
+The platform runs **fully offline** by default — the tutor answers extractively, lab targets are deterministic mocks, no key needed. To light up the grounded generative tutor:
+
+```bash
+pip install -r osai-prep-studio/spine/requirements-llm.txt   # adds the anthropic SDK
+export ANTHROPIC_API_KEY=...      # read from the env only; never commit it
+export OSAI_LLM=1                 # opt in (default model: claude-opus-4-8)
+```
+
+`GET /health` reports the `llm` state. The generative path keeps every grounding guarantee — retrieval-first, abstention, citations, and the taxonomy anti-hallucination check — and **falls back to the extractive answer** on any error or if the model emits a non-existent framework id. Only the tutor path is wired today; the report-judge and attacker-LLM seams exist but are intentionally left unwired pending a data-handling decision (they would send learner content to the API).
 
 ## Next (per the roadmap)
 

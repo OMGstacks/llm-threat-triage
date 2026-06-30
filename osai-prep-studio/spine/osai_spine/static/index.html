@@ -86,7 +86,8 @@ const post = (url, body) => j(url, {method:'POST', headers:{'Content-Type':'appl
 
 async function boot() {
   const h = await j('/health');
-  $('#health').textContent = `engine ✓ · ${h.labs.length} labs · tutor corpus ${h.tutor_corpus_chunks}`;
+  const ai = (h.llm && h.llm.enabled) ? 'AI tutor ✓' : 'AI tutor off (offline mode)';
+  $('#health').textContent = `engine ✓ · ${h.labs.length} labs · tutor corpus ${h.tutor_corpus_chunks} · ${ai}`;
   const labs = await j('/labs');
   $('#labs').innerHTML = labs.map(l => `<div class="lab"><strong>${l.id}</strong> — ${l.title} <span class="pill">${l.difficulty}</span></div>`).join('');
   $('#lab').innerHTML = labs.map(l => `<option value="${l.id}">${l.id}</option>`).join('');
@@ -113,7 +114,8 @@ $('#ask').onclick = async () => {
   const r = await post('/tutor/ask', {query: $('#q').value});
   if (r.abstained) { $('#tutorOut').innerHTML = `<span class="pill bad">abstained</span> ${r.answer}`; return; }
   const cites = (r.citations||[]).map(c => `• ${c.source} — ${c.title} [${c.tier}]`).join('\n');
-  $('#tutorOut').textContent = `${r.answer}\n\nSources:\n${cites}`;
+  const mode = r.generative ? '[AI · grounded] ' : '[extractive] ';
+  $('#tutorOut').textContent = `${mode}${r.answer}\n\nSources:\n${cites}`;
 };
 
 async function refresh() {

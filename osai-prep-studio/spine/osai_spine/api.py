@@ -19,6 +19,7 @@ from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from . import engine
+from . import llm as llm_mod
 from .exam import ExamSimulator
 from .progress import BADGE_DEFS, ProgressStore
 from .report import ReportReviewer
@@ -81,7 +82,8 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         labs_dir or _LABS_DIR,
     )
     app = FastAPI(title="OSAI Prep Studio — Grader", version="0.1.0")
-    tutor = Tutor(registry=state.registry)
+    provider = llm_mod.LLMProvider() if llm_mod.enabled() else None
+    tutor = Tutor(registry=state.registry, llm=provider)
     progress = ProgressStore(os.environ.get("OSAI_DB", ":memory:"))
     reviewer = ReportReviewer(state.registry)
     exam = ExamSimulator(state, reviewer, progress)
@@ -97,6 +99,7 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             "engine": engine.ENGINE_PATH,
             "labs": sorted(state.labs),
             "tutor_corpus_chunks": len(tutor.library.chunks),
+            "llm": llm_mod.status(),
         }
 
     @app.get("/catalog")
