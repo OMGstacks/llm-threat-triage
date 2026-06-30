@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
 from . import engine
@@ -26,6 +27,7 @@ from .tutor import Tutor
 from .validator import ChallengeValidator
 
 _LABS_DIR = Path(__file__).resolve().parent.parent / "labs"
+_STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
 class Event(BaseModel):
@@ -83,6 +85,10 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     progress = ProgressStore(os.environ.get("OSAI_DB", ":memory:"))
     reviewer = ReportReviewer(state.registry)
     exam = ExamSimulator(state, reviewer, progress)
+
+    @app.get("/", response_class=HTMLResponse)
+    def index():
+        return (_STATIC_DIR / "index.html").read_text(encoding="utf-8")
 
     @app.get("/health")
     def health():

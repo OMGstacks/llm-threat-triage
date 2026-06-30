@@ -21,10 +21,11 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/service.py` | A minimal **HTTP grader service** (stdlib `http.server`); answer-redacted learner responses | [07-architecture-and-stack.md](../07-architecture-and-stack.md), [13-platform-threat-model.md](../13-platform-threat-model.md) |
 | `osai_spine/api.py` | The **deployable FastAPI grader** (same contract; Pydantic models); `uvicorn osai_spine.api:app` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `osai_spine/labserver.py` | HTTP wrapper that runs a mock target as the **lab-target container** entrypoint | [02-lab-range.md](../02-lab-range.md) |
+| `osai_spine/static/index.html` | A minimal **single-page web UI** (served at `GET /`) — attack labs, ask the tutor, view progress/readiness/heatmap, drill flashcards | [00a-vision.md](../00a-vision.md) |
 | `deploy/` | `Dockerfile.grader`, `Dockerfile.labtarget`, hardened `docker-compose.yml` | [13-platform-threat-model.md](../13-platform-threat-model.md) |
 | `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `tutor` · `progress` · `report` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `labs/L01,L02,L04,L05,L07,L11.json` | Lab manifests: direct injection (L01), RAG indirect injection (L02), system-prompt extraction (L04), markdown exfil (L05), sensitive disclosure (L07), MCP tool misuse (L11) | [02-lab-range.md](../02-lab-range.md) |
-| `tests/` | 53 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **tutor**, the **progress engine** + **SM-2 flashcards**, the **Report-Reviewer**, the **Exam Simulator**, the **stdlib HTTP service**, and the **FastAPI app** | — |
+| `tests/` | 54 pytest tests: taxonomy, flags, manifests, grading, the **attack→target→grade loops** (L01/L02/L11), the **tutor**, the **progress engine** + **SM-2 flashcards**, the **Report-Reviewer**, the **Exam Simulator**, the **web UI**, the **stdlib HTTP service**, and the **FastAPI app** | — |
 
 **Design notes.** The **core** (taxonomy/flags/manifest/validator) and the stdlib service are **dependency-free**, to keep the repo's zero-dependency CI green; FastAPI is needed only for the deployable API (`requirements.txt`) and the FastAPI tests auto-skip when it's absent. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by path (overridable via `OSAI_DETECTORS_PATH` for containers).
 
@@ -66,7 +67,7 @@ CI runs the suite + the manifest taxonomy gate on every change ([`.github/workfl
 ### Deploy (FastAPI + Docker)
 
 ```bash
-# local API (production entrypoint)
+# local API + web UI (production entrypoint) — then open http://localhost:8077/
 pip install -r osai-prep-studio/spine/requirements.txt
 cd osai-prep-studio/spine && PYTHONPATH=. uvicorn osai_spine.api:app --host 0.0.0.0 --port 8077
 

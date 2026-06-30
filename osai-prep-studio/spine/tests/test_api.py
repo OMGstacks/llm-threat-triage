@@ -19,6 +19,14 @@ def _client():
     return TestClient(create_app(seed=SEED))
 
 
+def test_index_page_served():
+    c = _client()
+    resp = c.get("/")
+    assert resp.status_code == 200
+    assert "OSAI Prep Studio" in resp.text
+    assert "/labs/" in resp.text and "/tutor/ask" in resp.text  # the UI wires the API
+
+
 def test_health_catalog_and_redaction():
     c = _client()
     assert c.get("/health").json()["status"] == "ok"
