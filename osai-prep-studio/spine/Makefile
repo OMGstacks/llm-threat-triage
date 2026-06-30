@@ -12,10 +12,12 @@ catalog:
 validate:
 	$(PY) -m osai_spine.cli validate-manifests
 
-# End-to-end smoke: derive a flag, then two-signal grade a passing submission.
-smoke:
-	@$(PY) -c "import json,subprocess,sys; \
-from osai_spine import flags; \
-print('flag:', flags.derive_flag('demo-seed','alice','L01'))"
+# Run the HTTP grader service (Ctrl-C to stop).
+serve:
+	$(PY) -m osai_spine.cli serve
 
-.PHONY: test catalog validate smoke
+# Prove the full loop: attack -> vulnerable mock target -> two-signal grade.
+loop:
+	$(PY) -m pytest -q tests/test_end_to_end_loop.py
+
+.PHONY: test catalog validate serve loop

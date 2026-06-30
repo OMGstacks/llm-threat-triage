@@ -58,6 +58,19 @@ def cmd_flag(args) -> int:
     return 0
 
 
+def cmd_serve(args) -> int:
+    from .service import build_server
+
+    server, state = build_server(host=args.host, port=args.port, seed=args.seed)
+    host, port = server.server_address
+    print(f"OSAI spine grader on http://{host}:{port}  (labs: {sorted(state.labs)})")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:  # pragma: no cover
+        server.shutdown()
+    return 0
+
+
 def cmd_grade(args) -> int:
     path = Path(args.manifest) if args.manifest else (args.labs or LABS_DIR) / f"{args.lab}.json"
     manifest = manifest_mod.load(path)
@@ -86,6 +99,12 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--lab", required=True)
     sp.add_argument("--attempt", type=int, default=0)
     sp.set_defaults(fn=cmd_flag)
+
+    sp = sub.add_parser("serve", help="run the HTTP grader service")
+    sp.add_argument("--host", default="127.0.0.1")
+    sp.add_argument("--port", type=int, default=8077)
+    sp.add_argument("--seed", default=None)
+    sp.set_defaults(fn=cmd_serve)
 
     sp = sub.add_parser("grade", help="two-signal grade a learner submission")
     sp.add_argument("--lab", required=True)

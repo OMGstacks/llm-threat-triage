@@ -1,0 +1,38 @@
+name: OSAI Spine
+
+on:
+  push:
+    branches: [ main, master, "claude/**" ]
+    paths:
+      - "osai-prep-studio/spine/**"
+      - "projects/llm-log-triage/src/detectors.py"
+      - ".github/workflows/osai-spine.yml"
+  pull_request:
+    paths:
+      - "osai-prep-studio/spine/**"
+      - "projects/llm-log-triage/src/detectors.py"
+
+jobs:
+  spine:
+    name: spine (OSAI Prep Studio)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: osai-prep-studio/spine
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install test deps (package itself is stdlib-only)
+        run: pip install pytest
+      - name: Validate lab manifests (taxonomy gate)
+        run: python -m osai_spine.cli validate-manifests
+      - name: Run spine test suite
+        run: python -m pytest -q
+      - name: Smoke-test the catalog command
+        run: python -m osai_spine.cli catalog

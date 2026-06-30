@@ -29,6 +29,7 @@ class GradeResult:
     notes: list = field(default_factory=list)
 
     def to_dict(self) -> dict:
+        """Full internal/admin view — includes the answer key. Never serve to learners."""
         return {
             "lab_id": self.lab_id,
             "passed": self.passed,
@@ -39,6 +40,31 @@ class GradeResult:
             "fired_detectors": self.fired_detectors,
             "findings": [f.as_row("learner") for f in self.findings],
             "notes": self.notes,
+        }
+
+    def public_feedback(self) -> dict:
+        """Learner-facing view — reveals pass/fail and which signal is missing, but
+        NOT the expected detector, OWASP id, or fired-detector list (the answer key)."""
+        feedback = []
+        if self.passed:
+            feedback.append("Both signals satisfied — lab solved.")
+        else:
+            if not self.signal_a:
+                feedback.append(
+                    "Signal A (detection) not yet satisfied — your attack did not produce "
+                    "the expected detectable behavior."
+                )
+            if not self.signal_b:
+                feedback.append(
+                    "Signal B (evidence) not verified — the evidence token did not match "
+                    "your per-learner flag."
+                )
+        return {
+            "lab_id": self.lab_id,
+            "passed": self.passed,
+            "signal_a": self.signal_a,
+            "signal_b": self.signal_b,
+            "feedback": feedback,
         }
 
 
