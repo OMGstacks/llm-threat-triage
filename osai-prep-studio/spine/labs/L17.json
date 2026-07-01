@@ -1,0 +1,28 @@
+{
+  "id": "L17",
+  "title": "Supply chain: poisoned model/adapter",
+  "ai300_module": "M7",
+  "readiness_gate": "R4",
+  "difficulty": "hard",
+  "kill_chain_stage": "resource-development",
+  "frameworks": { "owasp": ["LLM03:2025"], "atlas": ["AML.T0010"], "agentic": [] },
+  "reuse_asset": "supply_chain_trigger",
+  "complements": "AI Goat supply chain — real trigger + SBOM check",
+  "attack_graph": "attack-graphs/L17.yml",
+  "defense_variants": ["D0", "D7", "D8"],
+  "two_signal_grading": {
+    "detector_required": "supply_chain_trigger",
+    "evidence_tokens": [
+      { "type": "flag", "path": "/flags/l17.txt" },
+      { "type": "sbom_check", "path": "/state/sbom_result.json" },
+      { "type": "audit_log", "path": "/logs/provenance.jsonl" }
+    ]
+  },
+  "hint_ladder": ["direction", "provenance/SBOM concept", "trigger-phrase activation technique", "walkthrough"],
+  "report_required": true,
+  "ai_modes_allowed": ["NO_AI", "SOCRATIC_AI", "AI_ASSISTED", "ATTACK_WITH_AI"],
+  "authorized_scope": ["local model registry", "backdoored LoRA with a trigger phrase"],
+  "egress_policy": "deny_all_except_callback_container",
+  "cost_limit_usd": 0.75,
+  "reset_command": "make reset-lab L=L17"
+}

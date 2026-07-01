@@ -1,0 +1,27 @@
+{
+  "id": "L08",
+  "title": "RAG recon & fingerprinting",
+  "ai300_module": "M2",
+  "readiness_gate": "R3",
+  "difficulty": "medium",
+  "kill_chain_stage": "reconnaissance",
+  "frameworks": { "owasp": ["LLM08:2025"], "atlas": ["AML.TA0002"], "agentic": [] },
+  "reuse_asset": "vector_store_probe",
+  "complements": "AI Goat — recon-first",
+  "attack_graph": "attack-graphs/L08.yml",
+  "defense_variants": ["D0", "D4", "D7"],
+  "two_signal_grading": {
+    "detector_required": "vector_store_probe",
+    "evidence_tokens": [
+      { "type": "flag", "path": "/flags/l08.txt" },
+      { "type": "audit_log", "path": "/logs/recon.jsonl" }
+    ]
+  },
+  "hint_ladder": ["direction", "black-box-fingerprinting concept", "probe embedding/chunk/k technique", "walkthrough"],
+  "report_required": true,
+  "ai_modes_allowed": ["NO_AI", "SOCRATIC_AI", "AI_ASSISTED", "ATTACK_WITH_AI"],
+  "authorized_scope": ["local docker network", "RAG service with unknown internals"],
+  "egress_policy": "deny_all_except_callback_container",
+  "cost_limit_usd": 0.5,
+  "reset_command": "make reset-lab L=L08"
+}

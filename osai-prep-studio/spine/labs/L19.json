@@ -1,0 +1,28 @@
+{
+  "id": "L19",
+  "title": "Adversarial ML / model extraction",
+  "ai300_module": "M9",
+  "readiness_gate": "R5",
+  "difficulty": "hard",
+  "kill_chain_stage": "impact",
+  "frameworks": { "owasp": ["LLM10:2025"], "atlas": ["AML.T0034"], "agentic": [] },
+  "reuse_asset": "unbounded_consumption_probe",
+  "complements": "HTB AI — plus the consumption-anomaly detection side",
+  "attack_graph": "attack-graphs/L19.yml",
+  "defense_variants": ["D0", "D5", "D7"],
+  "two_signal_grading": {
+    "detector_required": "unbounded_consumption_probe",
+    "evidence_tokens": [
+      { "type": "flag", "path": "/flags/l19.txt" },
+      { "type": "db_state", "path": "/state/query_campaign.json" },
+      { "type": "audit_log", "path": "/logs/consumption.jsonl" }
+    ]
+  },
+  "hint_ladder": ["direction", "query-campaign / denial-of-wallet concept", "systematic extraction technique", "walkthrough"],
+  "report_required": true,
+  "ai_modes_allowed": ["NO_AI", "SOCRATIC_AI", "AI_ASSISTED", "ATTACK_WITH_AI"],
+  "authorized_scope": ["exposed inference API", "rate-limit-observability harness"],
+  "egress_policy": "deny_all_except_callback_container",
+  "cost_limit_usd": 1.0,
+  "reset_command": "make reset-lab L=L19"
+}
