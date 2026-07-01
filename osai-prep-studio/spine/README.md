@@ -37,6 +37,11 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 ```bash
 cd osai-prep-studio/spine
 
+# Optional: install it so `osai <cmd>` (and `python -m osai_spine.cli`) run from ANY
+# directory. Editable, so the labs/gold/capstone data paths still resolve.
+pip install -e .            # or  pip install -e ".[api,llm,dev]"  for the full surface
+osai catalog               # == python -m osai_spine.cli catalog
+
 make test        # pytest the spine
 make catalog     # show the canonical taxonomy (9 detectors + OWASP + agentic)
 make validate    # validate the lab manifests (the binding rule)
