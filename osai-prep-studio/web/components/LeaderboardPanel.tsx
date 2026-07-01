@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
 import type { LeaderboardRow } from "@/lib/types";
 
-export default function LeaderboardPanel({ refreshKey }: { refreshKey: number }) {
+export default function LeaderboardPanel() {
   const [rows, setRows] = useState<LeaderboardRow[]>([]);
 
   const load = useCallback(() => {
@@ -16,7 +16,7 @@ export default function LeaderboardPanel({ refreshKey }: { refreshKey: number })
 
   useEffect(() => {
     load();
-  }, [load, refreshKey]);
+  }, [load]);
 
   return (
     <section className="panel">

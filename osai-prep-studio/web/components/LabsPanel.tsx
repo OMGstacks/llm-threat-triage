@@ -2,15 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { useLearner } from "@/lib/learner";
 import type { LabSummary, SubmitResult } from "@/lib/types";
 
-export default function LabsPanel({
-  learner,
-  onGraded,
-}: {
-  learner: string;
-  onGraded: () => void;
-}) {
+export default function LabsPanel() {
+  const { learner } = useLearner();
   const [labs, setLabs] = useState<LabSummary[]>([]);
   const [active, setActive] = useState("");
   const [attack, setAttack] = useState("");
@@ -35,7 +31,6 @@ export default function LabsPanel({
       const transcript = [{ role: "user", source: "chat_ui", content: attack }];
       const r = await api.submit(active, learner || "demo", transcript, flag);
       setResult(r);
-      onGraded();
     } catch (e) {
       setResult(null);
     } finally {

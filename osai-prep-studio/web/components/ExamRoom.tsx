@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api } from "@/lib/api";
+import { useLearner } from "@/lib/learner";
 import type { ExamScore, ExamSession, ExamSubmitResult } from "@/lib/types";
 
 const FINDING_TEMPLATE = JSON.stringify(
@@ -27,7 +27,7 @@ function mmss(secs: number): string {
 }
 
 export default function ExamRoom() {
-  const [learner, setLearner] = useState("demo");
+  const { learner } = useLearner();
   const [labIds, setLabIds] = useState("");
   const [session, setSession] = useState<ExamSession | null>(null);
   const [now, setNow] = useState(() => Date.now() / 1000);
@@ -37,11 +37,6 @@ export default function ExamRoom() {
   const [results, setResults] = useState<Record<string, ExamSubmitResult>>({});
   const [score, setScore] = useState<ExamScore | null>(null);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    const saved = typeof window !== "undefined" ? window.localStorage.getItem("osai_learner") : null;
-    if (saved) setLearner(saved);
-  }, []);
 
   useEffect(() => {
     timer.current = setInterval(() => setNow(Date.now() / 1000), 1000);
@@ -89,32 +84,17 @@ export default function ExamRoom() {
 
   return (
     <>
-      <header>
-        <h1>
-          OSAI Exam Simulator <span className="sub">timed multi-target engagement</span>
-        </h1>
-        <span style={{ flex: 1 }} />
-        <Link href="/" className="sub">
-          ← Dashboard
-        </Link>
-      </header>
-
-      <main style={{ gridTemplateColumns: "1fr" }}>
-        <section className="panel">
-          <h2>Start an engagement</h2>
-          <div className="row">
-            <label>
-              learner&nbsp;
-              <input value={learner} onChange={(e) => setLearner(e.target.value)} size={12} />
-            </label>
-            <input
-              placeholder="lab ids (optional, comma-separated) — blank = default set"
-              style={{ flex: 1 }}
-              value={labIds}
-              onChange={(e) => setLabIds(e.target.value)}
-            />
-            <button onClick={start}>Start</button>
-          </div>
+      <section className="panel">
+        <h2>Exam simulator — start a timed engagement</h2>
+        <div className="row">
+          <input
+            placeholder="lab ids (optional, comma-separated) — blank = default set"
+            style={{ flex: 1 }}
+            value={labIds}
+            onChange={(e) => setLabIds(e.target.value)}
+          />
+          <button onClick={start}>Start</button>
+        </div>
           {session && (
             <div className="row">
               <span className="pill">session {session.session_id.slice(0, 8)}</span>
@@ -194,7 +174,6 @@ export default function ExamRoom() {
             )}
           </section>
         )}
-      </main>
     </>
   );
 }

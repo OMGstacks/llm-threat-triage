@@ -2,15 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { useLearner } from "@/lib/learner";
 import type { Progress } from "@/lib/types";
 
-export default function ProgressPanel({
-  learner,
-  refreshKey,
-}: {
-  learner: string;
-  refreshKey: number;
-}) {
+export default function ProgressPanel() {
+  const { learner } = useLearner();
   const [p, setP] = useState<Progress | null>(null);
 
   const load = useCallback(() => {
@@ -22,7 +18,7 @@ export default function ProgressPanel({
 
   useEffect(() => {
     load();
-  }, [load, refreshKey]);
+  }, [load]);
 
   const heatmap = p?.weakness_heatmap ? Object.entries(p.weakness_heatmap) : [];
 

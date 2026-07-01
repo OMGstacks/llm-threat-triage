@@ -35,17 +35,19 @@ npm run dev                       # http://localhost:3000
 
 ## What's here
 
+Multi-route App-Router app with a shared top nav and a shared learner (persisted to
+localStorage). Routes: `/` (home), `/labs`, `/tutor`, `/progress`, `/exam`, `/capstone`.
+
 | Path | Role |
 |---|---|
-| `app/layout.tsx`, `app/page.tsx`, `app/globals.css` | App-Router shell + dark theme |
-| `app/exam/page.tsx` + `components/ExamRoom.tsx` | **Exam mode** (`/exam`) — start a timed multi-target engagement, attack each target + submit a finding, live countdown, then the scored report (findings + report weight) and retake plan |
-| `components/Dashboard.tsx` | Learner state (localStorage), health banner, panel layout, link to Exam mode |
-| `components/LabsPanel.tsx` | Attack a lab → two-signal grade → new-badge surfacing |
-| `components/TutorPanel.tsx` | Ask the tutor; renders grounded / abstained / refused + citations |
-| `components/ProgressPanel.tsx` | XP, readiness, weakness heatmap, badges |
-| `components/LeaderboardPanel.tsx` | Cross-learner ranking |
-| `components/FlashcardsPanel.tsx` | Spaced-repetition drill — seed from weakness, review (easy/hard/again) |
-| `components/CapstonePanel.tsx` | L20 triage: read the incident log, submit findings, see the score |
+| `app/layout.tsx` + `components/AppShell.tsx` | Shell: top nav (active-route aware), the learner input, health/AI-status banner, and the `<main>` grid |
+| `lib/learner.tsx` | `LearnerProvider` + `useLearner()` — shared learner id across routes |
+| `app/page.tsx` | Home — section cards linking to each route |
+| `app/labs/page.tsx` → `LabsPanel` | Attack a lab → two-signal grade → new-badge surfacing |
+| `app/tutor/page.tsx` → `TutorPanel` | Ask the tutor; renders grounded / abstained / refused + citations |
+| `app/progress/page.tsx` → `ProgressPanel` + `FlashcardsPanel` + `LeaderboardPanel` | Mastery/readiness/heatmap/badges, SRS drill, and the leaderboard |
+| `app/exam/page.tsx` → `ExamRoom` | **Exam mode** — timed multi-target engagement, per-target attack + finding, live countdown, scored report + retake plan |
+| `app/capstone/page.tsx` → `CapstonePanel` | L20 triage: read the incident log, submit findings, see the score |
 | `lib/api.ts`, `lib/types.ts` | Typed client + response shapes (mirrors the server's redacted contract) |
 
 ## Notes

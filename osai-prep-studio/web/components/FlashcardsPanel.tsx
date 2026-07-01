@@ -2,15 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { api } from "@/lib/api";
+import { useLearner } from "@/lib/learner";
 import type { Flashcard } from "@/lib/types";
 
-export default function FlashcardsPanel({
-  learner,
-  refreshKey,
-}: {
-  learner: string;
-  refreshKey: number;
-}) {
+export default function FlashcardsPanel() {
+  const { learner } = useLearner();
   const [cards, setCards] = useState<Flashcard[]>([]);
   const [note, setNote] = useState("");
 
@@ -23,7 +19,7 @@ export default function FlashcardsPanel({
 
   useEffect(() => {
     loadDue();
-  }, [loadDue, refreshKey]);
+  }, [loadDue]);
 
   const seed = async () => {
     try {
