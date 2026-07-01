@@ -17,7 +17,8 @@ egress, and a public deploy **fails closed** unless auth is configured.
 | `docker-compose.yml` | **Dev**: grader (no auth) + three isolated lab targets — chat (L01), RAG (L02), MCP (L11) — on an internal network. |
 | `docker-compose.beta.yml` | **Beta**: grader (auth + cookie/CSRF + fail-closed guard, secret from a file) + web. Grader is not published; only web is. |
 | `docker-compose.llm.yml` | Overlay: enable the tutor's generative path with the Anthropic key from a Docker **secret**. |
-| `docker-compose.ollama.yml` | Overlay: swap the mock lab target for a real, locally-hosted Ollama model (weights pre-pulled into a volume; runtime has no egress). |
+| `docker-compose.ollama.yml` | Overlay: swap the mock lab targets for real, locally-hosted Ollama models (weights pre-pulled into a volume; runtime has no egress). |
+| `docker-compose.tls.yml` + `Caddyfile` | Overlay: a Caddy reverse proxy terminating HTTPS in front of `web` (auto Let's Encrypt or local cert) + baseline security headers. |
 
 The three compose overlays compose with each other and with the dev/beta base.
 
@@ -55,9 +56,19 @@ docker compose -f docker-compose.beta.yml up --build -d
 ```
 
 **TLS.** Secure cookies (`OSAI_COOKIE_SECURE=1`, the default) are only sent over HTTPS,
-so real exposure needs a TLS-terminating reverse proxy (Caddy/nginx/Traefik) in front of
-`web`. For a closed LAN trial over plain HTTP only, set `OSAI_COOKIE_SECURE=0` — never do
-this on a routable network.
+so real exposure needs TLS in front of `web`. The shipped **Caddy overlay** does this
+(automatic Let's Encrypt for a real domain, or a locally-trusted cert for `localhost`),
+and adds baseline security headers (HSTS, `nosniff`, frame-deny):
+
+```bash
+export OSAI_SITE_ADDRESS=studio.example.com   # or leave unset for https://localhost
+docker compose -f docker-compose.beta.yml -f docker-compose.tls.yml up --build -d
+# public entrypoint is now https://$OSAI_SITE_ADDRESS (Caddy terminates TLS -> web -> grader)
+```
+
+With Caddy fronting it, firewall off the web container's redundant `:8080` publish so
+Caddy is the only entrypoint. For a closed LAN trial over plain HTTP only (no proxy), set
+`OSAI_COOKIE_SECURE=0` — never do this on a routable network.
 
 **Why it's safe by construction.** The grader runs with `OSAI_PUBLIC=1`, so
 `osai_spine.auth.enforce_deploy_policy` **refuses to start** unless auth is on with a
@@ -120,7 +131,8 @@ enforced; this list is the deploy-time confirmation.
 - [ ] **Fail-closed verified** — the smoke-test guard command above errors as expected.
 - [ ] **Auth + cookie/CSRF on** — `/api/health` reports `auth_enabled: true` and
       `cookie_auth: true`.
-- [ ] **TLS in front of `web`** (or a closed LAN with `OSAI_COOKIE_SECURE=0`, documented).
+- [ ] **TLS in front of `web`** — the Caddy overlay (`docker-compose.tls.yml`) with
+      `OSAI_SITE_ADDRESS` set, or a closed LAN with `OSAI_COOKIE_SECURE=0` (documented).
 - [ ] **Instructor bootstrapped** — `OSAI_ADMIN_USERS` set; the account has the
       `instructor` role; the admin console (roster/audit/eval) loads.
 - [ ] **Lab targets isolated** — lab containers are on internal networks, no published

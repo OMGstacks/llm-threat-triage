@@ -1,0 +1,40 @@
+# OSAI Prep Studio — TLS overlay: a Caddy reverse proxy that terminates HTTPS in
+# front of the web front-end. Compose it ON TOP of the beta stack.
+#
+# Why: the beta serves Secure cookies (OSAI_COOKIE_SECURE=1), which browsers only send
+# over HTTPS. Caddy provides that — automatically fetching a Let's Encrypt certificate
+# for a real domain, or a locally-trusted cert for `localhost`.
+#
+# Usage:
+#   cd osai-prep-studio/spine/deploy
+#   # ... follow the beta bring-up first (secret file + OSAI_ADMIN_USERS/OSAI_SERVER_SEED) ...
+#   export OSAI_SITE_ADDRESS=studio.example.com     # or leave unset for https://localhost
+#   docker compose -f docker-compose.beta.yml -f docker-compose.tls.yml up --build -d
+#   # public entrypoint is now https://$OSAI_SITE_ADDRESS (Caddy on :443)
+#
+# With TLS in front, the web container's own :8080 publish is redundant — firewall it
+# off (or drop the host port) so Caddy is the only public entrypoint.
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    environment:
+      OSAI_SITE_ADDRESS: ${OSAI_SITE_ADDRESS:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data          # persisted certificates — survives restarts
+      - caddy_config:/config
+    depends_on:
+      - web
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - edge                      # same network as web, to reach web:3000
+
+volumes:
+  caddy_data:
+  caddy_config:

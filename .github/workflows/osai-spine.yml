@@ -70,6 +70,8 @@ jobs:
           docker compose -f $DEPLOY/docker-compose.yml -f $DEPLOY/docker-compose.ollama.yml --profile pull config -q
           OSAI_ADMIN_USERS=ci@example.com OSAI_SERVER_SEED=ci-seed \
             docker compose -f $DEPLOY/docker-compose.beta.yml config -q
+          OSAI_ADMIN_USERS=ci@example.com OSAI_SERVER_SEED=ci-seed \
+            docker compose -f $DEPLOY/docker-compose.beta.yml -f $DEPLOY/docker-compose.tls.yml config -q
       - name: Build grader image
         run: docker build -f $DEPLOY/Dockerfile.grader -t osai-grader:ci .
       - name: Build lab-target image
