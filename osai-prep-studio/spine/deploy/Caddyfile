@@ -1,0 +1,26 @@
+# OSAI Prep Studio — TLS reverse proxy (Caddy) in front of the web front-end.
+#
+# OSAI_SITE_ADDRESS selects the mode:
+#   * a real domain (e.g. studio.example.com)  -> Caddy fetches a Let's Encrypt cert
+#     automatically (ports 80/443 must be reachable from the internet);
+#   * localhost (the default)                  -> Caddy serves its own locally-trusted
+#     cert, so Secure cookies work for a local HTTPS trial (https://localhost).
+{$OSAI_SITE_ADDRESS:localhost} {
+	# All browser traffic terminates TLS here, then proxies to the Next.js app, which
+	# in turn proxies /api/* to the (unpublished) grader. The browser never reaches the
+	# grader directly, and Secure/HttpOnly cookies are now sent over HTTPS.
+	reverse_proxy web:3000
+
+	encode gzip
+
+	# Transport/baseline headers. The Content-Security-Policy is NOT set here — the
+	# Next.js app emits a per-request nonce-based CSP from its middleware (web/middleware.ts),
+	# which Caddy passes through untouched. Setting CSP here too would clobber the nonce.
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "DENY"
+		Referrer-Policy "no-referrer"
+		-Server
+	}
+}

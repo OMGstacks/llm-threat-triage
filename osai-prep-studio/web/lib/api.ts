@@ -1,9 +1,14 @@
 // Typed client for the FastAPI grader. All calls go through /api/* which Next
 // proxies to the grader (see next.config.js) — no CORS, URL configurable.
 import type {
+  AuditEvent,
   AuthResponse,
   CapstoneBrief,
   CapstoneScore,
+  ConsentResponse,
+  EvalReport,
+  MeResponse,
+  RosterRow,
   ExamScore,
   ExamSession,
   ExamSubmitResult,
@@ -12,23 +17,37 @@ import type {
   LabSummary,
   LeaderboardRow,
   Progress,
+  ReviewCard,
   ReviewResult,
   SubmitResult,
   TutorAnswer,
 } from "./types";
 
-// Attach the session token (when auth is enabled and the learner has logged in) so
-// the server derives the learner from the token, not the request body.
+export function readCookie(name: string): string {
+  if (typeof document === "undefined") return "";
+  const m = document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)"));
+  return m ? decodeURIComponent(m[1]) : "";
+}
+
+// Bearer mode: attach the token from localStorage. Cookie mode: no token in JS — the
+// HttpOnly session cookie travels automatically (credentials: include) and the CSRF
+// cookie is echoed as a header (double-submit).
 function authHeader(): Record<string, string> {
   if (typeof window === "undefined") return {};
   const t = window.localStorage.getItem("osai_token");
   return t ? { Authorization: `Bearer ${t}` } : {};
 }
 
+function csrfHeader(): Record<string, string> {
+  const c = readCookie("osai_csrf");
+  return c ? { "X-CSRF-Token": c } : {};
+}
+
 async function j<T>(path: string, opts: RequestInit = {}): Promise<T> {
   const res = await fetch(`/api${path}`, {
     ...opts,
-    headers: { ...(opts.headers || {}), ...authHeader() },
+    credentials: "include",
+    headers: { ...(opts.headers || {}), ...authHeader(), ...csrfHeader() },
   });
   if (!res.ok) throw new Error(`${path} -> ${res.status}`);
   return (await res.json()) as T;
@@ -40,6 +59,10 @@ function post<T>(path: string, body: unknown): Promise<T> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+}
+
+function del<T>(path: string): Promise<T> {
+  return j<T>(path, { method: "DELETE" });
 }
 
 export interface Transcript {
@@ -55,10 +78,19 @@ export const api = {
   login: (username: string, password: string) =>
     post<AuthResponse>("/auth/login", { username, password }),
   logout: () => post<{ ok: boolean }>("/auth/logout", {}),
+  me: () => j<MeResponse>("/auth/me"),
+  getConsent: () => j<ConsentResponse>("/auth/consent"),
+  grantConsent: () => post<{ ok: boolean; consented: boolean }>("/auth/consent", {}),
+  revokeConsent: () => del<{ ok: boolean; consented: boolean }>("/auth/consent"),
+  adminRoster: () => j<RosterRow[]>("/admin/roster"),
+  adminReset: (learner: string) => post<{ ok: boolean; reset: string }>(`/admin/reset/${learner}`, {}),
+  adminAudit: () => j<{ events: AuditEvent[] }>("/admin/audit"),
   labs: () => j<LabSummary[]>("/labs"),
   submit: (lab: string, learner_id: string, transcript: Transcript[], flag: string) =>
     post<SubmitResult>(`/labs/${lab}/submit`, { learner_id, transcript, flag }),
   tutorAsk: (query: string) => post<TutorAnswer>("/tutor/ask", { query }),
+  reviewReport: (finding: Record<string, unknown>, transcript: Transcript[]) =>
+    post<ReviewCard>("/reports/review", { finding, transcript }),
   progress: (learner: string) => j<Progress>(`/progress/${learner}`),
   seedCards: (learner: string) => post<{ created: number[] }>(`/flashcards/${learner}/seed`, {}),
   dueCards: (learner: string) => j<Flashcard[]>(`/flashcards/${learner}/due`),
@@ -75,6 +107,7 @@ export const api = {
     finding: Record<string, unknown>,
   ) => post<ExamSubmitResult>(`/exam/${sid}/submit`, { lab_id, transcript, flag, finding }),
   examScore: (sid: string) => j<ExamScore>(`/exam/${sid}/score`),
+  evalReport: (refresh = false) => j<EvalReport>(`/eval${refresh ? "?refresh=1" : ""}`),
   capstone: () => j<CapstoneBrief>("/capstone"),
   capstoneScore: (findings: { owasp_id: string }[], escalation_chain: boolean) =>
     post<CapstoneScore>("/capstone/score", { findings, escalation_chain }),

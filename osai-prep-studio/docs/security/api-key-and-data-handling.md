@@ -121,7 +121,7 @@ Repo guards already in place:
 | Gate | Env | Governs | Status |
 |---|---|---|---|
 | Base (tutor) | `OSAI_LLM=1` | query + **public reference corpus** only | wired; low risk |
-| Transcripts | `OSAI_LLM=1` **and** `OSAI_LLM_TRANSCRIPTS=1` | report-judge / attacker-LLM that send **learner attack transcripts** | **HELD — not wired** |
+| Transcripts | `OSAI_LLM=1` **and** `OSAI_LLM_TRANSCRIPTS=1` | report-judge / attacker-LLM that send **learner attack transcripts** | **HELD — controls now implemented (`datahandling`); enable after sign-off** |
 
 `llm.enabled()` governs the first; `llm.transcripts_enabled()` requires the second,
 explicit opt-in on top. With no key, no SDK, or no opt-in, every path degrades to the
@@ -140,20 +140,43 @@ The transcript-judging paths remain OFF until **all** of these hold:
 - [x] **Redaction before egress** — `llm.redact_transcript()` scrubs flags (`OSAI{…}`),
       emails, AWS keys, `sk-…` API keys, private-key blocks, and card-number runs from
       any transcript before an API call. Defense in depth on top of "fake secrets only."
-- [ ] **No real learner PII in API calls** — enforced operationally: learner identifiers
-      passed to the API are pseudonymous ids, not names/emails.
-- [ ] **Transcript retention policy** — define request/response retention + deletion for
-      the chosen Anthropic data path before enabling.
+- [x] **Mandatory, revocable consent** — `datahandling.prepare_for_judging` refuses
+      (`ConsentRequired`) unless the learner has an active consent record
+      (`TranscriptStore.record_consent` / `revoke_consent`; CLI
+      `osai transcripts grant-consent|revoke-consent`).
+- [x] **Redaction re-verified at the choke point** — after `llm.redact_transcript`, the
+      choke point re-scans and raises `RedactionFailed` if a flag survives, so a broken
+      redactor fails closed instead of leaking.
+- [x] **No real learner PII in API calls** — learner identifiers are pseudonymous ids
+      (the auth `sub`, not names/emails), and content is redacted; the audit trail stores
+      counts only, never content.
+- [x] **Bounded transcript retention + purge** — any retained (already-redacted)
+      transcript carries a timestamp and is deleted after
+      `OSAI_LLM_TRANSCRIPT_RETENTION_DAYS` (default 7) via `TranscriptStore.purge_expired`
+      (CLI `osai transcripts purge`). Retention posture is visible at `/health`
+      (`data_handling`) and `osai transcripts status`.
 - [~] **Spend cap** — an in-app rolling per-minute call cap is enforced
       (`OSAI_LLM_MAX_CALLS_PER_MIN`, default 20; a hit degrades to the offline
       extractive answer, never an error). A true **dollar budget cap + alerting** is
       still an account-side control to set at the Anthropic console / a gateway.
-- [ ] **Log redaction** — application logs never record the key or un-redacted content.
+- [x] **Log redaction** — application logs never record the key or un-redacted content;
+      the audit log records event + actor + counts only.
 - [ ] **Key rotation + revocation procedure** — documented owner, cadence, and the steps
-      to revoke a leaked key.
+      to revoke a leaked key (operational sign-off).
+- [ ] **Anthropic data-path retention agreement** — confirm request/response retention on
+      the chosen Anthropic plan aligns with the retention window above (account-side).
 
-Checked boxes are implemented in this repo; unchecked boxes are operational controls the
-deployer must complete **before** flipping `OSAI_LLM_TRANSCRIPTS=1`.
+Checked boxes are implemented in this repo; `[~]`/unchecked boxes are the remaining
+operational/account-side controls the deployer signs off **before** flipping
+`OSAI_LLM_TRANSCRIPTS=1`. The code path itself now **fails closed** end-to-end:
+`prepare_for_judging` raises unless the gate is on, consent exists, and redaction is
+verified — so even a premature toggle cannot send an unconsented or unredacted transcript.
+
+**Wired consumer.** The one path that would send a transcript — the optional AI
+*narrative critique* on `POST /reports/review` — routes through `prepare_for_judging`
+before any model call, so it inherits every control above and stays absent unless the
+gate is on. Learners manage their own consent at `GET/POST/DELETE /auth/consent` (or the
+web header toggle, shown only when the gate is on); grant/revoke are audited.
 
 ## 4a. Setup steps (getting from zero to a working key)
 
@@ -221,22 +244,39 @@ NIST 800-63B):
   learner sees their own trail at `GET /auth/events`.
 - **Fail-closed deploy guard** — `enforce_deploy_policy()` (run at `create_app`) refuses
   to start a **public** deployment (`OSAI_PUBLIC=1`) unless `OSAI_AUTH=1` **and** a
-  strong (`>= 32` char), non-default `OSAI_AUTH_SECRET` is set. Escape hatch for demos:
+  strong (`>= 32` char), non-default signing secret is set. Escape hatch for demos:
   `OSAI_ALLOW_INSECURE_PUBLIC_DEMO=1`. This prevents the "deployed publicly with auth
   accidentally off" failure.
 
-**Secrets:** `OSAI_AUTH_SECRET` follows the same env-only rule as the API key (§2); set
-a strong random value in production (it defaults to the grader seed for dev only).
+**Secrets:** the token-signing secret resolves **file-first** — `OSAI_AUTH_SECRET_FILE`
+(a Docker/secret-manager file such as `/run/secrets/osai_auth_secret`) is preferred over
+the inline `OSAI_AUTH_SECRET` env var (`auth.read_secret()`), the same convention the API
+key uses (§2), so the secret need never live in the container's process environment. Set a
+strong random value in production (it defaults to a dev placeholder otherwise). The
+deploy-ready **beta stack** (`deploy/docker-compose.beta.yml`) wires this: grader with
+`OSAI_PUBLIC=1` + auth + cookie/CSRF, secret from a file, grader unpublished behind the
+web proxy — see the [deploy runbook + pre-beta checklist](../../spine/deploy/README.md).
+
+- **Secure-cookie session mode** (`OSAI_COOKIE_AUTH=1`, requires `OSAI_AUTH=1`) — instead
+  of Bearer-in-`localStorage` (XSS-exposed), login/register set an **HttpOnly + Secure +
+  SameSite=Lax** session cookie plus a readable CSRF cookie; state-changing requests must
+  echo it in an `X-CSRF-Token` header (**double-submit CSRF**), enforced by a middleware.
+  Logout clears the cookies and revokes server-side. `OSAI_COOKIE_SECURE=0` drops the
+  Secure flag for local HTTP testing only. The front-end keeps **no token in JS** in this
+  mode. Bearer mode stays the default for API clients / dev.
 
 ### Still open before a public beta (tracked)
 
-- [ ] **Secure-cookie session mode** — Bearer-in-`localStorage` is fine for local/dev but
-  exposes the token to XSS; add an `HttpOnly`/`Secure`/`SameSite` cookie mode (+ CSRF)
-  for public deployment.
 - [ ] **Per-IP login limits + weak-password blocklist** — the throttle is per-username.
-- [ ] **Instructor/admin role** — cohort-wide audit view, progress reset, export.
-- [ ] **CSP / security headers** on the front-end deployment; **SBOM + dependency scan**
-  in CI; container non-root/read-only (grader image already runs as uid 10001).
+- [ ] **SBOM + dependency scan** in CI.
+- [x] **CSP / security headers** — the front-end emits a per-request **nonce-based
+  Content-Security-Policy** (`web/middleware.ts`: `script-src` uses a fresh nonce +
+  `strict-dynamic`, no `unsafe-inline` for scripts; `object-src 'none'`, `frame-ancestors
+  'none'`, `base-uri`/`form-action 'self'`), verified in a browser to hydrate with zero
+  CSP violations. Transport/baseline headers (HSTS, `nosniff`, frame-deny, referrer) come
+  from the Caddy TLS proxy. Container hardening is in place: the grader (uid 10001) and web
+  (uid 10002) images both run non-root, and the beta compose applies read-only rootfs,
+  `no-new-privileges`, all-caps-dropped, and resource limits to every service.
 
 ## Cross-references
 [../../07-architecture-and-stack.md](../../07-architecture-and-stack.md) ·

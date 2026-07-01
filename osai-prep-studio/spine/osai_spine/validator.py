@@ -27,6 +27,8 @@ class GradeResult:
     fired_detectors: list = field(default_factory=list)
     findings: list = field(default_factory=list)
     notes: list = field(default_factory=list)
+    signal_c: bool = True          # causal chain (only required when a lab declares one)
+    causal: dict | None = None     # the causal-chain verdict, when graded
 
     def to_dict(self) -> dict:
         """Full internal/admin view — includes the answer key. Never serve to learners."""
@@ -35,6 +37,8 @@ class GradeResult:
             "passed": self.passed,
             "signal_a_detector": self.signal_a,
             "signal_b_evidence": self.signal_b,
+            "signal_c_causal": self.signal_c,
+            "causal": self.causal,
             "expected_detector": self.expected_detector,
             "expected_owasp": self.expected_owasp,
             "fired_detectors": self.fired_detectors,
@@ -59,13 +63,22 @@ class GradeResult:
                     "Signal B (evidence) not verified — the evidence token did not match "
                     "your per-learner flag."
                 )
-        return {
+            if not self.signal_c:
+                feedback.append(
+                    "Signal C (causal chain) not satisfied — the impact was not causally "
+                    "attributable to injected untrusted content (or the action was directly "
+                    "user-coerced, not an indirect takeover)."
+                )
+        result = {
             "lab_id": self.lab_id,
             "passed": self.passed,
             "signal_a": self.signal_a,
             "signal_b": self.signal_b,
             "feedback": feedback,
         }
+        if self.causal is not None:
+            result["signal_c"] = self.signal_c
+        return result
 
 
 class ChallengeValidator:
@@ -120,14 +133,26 @@ class ChallengeValidator:
         if not signal_b:
             notes.append("Signal B: evidence flag did not verify")
 
+        # --- Signal C: causal chain (only when the lab declares one) ---
+        signal_c, causal = True, None
+        spec = self.manifest.get("causal_chain")
+        if spec:
+            from .causal import analyze
+            causal = analyze(transcript, spec)
+            signal_c = causal["connected"]
+            if not signal_c:
+                notes.append(f"Signal C: causal chain not connected ({causal['hops']})")
+
         return GradeResult(
             lab_id=self.lab_id,
             signal_a=signal_a,
             signal_b=signal_b,
-            passed=signal_a and signal_b,
+            passed=signal_a and signal_b and signal_c,
             expected_detector=self.expected_detector,
             expected_owasp=self.expected_owasp,
             fired_detectors=fired,
             findings=findings,
             notes=notes,
+            signal_c=signal_c,
+            causal=causal,
         )

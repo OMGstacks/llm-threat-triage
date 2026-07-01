@@ -95,6 +95,42 @@ def cmd_llm(args) -> int:
     return 0
 
 
+def cmd_transcripts(args) -> int:
+    """Operate the transcript data-handling controls (consent + bounded retention).
+    `status` needs no DB; `purge`/`grant-consent`/`revoke-consent` require --db."""
+    from . import datahandling as dh
+
+    action = args.action
+    if action == "status":
+        store = dh.TranscriptStore(args.db) if args.db else None
+        st = dh.policy_status(store)
+        yn = lambda b: "yes" if b else "no"  # noqa: E731
+        print(f"OSAI_LLM_TRANSCRIPTS gate: {yn(st['transcripts_enabled'])}")
+        print(f"consent required:          {yn(st['consent_required'])}")
+        print(f"retention (days):          {st['retention_days']}")
+        print(f"redaction:                 {st['redaction']}")
+        print(f"retained transcripts:      {st['retained_count'] if st['retained_count'] is not None else '(no --db)'}")
+        return 0
+    if not args.db:
+        print(f"'{action}' requires --db <sqlite path>")
+        return 2
+    store = dh.TranscriptStore(args.db)
+    if action == "purge":
+        n = store.purge_expired()
+        print(f"purged {n} transcript(s) older than {dh.retention_days()} day(s)")
+        return 0
+    if not args.learner:
+        print(f"'{action}' requires --learner <id>")
+        return 2
+    if action == "grant-consent":
+        store.record_consent(args.learner)
+        print(f"consent recorded for {args.learner!r}")
+    else:  # revoke-consent
+        store.revoke_consent(args.learner)
+        print(f"consent revoked for {args.learner!r}")
+    return 0
+
+
 def cmd_goldset(args) -> int:
     from .goldset import GoldSetRunner, load_goldset
 
@@ -226,6 +262,12 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--ping", action="store_true",
                     help="send a tiny live request to verify the key answers (surfaces errors)")
     sp.set_defaults(fn=cmd_llm)
+
+    sp = sub.add_parser("transcripts", help="transcript data-handling controls (consent, retention, purge)")
+    sp.add_argument("action", choices=["status", "purge", "grant-consent", "revoke-consent"])
+    sp.add_argument("--db", help="SQLite path for the consent/retention store")
+    sp.add_argument("--learner", help="learner id (for grant/revoke-consent)")
+    sp.set_defaults(fn=cmd_transcripts)
 
     sp = sub.add_parser("goldset", help="run the tutor gold-set ship gate (04-evaluation-harness.md)")
     sp.add_argument("--goldset", help="path to a gold-set JSON (defaults to gold/goldset.json)")

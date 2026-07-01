@@ -20,6 +20,7 @@ AUTH_LOGIN_FAILURE = "auth.login_failure"
 AUTH_LOGIN_THROTTLED = "auth.login_throttled"
 AUTH_LOGOUT = "auth.logout"
 LAB_SUBMIT = "lab.submit"
+ADMIN_RESET = "admin.reset"
 
 
 class AuditLog:

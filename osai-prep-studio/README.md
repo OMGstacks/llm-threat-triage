@@ -71,11 +71,11 @@ OWASP coverage check: **LLM01** L01/L02/L03 · **LLM02** L07 · **LLM03** L17 (+
 
 ## How it reuses `llm-threat-triage`
 
-~65% of the detection/grading logic is reusable on day zero — the 9 detectors become the exploit auto-grader and report classifier, the SQL analyses become blue-team labs, the references seed the RAG corpus, and the red-team harness becomes the attack library. Full mapping in [09b-reuse-map.md](09b-reuse-map.md).
+~65% of the detection/grading logic is reusable on day zero — the flagship's 9 detectors are imported by path (never duplicated) and become the exploit auto-grader and report classifier, extended by 3 spine-level detectors (LLM03 `supply_chain_trigger`, LLM08 `vector_store_probe`, LLM10 `unbounded_consumption_probe`) for the infra labs → **12 in the merged catalog**; the SQL analyses become blue-team labs, the references seed the RAG corpus, and the red-team harness becomes the attack library. Full mapping in [09b-reuse-map.md](09b-reuse-map.md).
 
 ## Status
 
-Design-only blueprint, complete — **25 files** (this README + 24 blueprint docs). Building the platform is a **separately greenlit** phase, sequenced spine-first in [10-mvp-roadmap.md](10-mvp-roadmap.md). Authorized-lab-only; no proprietary OffSec content; all external claims cited and confidence-labeled.
+Blueprint suite complete — **25 files** (this README + 24 blueprint docs) — **plus a working reference implementation** in [`spine/`](spine/): the taxonomy/flag/manifest/two-signal-grader core, a 12-detector merged catalog, 19 lab manifests + the L20 blue-team capstone, the tutor + gold-set ship gate, causal-chain (Signal C) grading, the hardened optional auth/cookie/CSRF layer + audit log + instructor dashboard, the FastAPI service, and a Next.js front-end ([`web/`](web/)). 143 spine tests green; CI stays zero-dependency (the optional API/LLM/auth layers auto-skip when their deps are absent). Remaining build work is sequenced in [10-mvp-roadmap.md](10-mvp-roadmap.md) (Dockerized Ollama lab targets; operational data-handling controls before transcript judging). Authorized-lab-only; no proprietary OffSec content; all external claims cited and confidence-labeled.
 
 ## Sources
 OffSec AI-300: <https://www.offsec.com/courses/ai-300/> · OSAI Exam FAQ: <https://help.offsec.com/hc/en-us/articles/46669767163156-OSAI-Advanced-AI-Red-Teaming-Exam-FAQ> · OWASP LLM Top 10 (2025): <https://genai.owasp.org/llm-top-10/> · OWASP Agentic Threats: <https://genai.owasp.org/resource/agentic-ai-threats-and-mitigations/> · MITRE ATLAS: <https://atlas.mitre.org/> · NIST AI RMF / 600-1: <https://www.nist.gov/itl/ai-risk-management-framework>

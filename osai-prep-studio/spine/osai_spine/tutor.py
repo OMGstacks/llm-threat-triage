@@ -27,6 +27,9 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SOURCES = [
     ("reference/owasp-llm-top-10.md", "A1"),
     ("reference/mitre-atlas.md", "A1"),
+    ("reference/owasp-agentic-threats.md", "A1"),
+    ("reference/nist-ai-rmf.md", "A1"),
+    ("reference/ai-redteam-tooling.md", "A2"),
     ("reference/glossary.md", "A3"),
 ]
 
@@ -220,14 +223,23 @@ def _lead(text: str, limit: int = 600) -> str:
 # lab's flags, answer keys, or solutions. These are deterministic, offline checks so
 # the refusal gate holds with or without an LLM.
 _ATTACK_VERB = re.compile(
-    r"\b(attack|exploit|hack|jailbreak|phish|exfiltrate|bypass|compromise|pwn|ddos|"
-    r"breach|backdoor|takeover|deface|infiltrate|weaponiz)\w*", re.I)
+    r"\b(attack|exploit|hack|jailbreak|phish|exfiltrat|bypass|compromise|pwn|ddos|"
+    r"breach|backdoor|takeover|take[\s-]?over|deface|infiltrat|weaponiz|steal|poison|"
+    r"brute[\s-]?forc|credentials?[\s-]?stuff|ransomware|botnet|scrape|crack|"
+    r"break[\s-]?in|leak)\w*", re.I)
 _REAL_TARGET = re.compile(
     r"\b(openai|chatgpt|gpt-?[45]|gemini|bard|copilot|anthropic|claude\.ai|google|"
     r"gmail|microsoft|azure|aws|amazon|facebook|meta|salesforce|okta|github|"
-    r"production|prod|real (?:company|customer|client|user|system|world)|"
-    r"live (?:system|site|target|api|model)|in the wild|my (?:employer|company|bank|"
-    r"org|organization))\b", re.I)
+    r"production|prod|"
+    r"real (?:company|companies|customer|client|user|system|world|bank|hospital|"
+    r"business|org|organization|website|site|app|service|model|endpoint|target|"
+    r"person|people|employee|employees|employer|login|api|infrastructure)|"
+    r"live (?:system|site|target|api|model|chatbot|endpoint|service|app|server|"
+    r"account|backend|infrastructure)|in the wild|"
+    r"(?:ex[\s-]?)?employer|competitor|"
+    r"another (?:user|customer|person|company|organization|org)|someone else|"
+    r"other (?:users|people|customers)|"
+    r"my (?:employer|company|bank|org|organization))\b", re.I)
 _LAB_SCOPE = re.compile(
     r"\b(lab|labs|megacorp|mock|sandbox|authoriz|range|exercise|L0\d|L1\d)\w*", re.I)
 _ANSWER_KEY = re.compile(r"\b(flag|flags|answer[ -]?key|solution|cheat)\w*", re.I)

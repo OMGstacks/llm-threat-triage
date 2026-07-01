@@ -43,9 +43,26 @@ def _load_engine():
 
 _engine = _load_engine()
 
+_flagship_detect = _engine.detect
+_flagship_catalog = _engine.detector_catalog
+
+
+def detect(event: dict) -> list:
+    """Flagship detectors + the spine-level extension (LLM03/LLM08/LLM10), so the
+    infra-heavy labs can grade without modifying the reused engine."""
+    from .spine_detectors import SPINE_DETECTORS
+    findings = list(_flagship_detect(event))
+    for det in SPINE_DETECTORS:
+        findings.extend(det.scan(event))
+    return findings
+
+
+def detector_catalog() -> list:
+    from .spine_detectors import SPINE_DETECTORS
+    return list(_flagship_catalog()) + [d.catalog_entry() for d in SPINE_DETECTORS]
+
+
 # Re-exported engine surface
-detect = _engine.detect                      # (event: dict) -> list[Finding]
-detector_catalog = _engine.detector_catalog  # () -> list[dict]
 event_severity = _engine.event_severity      # (list[Finding]) -> str
 severity_rank = _engine.severity_rank        # (str) -> int  (higher == worse)
 Finding = _engine.Finding

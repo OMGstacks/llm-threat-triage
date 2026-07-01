@@ -18,16 +18,17 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from . import flags
-from .labtarget import MockMcpTarget, MockRagTarget, make_chat_target
+from .labtarget import make_chat_target, make_mcp_target, make_rag_target
 
 
 def _build_target(lab_id: str, flag: str):
+    # Every kind uses the backend-agnostic factory: the deterministic mock by default,
+    # or an Ollama-backed model when OSAI_OLLAMA=1 (the deploy-time realism upgrade) —
+    # same contract either way, so this server and the grader loop are unchanged.
     if lab_id == "L02":
-        return "rag", MockRagTarget(flag)
+        return "rag", make_rag_target(flag)
     if lab_id == "L11":
-        return "mcp", MockMcpTarget(flag)
-    # chat labs: the deterministic mock by default, or an Ollama-backed model when
-    # OSAI_OLLAMA=1 (the deploy-time realism upgrade) — same contract either way.
+        return "mcp", make_mcp_target(flag)
     return "chat", make_chat_target(flag)
 
 

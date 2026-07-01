@@ -6,11 +6,46 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface MeResponse {
+  auth_enabled: boolean;
+  learner_id: string | null;
+  role: string;
+}
+
+export interface RosterRow {
+  learner_id: string;
+  role: string;
+  xp: number;
+  passed: number;
+  attempts: number;
+  readiness: number;
+  badges: number;
+}
+
+export interface AuditEvent {
+  ts: number;
+  event: string;
+  actor: string | null;
+  detail: Record<string, unknown>;
+}
+
+export interface EvalReport {
+  total: number;
+  by_bank: Record<string, number>;
+  metrics: Record<string, number>;
+  soft_metrics: Record<string, number>;
+  gate: Record<string, boolean>;
+  passed: boolean;
+  ran_ms: number;
+  llm: { enabled: boolean; model_quality: string };
+}
+
 export interface Health {
   status: string;
   labs: string[];
   tutor_corpus_chunks: number;
   auth_enabled?: boolean;
+  cookie_auth?: boolean;
   llm: {
     enabled: boolean;
     transcripts_enabled: boolean;
@@ -19,6 +54,40 @@ export interface Health {
     model_quality: string;
     model_bulk: string;
   };
+  data_handling?: {
+    transcripts_enabled: boolean;
+    consent_required: boolean;
+    retention_days: number;
+  };
+}
+
+export interface ReviewDimension {
+  weight: number;
+  score: number;
+  points: number;
+}
+
+export interface ReviewCard {
+  total: number;
+  passed: boolean;
+  dimensions: Record<string, ReviewDimension>;
+  classification: {
+    learner_owasp: string | null;
+    suggested_owasp: string | null;
+    match: boolean;
+    valid: boolean;
+  };
+  invalid_ids: string[];
+  feedback: string[];
+  narrative_critique?: string | null;
+  narrative_note?: string;
+}
+
+export interface ConsentResponse {
+  auth_enabled: boolean;
+  learner_id?: string;
+  consented: boolean;
+  policy?: { transcripts_enabled: boolean; consent_required: boolean; retention_days: number };
 }
 
 export interface LabSummary {

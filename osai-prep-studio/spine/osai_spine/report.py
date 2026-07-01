@@ -171,3 +171,30 @@ class ReportReviewer:
             invalid_ids=invalid,
             feedback=feedback,
         )
+
+
+_JUDGE_SYSTEM = (
+    "You are a senior AI red-team report reviewer. Given a learner's written finding and "
+    "the (already-redacted) attack transcript, write a brief, constructive critique of the "
+    "finding's quality — clarity, evidence sufficiency, reproduction steps, business "
+    "impact, and remediation. Never invent OWASP LLMxx:2025 or MITRE ATLAS (AML.T...) ids "
+    "that don't appear in the inputs. 4–6 sentences, no preamble."
+)
+
+
+def judge_report_narrative(provider, finding: dict, redacted_transcript, *,
+                           max_tokens: int = 400) -> str:
+    """Optional LLM prose critique that slots in behind the ``review`` seam.
+
+    Operates ONLY on an ALREADY-REDACTED transcript — the caller must route the raw
+    transcript through ``datahandling.prepare_for_judging`` first (consent + redaction +
+    audit + retention), so this function never sees unredacted learner content. ``provider``
+    is any object with ``.complete(system, user, max_tokens=...)``; the caller wraps this
+    in its own offline fallback."""
+    import json
+    user = (
+        "FINDING:\n" + json.dumps(finding, indent=2, default=str)[:4000]
+        + "\n\nREDACTED TRANSCRIPT:\n" + json.dumps(redacted_transcript, default=str)[:4000]
+        + "\n\nWrite the critique."
+    )
+    return provider.complete(_JUDGE_SYSTEM, user, max_tokens=max_tokens)

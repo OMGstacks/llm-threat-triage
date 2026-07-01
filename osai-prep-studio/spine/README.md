@@ -17,6 +17,7 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/llm.py` | The optional **LLM provider seam / model router** — Anthropic (`claude-opus-4-8` quality tier + `claude-haiku-4-5` bulk tier), adaptive thinking, streaming, prompt caching; env-only key, OFF by default, graceful no-SDK/no-key fallback | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `osai_spine/auth.py` | Optional **authentication** (opt-in `OSAI_AUTH=1`) — hardened stdlib: PBKDF2 (600k, self-describing, rehash-on-login) passwords, revocable HMAC session tokens (`session_version`), login throttle, and a fail-closed **public-deploy guard**; learner derived from the verified token. OFF by default | [docs/security/api-key-and-data-handling.md](../docs/security/api-key-and-data-handling.md) §7 |
 | `osai_spine/audit.py` | Append-only **security audit log** (SQLite) — register / login / logout / failure + lab-submit grade decisions; actor + event + non-sensitive detail only (never passwords/tokens/flags) | [docs/security/api-key-and-data-handling.md](../docs/security/api-key-and-data-handling.md) §7 |
+| `osai_spine/datahandling.py` | **Transcript data-handling controls** that gate `OSAI_LLM_TRANSCRIPTS` — mandatory revocable **consent**, **redaction re-verified** at a fail-closed choke point (`prepare_for_judging`), **bounded retention + purge** (`OSAI_LLM_TRANSCRIPT_RETENTION_DAYS`), and an audit trail (counts only). Surfaced at `/health` → `data_handling` | [docs/security/api-key-and-data-handling.md](../docs/security/api-key-and-data-handling.md) §4 |
 | `osai_spine/goldset.py` + `gold/goldset.json` | The **gold-set ship gate** — runs a curated gold set through the tutor and enforces the doc-04 thresholds (0 hallucinated taxonomy ids, 100% grounded framework recall, ≥95% abstention, 100% refusal, 0 flag leakage). Includes the tutor's authorized-lab-only **scope-guard refusal** | [04-evaluation-harness.md](../04-evaluation-harness.md), [11-safety-legal-ethics.md](../11-safety-legal-ethics.md) |
 | `osai_spine/progress.py` | The **progress engine** — SQLite attempts, per-skill mastery (EMA on the shared taxonomy), XP, weakness heatmap, heuristic readiness, **achievement badges** + a cross-learner **leaderboard**, and **SM-2 spaced-repetition flashcards** seeded from weakness | [05-progress-engine.md](../05-progress-engine.md), [14-readiness-model.md](../14-readiness-model.md) |
 | `osai_spine/report.py` | The **Report-Reviewer** — grades a learner finding vs the business-impact rubric; pre-fills/checks the OWASP classification from the transcript via the reused detectors | [08-reporting-and-canva.md](../08-reporting-and-canva.md), [19-business-impact-rubric.md](../19-business-impact-rubric.md) |
@@ -28,9 +29,9 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/labserver.py` | HTTP wrapper that runs a mock target as the **lab-target container** entrypoint | [02-lab-range.md](../02-lab-range.md) |
 | `osai_spine/static/index.html` | A minimal **single-page web UI** (served at `GET /`) — attack labs, ask the tutor, view progress/readiness/heatmap, drill flashcards | [00a-vision.md](../00a-vision.md) |
 | `deploy/` | `Dockerfile.grader`, `Dockerfile.labtarget`, hardened `docker-compose.yml` | [13-platform-threat-model.md](../13-platform-threat-model.md) |
-| `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `tutor` · `goldset` · `llm` · `capstone` · `progress` · `report` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
-| `labs/L01..L16.json` | **15 lab manifests** covering OWASP LLM01–08 + agentic/MCP/RAG/cloud-adjacent: direct (L01), RAG indirect (L02), encoded (L03) injection; system-prompt extraction (L04); markdown exfil (L05); output-handling→XSS/SSRF (L06); sensitive disclosure (L07); RAG write-path poisoning (L09); vector cross-tenant leak (L10); MCP tool misuse (L11), shadowing/rug-pull (L12), →RCE (L13); multi-agent goal manipulation (L14); agent memory poisoning (L15); excessive-agency destructive action (L16) | [02-lab-range.md](../02-lab-range.md) |
-| `tests/` | 95 pytest tests: taxonomy, flags, manifests, grading (incl. cross-framing labs), the **attack→target→grade loops** (L01/L02/L11) + **L10/L13/L14 grading** + the **Ollama target seam**, the **tutor** + **LLM seam** + **redaction** + **gold-set ship gate** + **scope guard**, the **progress engine** + **badges/leaderboard** + **SM-2 flashcards**, the **Report-Reviewer**, the **Exam Simulator**, the **L20 triage capstone**, the **web UI**, the **stdlib HTTP service**, and the **FastAPI app** | — |
+| `osai_spine/cli.py` | `catalog` · `validate-manifests` · `derive-flag` · `grade` · `tutor` · `goldset` · `llm` · `transcripts` · `capstone` · `progress` · `report` · `serve` | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
+| `labs/L01..L19.json` | **19 lab manifests** covering OWASP LLM01–10 + agentic/MCP/RAG/supply-chain/cloud: direct (L01), RAG indirect (L02), encoded (L03) injection; system-prompt extraction (L04); markdown exfil (L05); output-handling→XSS/SSRF (L06); sensitive disclosure (L07); RAG recon/fingerprinting (L08); RAG write-path poisoning (L09); vector cross-tenant leak (L10); MCP tool misuse (L11), shadowing/rug-pull (L12), →RCE (L13); multi-agent goal manipulation (L14); agent memory poisoning (L15); excessive-agency destructive action (L16); supply-chain poisoned-adapter trigger (L17); cloud/model-server SSRF (L18); model-extraction / denial-of-wallet (L19). L20 is the blue-team triage **capstone** (`capstone.py`) | [02-lab-range.md](../02-lab-range.md) |
+| `tests/` | 159 pytest tests: taxonomy, flags, manifests, grading (incl. cross-framing labs), the **attack→target→grade loops** (L01/L02/L11) + **L10/L13/L14 grading** + the **infra labs** (L08/L17/L18/L19) + the **spine detector extension** (LLM03/08/10) + **causal-chain Signal C** + the **Ollama target seams** (chat/RAG/MCP), the **tutor** + **LLM seam** + **redaction** + **gold-set ship gate** + **scope guard**, the **transcript data-handling controls** (consent/retention/redaction choke point), the **progress engine** + **badges/leaderboard** + **SM-2 flashcards**, the **Report-Reviewer**, the **Exam Simulator**, the **L20 triage capstone**, the **auth core** + **cookie/CSRF** + **audit log**, the **web UI**, the **stdlib HTTP service**, and the **FastAPI app** | — |
 
 **Design notes.** The **core** (taxonomy/flags/manifest/validator) and the stdlib service are **dependency-free**, to keep the repo's zero-dependency CI green; FastAPI is needed only for the deployable API (`requirements.txt`) and the FastAPI tests auto-skip when it's absent. Lab manifests are **JSON** here (the blueprint shows YAML for readability; JSON needs no third-party parser). The detection logic is *imported*, never duplicated — `engine.py` loads the tested engine by path (overridable via `OSAI_DETECTORS_PATH` for containers).
 
@@ -45,7 +46,7 @@ pip install -e .            # or  pip install -e ".[api,llm,dev]"  for the full 
 osai catalog               # == python -m osai_spine.cli catalog
 
 make test        # pytest the spine
-make catalog     # show the canonical taxonomy (9 detectors + OWASP + agentic)
+make catalog     # show the canonical taxonomy (12 detectors + OWASP + agentic)
 make validate    # validate the lab manifests (the binding rule)
 
 # derive a per-learner flag, then two-signal grade a submission:
@@ -62,8 +63,8 @@ A lab **passes** only when both signals fire: the manifest's `detector_required`
 
 ```bash
 make loop        # attack -> vulnerable mock target -> two-signal grade (no real LLM)
-make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/badges/{l},/leaderboard,/flashcards/{l}/due,/exam/{id}/score,/capstone,/auth/me,/auth/events
-                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review,/capstone/score,/auth/register,/auth/login,/auth/logout
+make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/badges/{l},/leaderboard,/flashcards/{l}/due,/exam/{id}/score,/capstone,/auth/me,/auth/events,/admin/roster,/admin/audit,/admin/export
+                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review,/capstone/score,/auth/register,/auth/login,/auth/logout,/admin/reset/{l}
 
 # ask the retrieval-grounded tutor (cited; abstains when the corpus can't support an answer)
 python -m osai_spine.cli tutor --query "what is indirect prompt injection"
@@ -83,9 +84,13 @@ cd osai-prep-studio/spine && PYTHONPATH=. uvicorn osai_spine.api:app --host 0.0.
 
 # containers: grader + an isolated L01 lab target (build context = repo root)
 cd osai-prep-studio/spine/deploy && docker compose up --build
+
+# controlled beta: grader (auth + cookie/CSRF + fail-closed guard) + Next.js web,
+# secret from a file, grader unpublished behind the web proxy — full runbook +
+# pre-beta checklist in deploy/README.md
 ```
 
-The compose stack hardens the lab target per [13-platform-threat-model.md](../13-platform-threat-model.md): read-only rootfs, `no-new-privileges`, all caps dropped, CPU/memory limits, and an **internal** network (no egress to the internet). The CI `docker` job builds both images and smoke-runs the grader on every change. (Image build needs a registry-reachable Docker daemon; the local sandbox's is offline, so it's verified in CI.)
+The compose stack hardens the lab target per [13-platform-threat-model.md](../13-platform-threat-model.md): read-only rootfs, `no-new-privileges`, all caps dropped, CPU/memory limits, and an **internal** network (no egress to the internet). The CI `docker` job builds both images and smoke-runs the grader on every change. (Image build needs a registry-reachable Docker daemon; the local sandbox's is offline, so it's verified in CI.) The deploy-ready artifacts — `Dockerfile.web` (standalone Next.js), `docker-compose.beta.yml` (auth-on beta), and `docker-compose.ollama.yml` (real local-model lab targets, weights pre-pulled into a volume, no runtime egress) — are documented in **[deploy/README.md](deploy/README.md)**.
 
 ### Optional: the generative LLM layer
 
@@ -107,4 +112,4 @@ For containers, the key loads from a **Docker secret** (a file), not an env var 
 
 ## Next (per the roadmap)
 
-Done since the first cut: FastAPI port, the RAG/agentic labs (L02, L09–L16 → 15/20), the tutor + gold-set ship gate, badges/leaderboard, the LLM seam, and the **`OllamaChatTarget`** seam. Remaining: stand up the Dockerized lab images for the Ollama-backed targets with egress-deny isolation and pre-pulled weights (P2/E5, [13-platform-threat-model.md](../13-platform-threat-model.md)); author the last labs that need new detection infra (L08 recon, L17 supply-chain, L18 cloud, L19 extraction, L20 blue-team capstone); and complete the operational data-handling controls before enabling `OSAI_LLM_TRANSCRIPTS`.
+Done since the first cut: FastAPI port, the RAG/agentic labs (L02, L09–L16), the infra labs that needed new detection infra (L08 recon, L17 supply-chain, L18 cloud, L19 extraction → **19 manifests + the L20 blue-team capstone = 20/20**), the **spine detector extension** (LLM03 `supply_chain_trigger`, LLM08 `vector_store_probe`, LLM10 `unbounded_consumption_probe` → 12 detectors), **causal-chain grading** (Signal C, piloted on L14), the hardened **auth core** (PBKDF2 600k, revocable tokens, login throttle) + **secure-cookie/CSRF** mode + **audit log** + **instructor/admin** roster & eval dashboard, the tutor + gold-set ship gate, badges/leaderboard, the LLM seam, and the **`OllamaChatTarget`** seam. Remaining: stand up the Dockerized lab images for the Ollama-backed targets with egress-deny isolation and pre-pulled weights (P2/E5, [13-platform-threat-model.md](../13-platform-threat-model.md)); and complete the operational data-handling controls before enabling `OSAI_LLM_TRANSCRIPTS`.

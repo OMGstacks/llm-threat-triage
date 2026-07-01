@@ -1,16 +1,19 @@
 from osai_spine.taxonomy import TaxonomyRegistry
 
 
-def test_registry_loads_nine_detectors():
+def test_registry_loads_flagship_plus_spine_detectors():
     reg = TaxonomyRegistry()
     names = reg.detector_names()
-    assert len(names) == 9
+    assert len(names) == 12  # 9 flagship + 3 spine (LLM03/LLM08/LLM10)
     for expected in [
         "direct_prompt_injection",
         "indirect_prompt_injection",
         "system_prompt_extraction",
         "sensitive_information_disclosure",
         "improper_output_handling",
+        "supply_chain_trigger",       # spine: LLM03
+        "vector_store_probe",         # spine: LLM08
+        "unbounded_consumption_probe",  # spine: LLM10
     ]:
         assert expected in names
 
