@@ -12,9 +12,9 @@ egress, and a public deploy **fails closed** unless auth is configured.
 | File | Purpose |
 |------|---------|
 | `Dockerfile.grader` | FastAPI grader API image (vendors the reused detection engine + reference corpus). |
-| `Dockerfile.labtarget` | A single deliberately-vulnerable lab-target container (HTTP wrapper around a mock/Ollama target). |
+| `Dockerfile.labtarget` | A deliberately-vulnerable lab-target container (HTTP wrapper around a mock/Ollama target); one image serves any lab via `OSAI_LAB`. |
 | `Dockerfile.web` | Next.js front-end, standalone production build, non-root. |
-| `docker-compose.yml` | **Dev**: grader (no auth) + an isolated L01 lab target on an internal network. |
+| `docker-compose.yml` | **Dev**: grader (no auth) + three isolated lab targets — chat (L01), RAG (L02), MCP (L11) — on an internal network. |
 | `docker-compose.beta.yml` | **Beta**: grader (auth + cookie/CSRF + fail-closed guard, secret from a file) + web. Grader is not published; only web is. |
 | `docker-compose.llm.yml` | Overlay: enable the tutor's generative path with the Anthropic key from a Docker **secret**. |
 | `docker-compose.ollama.yml` | Overlay: swap the mock lab target for a real, locally-hosted Ollama model (weights pre-pulled into a volume; runtime has no egress). |
@@ -81,12 +81,16 @@ until the operational data-handling controls (retention, redaction sign-off) are
 # 1) pre-pull weights into a volume (the ONLY step granted egress):
 docker compose -f docker-compose.yml -f docker-compose.ollama.yml \
     --profile pull run --rm ollama-pull
-# 2) run with the real, weakly-guardrailed model behind the same target contract:
-OSAI_OLLAMA=1 docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+# 2) run with the real, weakly-guardrailed models behind the same target contracts:
+docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
 ```
 
-The runtime `ollama` server and the lab target run on the internal `labnet` (no egress,
-no published ports). Pick a model with `OSAI_OLLAMA_MODEL` (default `llama3.2:3b`).
+This backs **all three target kinds** — chat (L01, `:9001`), RAG (L02, `:9002`), and
+MCP (L11, `:9011`) — with one shared `ollama` server; every target and the server run on
+the internal `labnet` (no egress, no published model port). The backend-agnostic
+factories (`labtarget.make_{chat,rag,mcp}_target`) keep the grader loop identical whether
+the mock or the real model answers. Pick a model with `OSAI_OLLAMA_MODEL` (default
+`llama3.2:3b`); one pull serves every target.
 
 ---
 

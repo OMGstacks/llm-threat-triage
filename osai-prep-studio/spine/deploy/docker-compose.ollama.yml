@@ -1,9 +1,10 @@
-# OSAI Prep Studio — Ollama-backed lab target overlay (realism upgrade for L01).
+# OSAI Prep Studio — Ollama-backed lab target overlay (realism upgrade for the range).
 #
-# Swaps the deterministic stdlib mock (labtarget.MockChatTarget) for a real, locally
-# hosted, deliberately weakly-guardrailed model (labtarget.OllamaChatTarget), behind
-# the SAME .chat() contract — so the grader loop is unchanged. Model WEIGHTS never
-# enter git; they are pulled into a named volume and served from there.
+# Swaps the deterministic stdlib mocks for real, locally hosted, deliberately
+# weakly-guardrailed models across ALL three target kinds — chat (L01), rag (L02),
+# and mcp (L11) — behind the SAME .chat()/.query() contracts, so the grader loop is
+# unchanged. One shared `ollama` server backs every target. Model WEIGHTS never enter
+# git; they are pulled into a named volume and served from there.
 #
 # Isolation (13-platform-threat-model.md): the runtime `ollama` server and the lab
 # target sit on the base compose's INTERNAL `labnet` (deny-all egress, no published
@@ -15,8 +16,9 @@
 #   # 1) pre-pull the weights (needs internet; writes to the ollama-models volume):
 #   docker compose -f docker-compose.yml -f docker-compose.ollama.yml \
 #       --profile pull run --rm ollama-pull
-#   # 2) run the range with the real model target (no egress from labnet):
-#   OSAI_OLLAMA=1 docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+#   # 2) run the range with the real model targets (no egress from labnet):
+#   docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
+#   # -> chat L01 :9001, rag L02 :9002, mcp L11 :9011, all served by one ollama server
 #
 # Pick the model with OSAI_OLLAMA_MODEL (default llama3.2:3b — a small CPU-friendly
 # model; ~2 GB). For GPU, add a deploy.resources.reservations.devices block.
@@ -62,8 +64,26 @@ services:
       retries: 6
       start_period: 10s
 
-  # Point the existing L01 lab target at the real model instead of the mock.
+  # Point every lab target (chat/rag/mcp) at the real model instead of the mock.
   labtarget-l01:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  labtarget-l02:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  labtarget-l11:
     environment:
       OSAI_OLLAMA: "1"
       OSAI_OLLAMA_URL: http://ollama:11434

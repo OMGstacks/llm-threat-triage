@@ -26,6 +26,9 @@ services:
     networks:
       - edge
 
+  # The three target KINDS (chat / rag / mcp). Each runs one lab via OSAI_LAB, on the
+  # internal labnet (deny-all egress). All three swap to real local models together
+  # under the Ollama overlay (docker-compose.ollama.yml) — same .chat()/.query() contract.
   labtarget-l01:
     build:
       context: ../../..
@@ -34,7 +37,7 @@ services:
     environment:
       OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
       OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
-      OSAI_LAB: L01
+      OSAI_LAB: L01        # chat — direct prompt injection
       OSAI_PORT: "9001"
     ports:
       - "9001:9001"
@@ -49,6 +52,54 @@ services:
     cpus: 0.5
     networks:
       - labnet      # internal: deny-all egress to the internet (threat model T3)
+
+  labtarget-l02:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L02        # rag — indirect prompt injection via retrieved docs
+      OSAI_PORT: "9002"
+    ports:
+      - "9002:9002"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  labtarget-l11:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L11        # mcp — over-permissioned tool misuse / excessive agency
+      OSAI_PORT: "9011"
+    ports:
+      - "9011:9011"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
 
 networks:
   edge:
