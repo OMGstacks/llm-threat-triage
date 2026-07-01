@@ -13,8 +13,9 @@
 
 	encode gzip
 
-	# Baseline security headers. (A strict Content-Security-Policy needs per-response
-	# nonces wired through Next.js; tracked as a follow-up in the pre-beta checklist.)
+	# Transport/baseline headers. The Content-Security-Policy is NOT set here — the
+	# Next.js app emits a per-request nonce-based CSP from its middleware (web/middleware.ts),
+	# which Caddy passes through untouched. Setting CSP here too would clobber the nonce.
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains"
 		X-Content-Type-Options "nosniff"

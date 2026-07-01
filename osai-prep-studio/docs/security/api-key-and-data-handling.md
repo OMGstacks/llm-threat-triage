@@ -245,10 +245,15 @@ web proxy — see the [deploy runbook + pre-beta checklist](../../spine/deploy/R
 ### Still open before a public beta (tracked)
 
 - [ ] **Per-IP login limits + weak-password blocklist** — the throttle is per-username.
-- [ ] **CSP / security headers** on the front-end deployment; **SBOM + dependency scan**
-  in CI. Container hardening is in place: the grader (uid 10001) and web (uid 10002) images
-  both run non-root, and the beta compose applies read-only rootfs, `no-new-privileges`,
-  all-caps-dropped, and resource limits to every service.
+- [ ] **SBOM + dependency scan** in CI.
+- [x] **CSP / security headers** — the front-end emits a per-request **nonce-based
+  Content-Security-Policy** (`web/middleware.ts`: `script-src` uses a fresh nonce +
+  `strict-dynamic`, no `unsafe-inline` for scripts; `object-src 'none'`, `frame-ancestors
+  'none'`, `base-uri`/`form-action 'self'`), verified in a browser to hydrate with zero
+  CSP violations. Transport/baseline headers (HSTS, `nosniff`, frame-deny, referrer) come
+  from the Caddy TLS proxy. Container hardening is in place: the grader (uid 10001) and web
+  (uid 10002) images both run non-root, and the beta compose applies read-only rootfs,
+  `no-new-privileges`, all-caps-dropped, and resource limits to every service.
 
 ## Cross-references
 [../../07-architecture-and-stack.md](../../07-architecture-and-stack.md) ·

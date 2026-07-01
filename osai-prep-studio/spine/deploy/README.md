@@ -58,7 +58,9 @@ docker compose -f docker-compose.beta.yml up --build -d
 **TLS.** Secure cookies (`OSAI_COOKIE_SECURE=1`, the default) are only sent over HTTPS,
 so real exposure needs TLS in front of `web`. The shipped **Caddy overlay** does this
 (automatic Let's Encrypt for a real domain, or a locally-trusted cert for `localhost`),
-and adds baseline security headers (HSTS, `nosniff`, frame-deny):
+and adds transport/baseline headers (HSTS, `nosniff`, frame-deny, referrer). The
+front-end app additionally emits a **per-request nonce-based Content-Security-Policy**
+from its Next.js middleware (`web/middleware.ts`), which Caddy passes through unchanged:
 
 ```bash
 export OSAI_SITE_ADDRESS=studio.example.com   # or leave unset for https://localhost
