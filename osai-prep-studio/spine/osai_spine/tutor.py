@@ -27,6 +27,8 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_SOURCES = [
     ("reference/owasp-llm-top-10.md", "A1"),
     ("reference/mitre-atlas.md", "A1"),
+    ("reference/owasp-agentic-threats.md", "A1"),
+    ("reference/nist-ai-rmf.md", "A1"),
     ("reference/glossary.md", "A3"),
 ]
 
