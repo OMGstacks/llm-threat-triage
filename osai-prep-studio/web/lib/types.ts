@@ -61,6 +61,28 @@ export interface Health {
   };
 }
 
+export interface ReviewDimension {
+  weight: number;
+  score: number;
+  points: number;
+}
+
+export interface ReviewCard {
+  total: number;
+  passed: boolean;
+  dimensions: Record<string, ReviewDimension>;
+  classification: {
+    learner_owasp: string | null;
+    suggested_owasp: string | null;
+    match: boolean;
+    valid: boolean;
+  };
+  invalid_ids: string[];
+  feedback: string[];
+  narrative_critique?: string | null;
+  narrative_note?: string;
+}
+
 export interface ConsentResponse {
   auth_enabled: boolean;
   learner_id?: string;

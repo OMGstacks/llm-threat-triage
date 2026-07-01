@@ -17,6 +17,7 @@ import type {
   LabSummary,
   LeaderboardRow,
   Progress,
+  ReviewCard,
   ReviewResult,
   SubmitResult,
   TutorAnswer,
@@ -88,6 +89,8 @@ export const api = {
   submit: (lab: string, learner_id: string, transcript: Transcript[], flag: string) =>
     post<SubmitResult>(`/labs/${lab}/submit`, { learner_id, transcript, flag }),
   tutorAsk: (query: string) => post<TutorAnswer>("/tutor/ask", { query }),
+  reviewReport: (finding: Record<string, unknown>, transcript: Transcript[]) =>
+    post<ReviewCard>("/reports/review", { finding, transcript }),
   progress: (learner: string) => j<Progress>(`/progress/${learner}`),
   seedCards: (learner: string) => post<{ created: number[] }>(`/flashcards/${learner}/seed`, {}),
   dueCards: (learner: string) => j<Flashcard[]>(`/flashcards/${learner}/due`),
