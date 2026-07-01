@@ -98,6 +98,22 @@ def cmd_goldset(args) -> int:
     return 0 if report["passed"] else 1
 
 
+def cmd_capstone(args) -> int:
+    from .capstone import TriageCapstone
+
+    cap = TriageCapstone()
+    if args.brief:
+        print(json.dumps(cap.public_brief(), indent=2))
+        return 0
+    if not args.submission:
+        print("provide --submission <findings.json> or --brief")
+        return 2
+    submission = json.loads(Path(args.submission).read_text(encoding="utf-8"))
+    result = cap.score(submission)
+    print(json.dumps(result, indent=2))
+    return 0 if result["passed"] else 2
+
+
 def cmd_report(args) -> int:
     from .report import ReportReviewer
 
@@ -197,6 +213,11 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--goldset", help="path to a gold-set JSON (defaults to gold/goldset.json)")
     sp.add_argument("--json", action="store_true", help="emit the full JSON report")
     sp.set_defaults(fn=cmd_goldset)
+
+    sp = sub.add_parser("capstone", help="L20 blue-team triage capstone (score a triage vs engine ground truth)")
+    sp.add_argument("--brief", action="store_true", help="print the incident log + task (no answer key)")
+    sp.add_argument("--submission", help="path to a triage submission JSON")
+    sp.set_defaults(fn=cmd_capstone)
 
     sp = sub.add_parser("report", help="grade a learner finding vs the business-impact rubric")
     sp.add_argument("--finding", required=True, help="path to a finding JSON")

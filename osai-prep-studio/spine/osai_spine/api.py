@@ -20,6 +20,7 @@ from pydantic import BaseModel, Field
 
 from . import engine
 from . import llm as llm_mod
+from .capstone import TriageCapstone
 from .exam import ExamSimulator
 from .progress import BADGE_DEFS, ProgressStore
 from .report import ReportReviewer
@@ -72,6 +73,11 @@ class ReviewCardRequest(BaseModel):
     grade: int
 
 
+class CapstoneSubmitRequest(BaseModel):
+    findings: List[dict] = Field(default_factory=list)
+    escalation_chain: bool = False
+
+
 def _dump(event: Event) -> dict:
     return event.model_dump() if hasattr(event, "model_dump") else event.dict()
 
@@ -87,6 +93,7 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     progress = ProgressStore(os.environ.get("OSAI_DB", ":memory:"))
     reviewer = ReportReviewer(state.registry)
     exam = ExamSimulator(state, reviewer, progress)
+    capstone = TriageCapstone()
 
     @app.get("/", response_class=HTMLResponse)
     def index():
@@ -199,6 +206,14 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             return exam.score(session_id, state.registry)
         except KeyError:
             raise HTTPException(status_code=404, detail="no such exam session")
+
+    @app.get("/capstone")
+    def capstone_brief():
+        return capstone.public_brief()
+
+    @app.post("/capstone/score")
+    def capstone_score(req: CapstoneSubmitRequest):
+        return capstone.score({"findings": req.findings, "escalation_chain": req.escalation_chain})
 
     return app
 

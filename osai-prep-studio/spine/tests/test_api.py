@@ -150,6 +150,21 @@ def test_report_review_endpoint():
     assert body["passed"] is True and body["classification"]["match"] is True
 
 
+def test_capstone_endpoints():
+    c = _client()
+    brief = c.get("/capstone").json()
+    assert brief["events"] and "task" in brief
+    assert "owasp_ids" not in brief  # no answer key leaked
+    # a perfect triage of the seeded incident log passes
+    perfect = {
+        "findings": [{"owasp_id": i} for i in
+                     ["LLM01:2025", "LLM02:2025", "LLM05:2025", "LLM06:2025", "LLM07:2025"]],
+        "escalation_chain": True,
+    }
+    r = c.post("/capstone/score", json=perfect).json()
+    assert r["passed"] is True and r["score"] == 100
+
+
 def test_tutor_ask_grounds_and_abstains():
     c = _client()
     grounded = c.post("/tutor/ask", json={"query": "what is prompt injection"}).json()
