@@ -138,7 +138,10 @@ The transcript-judging paths remain OFF until **all** of these hold:
       passed to the API are pseudonymous ids, not names/emails.
 - [ ] **Transcript retention policy** — define request/response retention + deletion for
       the chosen Anthropic data path before enabling.
-- [ ] **Spend cap** — a per-key / per-environment budget cap and alerting.
+- [~] **Spend cap** — an in-app rolling per-minute call cap is enforced
+      (`OSAI_LLM_MAX_CALLS_PER_MIN`, default 20; a hit degrades to the offline
+      extractive answer, never an error). A true **dollar budget cap + alerting** is
+      still an account-side control to set at the Anthropic console / a gateway.
 - [ ] **Log redaction** — application logs never record the key or un-redacted content.
 - [ ] **Key rotation + revocation procedure** — documented owner, cadence, and the steps
       to revoke a leaked key.

@@ -23,13 +23,44 @@ from __future__ import annotations
 
 import os
 import re
+import time
+from collections import deque
 from pathlib import Path
 
 # Quality tier (default) and bulk tier (cheap, high-volume) — overridable via env.
 MODEL_QUALITY = os.environ.get("OSAI_LLM_MODEL", "claude-opus-4-8")
 MODEL_BULK = os.environ.get("OSAI_LLM_MODEL_BULK", "claude-haiku-4-5")
 
+# A simple spend guard: cap live API calls per rolling minute (per process). A
+# runaway loop or a hammered /tutor/ask degrades to the offline extractive answer
+# instead of quietly running up the bill. Override via OSAI_LLM_MAX_CALLS_PER_MIN
+# (0 disables the cap).
+MAX_CALLS_PER_MIN = int(os.environ.get("OSAI_LLM_MAX_CALLS_PER_MIN", "20"))
+
 _TRUTHY = {"1", "true", "on", "yes"}
+
+
+class LLMRateLimited(RuntimeError):
+    """Raised when the per-minute call cap is hit; callers fall back to offline."""
+
+
+class _RateLimiter:
+    """Sliding-window call limiter. ``now`` is injectable for deterministic tests."""
+
+    def __init__(self, max_calls: int, window_s: float = 60.0):
+        self.max_calls = max_calls
+        self.window_s = window_s
+        self._calls: deque = deque()
+
+    def allow(self, now: float) -> bool:
+        if not self.max_calls:  # 0 => disabled
+            return True
+        while self._calls and now - self._calls[0] >= self.window_s:
+            self._calls.popleft()
+        if len(self._calls) >= self.max_calls:
+            return False
+        self._calls.append(now)
+        return True
 
 # Patterns scrubbed before any learner content leaves the box (defense in depth — the
 # range plants only fake secrets, but the API call must not carry tokens/PII anyway).
@@ -134,6 +165,7 @@ def status() -> dict:
         "key_present": key_present(),
         "key_source": key_source(),
         "base_url_override": bool(os.environ.get("OSAI_ANTHROPIC_BASE_URL")),
+        "max_calls_per_min": MAX_CALLS_PER_MIN,
         "model_quality": MODEL_QUALITY,
         "model_bulk": MODEL_BULK,
     }
@@ -143,12 +175,16 @@ class LLMProvider:
     """Thin wrapper over the Anthropic Messages API. Constructed only when the seam
     is enabled; callers always wrap ``complete`` with their own offline fallback."""
 
-    def __init__(self, model: str | None = None, base_url: str | None = None):
+    def __init__(self, model: str | None = None, base_url: str | None = None,
+                 max_calls_per_min: int | None = None):
         self.model = model or MODEL_QUALITY
         # In some hosts (e.g. a Claude Code session) ANTHROPIC_BASE_URL points at the
         # agent's proxy; OSAI_ANTHROPIC_BASE_URL lets the app target its own endpoint
         # (e.g. https://api.anthropic.com) independently of that.
         self.base_url = base_url or os.environ.get("OSAI_ANTHROPIC_BASE_URL") or None
+        self._limiter = _RateLimiter(
+            MAX_CALLS_PER_MIN if max_calls_per_min is None else max_calls_per_min
+        )
         self._client = None
 
     @property
@@ -169,7 +205,10 @@ class LLMProvider:
         """One grounded completion. ``cached_prefix`` is a large fixed context block
         (e.g. the retrieved corpus) marked for prompt caching so repeat calls over
         the same sources are cheap. Streams (adaptive thinking can run long) and
-        returns the final assistant text. Raises on API error."""
+        returns the final assistant text. Raises ``LLMRateLimited`` past the per-minute
+        cap, or on API error — callers wrap with their own offline fallback."""
+        if not self._limiter.allow(time.monotonic()):
+            raise LLMRateLimited(f"LLM call cap reached ({self._limiter.max_calls}/min)")
         system_blocks = [{"type": "text", "text": system}]
         if cached_prefix:
             system_blocks.append({

@@ -5,6 +5,9 @@ extractive fallback, and the taxonomy guard are all verified offline. The defaul
 (no provider) path stays byte-for-byte the extractive behavior."""
 
 import os
+import time
+
+import pytest
 
 from osai_spine import llm as llm_mod
 from osai_spine.taxonomy import TaxonomyRegistry
@@ -143,6 +146,27 @@ def test_redact_transcript_preserves_shape():
     assert red[0]["role"] == "user" and red[0]["source"] == "chat_ui"
     assert "OSAI{x}" not in red[0]["content"]
     assert tr[0]["content"] == "the flag is OSAI{x}"  # original untouched (copy)
+
+
+def test_rate_limiter_caps_and_slides():
+    rl = llm_mod._RateLimiter(max_calls=3, window_s=60.0)
+    assert rl.allow(0.0) and rl.allow(1.0) and rl.allow(2.0)  # 3 allowed in-window
+    assert rl.allow(3.0) is False                             # 4th blocked
+    assert rl.allow(61.0) is True                             # earliest slid out of window
+    disabled = llm_mod._RateLimiter(0)                        # 0 => no cap
+    assert all(disabled.allow(float(i)) for i in range(100))
+
+
+def test_provider_rate_limit_raises_before_touching_client():
+    p = llm_mod.LLMProvider(max_calls_per_min=1)
+    assert p._limiter.allow(time.monotonic())  # consume the only slot
+    # the next completion trips the cap BEFORE importing/using the SDK client
+    with pytest.raises(llm_mod.LLMRateLimited):
+        p.complete("system", "user")
+
+
+def test_status_reports_call_cap():
+    assert "max_calls_per_min" in llm_mod.status()
 
 
 def test_abstention_unaffected_by_provider():
