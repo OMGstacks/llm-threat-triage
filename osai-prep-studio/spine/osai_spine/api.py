@@ -23,6 +23,7 @@ from pydantic import BaseModel, Field
 
 from . import audit as audit_mod
 from . import auth as auth_mod
+from . import datahandling
 from . import engine
 from . import llm as llm_mod
 from .capstone import TriageCapstone
@@ -129,6 +130,9 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         secret=os.environ.get("OSAI_AUTH_SECRET") or state.seed,
     )
     audit_log = audit_mod.AuditLog(os.environ.get("OSAI_AUDIT_DB", ":memory:"))
+    transcript_store = datahandling.TranscriptStore(
+        os.environ.get("OSAI_TRANSCRIPT_DB", ":memory:")
+    )
 
     def resolve_learner(body_learner: str, authorization, cookie_token=None):
         """When auth is enabled, the effective learner is the verified token subject —
@@ -175,6 +179,7 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             "labs": sorted(state.labs),
             "tutor_corpus_chunks": len(tutor.library.chunks),
             "llm": llm_mod.status(),
+            "data_handling": datahandling.policy_status(transcript_store),
             "auth_enabled": auth_mod.auth_enabled(),
             "cookie_auth": auth_mod.cookie_auth_enabled(),
         }

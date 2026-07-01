@@ -130,9 +130,10 @@ def enabled() -> bool:
 def transcripts_enabled() -> bool:
     """A SECOND, separate opt-in gate for paths that would send *learner attack
     transcripts* to the API (report-judge, attacker-LLM). Requires the base gate AND
-    an explicit OSAI_LLM_TRANSCRIPTS=1. Held OFF until the data-handling controls in
-    docs/security/api-key-and-data-handling.md are in place; even then, content is
-    redacted first (see ``redact_transcript``)."""
+    an explicit OSAI_LLM_TRANSCRIPTS=1. Flip it only once the operational controls in
+    ``datahandling`` (mandatory consent, bounded retention + purge, audit) are in
+    place — those are the enforcement choke point (``datahandling.prepare_for_judging``),
+    which also redacts and re-verifies content before any API call."""
     opted_in = os.environ.get("OSAI_LLM_TRANSCRIPTS", "").strip().lower() in _TRUTHY
     return enabled() and opted_in
 

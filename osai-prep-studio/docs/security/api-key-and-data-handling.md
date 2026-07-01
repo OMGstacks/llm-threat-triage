@@ -121,7 +121,7 @@ Repo guards already in place:
 | Gate | Env | Governs | Status |
 |---|---|---|---|
 | Base (tutor) | `OSAI_LLM=1` | query + **public reference corpus** only | wired; low risk |
-| Transcripts | `OSAI_LLM=1` **and** `OSAI_LLM_TRANSCRIPTS=1` | report-judge / attacker-LLM that send **learner attack transcripts** | **HELD — not wired** |
+| Transcripts | `OSAI_LLM=1` **and** `OSAI_LLM_TRANSCRIPTS=1` | report-judge / attacker-LLM that send **learner attack transcripts** | **HELD — controls now implemented (`datahandling`); enable after sign-off** |
 
 `llm.enabled()` governs the first; `llm.transcripts_enabled()` requires the second,
 explicit opt-in on top. With no key, no SDK, or no opt-in, every path degrades to the
@@ -140,20 +140,37 @@ The transcript-judging paths remain OFF until **all** of these hold:
 - [x] **Redaction before egress** — `llm.redact_transcript()` scrubs flags (`OSAI{…}`),
       emails, AWS keys, `sk-…` API keys, private-key blocks, and card-number runs from
       any transcript before an API call. Defense in depth on top of "fake secrets only."
-- [ ] **No real learner PII in API calls** — enforced operationally: learner identifiers
-      passed to the API are pseudonymous ids, not names/emails.
-- [ ] **Transcript retention policy** — define request/response retention + deletion for
-      the chosen Anthropic data path before enabling.
+- [x] **Mandatory, revocable consent** — `datahandling.prepare_for_judging` refuses
+      (`ConsentRequired`) unless the learner has an active consent record
+      (`TranscriptStore.record_consent` / `revoke_consent`; CLI
+      `osai transcripts grant-consent|revoke-consent`).
+- [x] **Redaction re-verified at the choke point** — after `llm.redact_transcript`, the
+      choke point re-scans and raises `RedactionFailed` if a flag survives, so a broken
+      redactor fails closed instead of leaking.
+- [x] **No real learner PII in API calls** — learner identifiers are pseudonymous ids
+      (the auth `sub`, not names/emails), and content is redacted; the audit trail stores
+      counts only, never content.
+- [x] **Bounded transcript retention + purge** — any retained (already-redacted)
+      transcript carries a timestamp and is deleted after
+      `OSAI_LLM_TRANSCRIPT_RETENTION_DAYS` (default 7) via `TranscriptStore.purge_expired`
+      (CLI `osai transcripts purge`). Retention posture is visible at `/health`
+      (`data_handling`) and `osai transcripts status`.
 - [~] **Spend cap** — an in-app rolling per-minute call cap is enforced
       (`OSAI_LLM_MAX_CALLS_PER_MIN`, default 20; a hit degrades to the offline
       extractive answer, never an error). A true **dollar budget cap + alerting** is
       still an account-side control to set at the Anthropic console / a gateway.
-- [ ] **Log redaction** — application logs never record the key or un-redacted content.
+- [x] **Log redaction** — application logs never record the key or un-redacted content;
+      the audit log records event + actor + counts only.
 - [ ] **Key rotation + revocation procedure** — documented owner, cadence, and the steps
-      to revoke a leaked key.
+      to revoke a leaked key (operational sign-off).
+- [ ] **Anthropic data-path retention agreement** — confirm request/response retention on
+      the chosen Anthropic plan aligns with the retention window above (account-side).
 
-Checked boxes are implemented in this repo; unchecked boxes are operational controls the
-deployer must complete **before** flipping `OSAI_LLM_TRANSCRIPTS=1`.
+Checked boxes are implemented in this repo; `[~]`/unchecked boxes are the remaining
+operational/account-side controls the deployer signs off **before** flipping
+`OSAI_LLM_TRANSCRIPTS=1`. The code path itself now **fails closed** end-to-end:
+`prepare_for_judging` raises unless the gate is on, consent exists, and redaction is
+verified — so even a premature toggle cannot send an unconsented or unredacted transcript.
 
 ## 4a. Setup steps (getting from zero to a working key)
 

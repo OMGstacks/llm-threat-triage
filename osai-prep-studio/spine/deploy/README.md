@@ -141,8 +141,11 @@ enforced; this list is the deploy-time confirmation.
       ports, deny-all egress; Ollama weights were pre-pulled, not fetched at runtime.
 - [ ] **Server seed is strong & secret** — `OSAI_SERVER_SEED` is random and not shared
       (it derives per-learner flags).
-- [ ] **LLM data-handling** — if the tutor is on, the key is a secret and
-      `OSAI_LLM_TRANSCRIPTS` is unset until the data-handling controls are signed off.
+- [ ] **LLM data-handling** — if the tutor is on, the key is a secret. Transcript
+      judging (`OSAI_LLM_TRANSCRIPTS`) stays off until sign-off; the controls are in
+      place (consent, bounded retention + `osai transcripts purge`, redaction-verified
+      fail-closed choke point), and the posture is visible at `/health` → `data_handling`
+      and `osai transcripts status`.
 - [ ] **Gold-set ship gate green** — `python -m osai_spine.cli goldset` passes
       (zero hallucinated taxonomy IDs; abstention/refusal thresholds met).
 - [ ] **Backups/reset** — `OSAI_SERVER_SEED` and the auth secret are backed up (losing
