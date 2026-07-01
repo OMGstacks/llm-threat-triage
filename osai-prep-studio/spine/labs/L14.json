@@ -8,6 +8,7 @@
   "frameworks": { "owasp": ["LLM01:2025"], "atlas": ["AML.T0051.001"], "agentic": ["T5", "T6", "T13"] },
   "reuse_asset": "indirect_prompt_injection",
   "complements": "fills a gap — few public multi-agent labs",
+  "causal_chain": { "impact": "tool_call" },
   "attack_graph": "attack-graphs/L14.yml",
   "defense_variants": ["D0", "D4", "D7"],
   "two_signal_grading": {

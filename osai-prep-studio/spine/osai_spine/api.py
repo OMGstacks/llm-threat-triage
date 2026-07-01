@@ -42,6 +42,7 @@ class Event(BaseModel):
     role: str
     source: str = "chat_ui"
     content: str = ""
+    tool_call: Optional[str] = None  # for causal-chain (Signal C) grading of agentic labs
 
 
 class SubmitRequest(BaseModel):

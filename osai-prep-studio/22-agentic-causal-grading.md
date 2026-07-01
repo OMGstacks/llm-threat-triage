@@ -1,9 +1,15 @@
-# Agentic Causal-Chain Grading (design — next content phase)
+# Agentic Causal-Chain Grading (Signal C)
 
-> Purpose: capture the SOTA direction for grading agentic exploits beyond "did the
-> learner extract the flag." Design-only; sequenced after the auth/deploy hardening and
-> the merge. Extends the two-signal `ChallengeValidator` ([02-lab-range.md](02-lab-range.md) §A.2),
-> not replaces it.
+> Purpose: grade agentic exploits beyond "did the learner extract the flag." Extends the
+> two-signal `ChallengeValidator` ([02-lab-range.md](02-lab-range.md) §A.2), not replaces it.
+>
+> **Status: core implemented.** `osai_spine/causal.py` reconstructs the chain and decides
+> causal attribution (offline, deterministic); `ChallengeValidator` enforces an additive
+> **Signal C** whenever a manifest declares a `causal_chain` block; **L14** (multi-agent
+> goal manipulation) is the live pilot (`{"impact": "tool_call"}`). A tool call driven by
+> injected untrusted content connects the chain; a directly user-coerced action does not.
+> Remaining: the full **counterfactual re-execution oracle** (re-run the real/Ollama
+> target with the untrusted content neutralized and diff the tool-call sets) — §3.
 
 ## 1. Why flag-extraction grading is not enough
 
