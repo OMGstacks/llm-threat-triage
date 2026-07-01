@@ -17,7 +17,7 @@ const NAV = [
 ];
 
 function Header({ health, offline }: { health: Health | null; offline: boolean }) {
-  const { learner, setLearner } = useLearner();
+  const { learner, setLearner, authed, logout } = useLearner();
   const path = usePathname();
   const ai = health?.llm?.enabled ? "AI tutor ✓" : "AI tutor off";
 
@@ -39,10 +39,27 @@ function Header({ health, offline }: { health: Health | null; offline: boolean }
         ))}
       </nav>
       <span style={{ flex: 1 }} />
-      <label>
-        learner&nbsp;
-        <input value={learner} size={12} onChange={(e) => setLearner(e.target.value)} />
-      </label>
+      {health?.auth_enabled ? (
+        authed ? (
+          <span className="row" style={{ gap: 8, margin: 0 }}>
+            <span className="sub">
+              signed in as <strong>{learner}</strong>
+            </span>
+            <button className="ghost" style={{ padding: "1px 8px" }} onClick={logout}>
+              Sign out
+            </button>
+          </span>
+        ) : (
+          <Link href="/login" style={{ fontWeight: 600 }}>
+            Sign in
+          </Link>
+        )
+      ) : (
+        <label>
+          learner&nbsp;
+          <input value={learner} size={12} onChange={(e) => setLearner(e.target.value)} />
+        </label>
+      )}
       <span className="sub">
         {offline ? "grader offline" : health ? `${health.labs.length} labs · ${ai}` : "connecting…"}
       </span>

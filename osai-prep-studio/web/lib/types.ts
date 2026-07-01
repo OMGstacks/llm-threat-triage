@@ -1,10 +1,16 @@
 // Response shapes from the FastAPI grader (osai_spine.api). Kept in sync with the
 // server's public (answer-redacted) contract.
 
+export interface AuthResponse {
+  learner_id: string;
+  token: string;
+}
+
 export interface Health {
   status: string;
   labs: string[];
   tutor_corpus_chunks: number;
+  auth_enabled?: boolean;
   llm: {
     enabled: boolean;
     transcripts_enabled: boolean;

@@ -1,6 +1,7 @@
 // Typed client for the FastAPI grader. All calls go through /api/* which Next
 // proxies to the grader (see next.config.js) — no CORS, URL configurable.
 import type {
+  AuthResponse,
   CapstoneBrief,
   CapstoneScore,
   ExamScore,
@@ -16,8 +17,19 @@ import type {
   TutorAnswer,
 } from "./types";
 
-async function j<T>(path: string, opts?: RequestInit): Promise<T> {
-  const res = await fetch(`/api${path}`, opts);
+// Attach the session token (when auth is enabled and the learner has logged in) so
+// the server derives the learner from the token, not the request body.
+function authHeader(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  const t = window.localStorage.getItem("osai_token");
+  return t ? { Authorization: `Bearer ${t}` } : {};
+}
+
+async function j<T>(path: string, opts: RequestInit = {}): Promise<T> {
+  const res = await fetch(`/api${path}`, {
+    ...opts,
+    headers: { ...(opts.headers || {}), ...authHeader() },
+  });
   if (!res.ok) throw new Error(`${path} -> ${res.status}`);
   return (await res.json()) as T;
 }
@@ -38,6 +50,10 @@ export interface Transcript {
 
 export const api = {
   health: () => j<Health>("/health"),
+  register: (username: string, password: string) =>
+    post<AuthResponse>("/auth/register", { username, password }),
+  login: (username: string, password: string) =>
+    post<AuthResponse>("/auth/login", { username, password }),
   labs: () => j<LabSummary[]>("/labs"),
   submit: (lab: string, learner_id: string, transcript: Transcript[], flag: string) =>
     post<SubmitResult>(`/labs/${lab}/submit`, { learner_id, transcript, flag }),

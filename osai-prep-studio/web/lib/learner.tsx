@@ -4,18 +4,32 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 interface LearnerCtx {
   learner: string;
+  token: string | null;
+  authed: boolean;
   setLearner: (v: string) => void;
+  login: (learner: string, token: string) => void;
+  logout: () => void;
 }
 
-const Ctx = createContext<LearnerCtx>({ learner: "demo", setLearner: () => {} });
+const Ctx = createContext<LearnerCtx>({
+  learner: "demo",
+  token: null,
+  authed: false,
+  setLearner: () => {},
+  login: () => {},
+  logout: () => {},
+});
 
 export function LearnerProvider({ children }: { children: React.ReactNode }) {
   const [learner, setState] = useState("demo");
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const saved =
-      typeof window !== "undefined" ? window.localStorage.getItem("osai_learner") : null;
-    if (saved) setState(saved);
+    if (typeof window === "undefined") return;
+    const l = window.localStorage.getItem("osai_learner");
+    if (l) setState(l);
+    const t = window.localStorage.getItem("osai_token");
+    if (t) setToken(t);
   }, []);
 
   const setLearner = (v: string) => {
@@ -23,7 +37,25 @@ export function LearnerProvider({ children }: { children: React.ReactNode }) {
     if (typeof window !== "undefined") window.localStorage.setItem("osai_learner", v);
   };
 
-  return <Ctx.Provider value={{ learner, setLearner }}>{children}</Ctx.Provider>;
+  const login = (l: string, t: string) => {
+    setState(l);
+    setToken(t);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("osai_learner", l);
+      window.localStorage.setItem("osai_token", t);
+    }
+  };
+
+  const logout = () => {
+    setToken(null);
+    if (typeof window !== "undefined") window.localStorage.removeItem("osai_token");
+  };
+
+  return (
+    <Ctx.Provider value={{ learner, token, authed: !!token, setLearner, login, logout }}>
+      {children}
+    </Ctx.Provider>
+  );
 }
 
 export function useLearner(): LearnerCtx {

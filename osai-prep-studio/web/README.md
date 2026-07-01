@@ -36,7 +36,14 @@ npm run dev                       # http://localhost:3000
 ## What's here
 
 Multi-route App-Router app with a shared top nav and a shared learner (persisted to
-localStorage). Routes: `/` (home), `/labs`, `/tutor`, `/progress`, `/exam`, `/capstone`.
+localStorage). Routes: `/` (home), `/labs`, `/tutor`, `/progress`, `/exam`, `/capstone`,
+`/login`.
+
+**Auth (optional).** When the server has `OSAI_AUTH=1`, the header shows **Sign in**
+(`/login` → register or log in); on success the session token is stored and attached as
+`Authorization: Bearer` on every request, so the server derives your learner from the
+token. When auth is off, the header keeps the free-text learner input. The token is
+never sent to a third party — only to the grader.
 
 | Path | Role |
 |---|---|
