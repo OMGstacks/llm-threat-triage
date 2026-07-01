@@ -15,6 +15,7 @@ This is **not** the full app. It is the spine: the canonical taxonomy registry, 
 | `osai_spine/validator.py` | The **two-signal** `ChallengeValidator` (detector verdict **and** evidence token) | [02-lab-range.md](../02-lab-range.md) §A.2 |
 | `osai_spine/tutor.py` | The **retrieval-grounded tutor core** — TF-IDF over the source library, citations, "no source, no confident answer" abstention, taxonomy anti-hallucination; an optional **generative-but-grounded** answer composes from the same hits via the LLM seam, with an extractive fallback | [03-tutor-examiner-bot.md](../03-tutor-examiner-bot.md), [09a-source-library.md](../09a-source-library.md) |
 | `osai_spine/llm.py` | The optional **LLM provider seam / model router** — Anthropic (`claude-opus-4-8` quality tier + `claude-haiku-4-5` bulk tier), adaptive thinking, streaming, prompt caching; env-only key, OFF by default, graceful no-SDK/no-key fallback | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
+| `osai_spine/auth.py` | Optional **authentication** (opt-in `OSAI_AUTH=1`) — stdlib PBKDF2 password hashing + HMAC-signed session tokens; when on, learner-scoped endpoints derive the learner from the verified token (a user can only act as themselves). OFF by default so offline/CI is unchanged | [07-architecture-and-stack.md](../07-architecture-and-stack.md) |
 | `osai_spine/goldset.py` + `gold/goldset.json` | The **gold-set ship gate** — runs a curated gold set through the tutor and enforces the doc-04 thresholds (0 hallucinated taxonomy ids, 100% grounded framework recall, ≥95% abstention, 100% refusal, 0 flag leakage). Includes the tutor's authorized-lab-only **scope-guard refusal** | [04-evaluation-harness.md](../04-evaluation-harness.md), [11-safety-legal-ethics.md](../11-safety-legal-ethics.md) |
 | `osai_spine/progress.py` | The **progress engine** — SQLite attempts, per-skill mastery (EMA on the shared taxonomy), XP, weakness heatmap, heuristic readiness, **achievement badges** + a cross-learner **leaderboard**, and **SM-2 spaced-repetition flashcards** seeded from weakness | [05-progress-engine.md](../05-progress-engine.md), [14-readiness-model.md](../14-readiness-model.md) |
 | `osai_spine/report.py` | The **Report-Reviewer** — grades a learner finding vs the business-impact rubric; pre-fills/checks the OWASP classification from the transcript via the reused detectors | [08-reporting-and-canva.md](../08-reporting-and-canva.md), [19-business-impact-rubric.md](../19-business-impact-rubric.md) |
@@ -60,8 +61,8 @@ A lab **passes** only when both signals fire: the manifest's `detector_required`
 
 ```bash
 make loop        # attack -> vulnerable mock target -> two-signal grade (no real LLM)
-make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/badges/{l},/leaderboard,/flashcards/{l}/due,/exam/{id}/score
-                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review
+make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/badges/{l},/leaderboard,/flashcards/{l}/due,/exam/{id}/score,/capstone,/auth/me
+                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review,/capstone/score,/auth/register,/auth/login
 
 # ask the retrieval-grounded tutor (cited; abstains when the corpus can't support an answer)
 python -m osai_spine.cli tutor --query "what is indirect prompt injection"

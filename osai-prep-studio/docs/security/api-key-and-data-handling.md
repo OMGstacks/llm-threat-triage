@@ -110,6 +110,12 @@ Repo guards already in place:
 - `.claude/settings.json` **denies** reads of those same paths so the agent can't open
   a secret file even by accident.
 
+> **Other secrets follow the same rule.** The optional auth layer (`OSAI_AUTH=1`) signs
+> session tokens with `OSAI_AUTH_SECRET` — set it from the environment/secret store in
+> production (it defaults to the grader seed for dev). Passwords are never stored in
+> plaintext (PBKDF2-HMAC-SHA256 + per-user salt) and never leave the server; tokens
+> carry only the username + expiry.
+
 ## 3. Two-tier activation gates
 
 | Gate | Env | Governs | Status |

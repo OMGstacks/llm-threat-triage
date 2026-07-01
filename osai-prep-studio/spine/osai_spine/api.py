@@ -14,10 +14,11 @@ import os
 from pathlib import Path
 from typing import List, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
+from . import auth as auth_mod
 from . import engine
 from . import llm as llm_mod
 from .capstone import TriageCapstone
@@ -78,6 +79,11 @@ class CapstoneSubmitRequest(BaseModel):
     escalation_chain: bool = False
 
 
+class AuthRequest(BaseModel):
+    username: str
+    password: str
+
+
 def _dump(event: Event) -> dict:
     return event.model_dump() if hasattr(event, "model_dump") else event.dict()
 
@@ -94,6 +100,24 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     reviewer = ReportReviewer(state.registry)
     exam = ExamSimulator(state, reviewer, progress)
     capstone = TriageCapstone()
+    auth = auth_mod.AuthStore(
+        os.environ.get("OSAI_AUTH_DB", ":memory:"),
+        secret=os.environ.get("OSAI_AUTH_SECRET") or state.seed,
+    )
+
+    def resolve_learner(body_learner: str, authorization):
+        """When auth is enabled, the effective learner is the verified token subject —
+        a user can only act as themselves. When disabled (default), the client-supplied
+        id is used, so offline/demo/CI flows are unchanged."""
+        if not auth_mod.auth_enabled():
+            return body_learner
+        token = ""
+        if authorization and authorization.lower().startswith("bearer "):
+            token = authorization[7:].strip()
+        sub = auth.verify_token(token)
+        if not sub:
+            raise HTTPException(status_code=401, detail="authentication required")
+        return sub
 
     @app.get("/", response_class=HTMLResponse)
     def index():
@@ -107,7 +131,28 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             "labs": sorted(state.labs),
             "tutor_corpus_chunks": len(tutor.library.chunks),
             "llm": llm_mod.status(),
+            "auth_enabled": auth_mod.auth_enabled(),
         }
+
+    @app.post("/auth/register")
+    def auth_register(req: AuthRequest):
+        try:
+            user = auth.register(req.username, req.password)
+        except auth_mod.AuthError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
+        return {"learner_id": user, "token": auth.issue_token(user)}
+
+    @app.post("/auth/login")
+    def auth_login(req: AuthRequest):
+        if not auth.verify_password(req.username, req.password):
+            raise HTTPException(status_code=401, detail="invalid credentials")
+        return {"learner_id": req.username, "token": auth.issue_token(req.username)}
+
+    @app.get("/auth/me")
+    def auth_me(authorization: str | None = Header(default=None)):
+        if not auth_mod.auth_enabled():
+            return {"auth_enabled": False, "learner_id": None}
+        return {"auth_enabled": True, "learner_id": resolve_learner("", authorization)}
 
     @app.get("/catalog")
     def catalog():
@@ -133,44 +178,47 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         return _public_manifest(manifest)
 
     @app.post("/labs/{lab_id}/submit")
-    def submit(lab_id: str, req: SubmitRequest):
+    def submit(lab_id: str, req: SubmitRequest, authorization: str | None = Header(default=None)):
         manifest = state.labs.get(lab_id)
         if not manifest:
             raise HTTPException(status_code=404, detail="no such lab")
+        learner = resolve_learner(req.learner_id, authorization)
         transcript = [_dump(e) for e in req.transcript]
         result = ChallengeValidator(manifest).grade(
-            transcript, req.flag, state.seed, req.learner_id, req.attempt
+            transcript, req.flag, state.seed, learner, req.attempt
         )
         feedback = result.public_feedback()
-        feedback["progress"] = progress.record_attempt(req.learner_id, manifest, result)
-        new_badges = progress.award_badges(req.learner_id, state.registry)
+        feedback["progress"] = progress.record_attempt(learner, manifest, result)
+        new_badges = progress.award_badges(learner, state.registry)
         if new_badges:
             feedback["new_badges"] = new_badges
         return feedback
 
     @app.get("/progress/{learner_id}")
-    def get_progress(learner_id: str):
-        return progress.summary(learner_id, state.registry)
+    def get_progress(learner_id: str, authorization: str | None = Header(default=None)):
+        return progress.summary(resolve_learner(learner_id, authorization), state.registry)
 
     @app.get("/readiness/{learner_id}")
-    def get_readiness(learner_id: str):
-        return progress.readiness(learner_id, state.registry)
+    def get_readiness(learner_id: str, authorization: str | None = Header(default=None)):
+        return progress.readiness(resolve_learner(learner_id, authorization), state.registry)
 
     @app.get("/badges/{learner_id}")
-    def get_badges(learner_id: str):
-        return {"earned": progress.badges(learner_id), "catalog": BADGE_DEFS}
+    def get_badges(learner_id: str, authorization: str | None = Header(default=None)):
+        return {"earned": progress.badges(resolve_learner(learner_id, authorization)),
+                "catalog": BADGE_DEFS}
 
     @app.get("/leaderboard")
     def leaderboard(limit: int = 10):
         return progress.leaderboard(state.registry, limit)
 
     @app.post("/flashcards/{learner_id}/seed")
-    def seed_cards(learner_id: str):
-        return {"created": progress.seed_weakness_cards(learner_id, state.registry)}
+    def seed_cards(learner_id: str, authorization: str | None = Header(default=None)):
+        learner = resolve_learner(learner_id, authorization)
+        return {"created": progress.seed_weakness_cards(learner, state.registry)}
 
     @app.get("/flashcards/{learner_id}/due")
-    def due_cards(learner_id: str):
-        return progress.due_cards(learner_id)
+    def due_cards(learner_id: str, authorization: str | None = Header(default=None)):
+        return progress.due_cards(resolve_learner(learner_id, authorization))
 
     @app.post("/flashcards/review")
     def review_card(req: ReviewCardRequest):
@@ -189,8 +237,9 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         return reviewer.review(req.finding, transcript).to_dict()
 
     @app.post("/exam/start")
-    def exam_start(req: ExamStartRequest):
-        return exam.start_session(req.learner_id, req.lab_ids, req.duration_seconds)
+    def exam_start(req: ExamStartRequest, authorization: str | None = Header(default=None)):
+        learner = resolve_learner(req.learner_id, authorization)
+        return exam.start_session(learner, req.lab_ids, req.duration_seconds)
 
     @app.post("/exam/{session_id}/submit")
     def exam_submit(session_id: str, req: ExamSubmitRequest):
