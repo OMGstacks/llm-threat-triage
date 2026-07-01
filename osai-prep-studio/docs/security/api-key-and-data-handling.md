@@ -172,6 +172,12 @@ operational/account-side controls the deployer signs off **before** flipping
 `prepare_for_judging` raises unless the gate is on, consent exists, and redaction is
 verified — so even a premature toggle cannot send an unconsented or unredacted transcript.
 
+**Wired consumer.** The one path that would send a transcript — the optional AI
+*narrative critique* on `POST /reports/review` — routes through `prepare_for_judging`
+before any model call, so it inherits every control above and stays absent unless the
+gate is on. Learners manage their own consent at `GET/POST/DELETE /auth/consent` (or the
+web header toggle, shown only when the gate is on); grant/revoke are audited.
+
 ## 4a. Setup steps (getting from zero to a working key)
 
 1. **Create the key** — console.anthropic.com → API Keys → Create Key (`sk-ant-…`).

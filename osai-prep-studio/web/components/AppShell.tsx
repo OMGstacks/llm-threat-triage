@@ -7,6 +7,40 @@ import { api } from "@/lib/api";
 import type { Health } from "@/lib/types";
 import { LearnerProvider, useLearner } from "@/lib/learner";
 
+// Learner consent for AI transcript processing. Only shown when the operator has enabled
+// transcript judging (health.data_handling.transcripts_enabled) — otherwise it's moot.
+function ConsentToggle({ retentionDays }: { retentionDays?: number }) {
+  const [consented, setConsented] = useState<boolean | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  useEffect(() => {
+    api.getConsent().then((c) => setConsented(c.consented)).catch(() => setConsented(null));
+  }, []);
+
+  if (consented === null) return null;
+  const toggle = async () => {
+    setBusy(true);
+    try {
+      const r = consented ? await api.revokeConsent() : await api.grantConsent();
+      setConsented(r.consented);
+    } catch {
+      /* leave state unchanged on error */
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <label
+      className="sub"
+      title={`Consent to AI processing of your (redacted) attack transcripts for report critique. Retained ≤ ${retentionDays ?? 7} days, then purged.`}
+      style={{ display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}
+    >
+      <input type="checkbox" checked={consented} disabled={busy} onChange={toggle} />
+      AI critique consent
+    </label>
+  );
+}
+
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/labs", label: "Labs" },
@@ -57,6 +91,9 @@ function Header({ health, offline }: { health: Health | null; offline: boolean }
             <span className="sub">
               signed in as <strong>{learner}</strong>
             </span>
+            {health?.data_handling?.transcripts_enabled ? (
+              <ConsentToggle retentionDays={health.data_handling.retention_days} />
+            ) : null}
             <button className="ghost" style={{ padding: "1px 8px" }} onClick={logout}>
               Sign out
             </button>

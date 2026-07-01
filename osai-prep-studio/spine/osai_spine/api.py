@@ -30,6 +30,7 @@ from .capstone import TriageCapstone
 from .exam import ExamSimulator
 from .goldset import GoldSetRunner
 from .progress import BADGE_DEFS, ProgressStore
+from . import report as report_mod
 from .report import ReportReviewer
 from .service import GraderState, _public_manifest
 from .tutor import Tutor
@@ -61,6 +62,7 @@ class AskRequest(BaseModel):
 class ReviewRequest(BaseModel):
     finding: dict
     transcript: List[Event] = Field(default_factory=list)
+    learner_id: str = ""  # used only to attribute the optional AI critique / consent
 
 
 class ExamStartRequest(BaseModel):
@@ -236,6 +238,38 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             return {"events": []}
         return {"events": audit_log.recent(50, actor=resolve_learner("", authorization, osai_session))}
 
+    # --- transcript-processing consent (learner acts on self) -------------
+    @app.get("/auth/consent")
+    def get_consent(authorization: str | None = Header(default=None),
+                    osai_session: str | None = Cookie(default=None)):
+        """A learner's consent state for AI transcript processing + the current policy."""
+        policy = datahandling.policy_status(transcript_store)
+        if not auth_mod.auth_enabled():
+            return {"auth_enabled": False, "consented": False, "policy": policy}
+        learner = resolve_learner("", authorization, osai_session)
+        return {"auth_enabled": True, "learner_id": learner,
+                "consented": transcript_store.has_consent(learner), "policy": policy}
+
+    @app.post("/auth/consent")
+    def grant_consent(authorization: str | None = Header(default=None),
+                      osai_session: str | None = Cookie(default=None)):
+        if not auth_mod.auth_enabled():
+            raise HTTPException(status_code=400, detail="consent requires OSAI_AUTH")
+        learner = resolve_learner("", authorization, osai_session)
+        transcript_store.record_consent(learner)
+        audit_log.record(datahandling.TRANSCRIPT_CONSENT_GRANT, learner, {})
+        return {"ok": True, "consented": True}
+
+    @app.delete("/auth/consent")
+    def revoke_consent(authorization: str | None = Header(default=None),
+                       osai_session: str | None = Cookie(default=None)):
+        if not auth_mod.auth_enabled():
+            raise HTTPException(status_code=400, detail="consent requires OSAI_AUTH")
+        learner = resolve_learner("", authorization, osai_session)
+        transcript_store.revoke_consent(learner)
+        audit_log.record(datahandling.TRANSCRIPT_CONSENT_REVOKE, learner, {})
+        return {"ok": True, "consented": False}
+
     # --- instructor/admin (role-gated) ------------------------------------
     def require_instructor(authorization, cookie_token):
         if not auth_mod.auth_enabled():
@@ -375,9 +409,26 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         return tutor.ask(req.query, req.mode)
 
     @app.post("/reports/review")
-    def review_report(req: ReviewRequest):
+    def review_report(req: ReviewRequest, authorization: str | None = Header(default=None),
+                      osai_session: str | None = Cookie(default=None)):
         transcript = [_dump(e) for e in req.transcript] or None
-        return reviewer.review(req.finding, transcript).to_dict()
+        card = reviewer.review(req.finding, transcript).to_dict()
+        # Optional AI narrative critique — OFF unless the transcript gate is on. It routes
+        # the transcript through the data-handling choke point (consent + redaction +
+        # audit + retention) BEFORE any model call; falls back silently to the rubric card.
+        if provider is not None and transcript and llm_mod.transcripts_enabled():
+            learner = resolve_learner(getattr(req, "learner_id", "") or "", authorization, osai_session)
+            try:
+                redacted, _ = datahandling.prepare_for_judging(
+                    transcript, learner, store=transcript_store, audit=audit_log)
+                card["narrative_critique"] = report_mod.judge_report_narrative(
+                    provider, req.finding, redacted)
+            except datahandling.ConsentRequired:
+                card["narrative_critique"] = None
+                card["narrative_note"] = "AI critique needs your consent (POST /auth/consent)"
+            except Exception:
+                card["narrative_critique"] = None  # rate limit / API error → rubric only
+        return card
 
     @app.post("/exam/start")
     def exam_start(req: ExamStartRequest, authorization: str | None = Header(default=None),

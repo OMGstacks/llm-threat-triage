@@ -54,6 +54,18 @@ export interface Health {
     model_quality: string;
     model_bulk: string;
   };
+  data_handling?: {
+    transcripts_enabled: boolean;
+    consent_required: boolean;
+    retention_days: number;
+  };
+}
+
+export interface ConsentResponse {
+  auth_enabled: boolean;
+  learner_id?: string;
+  consented: boolean;
+  policy?: { transcripts_enabled: boolean; consent_required: boolean; retention_days: number };
 }
 
 export interface LabSummary {

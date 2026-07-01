@@ -5,6 +5,7 @@ import type {
   AuthResponse,
   CapstoneBrief,
   CapstoneScore,
+  ConsentResponse,
   EvalReport,
   MeResponse,
   RosterRow,
@@ -59,6 +60,10 @@ function post<T>(path: string, body: unknown): Promise<T> {
   });
 }
 
+function del<T>(path: string): Promise<T> {
+  return j<T>(path, { method: "DELETE" });
+}
+
 export interface Transcript {
   role: string;
   source: string;
@@ -73,6 +78,9 @@ export const api = {
     post<AuthResponse>("/auth/login", { username, password }),
   logout: () => post<{ ok: boolean }>("/auth/logout", {}),
   me: () => j<MeResponse>("/auth/me"),
+  getConsent: () => j<ConsentResponse>("/auth/consent"),
+  grantConsent: () => post<{ ok: boolean; consented: boolean }>("/auth/consent", {}),
+  revokeConsent: () => del<{ ok: boolean; consented: boolean }>("/auth/consent"),
   adminRoster: () => j<RosterRow[]>("/admin/roster"),
   adminReset: (learner: string) => post<{ ok: boolean; reset: string }>(`/admin/reset/${learner}`, {}),
   adminAudit: () => j<{ events: AuditEvent[] }>("/admin/audit"),
