@@ -94,6 +94,8 @@ python -m osai_spine.cli llm      # safe check — prints presence (yes/no), nev
 
 `GET /health` reports the `llm` state. The generative path keeps every grounding guarantee — retrieval-first, abstention, citations, and the taxonomy anti-hallucination check — and **falls back to the extractive answer** on any error or if the model emits a non-existent framework id.
 
+For containers, the key loads from a **Docker secret** (a file), not an env var — build with `--build-arg INSTALL_LLM=true` and run the shipped overlay `deploy/docker-compose.llm.yml` (it sets `ANTHROPIC_API_KEY_FILE=/run/secrets/anthropic_api_key`). Worked example: [`../docs/security/api-key-and-data-handling.md`](../docs/security/api-key-and-data-handling.md) §2a.
+
 **Two-tier gate (data-handling).** `OSAI_LLM=1` enables only the low-risk **tutor** path (query + the *public* reference corpus). The **report-judge / attacker-LLM** paths — which would send *learner attack transcripts* — are fenced behind a **second** explicit opt-in (`OSAI_LLM_TRANSCRIPTS=1`) and are **held OFF** until the operational controls in [`../docs/security/api-key-and-data-handling.md`](../docs/security/api-key-and-data-handling.md) are met; even then, `llm.redact_transcript()` scrubs flags/secrets/PII before any egress. Secret files (`.env`, `secrets/`, `*.key`, `*.pem`, `credentials.json`) are git-ignored and denied to the agent via `.claude/settings.json`.
 
 ## Next (per the roadmap)

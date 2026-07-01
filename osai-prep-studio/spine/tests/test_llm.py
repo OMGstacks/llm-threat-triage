@@ -79,6 +79,26 @@ def test_status_never_leaks_the_key_value(monkeypatch):
     assert "transcripts_enabled" in st
 
 
+def test_key_from_docker_secret_file(tmp_path, monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    secret = tmp_path / "anthropic_api_key"
+    secret.write_text("sk-ant-from-file\n")  # trailing newline is stripped
+    monkeypatch.setenv("ANTHROPIC_API_KEY_FILE", str(secret))
+    assert llm_mod.key_present() is True
+    assert llm_mod.key_source() == "file"
+    assert llm_mod._read_key() == "sk-ant-from-file"
+    assert llm_mod.status()["key_source"] == "file"
+    # a direct env var wins over the file
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-ant-from-env")
+    assert llm_mod.key_source() == "env" and llm_mod._read_key() == "sk-ant-from-env"
+
+
+def test_missing_secret_file_is_safe(monkeypatch):
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setenv("ANTHROPIC_API_KEY_FILE", "/no/such/secret")
+    assert llm_mod.key_present() is False and llm_mod.key_source() == "none"
+
+
 def test_base_url_override_from_env(monkeypatch):
     monkeypatch.setenv("OSAI_ANTHROPIC_BASE_URL", "https://api.anthropic.com")
     p = llm_mod.LLMProvider()

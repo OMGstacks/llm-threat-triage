@@ -52,9 +52,36 @@ Delivery, in order of preference:
    **secret** named `ANTHROPIC_API_KEY`, referenced as an env var in the workflow (not
    on the command line). CI is green **without** it by design, so this is rarely needed.
 4. **Docker / lab host** — a **secret file** or secret manager mounted at runtime (e.g.
-   Docker secrets under `/run/secrets/…`), never an image layer or source file.
+   Docker secrets under `/run/secrets/…`), never an image layer or source file. See the
+   ready-made overlay in §2a.
 
 The operator verifies *presence only* (§5), never the value.
+
+### 2a. Docker secret (worked example)
+
+Docker/K8s secrets are mounted as **files**, so the app reads `ANTHROPIC_API_KEY_FILE`
+(pointing at the mounted file) in addition to the `ANTHROPIC_API_KEY` env var — the env
+var wins if both are set. A ready overlay is shipped at
+`osai-prep-studio/spine/deploy/docker-compose.llm.yml`:
+
+```bash
+cd osai-prep-studio/spine/deploy
+
+# 1) place the key in a git-ignored, agent-denied file (secrets/ is both):
+mkdir -p secrets && printf '%s' "$ANTHROPIC_API_KEY" > secrets/anthropic_api_key
+
+# 2) build the image WITH the SDK and run with the overlay (mounts the secret,
+#    sets OSAI_LLM=1 and ANTHROPIC_API_KEY_FILE=/run/secrets/anthropic_api_key):
+docker compose -f docker-compose.yml -f docker-compose.llm.yml up --build
+
+# 3) verify inside the container — presence only, never the value:
+docker compose exec grader python -m osai_spine.cli llm
+#   ANTHROPIC_API_KEY present: yes (source: file)
+```
+
+The read-only rootfs / dropped caps / resource limits from the base compose still apply;
+the secret mounts under `/run/secrets` independently. `OSAI_LLM_TRANSCRIPTS` stays unset,
+so the learner-transcript paths remain held OFF (§3–§4).
 
 Repo guards already in place:
 

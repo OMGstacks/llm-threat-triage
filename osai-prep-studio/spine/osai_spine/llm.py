@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import os
 import re
+from pathlib import Path
 
 # Quality tier (default) and bulk tier (cheap, high-volume) — overridable via env.
 MODEL_QUALITY = os.environ.get("OSAI_LLM_MODEL", "claude-opus-4-8")
@@ -53,8 +54,36 @@ def sdk_available() -> bool:
         return False
 
 
+def _read_key() -> str | None:
+    """The Anthropic key, from the env var OR the Docker/secret-file convention.
+
+    Docker/K8s secrets are mounted as *files*, not env vars — so ``ANTHROPIC_API_KEY_FILE``
+    (e.g. ``/run/secrets/anthropic_api_key``) is read and its contents used as the key.
+    The direct env var wins when both are set. The value is never logged."""
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if key:
+        return key.strip() or None
+    key_file = os.environ.get("ANTHROPIC_API_KEY_FILE")
+    if key_file:
+        try:
+            return (Path(key_file).read_text(encoding="utf-8").strip() or None)
+        except OSError:
+            return None
+    return None
+
+
 def key_present() -> bool:
-    return bool(os.environ.get("ANTHROPIC_API_KEY"))
+    return bool(_read_key())
+
+
+def key_source() -> str:
+    """Where the key came from — 'env', 'file', or 'none'. Never the value."""
+    if os.environ.get("ANTHROPIC_API_KEY"):
+        return "env"
+    kf = os.environ.get("ANTHROPIC_API_KEY_FILE")
+    if kf and Path(kf).is_file():
+        return "file"
+    return "none"
 
 
 def enabled() -> bool:
@@ -101,6 +130,7 @@ def status() -> dict:
         "transcripts_enabled": transcripts_enabled(),
         "sdk_installed": sdk_available(),
         "key_present": key_present(),
+        "key_source": key_source(),
         "base_url_override": bool(os.environ.get("OSAI_ANTHROPIC_BASE_URL")),
         "model_quality": MODEL_QUALITY,
         "model_bulk": MODEL_BULK,
@@ -123,8 +153,12 @@ class LLMProvider:
     def client(self):
         if self._client is None:
             from anthropic import Anthropic
-            kwargs = {"base_url": self.base_url} if self.base_url else {}
-            # reads ANTHROPIC_API_KEY from the environment; base_url optional override
+            kwargs = {}
+            key = _read_key()  # env var or the ANTHROPIC_API_KEY_FILE secret convention
+            if key:
+                kwargs["api_key"] = key
+            if self.base_url:
+                kwargs["base_url"] = self.base_url
             self._client = Anthropic(**kwargs)
         return self._client
 

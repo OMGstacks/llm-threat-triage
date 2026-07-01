@@ -71,7 +71,7 @@ def cmd_llm(args) -> int:
     from . import llm as llm_mod
 
     yn = lambda b: "yes" if b else "no"  # noqa: E731
-    print(f"ANTHROPIC_API_KEY present: {yn(llm_mod.key_present())}")
+    print(f"ANTHROPIC_API_KEY present: {yn(llm_mod.key_present())} (source: {llm_mod.key_source()})")
     print(f"anthropic SDK installed:   {yn(llm_mod.sdk_available())}")
     print(f"OSAI_LLM (tutor) enabled:  {yn(llm_mod.enabled())}")
     print(f"OSAI_LLM_TRANSCRIPTS gate: {yn(llm_mod.transcripts_enabled())}")
