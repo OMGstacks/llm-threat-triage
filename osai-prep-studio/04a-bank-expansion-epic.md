@@ -36,7 +36,7 @@ No bulk generation without dedupe; no target-count padding; no bank without a gr
 | Phase | Bank(s) | Grader idea | Status |
 |---|---|---|---|
 | **1** | `architecture_reasoning`, `lab_grounded` | Grounded + cited + **required fact present** + **no invention** (anti-fabrication), over a new `reference/osai-studio-architecture.md` corpus doc | **✅ landed** — graders + gate + 28 vetted seeds (15 + 13) + grader-teeth test |
-| **2** | `tool_use_judgment` | Grade the **decision** (allow / block / require-approval; injection-vs-benign) against an expected label — not just the explanation | ⬜ next |
+| **2** | `tool_use_judgment` | Grade the **decision** — the correct call (block / require-approval / untrusted / …) must appear and the wrong call must not; grounded in a new `agentic-tool-use-decisions.md` corpus doc | **✅ landed** — reuses the grounded grader via `_GROUNDED_BANKS`; 13 seeds; grader-teeth test asserts a wrong decision fails |
 | **3** | `stale_claim_detection` | Given a claim, the tutor must **flag it stale**, name the fresher source, and answer/abstain/caveat correctly | ⬜ |
 | **4** | `report_quality` | Reuse the existing `ReportReviewer` rubric — item = finding + expected rubric outcome; assert score/pass matches | ⬜ |
 
@@ -65,6 +65,19 @@ No bulk generation without dedupe; no target-count padding; no bank without a gr
 - All **CI and ship gates green**, and every bank passes **independently**.
 - The gate report includes per-bank: `item_count`, `source_corpus`, `grader_name`,
   `pass_rate`, and failure examples.
+
+## Phase 2 result
+
+- New corpus doc `reference/agentic-tool-use-decisions.md` (untrusted-output-not-instructions,
+  human-approval for high-impact, least privilege, injection-vs-benign, identity
+  verification, rate/budget caps), wired into `tutor.DEFAULT_SOURCES`.
+- The grounded grader was generalized to a `_GROUNDED_BANKS` set so `tool_use_judgment`
+  is graded (and hard-gated at 1.0) exactly like the Phase 1 banks, with the *decision*
+  as the required keyword and the opposite decision as `forbidden`.
+- 13 vetted scenario seeds; the grader-teeth test now also proves a **wrong decision fails**.
+  A corpus-introduced abstention regression (one item collided with new content) was
+  caught by the gate and fixed — abstention stays at pass-rate 1.0. Gold set now **321
+  items**, ship gate PASS, suite 164 green.
 
 ## Phase 1 result (this epic's first delivery)
 

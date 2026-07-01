@@ -31,6 +31,7 @@ DEFAULT_SOURCES = [
     ("reference/nist-ai-rmf.md", "A1"),
     ("reference/ai-redteam-tooling.md", "A2"),
     ("reference/osai-studio-architecture.md", "A3"),
+    ("reference/agentic-tool-use-decisions.md", "A3"),
     ("reference/glossary.md", "A3"),
 ]
 
