@@ -5,6 +5,7 @@ import type {
   AuthResponse,
   CapstoneBrief,
   CapstoneScore,
+  EvalReport,
   MeResponse,
   RosterRow,
   ExamScore,
@@ -95,6 +96,7 @@ export const api = {
     finding: Record<string, unknown>,
   ) => post<ExamSubmitResult>(`/exam/${sid}/submit`, { lab_id, transcript, flag, finding }),
   examScore: (sid: string) => j<ExamScore>(`/exam/${sid}/score`),
+  evalReport: (refresh = false) => j<EvalReport>(`/eval${refresh ? "?refresh=1" : ""}`),
   capstone: () => j<CapstoneBrief>("/capstone"),
   capstoneScore: (findings: { owasp_id: string }[], escalation_chain: boolean) =>
     post<CapstoneScore>("/capstone/score", { findings, escalation_chain }),

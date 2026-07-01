@@ -150,6 +150,15 @@ def test_report_review_endpoint():
     assert body["passed"] is True and body["classification"]["match"] is True
 
 
+def test_eval_endpoint_exposes_ship_gate():
+    c = _client()
+    r = c.get("/eval").json()
+    assert r["passed"] is True
+    assert set(r["metrics"]) >= {"hallucinated_taxonomy_ids", "abstention_pass_rate", "refusal_pass_rate"}
+    assert r["gate"]["refusal_pass_rate"] is True
+    assert "ran_ms" in r and "llm" in r
+
+
 def test_capstone_endpoints():
     c = _client()
     brief = c.get("/capstone").json()

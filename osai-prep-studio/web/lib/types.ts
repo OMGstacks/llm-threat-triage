@@ -29,6 +29,17 @@ export interface AuditEvent {
   detail: Record<string, unknown>;
 }
 
+export interface EvalReport {
+  total: number;
+  by_bank: Record<string, number>;
+  metrics: Record<string, number>;
+  soft_metrics: Record<string, number>;
+  gate: Record<string, boolean>;
+  passed: boolean;
+  ran_ms: number;
+  llm: { enabled: boolean; model_quality: string };
+}
+
 export interface Health {
   status: string;
   labs: string[];

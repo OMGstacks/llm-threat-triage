@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import List, Optional
 
 import hmac
+import time
 
 from fastapi import Cookie, FastAPI, Header, HTTPException, Request, Response
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -26,6 +27,7 @@ from . import engine
 from . import llm as llm_mod
 from .capstone import TriageCapstone
 from .exam import ExamSimulator
+from .goldset import GoldSetRunner
 from .progress import BADGE_DEFS, ProgressStore
 from .report import ReportReviewer
 from .service import GraderState, _public_manifest
@@ -399,6 +401,19 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     @app.post("/capstone/score")
     def capstone_score(req: CapstoneSubmitRequest):
         return capstone.score({"findings": req.findings, "escalation_chain": req.escalation_chain})
+
+    # --- eval dashboard: the doc-04 ship-gate metrics (cached; ?refresh=1 re-runs) ---
+    _eval_cache: dict = {}
+
+    @app.get("/eval")
+    def eval_report(refresh: int = 0):
+        if refresh or "report" not in _eval_cache:
+            t0 = time.monotonic()
+            report = GoldSetRunner(tutor=tutor, registry=state.registry).run()
+            report["ran_ms"] = round((time.monotonic() - t0) * 1000)
+            report["llm"] = llm_mod.status()
+            _eval_cache["report"] = report
+        return _eval_cache["report"]
 
     return app
 

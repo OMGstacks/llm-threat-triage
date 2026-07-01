@@ -14,6 +14,7 @@ const NAV = [
   { href: "/progress", label: "Progress" },
   { href: "/exam", label: "Exam" },
   { href: "/capstone", label: "Capstone" },
+  { href: "/eval", label: "Eval" },
 ];
 
 function Header({ health, offline }: { health: Health | null; offline: boolean }) {
