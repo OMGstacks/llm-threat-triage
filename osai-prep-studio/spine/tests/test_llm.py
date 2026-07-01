@@ -169,6 +169,15 @@ def test_status_reports_call_cap():
     assert "max_calls_per_min" in llm_mod.status()
 
 
+def test_cli_llm_ping_skips_when_disabled(monkeypatch, capsys):
+    from osai_spine.cli import main
+
+    monkeypatch.delenv("OSAI_LLM", raising=False)  # not enabled -> ping is skipped, not attempted
+    rc = main(["llm", "--ping"])
+    assert rc == 1
+    assert "ping: skipped" in capsys.readouterr().out
+
+
 def test_abstention_unaffected_by_provider():
     # An off-corpus query must still abstain — the LLM is never consulted.
     fake = _FakeProvider(reply="(should never be used)")

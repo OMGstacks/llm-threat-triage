@@ -59,9 +59,13 @@ def cmd_flag(args) -> int:
 
 
 def cmd_tutor(args) -> int:
+    from . import llm as llm_mod
     from .tutor import Tutor
 
-    print(json.dumps(Tutor(registry=TaxonomyRegistry()).ask(args.query, args.mode), indent=2))
+    # Wire the generative provider when the key is live (else offline extractive).
+    provider = llm_mod.LLMProvider() if llm_mod.enabled() else None
+    tutor = Tutor(registry=TaxonomyRegistry(), llm=provider)
+    print(json.dumps(tutor.ask(args.query, args.mode), indent=2))
     return 0
 
 
@@ -76,6 +80,18 @@ def cmd_llm(args) -> int:
     print(f"OSAI_LLM (tutor) enabled:  {yn(llm_mod.enabled())}")
     print(f"OSAI_LLM_TRANSCRIPTS gate: {yn(llm_mod.transcripts_enabled())}")
     print(f"model (quality / bulk):    {llm_mod.MODEL_QUALITY} / {llm_mod.MODEL_BULK}")
+    if getattr(args, "ping", False):
+        if not llm_mod.enabled():
+            print("ping: skipped — need ANTHROPIC_API_KEY (or _FILE) + the anthropic SDK + OSAI_LLM=1")
+            return 1
+        try:
+            out = llm_mod.LLMProvider().complete(
+                "You are a connectivity check. Reply with exactly: OK", "ping", max_tokens=16)
+            print(f"ping: live model replied -> {out!r}")
+            return 0
+        except Exception as exc:  # surface the real reason (401, bad base_url, network…)
+            print(f"ping: FAILED -> {type(exc).__name__}: {exc}")
+            return 1
     return 0
 
 
@@ -207,6 +223,8 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(fn=cmd_progress)
 
     sp = sub.add_parser("llm", help="safe LLM seam status (presence only — never the key value)")
+    sp.add_argument("--ping", action="store_true",
+                    help="send a tiny live request to verify the key answers (surfaces errors)")
     sp.set_defaults(fn=cmd_llm)
 
     sp = sub.add_parser("goldset", help="run the tutor gold-set ship gate (04-evaluation-harness.md)")
