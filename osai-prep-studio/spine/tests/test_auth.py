@@ -103,6 +103,13 @@ def test_deploy_guard_fails_closed_on_public():
     enforce_deploy_policy(env={"OSAI_PUBLIC": "1", "OSAI_ALLOW_INSECURE_PUBLIC_DEMO": "1"})
 
 
+def test_unknown_user_verifies_against_dummy_hash():
+    # unknown-user auth still runs a hash verify (constant timing) and returns False
+    s = _store()
+    assert s.verify_password("ghost", "any-password-here") is False
+    assert s.authenticate("ghost", "any-password-here") is False
+
+
 def test_auth_enabled_env(monkeypatch):
     monkeypatch.delenv("OSAI_AUTH", raising=False)
     assert auth_enabled() is False

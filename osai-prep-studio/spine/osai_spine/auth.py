@@ -87,6 +87,19 @@ def _verify_password(password: str, encoded: str):
     return ok, (ok and iters < PBKDF2_ITERS)
 
 
+_DUMMY_HASH = None
+
+
+def _dummy_hash() -> str:
+    """A cached hash to verify against when the user doesn't exist, so login timing
+    doesn't reveal whether a username is registered (user-enumeration side channel).
+    Computed lazily to keep import cheap."""
+    global _DUMMY_HASH
+    if _DUMMY_HASH is None:
+        _DUMMY_HASH = _encode_password("timing-equalizer-not-a-real-password")
+    return _DUMMY_HASH
+
+
 def enforce_deploy_policy(env=None) -> None:
     """Fail closed on a public deployment that isn't secured. No-op unless
     ``OSAI_PUBLIC=1``; then auth must be on with a strong, non-default secret, unless
@@ -178,10 +191,9 @@ class AuthStore:
 
     def verify_password(self, username: str, password: str) -> bool:
         row = self.conn.execute("SELECT pw FROM user WHERE username=?", (username,)).fetchone()
-        if not row:
-            return False
-        ok, _rehash = _verify_password(password or "", row["pw"])
-        return ok
+        # verify against a dummy hash for unknown users so timing doesn't leak existence
+        ok, _rehash = _verify_password(password or "", row["pw"] if row else _dummy_hash())
+        return ok if row else False
 
     def authenticate(self, username: str, password: str, now: float | None = None) -> bool:
         """Verify + throttle + rehash-on-login. Raises ``LoginThrottled`` when the
@@ -190,7 +202,10 @@ class AuthStore:
         if not self._throttle.check(username, now):
             raise LoginThrottled("too many failed attempts; try again later")
         row = self.conn.execute("SELECT pw FROM user WHERE username=?", (username,)).fetchone()
-        ok, needs_rehash = _verify_password(password or "", row["pw"]) if row else (False, False)
+        # verify against a dummy hash for unknown users so login timing is constant
+        ok, needs_rehash = _verify_password(password or "", row["pw"] if row else _dummy_hash())
+        if not row:
+            ok = False
         if not ok:
             self._throttle.record_failure(username, now)
             return False
