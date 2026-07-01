@@ -34,9 +34,35 @@ ABSTAIN_THRESHOLD = 0.07  # min cosine similarity to answer rather than abstain
 # Ignore very-common terms (idf below this) so generic words like "what/the/high"
 # don't create spurious similarity — only distinctive content terms drive retrieval.
 IDF_FLOOR = 1.8
+# Long reference sections are split into paragraph-level sub-chunks at ~this size, so
+# no content (e.g. a section's mitigation paragraph) is dropped by truncation and each
+# aspect (what / attack / detection / mitigation) is independently retrievable.
+CHUNK_MAX_CHARS = 1100
 
 _WORD = re.compile(r"[a-z0-9]+")
 _TAXONOMY_ID = re.compile(r"\bLLM\d{2}:2025\b|\bAML\.T(?:A)?\d{4}(?:\.\d{3})?\b")
+
+# Bridge a common vocabulary gap: learners ask how to "defend", the reference corpus
+# labels the answer "mitigation" / "prevention". Expanding the query with the corpus's
+# own terms (weighted, so the mitigation chunk actually outranks the definition chunks)
+# lets TF-IDF retrieval reach the mitigation content (a stopgap for the stdlib
+# retriever; semantic embeddings are the product-grade fix, 07-arch §RAG).
+_EXPANSION_BOOST = 3
+_QUERY_EXPANSIONS = {
+    "defend": ["mitigation", "prevention"],
+    "defense": ["mitigation", "prevention"],
+    "defence": ["mitigation", "prevention"],
+    "defending": ["mitigation", "prevention"],
+    "protect": ["mitigation", "prevention"],
+    "prevent": ["mitigation", "prevention"],
+    "prevention": ["mitigation"],
+    "mitigate": ["mitigation"],
+    "remediate": ["mitigation", "remediation"],
+    "harden": ["mitigation", "hardening"],
+    "stop": ["mitigation", "prevention"],
+    "guard": ["mitigation", "prevention"],
+    "countermeasure": ["mitigation"],
+}
 
 # Generic English filler — dropped so it can't ground a security answer. (Domain
 # terms like "high"/"injection" are deliberately NOT here; the IDF floor + the
@@ -107,6 +133,23 @@ def _split_markdown(md_text: str):
     return sections
 
 
+def _split_body(body: str, max_chars: int = CHUNK_MAX_CHARS):
+    """Greedily pack a section's paragraphs into sub-chunks of at most ``max_chars``,
+    so a long section becomes several retrievable chunks instead of one truncated one.
+    A single oversized paragraph becomes its own chunk (never dropped)."""
+    paras = [p.strip() for p in body.split("\n\n") if p.strip()]
+    chunks, cur = [], ""
+    for para in paras:
+        if cur and len(cur) + len(para) + 2 > max_chars:
+            chunks.append(cur)
+            cur = para
+        else:
+            cur = f"{cur}\n\n{para}" if cur else para
+    if cur:
+        chunks.append(cur)
+    return chunks or [body]
+
+
 class SourceLibrary:
     """A small TF-IDF index over curated markdown sources."""
 
@@ -122,7 +165,9 @@ class SourceLibrary:
                 body = body.strip()
                 if len(body) < 40:
                     continue
-                self.chunks.append(_Chunk(rel, title, body[:1600], tier, section))
+                for sub in _split_body(body):
+                    if len(sub) >= 40:
+                        self.chunks.append(_Chunk(rel, title, sub, tier, section))
         self._build_idf()
 
     def _build_idf(self):
@@ -148,7 +193,11 @@ class SourceLibrary:
         return len(self.distinctive_terms(query) & chunk_terms)
 
     def retrieve(self, query: str, k: int = 3):
-        q = self._vector(Counter(_tokenize(query)))
+        tokens = _tokenize(query)
+        for term in list(tokens):  # bridge defense-intent asks to the corpus's "mitigation" vocab
+            for exp in _QUERY_EXPANSIONS.get(term, []):
+                tokens.extend([exp] * _EXPANSION_BOOST)
+        q = self._vector(Counter(tokens))
         qn = math.sqrt(sum(v * v for v in q.values())) or 1.0
         scored = []
         for chunk in self.chunks:
@@ -223,7 +272,7 @@ class Tutor:
         self.registry = registry
         self.llm = llm  # optional LLMProvider; None -> extractive (default)
 
-    def ask(self, query: str, mode: str = "tutor", k: int = 3) -> dict:
+    def ask(self, query: str, mode: str = "tutor", k: int = 5) -> dict:
         # Safety scope guard runs before retrieval — refusals never touch the corpus.
         refusal = scope_refusal(query)
         if refusal:

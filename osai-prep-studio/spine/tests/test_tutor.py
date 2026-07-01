@@ -35,6 +35,23 @@ def test_taxonomy_id_validation():
     assert validate_taxonomy_ids("LLM05:2025 AML.T0024", reg) == []
 
 
+def test_long_section_mitigation_is_indexed_not_truncated():
+    # regression: the LLM01 mitigation paragraph sits past the old 1600-char cap;
+    # section-splitting must keep it as its own retrievable chunk.
+    lib = SourceLibrary()
+    assert any("Programmatic mitigation" in c.text and c.section == "LLM01:2025" for c in lib.chunks)
+
+
+def test_defense_intent_query_retrieves_mitigation():
+    # regression: "how do I defend" must reach the corpus's "mitigation" content
+    # (query-expansion + weighting bridge the vocabulary gap).
+    lib = SourceLibrary()
+    hits = lib.retrieve("how do I defend against indirect prompt injection", 5)
+    assert any(
+        "mitigation" in c.text.lower() or "trust boundary" in c.text.lower() for _s, c in hits
+    )
+
+
 def test_citations_carry_authority_tier():
     res = _tutor().ask("excessive agency and tool invocation")
     if not res["abstained"]:
