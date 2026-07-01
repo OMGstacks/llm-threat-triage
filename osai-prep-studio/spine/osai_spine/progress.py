@@ -315,6 +315,23 @@ class ProgressStore:
             self.conn.commit()
         return {"card_id": card_id, "ef": round(ef, 3), "interval_days": interval, "reps": reps, "due_ts": due}
 
+    def learners(self) -> list:
+        """Every learner who has any recorded state (attempts/xp/mastery)."""
+        rows = self.conn.execute(
+            "SELECT learner_id FROM attempt "
+            "UNION SELECT learner_id FROM xp_ledger "
+            "UNION SELECT learner_id FROM skill_mastery"
+        ).fetchall()
+        return sorted({r["learner_id"] for r in rows})
+
+    def reset(self, learner_id: str) -> None:
+        """Wipe a learner's progress (attempts, mastery, XP, flashcards, badges).
+        Instructor action — the account itself is untouched."""
+        with self._lock:
+            for table in ("attempt", "skill_mastery", "xp_ledger", "flashcard", "badge"):
+                self.conn.execute(f"DELETE FROM {table} WHERE learner_id=?", (learner_id,))
+            self.conn.commit()
+
     def summary(self, learner_id: str, registry=None) -> dict:
         out = {
             "learner_id": learner_id,

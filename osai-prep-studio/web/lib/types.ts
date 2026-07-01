@@ -6,6 +6,29 @@ export interface AuthResponse {
   token: string;
 }
 
+export interface MeResponse {
+  auth_enabled: boolean;
+  learner_id: string | null;
+  role: string;
+}
+
+export interface RosterRow {
+  learner_id: string;
+  role: string;
+  xp: number;
+  passed: number;
+  attempts: number;
+  readiness: number;
+  badges: number;
+}
+
+export interface AuditEvent {
+  ts: number;
+  event: string;
+  actor: string | null;
+  detail: Record<string, unknown>;
+}
+
 export interface Health {
   status: string;
   labs: string[];

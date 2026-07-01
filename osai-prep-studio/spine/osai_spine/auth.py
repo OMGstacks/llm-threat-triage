@@ -72,6 +72,12 @@ def new_csrf() -> str:
     return _b64e(os.urandom(18))
 
 
+def _admin_users() -> set:
+    """Usernames granted the ``instructor`` role at registration — bootstrapped from
+    ``OSAI_ADMIN_USERS`` (comma-separated). Simple, explicit, no self-promotion path."""
+    return {u.strip() for u in os.environ.get("OSAI_ADMIN_USERS", "").split(",") if u.strip()}
+
+
 class AuthError(Exception):
     """Registration/validation failure (bad input, duplicate user)."""
 
@@ -186,6 +192,7 @@ class AuthStore:
                 "CREATE TABLE IF NOT EXISTS user ("
                 "  username        TEXT PRIMARY KEY,"
                 "  pw              TEXT NOT NULL,"
+                "  role            TEXT NOT NULL DEFAULT 'learner',"
                 "  session_version INTEGER NOT NULL DEFAULT 0,"
                 "  created_ts      REAL NOT NULL)"
             )
@@ -200,16 +207,29 @@ class AuthStore:
             raise AuthError(f"password must be at least {MIN_PASSWORD_LEN} characters")
         now = float(now) if now is not None else time.time()
         encoded = _encode_password(password)
+        role = "instructor" if username in _admin_users() else "learner"
         with self._lock:
             try:
                 self.conn.execute(
-                    "INSERT INTO user(username,pw,session_version,created_ts) VALUES(?,?,0,?)",
-                    (username, encoded, now),
+                    "INSERT INTO user(username,pw,role,session_version,created_ts) VALUES(?,?,?,0,?)",
+                    (username, encoded, role, now),
                 )
                 self.conn.commit()
             except sqlite3.IntegrityError:
                 raise AuthError("username already taken")
         return username
+
+    def role(self, username: str) -> str:
+        row = self.conn.execute("SELECT role FROM user WHERE username=?", (username,)).fetchone()
+        return row["role"] if row else "learner"
+
+    def is_instructor(self, username: str) -> bool:
+        return self.role(username) == "instructor"
+
+    def usernames(self) -> list:
+        return sorted(
+            r["username"] for r in self.conn.execute("SELECT username FROM user").fetchall()
+        )
 
     def verify_password(self, username: str, password: str) -> bool:
         row = self.conn.execute("SELECT pw FROM user WHERE username=?", (username,)).fetchone()

@@ -19,7 +19,18 @@ const NAV = [
 function Header({ health, offline }: { health: Health | null; offline: boolean }) {
   const { learner, setLearner, authed, logout } = useLearner();
   const path = usePathname();
+  const [role, setRole] = useState("learner");
   const ai = health?.llm?.enabled ? "AI tutor ✓" : "AI tutor off";
+
+  useEffect(() => {
+    if (authed && health?.auth_enabled) {
+      api.me().then((m) => setRole(m.role)).catch(() => setRole("learner"));
+    } else {
+      setRole("learner");
+    }
+  }, [authed, health?.auth_enabled]);
+
+  const nav = role === "instructor" ? [...NAV, { href: "/admin", label: "Admin" }] : NAV;
 
   return (
     <header>
@@ -27,7 +38,7 @@ function Header({ health, offline }: { health: Health | null; offline: boolean }
         OSAI Prep Studio <span className="sub">AI-300 / OSAI</span>
       </h1>
       <nav className="row" style={{ gap: 12, margin: 0 }}>
-        {NAV.map((n) => (
+        {nav.map((n) => (
           <Link
             key={n.href}
             href={n.href}

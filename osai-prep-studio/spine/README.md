@@ -62,8 +62,8 @@ A lab **passes** only when both signals fire: the manifest's `detector_required`
 
 ```bash
 make loop        # attack -> vulnerable mock target -> two-signal grade (no real LLM)
-make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/badges/{l},/leaderboard,/flashcards/{l}/due,/exam/{id}/score,/capstone,/auth/me,/auth/events
-                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review,/capstone/score,/auth/register,/auth/login,/auth/logout
+make serve       # HTTP grader. GET  /health,/catalog,/labs,/labs/{id},/progress/{l},/readiness/{l},/badges/{l},/leaderboard,/flashcards/{l}/due,/exam/{id}/score,/capstone,/auth/me,/auth/events,/admin/roster,/admin/audit,/admin/export
+                 #              POST /labs/{id}/submit,/tutor/ask,/reports/review,/exam/start,/exam/{id}/submit,/flashcards/{l}/seed,/flashcards/review,/capstone/score,/auth/register,/auth/login,/auth/logout,/admin/reset/{l}
 
 # ask the retrieval-grounded tutor (cited; abstains when the corpus can't support an answer)
 python -m osai_spine.cli tutor --query "what is indirect prompt injection"

@@ -216,8 +216,9 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
     def auth_me(authorization: str | None = Header(default=None),
                 osai_session: str | None = Cookie(default=None)):
         if not auth_mod.auth_enabled():
-            return {"auth_enabled": False, "learner_id": None}
-        return {"auth_enabled": True, "learner_id": resolve_learner("", authorization, osai_session)}
+            return {"auth_enabled": False, "learner_id": None, "role": "learner"}
+        learner = resolve_learner("", authorization, osai_session)
+        return {"auth_enabled": True, "learner_id": learner, "role": auth.role(learner)}
 
     @app.get("/auth/events")
     def auth_events(authorization: str | None = Header(default=None),
@@ -226,6 +227,60 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         if not auth_mod.auth_enabled():
             return {"events": []}
         return {"events": audit_log.recent(50, actor=resolve_learner("", authorization, osai_session))}
+
+    # --- instructor/admin (role-gated) ------------------------------------
+    def require_instructor(authorization, cookie_token):
+        if not auth_mod.auth_enabled():
+            raise HTTPException(status_code=403, detail="admin requires OSAI_AUTH")
+        learner = resolve_learner("", authorization, cookie_token)  # 401 if unauthenticated
+        if not auth.is_instructor(learner):
+            raise HTTPException(status_code=403, detail="instructor role required")
+        return learner
+
+    def _roster_row(lid: str) -> dict:
+        att = progress.attempts(lid)
+        return {
+            "learner_id": lid, "role": auth.role(lid), "xp": progress.xp(lid),
+            "passed": att["passed"], "attempts": att["total"],
+            "readiness": progress.readiness(lid, state.registry)["score"],
+            "badges": len(progress.badges(lid)),
+        }
+
+    @app.get("/admin/roster")
+    def admin_roster(authorization: str | None = Header(default=None),
+                     osai_session: str | None = Cookie(default=None)):
+        require_instructor(authorization, osai_session)
+        ids = sorted(set(auth.usernames()) | set(progress.learners()))
+        rows = [_roster_row(lid) for lid in ids]
+        rows.sort(key=lambda r: (-r["xp"], r["learner_id"]))
+        return rows
+
+    @app.get("/admin/progress/{learner_id}")
+    def admin_progress(learner_id: str, authorization: str | None = Header(default=None),
+                       osai_session: str | None = Cookie(default=None)):
+        require_instructor(authorization, osai_session)
+        return progress.summary(learner_id, state.registry)
+
+    @app.post("/admin/reset/{learner_id}")
+    def admin_reset(learner_id: str, authorization: str | None = Header(default=None),
+                    osai_session: str | None = Cookie(default=None)):
+        actor = require_instructor(authorization, osai_session)
+        progress.reset(learner_id)
+        audit_log.record(audit_mod.ADMIN_RESET, actor, {"target": learner_id})
+        return {"ok": True, "reset": learner_id}
+
+    @app.get("/admin/audit")
+    def admin_audit(limit: int = 100, authorization: str | None = Header(default=None),
+                    osai_session: str | None = Cookie(default=None)):
+        require_instructor(authorization, osai_session)
+        return {"events": audit_log.recent(limit)}
+
+    @app.get("/admin/export")
+    def admin_export(authorization: str | None = Header(default=None),
+                     osai_session: str | None = Cookie(default=None)):
+        require_instructor(authorization, osai_session)
+        ids = sorted(set(auth.usernames()) | set(progress.learners()))
+        return {"learners": [progress.summary(lid, state.registry) for lid in ids]}
 
     @app.get("/catalog")
     def catalog():
