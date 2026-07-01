@@ -93,6 +93,15 @@ def test_key_from_docker_secret_file(tmp_path, monkeypatch):
     assert llm_mod.key_source() == "env" and llm_mod._read_key() == "sk-ant-from-env"
 
 
+def test_key_file_with_bom_is_cleaned(tmp_path, monkeypatch):
+    # A Windows-written secret file may carry a UTF-8 BOM; it must not corrupt the key.
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    secret = tmp_path / "anthropic_api_key"
+    secret.write_bytes(b"\xef\xbb\xbfsk-ant-bom\r\n")  # BOM + CRLF
+    monkeypatch.setenv("ANTHROPIC_API_KEY_FILE", str(secret))
+    assert llm_mod._read_key() == "sk-ant-bom"
+
+
 def test_missing_secret_file_is_safe(monkeypatch):
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.setenv("ANTHROPIC_API_KEY_FILE", "/no/such/secret")

@@ -83,6 +83,26 @@ The read-only rootfs / dropped caps / resource limits from the base compose stil
 the secret mounts under `/run/secrets` independently. `OSAI_LLM_TRANSCRIPTS` stays unset,
 so the learner-transcript paths remain held OFF (§3–§4).
 
+**Windows PowerShell** (Docker Desktop must be installed and running). Clone + switch to
+the branch first, then write the secret **without a BOM or trailing newline** (avoid
+`Set-Content`/`Out-File`, which add both):
+
+```powershell
+git clone https://github.com/OMGstacks/llm-threat-triage.git
+cd llm-threat-triage
+git checkout claude/osai-prep-studio-plan-jppj1p
+cd osai-prep-studio\spine\deploy
+
+New-Item -ItemType Directory -Force -Path secrets | Out-Null
+[IO.File]::WriteAllText("$PWD\secrets\anthropic_api_key", $env:ANTHROPIC_API_KEY)  # or a literal "sk-ant-..."
+
+docker compose -f docker-compose.yml -f docker-compose.llm.yml up --build
+docker compose exec grader python -m osai_spine.cli llm   # -> present: yes (source: file)
+```
+
+The reader uses `utf-8-sig`, so an accidental BOM is stripped anyway — but a BOM-free
+write is cleanest.
+
 Repo guards already in place:
 
 - `.gitignore` excludes `.env`, `.env.*`, `secrets/`, `config/credentials.json`,

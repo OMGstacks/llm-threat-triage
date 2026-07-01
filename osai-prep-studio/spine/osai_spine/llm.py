@@ -66,7 +66,9 @@ def _read_key() -> str | None:
     key_file = os.environ.get("ANTHROPIC_API_KEY_FILE")
     if key_file:
         try:
-            return (Path(key_file).read_text(encoding="utf-8").strip() or None)
+            # utf-8-sig strips a leading BOM (common when the file is written by a
+            # Windows editor/PowerShell) that str.strip() would otherwise leave in.
+            return (Path(key_file).read_text(encoding="utf-8-sig").strip() or None)
         except OSError:
             return None
     return None
