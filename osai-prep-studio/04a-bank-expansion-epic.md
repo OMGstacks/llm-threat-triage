@@ -38,7 +38,7 @@ No bulk generation without dedupe; no target-count padding; no bank without a gr
 | **1** | `architecture_reasoning`, `lab_grounded` | Grounded + cited + **required fact present** + **no invention** (anti-fabrication), over a new `reference/osai-studio-architecture.md` corpus doc | **✅ landed** — graders + gate + 28 vetted seeds (15 + 13) + grader-teeth test |
 | **2** | `tool_use_judgment` | Grade the **decision** — the correct call (block / require-approval / untrusted / …) must appear and the wrong call must not; grounded in a new `agentic-tool-use-decisions.md` corpus doc | **✅ landed** — reuses the grounded grader via `_GROUNDED_BANKS`; 13 seeds; grader-teeth test asserts a wrong decision fails |
 | **3** | `stale_claim_detection` | A rule-based staleness detector (`staleness.py`) flags version-sensitive/outdated claims against current ground truth and names the fresher fact; grader checks the **verdict** | **✅ landed** — `tutor.ask(mode="stale")` + grader hard-gated at 1.0; 20 seeds (10 stale / 10 fresh); module + grader-teeth tests |
-| **4** | `report_quality` | Reuse the existing `ReportReviewer` rubric — item = finding + expected rubric outcome; assert score/pass matches | ⬜ |
+| **4** | `report_quality` | Reuse the existing `ReportReviewer` rubric — item = finding + expected rubric outcome; the runner routes it through `reviewer.review` and the grader asserts pass/total matches | **✅ landed** — hard-gated at 1.0; 14 seeds (6 strong-pass / 8 weak-fail); grader-teeth asserts a wrong outcome fails both directions |
 
 ## Target distribution (~750; ranges, not exact equality)
 
@@ -65,6 +65,21 @@ No bulk generation without dedupe; no target-count padding; no bank without a gr
 - All **CI and ship gates green**, and every bank passes **independently**.
 - The gate report includes per-bank: `item_count`, `source_corpus`, `grader_name`,
   `pass_rate`, and failure examples.
+
+## Phase 4 result — all 9 bank types now stood up
+
+- `report_quality` reuses the existing `ReportReviewer` (`report.py`): the runner routes a
+  finding through `reviewer.review(finding, transcript)` and the grader asserts the rubric
+  **outcome** matches (`passed == expected_pass`, plus optional `min_total`/`max_total`).
+  Hard-gated at 1.0 (`_RATE_GATED_BANKS`).
+- 14 vetted seeds — 6 strong findings that pass, 8 weak findings (missing evidence /
+  reproduction / impact, or an invalid OWASP id) that fail. Grader-teeth asserts a wrong
+  outcome fails in **both** directions.
+
+**Milestone:** the epic's structural goal is met — **all nine grader-backed bank types now
+exist and are hard-gated** (gold set **355 items**, ship gate PASS, suite 165 green). What
+remains for ~750 is **growth**: scaling each bank to its target size in vetted batches of
+25–50 with gate + dedupe after each — deferred to a growth pass, not padding.
 
 ## Phase 3 result
 
