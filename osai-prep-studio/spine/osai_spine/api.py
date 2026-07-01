@@ -18,6 +18,7 @@ from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 
+from . import audit as audit_mod
 from . import auth as auth_mod
 from . import engine
 from . import llm as llm_mod
@@ -89,6 +90,7 @@ def _dump(event: Event) -> dict:
 
 
 def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
+    auth_mod.enforce_deploy_policy()  # fail closed on an insecure public deployment
     state = GraderState(
         seed or os.environ.get("OSAI_SERVER_SEED", "dev-seed-change-me"),
         labs_dir or _LABS_DIR,
@@ -104,6 +106,7 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         os.environ.get("OSAI_AUTH_DB", ":memory:"),
         secret=os.environ.get("OSAI_AUTH_SECRET") or state.seed,
     )
+    audit_log = audit_mod.AuditLog(os.environ.get("OSAI_AUDIT_DB", ":memory:"))
 
     def resolve_learner(body_learner: str, authorization):
         """When auth is enabled, the effective learner is the verified token subject —
@@ -140,19 +143,42 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
             user = auth.register(req.username, req.password)
         except auth_mod.AuthError as exc:
             raise HTTPException(status_code=400, detail=str(exc))
+        audit_log.record(audit_mod.AUTH_REGISTER, user)
         return {"learner_id": user, "token": auth.issue_token(user)}
 
     @app.post("/auth/login")
     def auth_login(req: AuthRequest):
-        if not auth.verify_password(req.username, req.password):
+        try:
+            ok = auth.authenticate(req.username, req.password)
+        except auth_mod.LoginThrottled:
+            audit_log.record(audit_mod.AUTH_LOGIN_THROTTLED, req.username)
+            raise HTTPException(status_code=429, detail="too many attempts; try again later")
+        if not ok:
+            audit_log.record(audit_mod.AUTH_LOGIN_FAILURE, req.username)
             raise HTTPException(status_code=401, detail="invalid credentials")
+        audit_log.record(audit_mod.AUTH_LOGIN, req.username)
         return {"learner_id": req.username, "token": auth.issue_token(req.username)}
+
+    @app.post("/auth/logout")
+    def auth_logout(authorization: str | None = Header(default=None)):
+        learner = resolve_learner("", authorization) if auth_mod.auth_enabled() else ""
+        if learner:
+            auth.revoke_sessions(learner)  # invalidates every outstanding token
+            audit_log.record(audit_mod.AUTH_LOGOUT, learner)
+        return {"ok": True}
 
     @app.get("/auth/me")
     def auth_me(authorization: str | None = Header(default=None)):
         if not auth_mod.auth_enabled():
             return {"auth_enabled": False, "learner_id": None}
         return {"auth_enabled": True, "learner_id": resolve_learner("", authorization)}
+
+    @app.get("/auth/events")
+    def auth_events(authorization: str | None = Header(default=None)):
+        # a learner's own recent audit trail (instructor-wide view is a future admin role)
+        if not auth_mod.auth_enabled():
+            return {"events": []}
+        return {"events": audit_log.recent(50, actor=resolve_learner("", authorization))}
 
     @app.get("/catalog")
     def catalog():
@@ -192,6 +218,7 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         new_badges = progress.award_badges(learner, state.registry)
         if new_badges:
             feedback["new_badges"] = new_badges
+        audit_log.record(audit_mod.LAB_SUBMIT, learner, {"lab": lab_id, "passed": result.passed})
         return feedback
 
     @app.get("/progress/{learner_id}")

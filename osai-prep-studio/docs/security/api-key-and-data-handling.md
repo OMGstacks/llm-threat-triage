@@ -196,6 +196,48 @@ spend. Because the key is environment-only and never in git, a repo leak cannot 
 it; because lab containers are egress-deny (13-platform-threat-model.md), a compromised
 lab cannot exfiltrate it either.
 
+## 7. Authentication hardening (`osai_spine/auth.py`)
+
+Auth is **opt-in** (`OSAI_AUTH=1`), OFF by default so offline/CI stay deterministic.
+When on, learner-scoped endpoints derive the learner from the verified token — never a
+client-supplied id. Controls in place (OWASP Password Storage / Session Management,
+NIST 800-63B):
+
+- **Password storage** — PBKDF2-HMAC-SHA256, **600,000 iterations**, 128-bit per-user
+  random salt, stored in a self-describing `pbkdf2_sha256$iters$salt$hash` string so the
+  cost factor is upgradable; **rehash-on-login** transparently upgrades stale hashes.
+  Min password length **12**. Constant-time comparison. Passwords never stored/returned
+  in plaintext.
+- **Session tokens** — HMAC-SHA256 signed, carrying `sub/iat/exp/jti/ver` only (no
+  secret material). Verified with a constant-time compare + expiry. A per-user
+  `session_version` (`ver`) gives **stateless revocation**: `POST /auth/logout` (and any
+  future password change) bumps it, invalidating every outstanding token at once.
+- **Login throttling** — a per-username sliding window (`LOGIN_MAX_FAILURES=5` /
+  `LOGIN_WINDOW_S=300`); exhaustion returns `429`. Generic failure message (no user
+  enumeration via wording).
+- **Audit log** (`osai_spine/audit.py`) — append-only record of register / login /
+  login-failure / login-throttled / logout and lab-submit grade decisions (actor +
+  event + non-sensitive detail; never passwords, tokens, flags, or answer keys). A
+  learner sees their own trail at `GET /auth/events`.
+- **Fail-closed deploy guard** — `enforce_deploy_policy()` (run at `create_app`) refuses
+  to start a **public** deployment (`OSAI_PUBLIC=1`) unless `OSAI_AUTH=1` **and** a
+  strong (`>= 32` char), non-default `OSAI_AUTH_SECRET` is set. Escape hatch for demos:
+  `OSAI_ALLOW_INSECURE_PUBLIC_DEMO=1`. This prevents the "deployed publicly with auth
+  accidentally off" failure.
+
+**Secrets:** `OSAI_AUTH_SECRET` follows the same env-only rule as the API key (§2); set
+a strong random value in production (it defaults to the grader seed for dev only).
+
+### Still open before a public beta (tracked)
+
+- [ ] **Secure-cookie session mode** — Bearer-in-`localStorage` is fine for local/dev but
+  exposes the token to XSS; add an `HttpOnly`/`Secure`/`SameSite` cookie mode (+ CSRF)
+  for public deployment.
+- [ ] **Per-IP login limits + weak-password blocklist** — the throttle is per-username.
+- [ ] **Instructor/admin role** — cohort-wide audit view, progress reset, export.
+- [ ] **CSP / security headers** on the front-end deployment; **SBOM + dependency scan**
+  in CI; container non-root/read-only (grader image already runs as uid 10001).
+
 ## Cross-references
 [../../07-architecture-and-stack.md](../../07-architecture-and-stack.md) ·
 [../../11-safety-legal-ethics.md](../../11-safety-legal-ethics.md) ·

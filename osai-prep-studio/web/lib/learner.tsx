@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { api } from "./api";
 
 interface LearnerCtx {
   learner: string;
@@ -47,6 +48,8 @@ export function LearnerProvider({ children }: { children: React.ReactNode }) {
   };
 
   const logout = () => {
+    // best-effort server-side revocation (invalidates the token everywhere), then clear local
+    api.logout().catch(() => {});
     setToken(null);
     if (typeof window !== "undefined") window.localStorage.removeItem("osai_token");
   };

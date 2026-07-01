@@ -54,6 +54,7 @@ export const api = {
     post<AuthResponse>("/auth/register", { username, password }),
   login: (username: string, password: string) =>
     post<AuthResponse>("/auth/login", { username, password }),
+  logout: () => post<{ ok: boolean }>("/auth/logout", {}),
   labs: () => j<LabSummary[]>("/labs"),
   submit: (lab: string, learner_id: string, transcript: Transcript[], flag: string) =>
     post<SubmitResult>(`/labs/${lab}/submit`, { learner_id, transcript, flag }),

@@ -73,3 +73,43 @@ def test_enforcement_learner_is_token_subject(monkeypatch):
 
     # a forged/expired token is rejected
     assert c.get("/progress/alice", headers={"Authorization": "Bearer not.a.token"}).status_code == 401
+
+
+def test_logout_revokes_the_token(monkeypatch):
+    monkeypatch.setenv("OSAI_AUTH", "1")
+    c = _client()
+    tok = c.post("/auth/register", json={"username": "alice", "password": "correct-horse-battery"}).json()["token"]
+    assert c.get("/auth/me", headers={"Authorization": f"Bearer {tok}"}).json()["learner_id"] == "alice"
+    assert c.post("/auth/logout", headers={"Authorization": f"Bearer {tok}"}).json()["ok"] is True
+    # the old token no longer works (server-side revocation via session_version)
+    assert c.get("/auth/me", headers={"Authorization": f"Bearer {tok}"}).status_code == 401
+
+
+def test_login_throttle_returns_429(monkeypatch):
+    monkeypatch.setenv("OSAI_AUTH", "1")
+    c = _client()
+    c.post("/auth/register", json={"username": "alice", "password": "correct-horse-battery"})
+    for _ in range(5):
+        assert c.post("/auth/login", json={"username": "alice", "password": "wrong-password"}).status_code == 401
+    assert c.post("/auth/login", json={"username": "alice", "password": "wrong-password"}).status_code == 429
+
+
+def test_audit_trail_records_auth_and_submit(monkeypatch):
+    monkeypatch.setenv("OSAI_AUTH", "1")
+    c = _client()
+    tok = c.post("/auth/register", json={"username": "alice", "password": "correct-horse-battery"}).json()["token"]
+    flag = flags.derive_flag(SEED, "alice", "L01")
+    c.post("/labs/L01/submit", headers={"Authorization": f"Bearer {tok}"},
+           json={"learner_id": "alice",
+                 "transcript": [{"role": "user", "source": "chat_ui", "content": INJECT}], "flag": flag})
+    events = c.get("/auth/events", headers={"Authorization": f"Bearer {tok}"}).json()["events"]
+    kinds = {e["event"] for e in events}
+    assert "auth.register" in kinds and "lab.submit" in kinds
+
+
+def test_create_app_fails_closed_on_insecure_public_deploy(monkeypatch):
+    monkeypatch.setenv("OSAI_PUBLIC", "1")
+    monkeypatch.delenv("OSAI_AUTH", raising=False)
+    monkeypatch.delenv("OSAI_ALLOW_INSECURE_PUBLIC_DEMO", raising=False)
+    with pytest.raises(RuntimeError):
+        create_app(seed=SEED)
