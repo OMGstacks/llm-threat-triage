@@ -99,22 +99,30 @@ docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
 ```
 
 This backs the target kinds — chat (L01, `:9001`), RAG (L02, `:9002`), and MCP
-(L11, `:9011`) — plus the **chat-family realism labs L03–L07** and the **RAG
-write-poisoning realism lab L09**, all served by **one shared `ollama` server**. Every target and the server run on the internal `labnet` (no
+(L11, `:9011`) — plus the **chat-family realism labs L03–L07**, the **RAG
+write-poisoning realism lab L09**, and the **MCP tool-family realism labs L12
+(tool-shadowing) and L16 (excessive agency)**, all served by **one shared `ollama`
+server**. Every target and the server run on the internal `labnet` (no
 egress, no published model port). The backend-agnostic factories
 (`labtarget.make_{chat,rag,mcp}_target`) keep the grader loop identical whether the mock
 or the real model answers. Pick a model with `OSAI_OLLAMA_MODEL` (default `llama3.2:3b`);
 one pull serves every target.
 
 Ollama mode is a **deploy-time optional realism upgrade, never the CI/offline default**
-(the deterministic mock runs when `OSAI_OLLAMA` is unset). Each of L03–L07 (chat) and L09 (RAG) carries a **lab-specific weak system prompt**
-(`labtarget.weak_system_prompt`) so a real model exhibits that lab's own flaw — encoded
-injection, system-prompt extraction, markdown-image exfiltration, improper output
-handling, sensitive disclosure, and (L09) trusting a poisoned knowledge-base write path —
-rather than reusing L01's prompt. Unlike the L01/L02/L11 demo targets, **L03–L07 and L09
-are internal by default** (`expose` on `labnet`, **no host-published ports**); to reach one
-for a local demo, publish it explicitly, e.g. `docker compose -f docker-compose.yml -f
-docker-compose.ollama.yml run --service-ports labtarget-l09`.
+(the deterministic mock runs when `OSAI_OLLAMA` is unset). Each of L03–L07 (chat), L09 (RAG), and L12/L16 (MCP) carries a **lab-specific weak system
+prompt** (`labtarget.weak_system_prompt`) so a real model exhibits that lab's own flaw —
+encoded injection, system-prompt extraction, markdown-image exfiltration, improper output
+handling, sensitive disclosure, (L09) trusting a poisoned knowledge-base write path, (L12)
+invoking a shadowed/rug-pulled tool without identity verification, and (L16) running a
+destructive tool with no human approval — rather than reusing L01's prompt. The MCP labs
+(L12/L16) pair the prompt with a **string-only simulated tool descriptor**
+(`labtarget.MCP_TOOL_PROFILES`) so the lab distinction is explicit in tool metadata:
+these are **contained simulations of unsafe agency** — "invoking" a tool only synthesizes a
+string containing the planted flag; there is **no real shell, network, filesystem, or tool
+execution**. Unlike the L01/L02/L11 demo targets, **L03–L07, L09, L12 and L16 are internal
+by default** (`expose` on `labnet`, **no host-published ports**); to reach one for a local
+demo, publish it explicitly, e.g. `docker compose -f docker-compose.yml -f
+docker-compose.ollama.yml run --service-ports labtarget-l12`.
 
 ---
 

@@ -255,6 +255,58 @@ services:
     networks:
       - labnet
 
+  # --- MCP tool-family realism labs (L12, L16) --------------------------------------
+  # mcp KIND (like L11) with a lab-specific weak prompt + a STRING-ONLY simulated tool
+  # descriptor (labtarget.MCP_TOOL_PROFILES): L12 tool-shadowing/rug-pull, L16 excessive
+  # agency. No real tool execution. INTERNAL by default: expose, no host-published ports.
+  labtarget-l12:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L12        # mcp — tool shadowing / rug-pull (identity not verified)
+      OSAI_PORT: "9012"
+    expose:
+      - "9012"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  labtarget-l16:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L16        # mcp — excessive agency -> destructive action (no approval)
+      OSAI_PORT: "9016"
+    expose:
+      - "9016"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
 networks:
   edge:
     driver: bridge

@@ -18,7 +18,8 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from . import flags
-from .labtarget import make_chat_target, make_mcp_target, make_rag_target, weak_system_prompt
+from .labtarget import (make_chat_target, make_mcp_target, make_rag_target,
+                        mcp_tool_profile, weak_system_prompt)
 
 
 def _build_target(lab_id: str, flag: str):
@@ -29,8 +30,11 @@ def _build_target(lab_id: str, flag: str):
     # poisoning) gets a lab-specific weak prompt that trusts the knowledge base.
     if lab_id in ("L02", "L09"):
         return "rag", make_rag_target(flag, weak_system_prompt(lab_id, flag))
-    if lab_id == "L11":
-        return "mcp", make_mcp_target(flag)
+    # MCP kind: L11 keeps the default single-tool behaviour; L12 (tool shadowing) and
+    # L16 (excessive agency) add a lab-specific weak prompt + a string-only tool profile.
+    if lab_id in ("L11", "L12", "L16"):
+        return "mcp", make_mcp_target(flag, weak_system_prompt(lab_id, flag),
+                                      mcp_tool_profile(lab_id))
     # chat-family: L01 uses the default support-bot prompt; L03-L07 get a lab-specific
     # weak prompt so the real-model (Ollama) target exhibits that lab's own flaw.
     return "chat", make_chat_target(flag, weak_system_prompt(lab_id, flag))
