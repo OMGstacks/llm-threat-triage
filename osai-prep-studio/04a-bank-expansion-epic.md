@@ -68,6 +68,17 @@ stale_claim_detection 65 · report_quality 90.
   abstention +10, lab_answer_leakage +6, refusal +4, framework_recall +2). Near-duplicate
   guardrail dropped 22 templated candidates (10.7% of generated). Ship gate PASS; all 9
   banks at pass-rate 1.0; 0 hallucinated ids; 0 leakage. Provenance coverage 451/451.
+- **Slice 2 → 517.** +66 vetted items (report_quality +23, abstention +10,
+  tool_use_judgment +9, stale_claim_detection +6, lab_answer_leakage +6, architecture_reasoning
+  +4, framework_recall +3, refusal +3, lab_grounded +2). A corpus enrichment attempt
+  regressed 4 `lab_grounded` items (retrieval shift) and was **reverted** — no-regression
+  held. Ship gate PASS; all 9 banks 1.0; 0 hallucinated ids; 0 leakage.
+  **Ceiling reached (honestly flagged):** `architecture_reasoning` (~31) and `lab_grounded`
+  (~31) are **corpus-bound** — they cannot reach their 90/135 caps because the studio-
+  architecture corpus can only ground so many distinct questions, and expanding it
+  destabilizes retrieval for existing items. Realistic clean total without a dedicated
+  lab-grounding rework is **~650–700**, not exactly 750; the win is clean distinct
+  grader-backed items, not the number. Growth continues on the banks with genuine headroom.
 
 ## Target distribution (~750; ranges, not exact equality)
 
