@@ -228,6 +228,33 @@ services:
     networks:
       - labnet
 
+  # --- RAG realism lab (L09) --------------------------------------------------------
+  # rag KIND (like L02) with a lab-specific weak prompt that trusts the knowledge base
+  # without provenance (write-path poisoning). INTERNAL by default: expose, no ports.
+  labtarget-l09:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L09        # rag — write-path poisoning (data poisoning, LLM04)
+      OSAI_PORT: "9009"
+    expose:
+      - "9009"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
 networks:
   edge:
     driver: bridge

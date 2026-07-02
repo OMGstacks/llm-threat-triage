@@ -25,8 +25,10 @@ def _build_target(lab_id: str, flag: str):
     # Every kind uses the backend-agnostic factory: the deterministic mock by default,
     # or an Ollama-backed model when OSAI_OLLAMA=1 (the deploy-time realism upgrade) —
     # same contract either way, so this server and the grader loop are unchanged.
-    if lab_id == "L02":
-        return "rag", make_rag_target(flag)
+    # RAG kind: L02 (indirect injection) keeps the default prompt; L09 (write-path
+    # poisoning) gets a lab-specific weak prompt that trusts the knowledge base.
+    if lab_id in ("L02", "L09"):
+        return "rag", make_rag_target(flag, weak_system_prompt(lab_id, flag))
     if lab_id == "L11":
         return "mcp", make_mcp_target(flag)
     # chat-family: L01 uses the default support-bot prompt; L03-L07 get a lab-specific
