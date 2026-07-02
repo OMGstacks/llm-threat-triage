@@ -1,10 +1,11 @@
 # OSAI Prep Studio — Ollama-backed lab target overlay (realism upgrade for the range).
 #
 # Swaps the deterministic stdlib mocks for real, locally hosted, deliberately
-# weakly-guardrailed models across ALL three target kinds — chat (L01), rag (L02),
-# and mcp (L11) — behind the SAME .chat()/.query() contracts, so the grader loop is
-# unchanged. One shared `ollama` server backs every target. Model WEIGHTS never enter
-# git; they are pulled into a named volume and served from there.
+# weakly-guardrailed models across the target kinds — chat (L01 + the L03-L07
+# realism labs), rag (L02), and mcp (L11) — behind the SAME .chat()/.query()
+# contracts, so the grader loop is unchanged. ONE shared `ollama` server backs every
+# target. Model WEIGHTS never enter git; they are pulled into a named volume and
+# served from there.
 #
 # Isolation (13-platform-threat-model.md): the runtime `ollama` server and the lab
 # target sit on the base compose's INTERNAL `labnet` (deny-all egress, no published
@@ -84,6 +85,52 @@ services:
         condition: service_healthy
 
   labtarget-l11:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  # Chat-family realism labs — all served by the SAME one shared `ollama` server.
+  labtarget-l03:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  labtarget-l04:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  labtarget-l05:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  labtarget-l06:
+    environment:
+      OSAI_OLLAMA: "1"
+      OSAI_OLLAMA_URL: http://ollama:11434
+      OSAI_OLLAMA_MODEL: ${OSAI_OLLAMA_MODEL:-llama3.2:3b}
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+  labtarget-l07:
     environment:
       OSAI_OLLAMA: "1"
       OSAI_OLLAMA_URL: http://ollama:11434

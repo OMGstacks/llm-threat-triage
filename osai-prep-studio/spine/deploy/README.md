@@ -98,12 +98,23 @@ docker compose -f docker-compose.yml -f docker-compose.ollama.yml \
 docker compose -f docker-compose.yml -f docker-compose.ollama.yml up --build
 ```
 
-This backs **all three target kinds** — chat (L01, `:9001`), RAG (L02, `:9002`), and
-MCP (L11, `:9011`) — with one shared `ollama` server; every target and the server run on
-the internal `labnet` (no egress, no published model port). The backend-agnostic
-factories (`labtarget.make_{chat,rag,mcp}_target`) keep the grader loop identical whether
-the mock or the real model answers. Pick a model with `OSAI_OLLAMA_MODEL` (default
-`llama3.2:3b`); one pull serves every target.
+This backs the target kinds — chat (L01, `:9001`), RAG (L02, `:9002`), and MCP
+(L11, `:9011`) — plus the **chat-family realism labs L03–L07**, all served by **one
+shared `ollama` server**. Every target and the server run on the internal `labnet` (no
+egress, no published model port). The backend-agnostic factories
+(`labtarget.make_{chat,rag,mcp}_target`) keep the grader loop identical whether the mock
+or the real model answers. Pick a model with `OSAI_OLLAMA_MODEL` (default `llama3.2:3b`);
+one pull serves every target.
+
+Ollama mode is a **deploy-time optional realism upgrade, never the CI/offline default**
+(the deterministic mock runs when `OSAI_OLLAMA` is unset). Each of L03–L07 carries a
+**lab-specific weak system prompt** (`labtarget.weak_system_prompt`) so a real model
+exhibits that lab's own flaw (encoded injection, system-prompt extraction, markdown-image
+exfiltration, improper output handling, sensitive disclosure) rather than reusing L01's
+prompt. Unlike the L01/L02/L11 demo targets, **L03–L07 are internal by default** (`expose`
+on `labnet`, **no host-published ports**); to reach one for a local demo, publish it
+explicitly, e.g. `docker compose -f docker-compose.yml -f docker-compose.ollama.yml run
+--service-ports labtarget-l05`.
 
 ---
 

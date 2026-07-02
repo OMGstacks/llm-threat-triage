@@ -18,7 +18,7 @@ import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from . import flags
-from .labtarget import make_chat_target, make_mcp_target, make_rag_target
+from .labtarget import make_chat_target, make_mcp_target, make_rag_target, weak_system_prompt
 
 
 def _build_target(lab_id: str, flag: str):
@@ -29,7 +29,9 @@ def _build_target(lab_id: str, flag: str):
         return "rag", make_rag_target(flag)
     if lab_id == "L11":
         return "mcp", make_mcp_target(flag)
-    return "chat", make_chat_target(flag)
+    # chat-family: L01 uses the default support-bot prompt; L03-L07 get a lab-specific
+    # weak prompt so the real-model (Ollama) target exhibits that lab's own flaw.
+    return "chat", make_chat_target(flag, weak_system_prompt(lab_id, flag))
 
 
 def _make_handler(kind, target):
