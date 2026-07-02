@@ -72,11 +72,17 @@ _REDACTIONS = [
     (re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"), "[REDACTED_EMAIL]"),
     (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "[REDACTED_AWS_KEY]"),
     (re.compile(r"\bsk-[A-Za-z0-9._-]{16,}\b"), "[REDACTED_API_KEY]"),
-    # Common provider/VCS tokens (GitHub, Slack) that are secrets like any API key.
+    # Stripe / provider secret & restricted keys (underscore form).
+    (re.compile(r"\b(?:sk|rk|pk)_(?:live|test)_[A-Za-z0-9]{16,}\b"), "[REDACTED_API_KEY]"),
+    # Common provider/VCS tokens (GitHub classic + fine-grained PAT, Slack bot + app).
     (re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}\b"), "[REDACTED_TOKEN]"),
+    (re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b"), "[REDACTED_TOKEN]"),
     (re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{10,}\b"), "[REDACTED_TOKEN]"),
+    (re.compile(r"\bxapp-[A-Za-z0-9-]{10,}\b"), "[REDACTED_TOKEN]"),
     (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----",
                 re.S), "[REDACTED_PRIVATE_KEY]"),
+    # A truncated PEM (header only, no END) must still be scrubbed.
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "[REDACTED_PRIVATE_KEY]"),
     # Payment card number — allow spaces, dashes OR dots between digit groups.
     (re.compile(r"\b(?:\d[ .\-]*?){13,16}\b"), "[REDACTED_PAN]"),
 ]
@@ -152,12 +158,14 @@ def redact_text(text: str) -> str:
 
 
 def redact_obj(obj):
-    """Recursively redact EVERY string leaf of a dict / list / tuple / str. Used so a
-    secret placed in any nested field (not just 'content') is scrubbed before egress."""
+    """Recursively redact EVERY string leaf of a dict / list / tuple / str, **including
+    dict keys**, so a secret placed in any nested field or key (not just 'content') is
+    scrubbed before egress."""
     if isinstance(obj, str):
         return redact_text(obj)
     if isinstance(obj, dict):
-        return {k: redact_obj(v) for k, v in obj.items()}
+        return {(redact_text(k) if isinstance(k, str) else k): redact_obj(v)
+                for k, v in obj.items()}
     if isinstance(obj, (list, tuple)):
         return [redact_obj(v) for v in obj]
     return obj
@@ -167,7 +175,9 @@ def _iter_strings(obj):
     if isinstance(obj, str):
         yield obj
     elif isinstance(obj, dict):
-        for v in obj.values():
+        for k, v in obj.items():
+            if isinstance(k, str):
+                yield k                     # keys are content too
             yield from _iter_strings(v)
     elif isinstance(obj, (list, tuple)):
         for v in obj:
@@ -176,12 +186,21 @@ def _iter_strings(obj):
 
 def residual_secrets(obj) -> list:
     """The category labels of any flag/secret/PII family STILL present in ``obj`` after
-    redaction, scanning every nested string leaf. A non-empty result means redaction
-    missed something (a field it didn't reach, or a format the regexes don't cover) —
-    the caller MUST fail closed and refuse to send/retain. This is the defense-in-depth
-    tripwire behind ``redact_obj`` (05/13/24-*)."""
+    redaction. Scans every nested string leaf **and dict key**, AND the fully-serialized
+    form (``json.dumps(obj, default=str)``) so a non-string leaf (e.g. a PAN sent as a
+    JSON number, which ``default=str`` would stringify onto the wire) cannot slip past the
+    string-leaf walk. A non-empty result means redaction missed something — the caller MUST
+    fail closed and refuse to send/retain. Defense-in-depth tripwire behind ``redact_obj``
+    (24-transcript-judging-signoff.md §6)."""
+    import json
+
+    candidates = list(_iter_strings(obj))
+    try:
+        candidates.append(json.dumps(obj, default=str))   # catches keys + non-string leaves
+    except Exception:  # pragma: no cover - non-serializable exotic object
+        candidates.append(str(obj))
     hits = set()
-    for s in _iter_strings(obj):
+    for s in candidates:
         for pattern, repl in _REDACTIONS:
             if pattern.search(s or ""):
                 hits.add(repl.strip("[]"))

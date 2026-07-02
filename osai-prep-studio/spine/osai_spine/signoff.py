@@ -20,6 +20,7 @@ and the self-redteam suite (``selfredteam.run``). See 24-transcript-judging-sign
 
 from __future__ import annotations
 
+import json
 import os
 
 from . import datahandling as dh
@@ -33,22 +34,31 @@ APPROVED_MODELS = {"claude-opus-4-8", "claude-opus-4-7", "claude-sonnet-5",
 
 # --- adversarial fixtures (shared with selfredteam + tests) ----------------- #
 # A transcript + finding that exercise EVERY redaction family and answer-key material,
-# including a secret hidden in a non-'content' field (tool_call) and answer-key fields.
+# including a secret in a non-'content' field (tool_call), a secret placed in a dict KEY,
+# a full + truncated PEM, and provider tokens the base regexes must cover. All string
+# secrets are clearable by redact_obj (keys + values); non-string secrets live in a
+# separate fixture below because they can only be REJECTED, not redacted.
+_PEM = ("-----BEGIN RSA PRIVATE KEY-----\nMIIEpAIBAAKCAQEA0123456789abcdef\n"
+        "-----END RSA PRIVATE KEY-----")
 DIRTY_TRANSCRIPT = [
     {"role": "user", "source": "chat_ui",
      "content": "I captured OSAI{L03-pwned-abc123} and emailed victim.doe@acme.co"},
     {"role": "assistant", "source": "model", "content": "ok",
-     "tool_call": "send(key='sk-abcdef0123456789abcdef', card='4111 1111 1111 1111')"},
-    {"role": "tool", "source": "tool", "content": "AKIA0123456789ABCDEF ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"},
+     "tool_call": "send(key='sk_live_0123456789abcdefghij', card='4111 1111 1111 1111')"},
+    {"role": "tool", "source": "tool",
+     "content": "AKIA0123456789ABCDEF github_pat_11ABCDEFGHIJKLMNOPQRST_uvwxyz " + _PEM},
 ]
 DIRTY_FINDING = {
     "title": "leak",
-    "detector_required": "prompt_injection_success",   # grader-side answer key
-    "expected_owasp": "LLM01:2025",
-    "rubric": "hidden grading key: award full marks if LLM01 cited",
-    "evidence": ["exfiltrated OSAI{L03-pwned-abc123}", "victim.doe@acme.co"],
+    "detector_required": "prompt_injection_success",   # grader-side answer key -> stripped
+    "rubric": "hidden grading key: award full marks if LLM01 cited",   # -> stripped
+    "expected_owasp": "LLM01:2025",                    # learner's own claim -> kept
+    "evidence": ["exfiltrated OSAI{L03-pwned-abc123}", "victim.doe@acme.co", _PEM],
     "reproduction": ["curl -H 'authorization: Bearer sk-abcdef0123456789abcdef' ..."],
+    "OSAI{flag-in-a-key}": "a secret placed as a dict KEY",   # exercises key redaction
 }
+# Non-string secrets cannot be redacted (only rejected): a PAN sent as a JSON number.
+NONSTRING_SECRET_FINDING = {"pan": 4111111111111111, "note": "bare int"}
 
 
 class Check:
@@ -113,18 +123,41 @@ def _control_checks() -> list:
     clean = llm.redact_obj(dirty)
     out.append(Check("redaction_clears_all_fields", "control", llm.residual_secrets(clean) == [],
                      "redact_obj scrubs every secret/PII family in every nested field"))
-    # the finding specifically is redacted (the historically-unredacted channel)
+    # the finding specifically is redacted, INCLUDING a secret placed in a dict key
     rf = llm.redact_obj(DIRTY_FINDING)
     out.append(Check("finding_redacted", "control",
-                     "OSAI{" not in str(rf) and llm.residual_secrets(rf) == [],
-                     "the learner finding is fully redacted before egress"))
-    # answer-key material (detector_required value / hidden rubric) is not a secret family,
-    # so verify the sign-off's answer-key policy: the JUDGE payload builder must not send
-    # grader-side keys. We assert the value is preserved in structure but flagged for review.
-    out.append(Check("finding_detector_key_present_for_review", "control",
-                     isinstance(DIRTY_FINDING.get("detector_required"), str),
-                     "answer-key fields (detector_required/rubric) exist in learner findings and "
-                     "are covered by dedicated no-leak tests over the judge payload", "warn"))
+                     "OSAI{" not in json.dumps(rf) and llm.residual_secrets(rf) == [],
+                     "the learner finding is fully redacted before egress, keys included"))
+    # a non-string secret (PAN as a JSON number) cannot be redacted, but the residual
+    # tripwire's serialized scan catches it so the caller fails closed
+    out.append(Check("residual_rejects_nonstring_secret", "control",
+                     llm.residual_secrets(llm.redact_obj(NONSTRING_SECRET_FINDING)) != [],
+                     "a non-string secret (PAN sent as a JSON number) is caught by the tripwire"))
+    # grader-side answer-key fields are stripped from the finding before it reaches the judge
+    from .report import _strip_grader_keys
+    stripped = _strip_grader_keys(DIRTY_FINDING)
+    out.append(Check("grader_keys_stripped", "control",
+                     "detector_required" not in stripped and "rubric" not in stripped
+                     and stripped.get("expected_owasp") == "LLM01:2025",
+                     "grader-side keys (detector_required/rubric) are stripped; the learner's "
+                     "own owasp claim is kept"))
+    # consent fail-closed: with the gate forced on for this dry check, a non-consented
+    # learner must be refused (restore the gate after — no ambient state is changed)
+    _orig = llm.transcripts_enabled
+    llm.transcripts_enabled = lambda: True
+    try:
+        s3 = dh.TranscriptStore(":memory:")
+        try:
+            dh.prepare_for_judging([{"content": "hi"}], "no-consent", store=s3)
+            consent_fc = False
+        except dh.ConsentRequired:
+            consent_fc = True
+        except Exception:
+            consent_fc = False
+    finally:
+        llm.transcripts_enabled = _orig
+    out.append(Check("consent_fail_closed", "control", consent_fc,
+                     "prepare_for_judging refuses a non-consented learner (ConsentRequired)"))
     # the store enforces its own no-secret invariant (defense in depth)
     store = dh.TranscriptStore(":memory:")
     try:

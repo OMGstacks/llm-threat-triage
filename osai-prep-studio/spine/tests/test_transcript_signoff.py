@@ -18,8 +18,8 @@ from osai_spine.audit import AuditLog
 from osai_spine.signoff import DIRTY_FINDING, DIRTY_TRANSCRIPT
 from osai_spine.tutor import scope_refusal
 
-_MARKERS = ["OSAI{", "sk-abcdef", "AKIA0123456789ABCDEF", "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-            "victim.doe@acme.co", "4111 1111 1111 1111", "4111.1111.1111.1111",
+_MARKERS = ["OSAI{", "sk-abcdef", "sk_live_", "AKIA0123456789ABCDEF", "ghp_", "github_pat_",
+            "xapp-", "victim.doe@acme.co", "4111 1111 1111 1111", "4111.1111.1111.1111",
             "BEGIN RSA PRIVATE KEY"]
 
 
@@ -53,10 +53,27 @@ def test_redact_transcript_scrubs_non_content_fields():
     "card 4111.1111.1111.1111",
     "token ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     "slack xoxb-1234567890-abcdefghij",
+    "slack app xapp-1-A012-345-abcdefghij",
+    "stripe sk_live_0123456789abcdefghij",
+    "github fine-grained github_pat_11ABCDEFGHIJKLMNOPQRST_uvwxyz012345",
+    "truncated -----BEGIN RSA PRIVATE KEY-----\nMIIEpAIB",
 ])
 def test_redaction_covers_evasion_formats(dirty):
     assert llm.residual_secrets(llm.redact_text(dirty)) == []
     assert _no_markers(llm.redact_text(dirty))
+
+
+def test_redact_obj_covers_dict_keys():
+    obj = {"OSAI{flag-as-key}": "v", "nested": {"me@x.com": "email-key"}}
+    assert llm.residual_secrets(obj)                       # detected on the raw object (keys)
+    clean = llm.redact_obj(obj)
+    assert "OSAI{" not in json.dumps(clean) and "me@x.com" not in json.dumps(clean)
+    assert llm.residual_secrets(clean) == []
+
+
+def test_residual_catches_nonstring_pan():
+    # a PAN sent as a bare JSON number can't be redacted, but the serialized scan flags it
+    assert "PAN" in ",".join(llm.residual_secrets({"pan": 4111111111111111}))
 
 
 # --- choke point + store fail-closed -------------------------------------- #
@@ -125,6 +142,24 @@ def test_judge_fails_closed_on_residual_secret(monkeypatch):
     # a transcript the caller forgot to redact must be caught before egress
     with pytest.raises(dh.RedactionFailed):
         report_mod.judge_report_narrative(_Capture(), {"t": "x"}, DIRTY_TRANSCRIPT)
+
+
+def test_judge_fails_closed_on_nonstring_secret_in_finding(monkeypatch):
+    _enable(monkeypatch)
+    monkeypatch.setattr(llm, "base_url_approved", lambda: True)
+    # a PAN as a bare int in the finding cannot be redacted -> tripwire must reject it
+    with pytest.raises(dh.RedactionFailed):
+        report_mod.judge_report_narrative(_Capture(), {"pan": 4111111111111111}, [])
+
+
+def test_judge_strips_grader_answer_keys(monkeypatch):
+    _enable(monkeypatch)
+    monkeypatch.setattr(llm, "base_url_approved", lambda: True)
+    prov = _Capture()
+    report_mod.judge_report_narrative(prov, DIRTY_FINDING, llm.redact_transcript(DIRTY_TRANSCRIPT))
+    # grader-side answer-key fields are stripped; the learner's own owasp claim is kept
+    assert "prompt_injection_success" not in prov.last and "hidden grading key" not in prov.last
+    assert "LLM01:2025" in prov.last and _no_markers(prov.last)
 
 
 # --- base-url allowlist --------------------------------------------------- #

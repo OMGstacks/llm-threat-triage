@@ -79,27 +79,37 @@ that provider-side **retention and possible human review** apply per the current
 
 ## 5. Redaction review (as built)
 
-`llm.redact_obj` recursively scrubs **every string leaf of every field** (content,
-`tool_call`, `source`, nested dicts/lists) — not just `content`. Families
-(`llm._REDACTIONS`): `OSAI{…}` flags (incl. an **unclosed** flag), emails, AWS `AKIA`,
-`sk-` API keys, GitHub/Slack tokens, PEM private-key blocks, and PANs (space/dash/**dot**
-separated). `redact_transcript` and the finding path both go through it.
+`llm.redact_obj` recursively scrubs **every string leaf and every string dict key** of a
+finding/transcript (content, `tool_call`, `source`, nested dicts/lists, and keys) — not
+just `content`. Families (`llm._REDACTIONS`): `OSAI{…}` flags (incl. an **unclosed** flag),
+emails, AWS `AKIA`, `sk-`/`sk_live_`/`rk_`/`pk_` API keys, GitHub classic + `github_pat_`
+tokens, Slack `xox`/`xapp-` tokens, PEM private-key blocks (incl. a **truncated** header),
+and PANs (space/dash/**dot** separated). `redact_transcript` and the finding path both go
+through it. **Grader-side answer-key fields** (`detector_required`, `rubric`, …) are
+**stripped** from the finding before egress (`report._strip_grader_keys`); the learner's own
+OWASP claim is kept for the critique.
 
 ## 6. Post-redaction re-verification & closed gaps
 
-`llm.residual_secrets(obj)` re-scans **all fields for all families** and returns any
-survivors; a non-empty result **fails closed** everywhere it is used. This replaces the
-former flag-only tripwire. Gaps found in the pre-sign-off enumeration and **closed in this
-change**:
+`llm.residual_secrets(obj)` re-scans **all fields, all string keys, and the fully-serialized
+form** (`json.dumps(default=str)`) for every family, and returns any survivors; a non-empty
+result **fails closed** everywhere it is used. The serialized scan catches what a string-leaf
+walk cannot — a secret in a **dict key**, or a **non-string leaf** (e.g. a PAN sent as a JSON
+number that `default=str` would stringify onto the wire) — so such a finding is **rejected**,
+not sent. Gaps found in the pre-sign-off enumeration **and** the adversarial verification
+pass, all **closed here**:
 
-- **finding was sent unredacted** → `judge_report_narrative` now redacts the finding and
-  re-verifies it (and the transcript) before building the payload.
-- **only `content` was redacted** → all fields are now redacted (a secret in `tool_call`
-  can't leave the box or land in the store).
-- **flag-only tripwire** → now every secret/PII family is re-checked, on the wire **and**
-  before retention.
-- **`judge_report_narrative` was a footgun** → it now self-enforces the gate + approved
-  base URL + redaction, so no caller can reach the provider with raw content.
+- **finding was sent unredacted** → `judge_report_narrative` now strips grader keys, redacts
+  the finding, and re-verifies it (and the transcript) before building the payload.
+- **only `content` was redacted** → all fields **and dict keys** are redacted (a secret in
+  `tool_call` or a key can't leave the box or land in the store).
+- **flag-only tripwire** → every secret/PII family is re-checked, across all fields, keys,
+  and the serialized form, on the wire **and** before retention.
+- **non-string / key secrets bypassed both layers** → the serialized residual scan catches
+  them and fails closed.
+- **`judge_report_narrative` was a footgun** → it self-enforces the gate + approved base URL
+  + grader-key stripping + redaction; **consent** is enforced upstream by
+  `prepare_for_judging` (this seam has no store/learner).
 - **base URL unvalidated** → allowlist + preflight enforcement (§10).
 
 ## 7. Audit trail
