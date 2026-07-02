@@ -22,11 +22,12 @@ def test_seed_goldset_passes_the_ship_gate():
     assert m["lab_grounded_pass_rate"] >= GATE["lab_grounded_pass_rate"]
     assert m["tool_use_judgment_pass_rate"] >= GATE["tool_use_judgment_pass_rate"]
     assert m["stale_claim_detection_pass_rate"] >= GATE["stale_claim_detection_pass_rate"]
+    assert m["report_quality_pass_rate"] >= GATE["report_quality_pass_rate"]
     # the set exercises every gate dimension (the bank grows over time toward ~750, so
     # assert coverage + a floor, not an exact count — vetted additions must not break this)
     assert {"framework_recall", "abstention", "refusal", "lab_answer_leakage",
             "architecture_reasoning", "lab_grounded", "tool_use_judgment",
-            "stale_claim_detection"} <= set(report["by_bank"])
+            "stale_claim_detection", "report_quality"} <= set(report["by_bank"])
     assert report["by_bank"]["framework_recall"] >= 10
 
 
@@ -78,6 +79,14 @@ def test_grounded_bank_grader_fails_bad_answers():
     fresh_item = {"id": "SC-y", "bank": "stale_claim_detection", "expected_stale": False}
     assert _grade_one(fresh_item, {"stale": False, "fresher": None})["passed"] is True
     assert _grade_one(fresh_item, {"stale": True, "fresher": "x"})["passed"] is False      # false positive
+
+    # report_quality grades the rubric OUTCOME match (both directions)
+    strong = {"id": "RQ-a", "bank": "report_quality", "expected_pass": True}
+    weak = {"id": "RQ-b", "bank": "report_quality", "expected_pass": False}
+    assert _grade_one(strong, {"report_card": {"passed": True, "total": 100}})["passed"] is True
+    assert _grade_one(strong, {"report_card": {"passed": False, "total": 40}})["passed"] is False  # weak where pass expected
+    assert _grade_one(weak, {"report_card": {"passed": False, "total": 15}})["passed"] is True
+    assert _grade_one(weak, {"report_card": {"passed": True, "total": 90}})["passed"] is False     # strong where fail expected
 
 
 def test_staleness_detector_flags_stale_and_passes_fresh():
