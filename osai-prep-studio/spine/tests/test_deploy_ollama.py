@@ -11,7 +11,8 @@ from pathlib import Path
 DEPLOY = Path(__file__).resolve().parents[1] / "deploy"
 BASE = DEPLOY / "docker-compose.yml"
 OVERLAY = DEPLOY / "docker-compose.ollama.yml"
-NEW_TARGETS = ["labtarget-l03", "labtarget-l04", "labtarget-l05", "labtarget-l06", "labtarget-l07"]
+NEW_TARGETS = ["labtarget-l03", "labtarget-l04", "labtarget-l05", "labtarget-l06",
+               "labtarget-l07", "labtarget-l09"]
 
 
 def _service_block(text: str, name: str) -> str:
