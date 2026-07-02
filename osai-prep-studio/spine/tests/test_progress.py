@@ -118,3 +118,10 @@ def test_analytics_consolidates_srs_views():
     assert by_id["L02"]["status"] == "not_started"
     assert a["labs"]["passed"] == 1 and a["labs"]["total"] == len(labs)
     assert isinstance(a["flashcards"]["due"], int)
+
+    # answer-key hygiene: the lab map exposes public framework tags but NEVER the
+    # redacted detector_required (service._REDACTED), even for not-started labs
+    for it in a["labs"]["items"]:
+        assert "skill_tags" not in it and "detector" not in it
+        det = (labs[it["lab_id"]].get("two_signal_grading", {}) or {}).get("detector_required")
+        assert det and det not in it["framework_tags"]

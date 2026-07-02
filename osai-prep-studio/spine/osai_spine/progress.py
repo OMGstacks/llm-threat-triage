@@ -433,13 +433,17 @@ class ProgressStore:
         items = []
         for lid in sorted(labs):
             man = labs[lid]
-            tags = self._skill_tags(man)
-            owasp_ids = (man.get("frameworks", {}) or {}).get("owasp") or []
+            fw = man.get("frameworks", {}) or {}
+            # Framework tags are public on the lab manifest; the detector_required is
+            # deliberately redacted from learners (service._REDACTED), so it drives the
+            # internal mastery average but is never echoed in the learner-facing map.
+            framework_tags = list(fw.get("owasp", [])) + list(fw.get("atlas", [])) + list(fw.get("agentic", []))
+            owasp_ids = fw.get("owasp") or []
             owasp = owasp_ids[0] if owasp_ids else None
             att = lab_att.get(lid, {"attempts": 0, "passed": 0})
             status = ("passed" if att["passed"] > 0
                       else "attempted" if att["attempts"] > 0 else "not_started")
-            tag_mastery = [mastery.get(t, {}).get("mastery", 0.0) for t in tags]
+            tag_mastery = [mastery.get(t, {}).get("mastery", 0.0) for t in self._skill_tags(man)]
             items.append({
                 "lab_id": lid,
                 "title": man.get("title", lid),
@@ -447,7 +451,7 @@ class ProgressStore:
                 "module": man.get("ai300_module"),
                 "owasp": owasp,
                 "owasp_name": registry.owasp.get(owasp) if owasp else None,
-                "skill_tags": tags,
+                "framework_tags": framework_tags,
                 "attempts": att["attempts"],
                 "passed_count": att["passed"],
                 "status": status,

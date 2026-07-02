@@ -192,7 +192,7 @@ export interface LabProgressItem {
   module: string | null;
   owasp: string | null;
   owasp_name: string | null;
-  skill_tags: string[];
+  framework_tags: string[];
   attempts: number;
   passed_count: number;
   status: "passed" | "attempted" | "not_started";

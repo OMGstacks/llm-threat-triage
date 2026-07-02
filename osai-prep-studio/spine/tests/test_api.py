@@ -95,8 +95,29 @@ def test_analytics_endpoint_aggregates_and_does_not_leak_answers():
     assert len(a["heatmap"]) == 10
     lab = next(it for it in a["labs"]["items"] if it["lab_id"] == "L01")
     assert lab["status"] == "passed"
-    # the lab→topic map must not leak grading internals (answer-key hygiene)
+    # the lab→topic map must not leak grading internals (answer-key hygiene): no
+    # two_signal_grading / reuse_asset, and the redacted detector never appears
     assert "two_signal_grading" not in lab and "reuse_asset" not in lab
+    assert "skill_tags" not in lab
+    assert "direct_prompt_injection" not in lab["framework_tags"]
+
+
+def test_export_artifacts_download_and_are_answer_safe():
+    c = _client()
+    # a fresh learner still gets a full study plan (all labs not-started)
+    md = c.get("/export/demo/studypack.md")
+    assert md.status_code == 200
+    assert md.headers["content-type"].startswith("text/markdown")
+    assert 'attachment; filename="osai-demo-studypack.md"' in md.headers["content-disposition"]
+    assert "Study Pack: demo" in md.text
+
+    cards = c.get("/export/demo/flashcards.csv")
+    assert cards.status_code == 200 and cards.text.startswith("front,back,tags")
+    assert "OSAI{" not in cards.text and "direct_prompt_injection" not in cards.text
+
+    assert c.get("/export/demo/deck.md").text.startswith("---\nmarp: true")
+    assert c.get("/export/demo/labmap.mmd").text.startswith("flowchart LR")
+    assert c.get("/export/demo/bogus.md").status_code == 404
 
 
 def test_badges_and_leaderboard_endpoints():
