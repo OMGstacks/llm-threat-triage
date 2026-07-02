@@ -11,6 +11,7 @@ reference; this is the deployable variant.
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 from typing import List, Optional
 
@@ -33,6 +34,7 @@ from .progress import BADGE_DEFS, ProgressStore
 from . import report as report_mod
 from .report import ReportReviewer
 from .service import GraderState, _public_manifest
+from . import studypack
 from .tutor import Tutor
 from .validator import ChallengeValidator
 
@@ -378,6 +380,31 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
         mastery, weak topics, due cards, readiness, missed-framework heatmap, lab→topic map."""
         learner = resolve_learner(learner_id, authorization, osai_session)
         return progress.analytics(learner, state.registry, state.labs)
+
+    # --- exportable study artifacts (08-reporting-and-canva.md §4; offline fallback) ---
+    _EXPORTS = {
+        "flashcards.csv": ("text/csv", studypack.flashcards_csv),
+        "studypack.md": ("text/markdown", studypack.studypack_markdown),
+        "deck.md": ("text/markdown", studypack.marp_deck),
+        "labmap.mmd": ("text/plain", studypack.mermaid_lab_map),
+    }
+
+    @app.get("/export/{learner_id}/{artifact}")
+    def export_artifact(learner_id: str, artifact: str,
+                        authorization: str | None = Header(default=None),
+                        osai_session: str | None = Cookie(default=None)):
+        spec = _EXPORTS.get(artifact)
+        if spec is None:
+            raise HTTPException(status_code=404, detail="no such export artifact")
+        media_type, builder = spec
+        learner = resolve_learner(learner_id, authorization, osai_session)
+        body = builder(progress.analytics(learner, state.registry, state.labs))
+        safe = re.sub(r"[^A-Za-z0-9_.-]", "_", learner) or "learner"
+        return Response(
+            content=body,
+            media_type=f"{media_type}; charset=utf-8",
+            headers={"Content-Disposition": f'attachment; filename="osai-{safe}-{artifact}"'},
+        )
 
     @app.get("/readiness/{learner_id}")
     def get_readiness(learner_id: str, authorization: str | None = Header(default=None),

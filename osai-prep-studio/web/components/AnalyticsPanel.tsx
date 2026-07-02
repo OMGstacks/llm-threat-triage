@@ -9,6 +9,26 @@ import type { Analytics, FamilyMastery, LabProgressItem } from "@/lib/types";
 const short = (tag: string) => tag.replace(":2025", "");
 const pct = (m: number) => Math.round((m || 0) * 100);
 
+// study-pack export artifacts (08-reporting-and-canva.md §4) — offline fallback path
+const EXPORTS: { artifact: string; label: string; mime: string }[] = [
+  { artifact: "studypack.md", label: "Study pack (.md)", mime: "text/markdown" },
+  { artifact: "flashcards.csv", label: "Flashcards (Anki .csv)", mime: "text/csv" },
+  { artifact: "deck.md", label: "Slide deck (Marp .md)", mime: "text/markdown" },
+  { artifact: "labmap.mmd", label: "Lab map (Mermaid)", mime: "text/plain" },
+];
+
+async function saveArtifact(learner: string, artifact: string, mime: string) {
+  const text = await api.exportArtifact(learner, artifact);
+  const url = URL.createObjectURL(new Blob([text], { type: mime }));
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `osai-${learner}-${artifact}`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
 function Bar({ mastery }: { mastery: number }) {
   return (
     <div className="bar">
@@ -84,6 +104,17 @@ export default function AnalyticsPanel() {
   const who = learner || "demo";
   const { data: a, loading, error, reload } = useApi<Analytics>(() => api.analytics(who), [who]);
   const [note, setNote] = useState("");
+  const [exportNote, setExportNote] = useState("");
+
+  const doExport = async (artifact: string, mime: string) => {
+    setExportNote(`exporting ${artifact}…`);
+    try {
+      await saveArtifact(who, artifact, mime);
+      setExportNote(`downloaded osai-${who}-${artifact}`);
+    } catch {
+      setExportNote(`could not export ${artifact}`);
+    }
+  };
 
   const seed = async () => {
     try {
@@ -250,6 +281,22 @@ export default function AnalyticsPanel() {
             </div>
           </div>
         ))}
+      </section>
+
+      <section className="panel">
+        <h2>Export study pack</h2>
+        <p className="sub" style={{ marginTop: 0 }}>
+          Offline artifacts generated from your analytics (Marp / Anki / Mermaid). Import the
+          deck into Canva or any slide tool; the CSV imports straight into Anki or Quizlet.
+        </p>
+        <div className="row">
+          {EXPORTS.map((e) => (
+            <button className="ghost" key={e.artifact} onClick={() => doExport(e.artifact, e.mime)}>
+              {e.label}
+            </button>
+          ))}
+        </div>
+        {exportNote && <span className="muted">{exportNote}</span>}
       </section>
     </>
   );

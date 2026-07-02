@@ -54,6 +54,17 @@ async function j<T>(path: string, opts: RequestInit = {}): Promise<T> {
   return (await res.json()) as T;
 }
 
+// Raw-text GET (study-pack exports). Uses the same auth so it works in Bearer and cookie
+// modes — a plain <a download> would drop the Bearer token, so downloads go through here.
+export async function fetchText(path: string): Promise<string> {
+  const res = await fetch(`/api${path}`, {
+    credentials: "include",
+    headers: { ...authHeader(), ...csrfHeader() },
+  });
+  if (!res.ok) throw new Error(`${path} -> ${res.status}`);
+  return res.text();
+}
+
 function post<T>(path: string, body: unknown): Promise<T> {
   return j<T>(path, {
     method: "POST",
@@ -94,6 +105,8 @@ export const api = {
     post<ReviewCard>("/reports/review", { finding, transcript }),
   progress: (learner: string) => j<Progress>(`/progress/${learner}`),
   analytics: (learner: string) => j<Analytics>(`/analytics/${learner}`),
+  exportArtifact: (learner: string, artifact: string) =>
+    fetchText(`/export/${learner}/${artifact}`),
   seedCards: (learner: string) => post<{ created: number[] }>(`/flashcards/${learner}/seed`, {}),
   dueCards: (learner: string) => j<Flashcard[]>(`/flashcards/${learner}/due`),
   reviewCard: (card_id: number, grade: number) =>
