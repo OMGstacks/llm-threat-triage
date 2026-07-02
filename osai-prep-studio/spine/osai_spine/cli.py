@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -97,7 +98,7 @@ def cmd_llm(args) -> int:
 
 def cmd_transcripts(args) -> int:
     """Operate the transcript data-handling controls (consent + bounded retention).
-    `status` needs no DB; `purge`/`grant-consent`/`revoke-consent` require --db."""
+    `status` needs no DB; `purge`/`purge-all`/`grant-consent`/`revoke-consent` require --db."""
     from . import datahandling as dh
 
     action = args.action
@@ -109,15 +110,24 @@ def cmd_transcripts(args) -> int:
         print(f"consent required:          {yn(st['consent_required'])}")
         print(f"retention (days):          {st['retention_days']}")
         print(f"redaction:                 {st['redaction']}")
+        print(f"base URL approved:         {yn(st['base_url_approved'])}")
         print(f"retained transcripts:      {st['retained_count'] if st['retained_count'] is not None else '(no --db)'}")
         return 0
     if not args.db:
         print(f"'{action}' requires --db <sqlite path>")
         return 2
     store = dh.TranscriptStore(args.db)
+    audit = None
+    if os.environ.get("OSAI_AUDIT_DB"):
+        from .audit import AuditLog
+        audit = AuditLog(os.environ["OSAI_AUDIT_DB"])
     if action == "purge":
-        n = store.purge_expired()
+        n = store.purge_expired(audit=audit)
         print(f"purged {n} transcript(s) older than {dh.retention_days()} day(s)")
+        return 0
+    if action == "purge-all":  # incident rollback / kill switch
+        n = store.purge_all(audit=audit)
+        print(f"KILL-SWITCH: purged ALL {n} retained transcript(s)")
         return 0
     if not args.learner:
         print(f"'{action}' requires --learner <id>")
@@ -126,9 +136,41 @@ def cmd_transcripts(args) -> int:
         store.record_consent(args.learner)
         print(f"consent recorded for {args.learner!r}")
     else:  # revoke-consent
-        store.revoke_consent(args.learner)
-        print(f"consent revoked for {args.learner!r}")
+        n = store.revoke_consent(args.learner)
+        print(f"consent revoked for {args.learner!r} (erased {n} retained transcript(s))")
     return 0
+
+
+def cmd_signoff_preflight(args) -> int:
+    """OSAI_LLM_TRANSCRIPTS sign-off preflight — prints GO/NO-GO and runs the self-redteam.
+    Exits 0 only when every blocker passes AND the self-redteam is clean. Never sends data."""
+    from . import selfredteam, signoff
+    from .taxonomy import TaxonomyRegistry
+    from .tutor import Tutor
+
+    rep = signoff.run_preflight()
+    srt = selfredteam.run(Tutor(registry=TaxonomyRegistry()))
+    print("== OSAI_LLM_TRANSCRIPTS sign-off preflight ==")
+    for c in rep["checks"]:
+        print(f"  [{'OK' if c['ok'] else 'XX'}] {c['severity']:7} {c['kind']:7} {c['id']}")
+        if not c["ok"]:
+            print(f"         -> {c['detail']}")
+    print("== self-redteam (payload + storage + tutor) ==")
+    for p in srt["probes"]:
+        print(f"  [{'OK' if p['ok'] else 'XX'}] {p['category']:20} {p['id']}")
+        if not p["ok"]:
+            print(f"         LEAK -> {p['detail']}")
+    go = rep["go"] and srt["all_clean"]
+    print()
+    if rep["blockers_failed"]:
+        print("config/control blockers failed:", ", ".join(rep["blockers_failed"]))
+    if rep["warns_failed"]:
+        print("warnings:", ", ".join(rep["warns_failed"]))
+    if not srt["all_clean"]:
+        print("SELF-REDTEAM LEAKS PRESENT — DO NOT ENABLE")
+    print("VERDICT:", "GO — controls verified; the operator may enable OSAI_LLM_TRANSCRIPTS"
+          if go else "NO-GO — resolve the failures above before enabling transcript judging")
+    return 0 if go else 1
 
 
 def cmd_goldset(args) -> int:
@@ -264,10 +306,14 @@ def build_parser() -> argparse.ArgumentParser:
     sp.set_defaults(fn=cmd_llm)
 
     sp = sub.add_parser("transcripts", help="transcript data-handling controls (consent, retention, purge)")
-    sp.add_argument("action", choices=["status", "purge", "grant-consent", "revoke-consent"])
+    sp.add_argument("action", choices=["status", "purge", "purge-all", "grant-consent", "revoke-consent"])
     sp.add_argument("--db", help="SQLite path for the consent/retention store")
     sp.add_argument("--learner", help="learner id (for grant/revoke-consent)")
     sp.set_defaults(fn=cmd_transcripts)
+
+    sp = sub.add_parser("signoff-preflight",
+                        help="OSAI_LLM_TRANSCRIPTS go/no-go preflight + self-redteam (24-*)")
+    sp.set_defaults(fn=cmd_signoff_preflight)
 
     sp = sub.add_parser("goldset", help="run the tutor gold-set ship gate (04-evaluation-harness.md)")
     sp.add_argument("--goldset", help="path to a gold-set JSON (defaults to gold/goldset.json)")

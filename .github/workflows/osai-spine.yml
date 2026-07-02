@@ -40,6 +40,26 @@ jobs:
         run: python -m pytest -q
       - name: Tutor ship gate (gold set — no hallucination / abstain / refuse / no leak)
         run: python -m osai_spine.cli goldset
+      - name: Transcript sign-off self-redteam (no learner-content leak — 24-*)
+        run: |
+          python -c "import sys; from osai_spine import selfredteam; \
+            r = selfredteam.run(); \
+            print('self-redteam probes:', len(r['probes']), 'all_clean:', r['all_clean']); \
+            [print('  LEAK', p['id'], '->', p['detail']) for p in r['probes'] if not p['ok']]; \
+            sys.exit(0 if r['all_clean'] else 1)"
+      - name: Transcript sign-off control checks pass (redaction / store / base-url)
+        run: |
+          python -c "import sys; from osai_spine import signoff; \
+            rep = signoff.run_preflight(); \
+            bad = [c['id'] for c in rep['checks'] if c['kind']=='control' and not c['ok']]; \
+            print('control checks failed:', bad or 'none'); \
+            sys.exit(0 if not bad else 1)"
+      - name: Assert transcript judging is OFF in CI (fail-closed)
+        run: |
+          python -c "import sys; from osai_spine import llm; \
+            off = (not llm.transcripts_enabled()) and (not llm.key_present()); \
+            print('transcripts_enabled:', llm.transcripts_enabled(), 'key_present:', llm.key_present()); \
+            sys.exit(0 if off else 1)"
       - name: Smoke-test the catalog command
         run: python -m osai_spine.cli catalog
 

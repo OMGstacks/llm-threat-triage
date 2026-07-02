@@ -186,14 +186,36 @@ def judge_report_narrative(provider, finding: dict, redacted_transcript, *,
                            max_tokens: int = 400) -> str:
     """Optional LLM prose critique that slots in behind the ``review`` seam.
 
-    Operates ONLY on an ALREADY-REDACTED transcript — the caller must route the raw
-    transcript through ``datahandling.prepare_for_judging`` first (consent + redaction +
-    audit + retention), so this function never sees unredacted learner content. ``provider``
-    is any object with ``.complete(system, user, max_tokens=...)``; the caller wraps this
-    in its own offline fallback."""
+    SELF-ENFORCING egress (24-transcript-judging-signoff.md). The caller should still route
+    the transcript through ``datahandling.prepare_for_judging`` (consent + redaction + audit
+    + retention), but this seam does not TRUST that: before building the outbound payload it
+    (a) requires the transcript gate, (b) requires an approved provider base URL, and
+    (c) **redacts the learner FINDING** and re-verifies that BOTH the finding and the
+    transcript are free of every secret/PII family. A residual hit fails closed. So no
+    secret can reach the provider even if a future caller forgets a step — the function is
+    not a footgun. ``provider`` is any object with ``.complete(system, user, max_tokens=...)``."""
     import json
+
+    from . import datahandling as dh
+    from . import llm
+
+    if not llm.transcripts_enabled():
+        raise dh.TranscriptsDisabled("transcript judging is disabled — refusing to send")
+    if not llm.base_url_approved():
+        raise dh.TranscriptsDisabled(
+            f"provider base URL host {llm.base_url_host()!r} is not approved for transcript "
+            "judging (set OSAI_APPROVED_BASE_URLS or use the official endpoint)"
+        )
+    # Redact the finding (the transcript is already redacted by the caller) and re-verify
+    # BOTH are clean across all fields before anything is serialized into the payload.
+    redacted_finding = llm.redact_obj(finding)
+    residual = sorted(set(llm.residual_secrets(redacted_finding) + llm.residual_secrets(redacted_transcript)))
+    if residual:
+        raise dh.RedactionFailed(
+            f"secrets survived redaction ({', '.join(residual)}); refusing to send the payload"
+        )
     user = (
-        "FINDING:\n" + json.dumps(finding, indent=2, default=str)[:4000]
+        "FINDING:\n" + json.dumps(redacted_finding, indent=2, default=str)[:4000]
         + "\n\nREDACTED TRANSCRIPT:\n" + json.dumps(redacted_transcript, default=str)[:4000]
         + "\n\nWrite the critique."
     )

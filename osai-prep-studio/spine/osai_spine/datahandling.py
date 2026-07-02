@@ -23,7 +23,6 @@ redaction is verified. Stdlib only.
 from __future__ import annotations
 
 import os
-import re
 import sqlite3
 import threading
 import time
@@ -38,10 +37,6 @@ TRANSCRIPT_JUDGE = "transcript.judge"
 TRANSCRIPT_CONSENT_GRANT = "transcript.consent_grant"
 TRANSCRIPT_CONSENT_REVOKE = "transcript.consent_revoke"
 TRANSCRIPT_PURGE = "transcript.purge"
-
-# A surviving flag is a redaction failure — used as a fail-closed tripwire.
-_FLAG_LEFT = re.compile(r"OSAI\{")
-
 
 class TranscriptsDisabled(RuntimeError):
     """Raised when transcript judging is attempted while the gate is off."""
@@ -99,13 +94,18 @@ class TranscriptStore:
             )
             self.conn.commit()
 
-    def revoke_consent(self, learner: str, now: float | None = None) -> None:
+    def revoke_consent(self, learner: str, now: float | None = None) -> int:
+        """Revoke consent AND erase that learner's already-retained (redacted) transcripts
+        — revocation should stop future processing and remove prior retained data. Returns
+        the number of retained rows deleted."""
         now = float(now) if now is not None else time.time()
         with self._lock:
             self.conn.execute(
                 "UPDATE consent SET revoked_ts=? WHERE learner=?", (now, learner)
             )
+            cur = self.conn.execute("DELETE FROM retained WHERE learner=?", (learner,))
             self.conn.commit()
+            return int(cur.rowcount)
 
     def has_consent(self, learner: str) -> bool:
         if not learner:
@@ -118,9 +118,15 @@ class TranscriptStore:
     # --- retention ---------------------------------------------------------
     def retain(self, learner: str, redacted_transcript, now: float | None = None) -> int:
         """Persist an ALREADY-REDACTED transcript with a timestamp for later purge.
-        Returns the row id. (Caller is responsible for redaction; see
-        ``prepare_for_judging``, which verifies it.)"""
+        Returns the row id. The store enforces its OWN invariant (defense in depth): it
+        re-scans the whole record and **refuses** (``RedactionFailed``) if any secret/PII
+        survives — so the 'already redacted' guarantee cannot be silently violated."""
         import json
+        residual = llm.residual_secrets(redacted_transcript)
+        if residual:
+            raise RedactionFailed(
+                f"refusing to retain a transcript with residual secrets ({', '.join(residual)})"
+            )
         now = float(now) if now is not None else time.time()
         payload = json.dumps(redacted_transcript, separators=(",", ":"))
         with self._lock:
@@ -134,16 +140,37 @@ class TranscriptStore:
     def count_retained(self) -> int:
         return int(self.conn.execute("SELECT COUNT(*) FROM retained").fetchone()[0])
 
-    def purge_expired(self, now: float | None = None, days: int | None = None) -> int:
-        """Delete retained transcripts older than the retention window. Returns the
-        number of rows purged."""
+    def oldest_retained_ts(self) -> float | None:
+        row = self.conn.execute("SELECT MIN(created_ts) AS t FROM retained").fetchone()
+        return row["t"] if row and row["t"] is not None else None
+
+    def purge_expired(self, now: float | None = None, days: int | None = None, audit=None) -> int:
+        """Delete retained transcripts older than the retention window. Records a
+        ``transcript.purge`` audit event (counts only) when an ``audit`` log is given.
+        Returns the number of rows purged."""
         now = float(now) if now is not None else time.time()
         days = retention_days() if days is None else days
         cutoff = now - days * 86400
         with self._lock:
             cur = self.conn.execute("DELETE FROM retained WHERE created_ts < ?", (cutoff,))
             self.conn.commit()
-            return int(cur.rowcount)
+            n = int(cur.rowcount)
+        if audit is not None:
+            audit.record(TRANSCRIPT_PURGE, actor="system",
+                         detail={"purged": n, "reason": "expired", "retention_days": days}, now=now)
+        return n
+
+    def purge_all(self, audit=None, now: float | None = None) -> int:
+        """Delete ALL retained transcripts immediately — the incident rollback / kill
+        switch (24-transcript-judging-signoff.md §13). Returns the number purged."""
+        with self._lock:
+            cur = self.conn.execute("DELETE FROM retained")
+            self.conn.commit()
+            n = int(cur.rowcount)
+        if audit is not None:
+            audit.record(TRANSCRIPT_PURGE, actor="system",
+                         detail={"purged": n, "reason": "kill_switch"}, now=now)
+        return n
 
 
 def prepare_for_judging(transcript, learner: str, *, store: TranscriptStore,
@@ -167,8 +194,13 @@ def prepare_for_judging(transcript, learner: str, *, store: TranscriptStore,
             f"learner {learner!r} has not consented to transcript processing"
         )
     redacted = llm.redact_transcript(transcript)
-    if any(_FLAG_LEFT.search(ev.get("content", "") or "") for ev in redacted):
-        raise RedactionFailed("a flag survived redaction; refusing to send the transcript")
+    # Defense-in-depth: re-verify EVERY secret/PII family across ALL fields (not just a
+    # surviving flag in 'content'); a residual hit fails closed — nothing is sent or kept.
+    residual = llm.residual_secrets(redacted)
+    if residual:
+        raise RedactionFailed(
+            f"secrets survived redaction ({', '.join(residual)}); refusing to send the transcript"
+        )
     rec_id = store.retain(learner, redacted, now=now) if retain else None
     if audit is not None:
         audit.record(
@@ -186,6 +218,8 @@ def policy_status(store: TranscriptStore | None = None) -> dict:
         "transcripts_enabled": llm.transcripts_enabled(),
         "consent_required": True,
         "retention_days": retention_days(),
-        "redaction": "flags/secrets/PII scrubbed and re-verified before send",
+        "redaction": "flags/secrets/PII scrubbed and re-verified (all fields) before send",
         "retained_count": store.count_retained() if store is not None else None,
+        "oldest_retained_ts": store.oldest_retained_ts() if store is not None else None,
+        "base_url_approved": llm.base_url_approved(),
     }
