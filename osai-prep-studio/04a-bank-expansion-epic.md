@@ -40,6 +40,35 @@ No bulk generation without dedupe; no target-count padding; no bank without a gr
 | **3** | `stale_claim_detection` | A rule-based staleness detector (`staleness.py`) flags version-sensitive/outdated claims against current ground truth and names the fresher fact; grader checks the **verdict** | **✅ landed** — `tutor.ask(mode="stale")` + grader hard-gated at 1.0; 20 seeds (10 stale / 10 fresh); module + grader-teeth tests |
 | **4** | `report_quality` | Reuse the existing `ReportReviewer` rubric — item = finding + expected rubric outcome; the runner routes it through `reviewer.review` and the grader asserts pass/total matches | **✅ landed** — hard-gated at 1.0; 14 seeds (6 strong-pass / 8 weak-fail); grader-teeth asserts a wrong outcome fails both directions |
 
+## Growth pass (post–Phase 4) — controlled slices toward ~750
+
+All 9 bank types exist and are gated; the remaining work is **growth**, run as controlled
+slices under strict guardrails (approved):
+
+- Small PRs, **~75–125 items each**; generate in **batches of 25–50**.
+- **Ship gate + dedupe + near-duplicate check after every batch** (near-dup = Jaccard on
+  normalized tokens vs. same-bank items; padding candidates are dropped).
+- Per-bank **caps** = the target column below (caps, not obligations — stop a bank early
+  when it ceilings / quality degrades; the win is clean distinct items, not exactly 750).
+- No bank grows unless its grader passes at 1.0; no gate weakening, no test deletion, no
+  new runtime dependency. **Stop immediately** on any leakage, hallucinated taxonomy id,
+  unresolved CI failure, or near-duplicate/padding pattern.
+- **Report milestones at ~450 / ~550 / ~650 / ~750**, each with: total, per-bank count &
+  pass-rate, provenance coverage, near-duplicate rate, leakage failures, hallucinated ids,
+  abstention/refusal status, and generated/dropped counts.
+
+Per-bank caps for the growth pass: framework_recall 150 · abstention 90 · refusal 90 ·
+lab_answer_leakage 90 · architecture_reasoning 90 · lab_grounded 135 · tool_use_judgment 65 ·
+stale_claim_detection 65 · report_quality 90.
+
+### Growth log
+
+- **Slice 1 → 451 (~450 milestone).** +96 vetted items (report_quality +25, lab_grounded
+  +16, architecture_reasoning +12, tool_use_judgment +11, stale_claim_detection +10,
+  abstention +10, lab_answer_leakage +6, refusal +4, framework_recall +2). Near-duplicate
+  guardrail dropped 22 templated candidates (10.7% of generated). Ship gate PASS; all 9
+  banks at pass-rate 1.0; 0 hallucinated ids; 0 leakage. Provenance coverage 451/451.
+
 ## Target distribution (~750; ranges, not exact equality)
 
 | Bank | Target |
