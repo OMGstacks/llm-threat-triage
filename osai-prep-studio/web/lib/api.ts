@@ -1,6 +1,7 @@
 // Typed client for the FastAPI grader. All calls go through /api/* which Next
 // proxies to the grader (see next.config.js) — no CORS, URL configurable.
 import type {
+  Analytics,
   AuditEvent,
   AuthResponse,
   CapstoneBrief,
@@ -92,6 +93,7 @@ export const api = {
   reviewReport: (finding: Record<string, unknown>, transcript: Transcript[]) =>
     post<ReviewCard>("/reports/review", { finding, transcript }),
   progress: (learner: string) => j<Progress>(`/progress/${learner}`),
+  analytics: (learner: string) => j<Analytics>(`/analytics/${learner}`),
   seedCards: (learner: string) => post<{ created: number[] }>(`/flashcards/${learner}/seed`, {}),
   dueCards: (learner: string) => j<Flashcard[]>(`/flashcards/${learner}/due`),
   reviewCard: (card_id: number, grade: number) =>
