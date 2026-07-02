@@ -46,6 +46,7 @@ const NAV = [
   { href: "/labs", label: "Labs" },
   { href: "/tutor", label: "Tutor" },
   { href: "/progress", label: "Progress" },
+  { href: "/analytics", label: "Analytics" },
   { href: "/exam", label: "Exam" },
   { href: "/report", label: "Report" },
   { href: "/capstone", label: "Capstone" },

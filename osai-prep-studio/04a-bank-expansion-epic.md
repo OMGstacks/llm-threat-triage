@@ -80,6 +80,33 @@ stale_claim_detection 65 · report_quality 90.
   lab-grounding rework is **~650–700**, not exactly 750; the win is clean distinct
   grader-backed items, not the number. Growth continues on the banks with genuine headroom.
 
+## v0.4 milestone — 517 frozen; the true-750 unlock is a separate epic
+
+The gold set is **frozen at 517 clean, distinct, grader-backed items** as the **v0.4
+eval milestone** (all 9 banks at pass-rate 1.0; 0 hallucinated ids; 0 leakage; ship gate
+PASS). We are deliberately **not** padding the structurally-capped banks and **not**
+force-fitting exactly 750 — the win is clean distinct grader-backed items, not the number.
+Growth toward ~650–700 is paused here so the effort can pivot to **learner-facing
+features** (SRS analytics first).
+
+Two banks — `architecture_reasoning` (~31) and `lab_grounded` (~31) — are **corpus-bound**:
+they can only be grounded and cited from the single `reference/osai-studio-architecture.md`
+doc, and every attempt to enrich that doc for headroom **destabilizes retrieval** for the
+items already passing (Slice 2 lost 4 `lab_grounded` items this way and was reverted).
+Reaching their 90 / 135 caps is therefore blocked on an **engineering rework**, not more
+authoring.
+
+### Deferred epic — "Structured per-lab fact store + retrieval-stable lab grounding"
+
+Unlocking a genuine 750 requires replacing free-text architecture grounding with a
+**structured per-lab fact store** (one record per lab: detector, OWASP, evidence token,
+defense, trust boundary, …) plus a **retrieval-stable grounding path** that grades
+`architecture_reasoning` / `lab_grounded` against those fields directly — so adding a fact
+can no longer shift retrieval for an existing item. That is a separate, later epic
+(owner: eval/grading), intentionally **kept out of the current learner-facing feature line**
+so the two workstreams don't entangle. Until it lands, the realistic clean ceiling is
+**~650–700**, and **517 is the shipped milestone**.
+
 ## Target distribution (~750; ranges, not exact equality)
 
 | Bank | Target |

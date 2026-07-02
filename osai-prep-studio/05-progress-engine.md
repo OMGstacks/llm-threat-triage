@@ -56,6 +56,19 @@ LLM02 ████████░░ ok         LLM07 ███████░�
 LLM05 ██████░░░░ fair       MCP   ███░░░░░░░ weak  <- drill next
 ```
 
+> **Implementation status.** The consolidated dashboard payload is live at
+> `GET /analytics/{learner}` (`ProgressStore.analytics`), aggregating six views in one
+> call so the front-end `AnalyticsPanel` (web `/analytics`) renders without fan-out:
+> **per-family ("per-bank") mastery** (OWASP / Agentic / ATLAS / detectors), **weak-topic
+> detection** (exam-core OWASP + agentic threats below the 0.5 mastery threshold, weakest
+> first), **due-flashcard counts** (SRS), the **exam-readiness score**, a
+> **missed-framework heatmap** annotated with per-category lab coverage (labs passed /
+> total), and a **lab→topic progress map** (each lab's status — passed / attempted /
+> not-started — grouped by OWASP category). Every view keys off the same shared-taxonomy
+> mastery unit as the grader, badges, and readiness, and the lab map is answer-key-safe
+> (no `two_signal_grading` / `reuse_asset` fields). All primitives (`mastery`,
+> `weakness_heatmap`, `readiness`, `due_cards`, `lab_attempts`) are unit-tested.
+
 ## 6. XP, badges, streaks, leaderboard
 
 - **XP** awarded per lab × difficulty × (1 − hint penalty) × speed bonus; harder/no-hint/no-AI completions pay more. Logged to `XP_LEDGER`.
