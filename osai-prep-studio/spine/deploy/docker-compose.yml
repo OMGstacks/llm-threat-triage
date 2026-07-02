@@ -26,9 +26,12 @@ services:
     networks:
       - edge
 
-  # The three target KINDS (chat / rag / mcp). Each runs one lab via OSAI_LAB, on the
-  # internal labnet (deny-all egress). All three swap to real local models together
-  # under the Ollama overlay (docker-compose.ollama.yml) — same .chat()/.query() contract.
+  # The target KINDS (chat / rag / mcp). Each runs one lab via OSAI_LAB, on the internal
+  # labnet (deny-all egress). They swap to real local models under the Ollama overlay
+  # (docker-compose.ollama.yml) — same .chat()/.query() contract. L01/L02/L11 are the
+  # published demo entry points; the chat-family realism labs L03-L07 are added below and
+  # kept INTERNAL (expose only, no host-published ports) — reach them via an explicit
+  # demo publish (e.g. `docker compose run --service-ports labtarget-l05`).
   labtarget-l01:
     build:
       context: ../../..
@@ -89,6 +92,130 @@ services:
       OSAI_PORT: "9011"
     ports:
       - "9011:9011"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  # --- chat-family realism labs (L03-L07) -------------------------------------------
+  # Same chat KIND as L01, but each carries a lab-specific weak system prompt
+  # (labtarget.weak_system_prompt) so a real model exhibits that lab's own flaw.
+  # INTERNAL by default: `expose` (labnet-only), NOT host-published `ports`.
+  labtarget-l03:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L03        # chat — encoded / obfuscated injection
+      OSAI_PORT: "9003"
+    expose:
+      - "9003"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  labtarget-l04:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L04        # chat — system-prompt extraction
+      OSAI_PORT: "9004"
+    expose:
+      - "9004"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  labtarget-l05:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L05        # chat — sensitive-data exfiltration via markdown image
+      OSAI_PORT: "9005"
+    expose:
+      - "9005"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  labtarget-l06:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L06        # chat — improper output handling (unsafe sink)
+      OSAI_PORT: "9006"
+    expose:
+      - "9006"
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    mem_limit: 256m
+    cpus: 0.5
+    networks:
+      - labnet
+
+  labtarget-l07:
+    build:
+      context: ../../..
+      dockerfile: osai-prep-studio/spine/deploy/Dockerfile.labtarget
+    image: osai-labtarget:dev
+    environment:
+      OSAI_SERVER_SEED: ${OSAI_SERVER_SEED:-dev-seed-change-me}
+      OSAI_LEARNER: ${OSAI_LEARNER:-demo-learner}
+      OSAI_LAB: L07        # chat — sensitive information disclosure
+      OSAI_PORT: "9007"
+    expose:
+      - "9007"
     read_only: true
     tmpfs:
       - /tmp
