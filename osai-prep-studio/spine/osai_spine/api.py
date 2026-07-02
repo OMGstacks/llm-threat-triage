@@ -371,6 +371,14 @@ def create_app(seed: str | None = None, labs_dir=None) -> FastAPI:
                      osai_session: str | None = Cookie(default=None)):
         return progress.summary(resolve_learner(learner_id, authorization, osai_session), state.registry)
 
+    @app.get("/analytics/{learner_id}")
+    def get_analytics(learner_id: str, authorization: str | None = Header(default=None),
+                      osai_session: str | None = Cookie(default=None)):
+        """Consolidated SRS/analytics dashboard payload (05-progress-engine.md): per-family
+        mastery, weak topics, due cards, readiness, missed-framework heatmap, lab→topic map."""
+        learner = resolve_learner(learner_id, authorization, osai_session)
+        return progress.analytics(learner, state.registry, state.labs)
+
     @app.get("/readiness/{learner_id}")
     def get_readiness(learner_id: str, authorization: str | None = Header(default=None),
                       osai_session: str | None = Cookie(default=None)):

@@ -68,3 +68,53 @@ def test_persistence_to_file(tmp_path):
     ProgressStore(db).record_attempt("dave", man, res)
     # reopen the same file — state survived
     assert ProgressStore(db).xp("dave") >= 10
+
+
+def _all_labs():
+    return {p.stem: m.load(p) for p in sorted(LABS.glob("*.json"))}
+
+
+def test_lab_attempts_are_grouped_per_lab():
+    store = ProgressStore()
+    man, res = _grade_l01("erin", passing=True)
+    store.record_attempt("erin", man, res)
+    man2, res2 = _grade_l01("erin", passing=False)
+    store.record_attempt("erin", man2, res2)
+    la = store.lab_attempts("erin")
+    assert la["L01"] == {"attempts": 2, "passed": 1}
+
+
+def test_analytics_consolidates_srs_views():
+    reg = TaxonomyRegistry()
+    labs = _all_labs()
+    store = ProgressStore()
+    man, res = _grade_l01("frank", passing=True)
+    store.record_attempt("frank", man, res)
+
+    a = store.analytics("frank", reg, labs)
+
+    # readiness + attempts + xp carried through
+    assert 0 < a["readiness"]["score"] <= 1000
+    assert a["attempts"] == {"total": 1, "passed": 1} and a["xp"] >= 10
+
+    # per-family ("per-bank") mastery: LLM01 under owasp, the detector under detector
+    owasp_tags = {e["tag"] for e in a["mastery_by_family"]["owasp"]}
+    det_tags = {e["tag"] for e in a["mastery_by_family"]["detector"]}
+    assert "LLM01:2025" in owasp_tags and "direct_prompt_injection" in det_tags
+
+    # missed-framework heatmap: all 10 OWASP, LLM01 now covered, an untouched one is not
+    assert len(a["heatmap"]) == 10
+    llm01 = next(h for h in a["heatmap"] if h["tag"] == "LLM01:2025")
+    assert llm01["covered"] and llm01["labs_passed"] >= 1
+
+    # weak-topic detection is sorted ascending; a passed topic (mastery 0.5) is not weak
+    masteries = [w["mastery"] for w in a["weak_topics"]]
+    assert masteries == sorted(masteries)
+    assert "LLM01:2025" not in {w["tag"] for w in a["weak_topics"]}
+
+    # lab→topic map: L01 passed, an untried lab is not_started, counts are consistent
+    by_id = {it["lab_id"]: it for it in a["labs"]["items"]}
+    assert by_id["L01"]["status"] == "passed" and by_id["L01"]["owasp"] == "LLM01:2025"
+    assert by_id["L02"]["status"] == "not_started"
+    assert a["labs"]["passed"] == 1 and a["labs"]["total"] == len(labs)
+    assert isinstance(a["flashcards"]["due"], int)

@@ -83,6 +83,7 @@ _BADGE_META = {b["code"]: b for b in BADGE_DEFS}
 class ProgressStore:
     ALPHA = 0.5  # EMA learning rate for a lab attempt (05-progress-engine.md §3)
     DIFFICULTY_XP = {"easy": 10, "medium": 20, "hard": 30}
+    WEAK_THRESHOLD = 0.5  # mastery below this counts as a weak topic (05-progress-engine.md §5)
 
     def __init__(self, db_path: str = ":memory:"):
         self._lock = threading.Lock()
@@ -100,6 +101,20 @@ class ProgressStore:
         if det:
             tags.append(det)
         return [t for t in tags if t]
+
+    @staticmethod
+    def _classify_tag(tag: str, registry) -> tuple:
+        """(family, human-name) for a skill tag, using the shared taxonomy registry.
+        Families are the taxonomy 'banks': owasp / agentic / atlas / detector."""
+        if registry.is_owasp(tag):
+            return "owasp", registry.owasp[tag]
+        if registry.is_agentic(tag):
+            return "agentic", registry.agentic[tag]
+        if registry.is_atlas(tag):
+            return "atlas", tag
+        if registry.is_detector(tag):
+            return "detector", tag.replace("_", " ")
+        return "other", tag
 
     def record_attempt(self, learner_id: str, manifest: dict, result) -> dict:
         """Persist an attempt; update mastery for the lab's skill tags; award XP."""
@@ -153,6 +168,15 @@ class ProgressStore:
             (learner_id,),
         ).fetchone()
         return {"total": int(r["c"]), "passed": int(r["p"])}
+
+    def lab_attempts(self, learner_id: str) -> dict:
+        """Per-lab attempt/pass counts — the raw signal for the lab→topic map."""
+        rows = self.conn.execute(
+            "SELECT lab_id, COUNT(*) AS c, COALESCE(SUM(passed),0) AS p "
+            "FROM attempt WHERE learner_id=? GROUP BY lab_id",
+            (learner_id,),
+        ).fetchall()
+        return {r["lab_id"]: {"attempts": int(r["c"]), "passed": int(r["p"])} for r in rows}
 
     def weakness_heatmap(self, learner_id: str, registry) -> dict:
         m = self.mastery(learner_id)
@@ -344,3 +368,113 @@ class ProgressStore:
             out["readiness"] = self.readiness(learner_id, registry)
             out["weakness_heatmap"] = self.weakness_heatmap(learner_id, registry)
         return out
+
+    def analytics(self, learner_id: str, registry, labs: dict | None = None) -> dict:
+        """One consolidated learner-facing SRS/analytics payload (05-progress-engine.md):
+        per-family (per-'bank') mastery, weak-topic detection, due-flashcard counts, the
+        exam-readiness score, a missed-framework heatmap with lab coverage, and a
+        lab→topic progress map. Everything keys off the shared-taxonomy mastery unit, so
+        it stays consistent with the grader, badges, and readiness.
+
+        ``labs`` is the loaded manifest dict (``GraderState.labs``); when omitted the
+        lab-derived views (heatmap coverage, lab map) degrade to empty rather than error.
+        """
+        labs = labs or {}
+        mastery = self.mastery(learner_id)
+        lab_att = self.lab_attempts(learner_id)
+
+        # --- per-family ("per-bank") mastery, strongest-first within each family ------
+        families = {"owasp": [], "agentic": [], "atlas": [], "detector": []}
+        for tag, mv in mastery.items():
+            fam, name = self._classify_tag(tag, registry)
+            if fam in families:
+                families[fam].append(
+                    {"tag": tag, "name": name, "mastery": mv["mastery"], "reps": mv["reps"]}
+                )
+        for entries in families.values():
+            entries.sort(key=lambda e: (-e["mastery"], e["tag"]))
+
+        # --- which labs exercise each OWASP category (for coverage + the lab map) -----
+        labs_by_owasp: dict = {}
+        for lid, man in labs.items():
+            for oid in (man.get("frameworks", {}) or {}).get("owasp", []):
+                labs_by_owasp.setdefault(oid, []).append(lid)
+
+        # --- missed-framework heatmap over OWASP LLM01-10, annotated with lab coverage -
+        heatmap = []
+        for oid, oname in registry.owasp.items():
+            covering = labs_by_owasp.get(oid, [])
+            passed = sum(1 for lid in covering if lab_att.get(lid, {}).get("passed", 0) > 0)
+            heatmap.append({
+                "tag": oid,
+                "name": oname,
+                "mastery": mastery.get(oid, {}).get("mastery", 0.0),
+                "labs_total": len(covering),
+                "labs_passed": passed,
+                "covered": passed > 0,
+            })
+
+        # --- weak-topic detection: exam-core OWASP + agentic threats the labs exercise -
+        agentic_in_labs = sorted({
+            t for man in labs.values()
+            for t in (man.get("frameworks", {}) or {}).get("agentic", [])
+        })
+        weak = []
+        for tag in list(registry.owasp) + agentic_in_labs:
+            m = mastery.get(tag, {}).get("mastery", 0.0)
+            if m < self.WEAK_THRESHOLD:
+                fam, name = self._classify_tag(tag, registry)
+                weak.append({"tag": tag, "name": name, "family": fam, "mastery": m,
+                             "reps": mastery.get(tag, {}).get("reps", 0)})
+        weak.sort(key=lambda e: (e["mastery"], e["tag"]))
+        weak = weak[:8]
+
+        # --- lab → topic progress map -------------------------------------------------
+        items = []
+        for lid in sorted(labs):
+            man = labs[lid]
+            tags = self._skill_tags(man)
+            owasp_ids = (man.get("frameworks", {}) or {}).get("owasp") or []
+            owasp = owasp_ids[0] if owasp_ids else None
+            att = lab_att.get(lid, {"attempts": 0, "passed": 0})
+            status = ("passed" if att["passed"] > 0
+                      else "attempted" if att["attempts"] > 0 else "not_started")
+            tag_mastery = [mastery.get(t, {}).get("mastery", 0.0) for t in tags]
+            items.append({
+                "lab_id": lid,
+                "title": man.get("title", lid),
+                "difficulty": man.get("difficulty"),
+                "module": man.get("ai300_module"),
+                "owasp": owasp,
+                "owasp_name": registry.owasp.get(owasp) if owasp else None,
+                "skill_tags": tags,
+                "attempts": att["attempts"],
+                "passed_count": att["passed"],
+                "status": status,
+                "mastery": round(sum(tag_mastery) / len(tag_mastery), 4) if tag_mastery else 0.0,
+            })
+        passed_labs = sum(1 for it in items if it["status"] == "passed")
+        attempted_labs = sum(1 for it in items if it["status"] != "not_started")
+        total_labs = len(items)
+
+        total_cards = self.conn.execute(
+            "SELECT COUNT(*) AS c FROM flashcard WHERE learner_id=?", (learner_id,)
+        ).fetchone()["c"]
+
+        return {
+            "learner_id": learner_id,
+            "xp": self.xp(learner_id),
+            "attempts": self.attempts(learner_id),
+            "readiness": self.readiness(learner_id, registry),
+            "mastery_by_family": families,
+            "heatmap": heatmap,
+            "weak_topics": weak,
+            "flashcards": {"due": len(self.due_cards(learner_id)), "total": int(total_cards)},
+            "labs": {
+                "total": total_labs,
+                "passed": passed_labs,
+                "attempted": attempted_labs,
+                "completion_pct": round(100 * passed_labs / total_labs) if total_labs else 0,
+                "items": items,
+            },
+        }

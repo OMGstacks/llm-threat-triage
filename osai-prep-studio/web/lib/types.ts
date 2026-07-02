@@ -161,6 +161,67 @@ export interface LeaderboardRow {
   readiness: number;
 }
 
+export interface FamilyMastery {
+  tag: string;
+  name: string;
+  mastery: number;
+  reps: number;
+}
+
+export interface HeatCell {
+  tag: string;
+  name: string;
+  mastery: number;
+  labs_total: number;
+  labs_passed: number;
+  covered: boolean;
+}
+
+export interface WeakTopic {
+  tag: string;
+  name: string;
+  family: string;
+  mastery: number;
+  reps: number;
+}
+
+export interface LabProgressItem {
+  lab_id: string;
+  title: string;
+  difficulty: string | null;
+  module: string | null;
+  owasp: string | null;
+  owasp_name: string | null;
+  skill_tags: string[];
+  attempts: number;
+  passed_count: number;
+  status: "passed" | "attempted" | "not_started";
+  mastery: number;
+}
+
+export interface Analytics {
+  learner_id: string;
+  xp: number;
+  attempts: { total: number; passed: number };
+  readiness: Readiness;
+  mastery_by_family: {
+    owasp: FamilyMastery[];
+    agentic: FamilyMastery[];
+    atlas: FamilyMastery[];
+    detector: FamilyMastery[];
+  };
+  heatmap: HeatCell[];
+  weak_topics: WeakTopic[];
+  flashcards: { due: number; total: number };
+  labs: {
+    total: number;
+    passed: number;
+    attempted: number;
+    completion_pct: number;
+    items: LabProgressItem[];
+  };
+}
+
 export interface CapstoneBrief {
   events: { role: string; source: string; content: string }[];
   task: string;
