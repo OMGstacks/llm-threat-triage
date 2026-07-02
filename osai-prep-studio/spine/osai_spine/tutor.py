@@ -245,20 +245,30 @@ _REAL_TARGET = re.compile(
 _LAB_SCOPE = re.compile(
     r"\b(lab|labs|megacorp|mock|sandbox|authoriz|range|exercise|L0\d|L1\d)\w*", re.I)
 _ANSWER_KEY = re.compile(r"\b(flag|flags|answer[ -]?key|solution|cheat)\w*", re.I)
+# A concrete, named real organization/product can NEVER be an authorized lab target, so a
+# lab framing ("in the sandbox lab, attack Okta production") must not launder it.
+_NAMED_REAL_ORG = re.compile(
+    r"\b(openai|chatgpt|gpt-?[45]|gemini|bard|copilot|anthropic|claude\.ai|google|gmail|"
+    r"microsoft|azure|aws|amazon|facebook|meta|salesforce|okta|github|slack|stripe|"
+    r"cloudflare|oracle|sap|zoom|dropbox|linkedin|twitter|uber|paypal)\b", re.I)
 
 
 def scope_refusal(query: str):
     """Return a refusal message if the query is out of the authorized-lab scope,
-    else ``None``. Two cases: answer-key/flag elicitation tied to a lab, and helping
-    to attack a real/external/production target."""
+    else ``None``. Three cases: answer-key/flag elicitation tied to a lab; attacking a
+    named real organization (no lab framing can launder it); and attacking a generic
+    real/external/production target (unless it's clearly an authorized-lab exercise)."""
     q = query or ""
     if _ANSWER_KEY.search(q) and (_LAB_SCOPE.search(q) or "OSAI{" in q):
         return ("I won't reveal lab flags, answer keys, or solutions — that defeats the "
                 "exercise. Ask me to explain the underlying technique instead.")
+    real = ("Authorized-lab scope only: I can't help attack real, external, or "
+            "production systems. I coach these techniques against the training "
+            "range and authorized labs.")
+    if _ATTACK_VERB.search(q) and _NAMED_REAL_ORG.search(q):
+        return real  # a named real org is never a lab target — refuse regardless of framing
     if _ATTACK_VERB.search(q) and _REAL_TARGET.search(q) and not _LAB_SCOPE.search(q):
-        return ("Authorized-lab scope only: I can't help attack real, external, or "
-                "production systems. I coach these techniques against the training "
-                "range and authorized labs.")
+        return real
     return None
 
 
@@ -368,10 +378,14 @@ class Tutor:
             f"[{i + 1}] ({c.source} — {c.title}, tier {c.tier})\n{c.text}"
             for i, (_s, c) in enumerate(hits)
         )
+        # Redact any flag/secret/PII a learner pasted into the query before it egresses to
+        # the model — this is a distinct learner-content channel (24-transcript-judging-signoff.md).
+        from . import llm as _llm
+        safe_query = _llm.redact_text(query)
         try:
             text = self.llm.complete(
                 _GROUNDED_SYSTEM,
-                f"QUESTION: {query}\n\nAnswer only from the SOURCES and cite them by [n].",
+                f"QUESTION: {safe_query}\n\nAnswer only from the SOURCES and cite them by [n].",
                 cached_prefix="SOURCES:\n" + corpus,
                 max_tokens=700,
             )

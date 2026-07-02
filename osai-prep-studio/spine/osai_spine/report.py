@@ -182,18 +182,53 @@ _JUDGE_SYSTEM = (
 )
 
 
+_GRADER_KEY_FIELDS = frozenset({"detector_required", "expected_detector", "rubric",
+                                "answer_key", "grading_key", "expected_flag"})
+
+
+def _strip_grader_keys(finding):
+    """Drop grader-side answer-key fields a learner finding must never carry to the judge —
+    the critique assesses the learner's OWN claims (owasp/evidence/…), not grading internals."""
+    if not isinstance(finding, dict):
+        return finding
+    return {k: v for k, v in finding.items() if k not in _GRADER_KEY_FIELDS}
+
+
 def judge_report_narrative(provider, finding: dict, redacted_transcript, *,
                            max_tokens: int = 400) -> str:
     """Optional LLM prose critique that slots in behind the ``review`` seam.
 
-    Operates ONLY on an ALREADY-REDACTED transcript — the caller must route the raw
-    transcript through ``datahandling.prepare_for_judging`` first (consent + redaction +
-    audit + retention), so this function never sees unredacted learner content. ``provider``
-    is any object with ``.complete(system, user, max_tokens=...)``; the caller wraps this
-    in its own offline fallback."""
+    SELF-ENFORCING egress (24-transcript-judging-signoff.md). The caller MUST route the
+    transcript through ``datahandling.prepare_for_judging`` first — that is where **consent**
+    is enforced (this seam has no store/learner and does NOT re-check consent). What this
+    seam guarantees before any byte leaves the box is that (a) the transcript gate is on,
+    (b) the provider base URL is approved, (c) grader-side answer-key fields are stripped
+    from the finding, and (d) the finding is redacted and BOTH finding and transcript are
+    re-verified free of every secret/PII family — a residual hit fails closed. So no
+    secret/answer-key can reach the provider even if a caller mis-redacts the content.
+    ``provider`` is any object with ``.complete(system, user, max_tokens=...)``."""
     import json
+
+    from . import datahandling as dh
+    from . import llm
+
+    if not llm.transcripts_enabled():
+        raise dh.TranscriptsDisabled("transcript judging is disabled — refusing to send")
+    if not llm.base_url_approved():
+        raise dh.TranscriptsDisabled(
+            f"provider base URL host {llm.base_url_host()!r} is not approved for transcript "
+            "judging (set OSAI_APPROVED_BASE_URLS or use the official endpoint)"
+        )
+    # Strip grader-side keys, redact the finding (the transcript is already redacted by the
+    # caller), and re-verify BOTH are clean across all fields/keys before serialization.
+    redacted_finding = llm.redact_obj(_strip_grader_keys(finding))
+    residual = sorted(set(llm.residual_secrets(redacted_finding) + llm.residual_secrets(redacted_transcript)))
+    if residual:
+        raise dh.RedactionFailed(
+            f"secrets survived redaction ({', '.join(residual)}); refusing to send the payload"
+        )
     user = (
-        "FINDING:\n" + json.dumps(finding, indent=2, default=str)[:4000]
+        "FINDING:\n" + json.dumps(redacted_finding, indent=2, default=str)[:4000]
         + "\n\nREDACTED TRANSCRIPT:\n" + json.dumps(redacted_transcript, default=str)[:4000]
         + "\n\nWrite the critique."
     )

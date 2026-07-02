@@ -67,12 +67,24 @@ class _RateLimiter:
 # See docs/security/api-key-and-data-handling.md.
 _REDACTIONS = [
     (re.compile(r"OSAI\{[^}]*\}"), "[REDACTED_FLAG]"),
+    # A flag whose closing brace was lost (truncation/typo) must still be scrubbed.
+    (re.compile(r"OSAI\{[^}\s]{2,}"), "[REDACTED_FLAG]"),
     (re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b"), "[REDACTED_EMAIL]"),
     (re.compile(r"\bAKIA[0-9A-Z]{16}\b"), "[REDACTED_AWS_KEY]"),
     (re.compile(r"\bsk-[A-Za-z0-9._-]{16,}\b"), "[REDACTED_API_KEY]"),
+    # Stripe / provider secret & restricted keys (underscore form).
+    (re.compile(r"\b(?:sk|rk|pk)_(?:live|test)_[A-Za-z0-9]{16,}\b"), "[REDACTED_API_KEY]"),
+    # Common provider/VCS tokens (GitHub classic + fine-grained PAT, Slack bot + app).
+    (re.compile(r"\b(?:ghp|gho|ghu|ghs|ghr)_[A-Za-z0-9]{20,}\b"), "[REDACTED_TOKEN]"),
+    (re.compile(r"\bgithub_pat_[A-Za-z0-9_]{20,}\b"), "[REDACTED_TOKEN]"),
+    (re.compile(r"\bxox[baprs]-[A-Za-z0-9-]{10,}\b"), "[REDACTED_TOKEN]"),
+    (re.compile(r"\bxapp-[A-Za-z0-9-]{10,}\b"), "[REDACTED_TOKEN]"),
     (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----",
                 re.S), "[REDACTED_PRIVATE_KEY]"),
-    (re.compile(r"\b(?:\d[ -]*?){13,16}\b"), "[REDACTED_PAN]"),
+    # A truncated PEM (header only, no END) must still be scrubbed.
+    (re.compile(r"-----BEGIN [A-Z ]*PRIVATE KEY-----"), "[REDACTED_PRIVATE_KEY]"),
+    # Payment card number — allow spaces, dashes OR dots between digit groups.
+    (re.compile(r"\b(?:\d[ .\-]*?){13,16}\b"), "[REDACTED_PAN]"),
 ]
 
 
@@ -145,15 +157,100 @@ def redact_text(text: str) -> str:
     return text
 
 
+def redact_obj(obj):
+    """Recursively redact EVERY string leaf of a dict / list / tuple / str, **including
+    dict keys**, so a secret placed in any nested field or key (not just 'content') is
+    scrubbed before egress."""
+    if isinstance(obj, str):
+        return redact_text(obj)
+    if isinstance(obj, dict):
+        return {(redact_text(k) if isinstance(k, str) else k): redact_obj(v)
+                for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return [redact_obj(v) for v in obj]
+    return obj
+
+
+def _iter_strings(obj):
+    if isinstance(obj, str):
+        yield obj
+    elif isinstance(obj, dict):
+        for k, v in obj.items():
+            if isinstance(k, str):
+                yield k                     # keys are content too
+            yield from _iter_strings(v)
+    elif isinstance(obj, (list, tuple)):
+        for v in obj:
+            yield from _iter_strings(v)
+
+
+def residual_secrets(obj) -> list:
+    """The category labels of any flag/secret/PII family STILL present in ``obj`` after
+    redaction. Scans every nested string leaf **and dict key**, AND the fully-serialized
+    form (``json.dumps(obj, default=str)``) so a non-string leaf (e.g. a PAN sent as a
+    JSON number, which ``default=str`` would stringify onto the wire) cannot slip past the
+    string-leaf walk. A non-empty result means redaction missed something — the caller MUST
+    fail closed and refuse to send/retain. Defense-in-depth tripwire behind ``redact_obj``
+    (24-transcript-judging-signoff.md §6)."""
+    import json
+
+    candidates = list(_iter_strings(obj))
+    try:
+        candidates.append(json.dumps(obj, default=str))   # catches keys + non-string leaves
+    except Exception:  # pragma: no cover - non-serializable exotic object
+        candidates.append(str(obj))
+    hits = set()
+    for s in candidates:
+        for pattern, repl in _REDACTIONS:
+            if pattern.search(s or ""):
+                hits.add(repl.strip("[]"))
+    return sorted(hits)
+
+
 def redact_transcript(transcript) -> list:
-    """Return a copy of a transcript with every event's content redacted. The learner-
-    content LLM paths MUST pass transcripts through this before any API call."""
-    out = []
-    for event in transcript or []:
-        ev = dict(event)
-        ev["content"] = redact_text(ev.get("content", ""))
-        out.append(ev)
-    return out
+    """Return a copy of a transcript with EVERY string field of every event redacted
+    (content, tool_call, source, role, and any nested/extra field) — not just 'content' —
+    so a secret placed in any field cannot leave the box. The learner-content LLM paths
+    MUST pass transcripts through this before any API call."""
+    return [redact_obj(dict(event)) for event in (transcript or [])]
+
+
+# --- provider base-URL policy (24-transcript-judging-signoff.md §10) -------- #
+# The transcript-judging path may send learner content, so its outbound endpoint must
+# be the official Anthropic endpoint by default; a custom/proxy URL is high-risk and
+# must be explicitly approved (OSAI_APPROVED_BASE_URLS) before it is honored.
+OFFICIAL_BASE_URL = "https://api.anthropic.com"
+
+
+def _approved_base_urls() -> set:
+    approved = {OFFICIAL_BASE_URL}
+    for u in os.environ.get("OSAI_APPROVED_BASE_URLS", "").split(","):
+        u = u.strip().rstrip("/")
+        if u:
+            approved.add(u)
+    return approved
+
+
+def resolve_base_url() -> str:
+    """The effective outbound base URL the client would use: OSAI_ANTHROPIC_BASE_URL,
+    then ANTHROPIC_BASE_URL (which the SDK itself honors), then the official default."""
+    for var in ("OSAI_ANTHROPIC_BASE_URL", "ANTHROPIC_BASE_URL"):
+        v = os.environ.get(var)
+        if v and v.strip():
+            return v.strip().rstrip("/")
+    return OFFICIAL_BASE_URL
+
+
+def base_url_host() -> str:
+    from urllib.parse import urlparse
+    return urlparse(resolve_base_url()).hostname or ""
+
+
+def base_url_approved() -> bool:
+    """True iff the resolved base URL is the official endpoint or explicitly allowlisted
+    AND uses https. Non-approved / non-https endpoints must block the transcript path."""
+    url = resolve_base_url()
+    return url.startswith("https://") and url.rstrip("/") in _approved_base_urls()
 
 
 def status() -> dict:
@@ -165,7 +262,10 @@ def status() -> dict:
         "sdk_installed": sdk_available(),
         "key_present": key_present(),
         "key_source": key_source(),
-        "base_url_override": bool(os.environ.get("OSAI_ANTHROPIC_BASE_URL")),
+        "base_url_override": bool(os.environ.get("OSAI_ANTHROPIC_BASE_URL")
+                                  or os.environ.get("ANTHROPIC_BASE_URL")),
+        "base_url_host": base_url_host(),        # resolved host, never a secret
+        "base_url_approved": base_url_approved(),
         "max_calls_per_min": MAX_CALLS_PER_MIN,
         "model_quality": MODEL_QUALITY,
         "model_bulk": MODEL_BULK,
