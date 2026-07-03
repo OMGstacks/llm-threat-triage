@@ -120,29 +120,32 @@ PR2 expands the store to **every lab except L13** — **cards only, no gold-set 
 ship-gate change**. Cards are **deterministically extracted** from each manifest (every
 `support` is the exact value at its provenance path, so structural validation is correct by
 construction), plus 4 new global architecture/concept cards (6 global total) and the L20
-blue-team capstone. Result: **17 → 129 cards**; ship gate unchanged (**530**, all banks 1.0);
-`factstore validate` OK; full suite green.
+blue-team capstone. The three PR1 pilot labs (L03/L08/L11) are **backfilled to the same
+template** so per-lab coverage is uniform. Result: **17 → 137 cards**; ship gate unchanged
+(**530**, all banks 1.0); `factstore validate` OK; full suite green.
 
-**Lab coverage.** L01–L12 and L14–L19 are attack labs with a `two_signal_grading` manifest,
-so each gets detector / framework / evidence / module / kill-chain / defense cards. **L20**
-is the *blue-team triage capstone* — it has no attack manifest, so it is represented by two
-architecture/concept cards grounded in the `reference/osai-studio-architecture.md` L20
-section instead of the per-lab attack templates. **L13 is deliberately excluded** per the
-standing "do not touch L13" constraint. `test_all_labs_except_l13_have_fact_cards` asserts
-every other lab (incl. L20) is covered and L13 is absent.
+**Lab coverage.** L01–L12 and L14–L19 are attack labs with a `two_signal_grading` manifest;
+each gets detector, OWASP + ATLAS framework, module, kill-chain, and defense cards — plus an
+Agentic-threat card where the manifest maps one (L11/L12/L14/L15/L16), an evidence-log card
+where the manifest has a non-flag `/logs` or `/state` token (so L01/L04/L07, whose only token
+is a flag, have none), and **L14's Signal-C causal-chain fact**. **L20** is the *blue-team
+triage capstone* — it has no attack manifest, so it is represented by two architecture/concept
+cards grounded in the `reference/osai-studio-architecture.md` L20 section. **L13 is deliberately
+excluded** per the standing "do not touch L13" constraint. `test_all_labs_except_l13_have_fact_cards`
+asserts every other lab (incl. L20) is covered and L13 is absent.
 
 **Coverage / capacity ledger** (`factstore validate`):
 
 | Metric | Value |
 |---|---|
-| cards | **129** active / 129 total · 0 sensitive · all `active` |
-| per claim_type | detector 18 · framework_mapping 38 · module 18 · architecture 21 · defense 16 · evidence_path 15 · concept 3 |
-| per lab | L01–L12, L14–L20 (4–8 cards each; L20 ×2) + 6 global |
-| capacity `architecture_reasoning` | 114 cards → 114–228 items — **clears target 75–100 at the 1-item/card floor** |
-| capacity `lab_grounded` | 105 cards → 105–210 items — **reaches target 125–150 above the floor (≤2 phrasings/card)** |
+| cards | **137** active / 137 total · 0 sensitive · all `active` |
+| per claim_type | detector 18 · framework_mapping 41 · module 18 · architecture 24 · defense 18 · evidence_path 15 · concept 3 |
+| per lab | L01–L12, L14–L20 (6–9 cards each; L20 ×2) + 6 global |
+| capacity `architecture_reasoning` | 122 cards → 122–244 items — **clears target 75–100 at the 1-item/card floor** |
+| capacity `lab_grounded` | 110 cards → 110–220 items — **reaches target 125–150 above the floor (≤2 phrasings/card)** |
 
 The ledger answers "can the store support 750 without padding?" honestly: `architecture_reasoning`
-already exceeds its target at the conservative 1-item-per-card floor; `lab_grounded` (105
+already exceeds its target at the conservative 1-item-per-card floor; `lab_grounded` (110
 cards) sits just below its 125 floor and reaches 125–150 with ~1.2–1.4 items/card — reachable
 without padding, but **not** at the floor. Either way PR3 growth is grounding-limited by real
 facts, not raw-corpus retrieval.
@@ -155,7 +158,7 @@ the committed lab manifests, which contain paths, never flag values); the per-le
 **flag value**, hidden **rubric** prose, and grading internals are **sensitive**. The
 validator enforces this two ways — a structural secret scan on every card, and a
 sensitivity quarantine that keeps `answer_key_sensitive` cards out of learner banks unless
-explicitly overridden. All 17 pilot cards are public, non-sensitive; the sensitive path is
+explicitly overridden. All 137 shipped cards are public, non-sensitive; the sensitive path is
 exercised by tests, not shipped.
 
 ## 8. Epic sequence

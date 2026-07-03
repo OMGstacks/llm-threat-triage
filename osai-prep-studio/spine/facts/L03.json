@@ -119,5 +119,97 @@
     "status": "active",
     "last_reviewed": "2026-07-03",
     "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e5476aceef1ca621cad1ce355f8dd5e8214afa2aa91ad446af423c5632b8e97d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L03.atlas",
+    "scope": "L03",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0051.001"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L03 maps to MITRE ATLAS technique AML.T0051.001.",
+    "source": "osai-prep-studio/spine/labs/L03.json#frameworks.atlas",
+    "support": [
+      "AML.T0051.001"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ded07998650e891d6d72f27ebc7f4c04c3d9fef94aa967c55341b446c71977d6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L03.killchain",
+    "scope": "L03",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L03 sits at the access-injection stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L03.json#kill_chain_stage",
+    "support": "access-injection",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfb4705f5523b6ed293ad41e10d80158702cba640dd621913597cb2f5c0ec2e9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L03.defense",
+    "scope": "L03",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L03 ships defense variants D0, D2, D7.",
+    "source": "osai-prep-studio/spine/labs/L03.json#defense_variants",
+    "support": [
+      "D0",
+      "D2",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
   }
 ]

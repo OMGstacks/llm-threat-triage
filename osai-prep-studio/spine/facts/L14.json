@@ -242,5 +242,31 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:99bd30a8e4c3e58fc1defdf5626b019fc311b42fae21005a5b4b551c2442ee54",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.causal-chain",
+    "scope": "L14",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "signal-c",
+        "causal-chain"
+      ]
+    },
+    "claim": "Lab L14 is graded with a causal-chain (Signal C) check that attributes the impact to a tool_call rather than to direct user coercion.",
+    "source": "osai-prep-studio/spine/labs/L14.json#causal_chain.impact",
+    "support": "tool_call",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
   }
 ]
