@@ -209,6 +209,35 @@ Store **137 → 183 cards** (0 sensitive, all active; 0 duplicate ids). Refreshe
 `factstore validate` OK; full suite green. This unlocks PR22 growth toward ~675–700 without
 forced reuse.
 
+## 6d. PR22 — growth slice #3 (635 → 671)
+
+Puts PR21's new cards to work: **+36 fact-grounded items** (21 `architecture_reasoning`,
+15 `lab_grounded`), every one `grounding:factstore` + a **distinct** `fact_id` (max reuse 1),
+0 near-dups (bank max 0.60 / 0.64).
+
+- **15 `authorized_scope` items** → `lab_grounded` (91 → 106) — per-lab scope-discipline
+  facts.
+- **18 framework-APPLIED items** → `architecture_reasoning`: OWASP LLM01–10 (10) and OWASP
+  Agentic T1–T15 (8) as **scenario→category** questions (e.g. *"A web UI renders raw model
+  output as HTML with no sanitization, yielding stored XSS — which OWASP category?"*),
+  grounded on the PR21 concept cards (answer = the category id). Applied reasoning, not
+  trivia. Plus **3** arch/causal items (L14 Signal-C, lab-range, transcript choke-point).
+- **PR20 bug fixed:** the existing `AR-fs-L14-killchain` asked the kill-chain question but was
+  mis-grounded on the causal-chain card (expecting `tool_call`); repointed to the matching
+  `L14.killchain` card (answer "impact"), and the freed causal-chain card now grounds its own
+  `AR-fs-L14-causal` item.
+
+Result: gold set **635 → 671**; ship gate **PASS** (both banks 1.0); `factstore validate` OK;
+retrieval-stability green; suite 251.
+
+> **Allocation note (flagged for review).** The framework concept cards are `concept`-type,
+> eligible only for `architecture_reasoning` / `framework_recall` — not `lab_grounded`. Kept
+> strictly to the "AR + lab_grounded only" scope, this pushes `architecture_reasoning` to
+> **110**, ~10 above its 04a **75–100** target. That is arguably the fact-store epic
+> succeeding at unlocking a formerly corpus-bound bank, but if the 100 cap should hold, the
+> alternative is to route framework concepts to `framework_recall` (140 → ~160 headroom)
+> instead — a one-line `allowed_banks` change, decided at review.
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab
