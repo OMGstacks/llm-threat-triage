@@ -239,6 +239,34 @@ def test_expanded_store_has_no_sensitive_or_draft_cards():
     assert cov["by_status"] == {"active": cov["cards_total"]}
 
 
+def test_all_fact_grounded_items_validate():
+    fs = FactStore()
+    items = load_goldset()["items"]
+    fg = [i for i in items if factstore.is_fact_grounded(i)]
+    assert len(fg) >= 80, f"expected the grown fact-grounded set, got {len(fg)}"
+    rep = factstore.validate_items(fs, items)
+    assert rep["ok"], rep["errors"]
+
+
+def test_no_near_duplicate_prompts_in_grounded_banks():
+    """No same-bank prompt pair may exceed the near-dup Jaccard threshold — the PR3
+    growth slice adds only distinct, net-new items (no padding)."""
+    import re
+    stop = set("a an the of to in on for and or is are was be by with at as it its which "
+               "what does do how where when who lab must fire".split())
+    def toks(s):
+        return {w for w in re.findall(r"[a-z0-9:]+", s.lower()) if w not in stop}
+    def jac(a, b):
+        return len(a & b) / len(a | b) if (a | b) else 0.0
+    items = load_goldset()["items"]
+    for bank in ("lab_grounded", "architecture_reasoning"):
+        ps = [(i["id"], toks(i["prompt"])) for i in items if i["bank"] == bank]
+        dups = [(ps[x][0], ps[y][0], round(jac(ps[x][1], ps[y][1]), 3))
+                for x in range(len(ps)) for y in range(x + 1, len(ps))
+                if jac(ps[x][1], ps[y][1]) >= 0.7]
+        assert not dups, f"near-duplicate prompts in {bank}: {dups[:5]}"
+
+
 def test_ground_missing_fact_id_fails_cleanly_not_crash():
     fs = FactStore()
     item = {"id": "X", "bank": "lab_grounded", "grounding": "factstore",

@@ -150,6 +150,28 @@ cards) sits just below its 125 floor and reaches 125–150 with ~1.2–1.4 items
 without padding, but **not** at the floor. Either way PR3 growth is grounding-limited by real
 facts, not raw-corpus retrieval.
 
+## 6b. PR3 — first controlled growth slice (530 → 602)
+
+The first growth slice adds **72 fact-grounded gold items** (37 `lab_grounded`, 35
+`architecture_reasoning`), every one `grounding:factstore` + `fact_ids` — no TF-IDF. Two
+guardrails keep it padding-free:
+
+- **Semantic dedup.** A candidate is skipped if its `(bank, lab, fact_type)` is already
+  tested by any existing item. This is why the slice concentrates on the fact types the
+  corpus set never covered — **ATLAS techniques (10), AI-300 modules (12), per-lab
+  kill-chain stages (12), per-lab evidence paths (9)** — plus the uncovered labs' detector
+  (10) / owasp (5) / agentic (3) / defense (11). Every item cites a **distinct** card
+  (max `fact_id` reuse = 1).
+- **Near-duplicate filter.** No same-bank prompt pair may reach Jaccard ≥ 0.7 (prompts
+  carry the lab title + rotated phrasings). After the slice, the whole bank's max pairwise
+  Jaccard is 0.60 (`lab_grounded`) / 0.56 (`architecture_reasoning`); a regression test
+  (`test_no_near_duplicate_prompts_in_grounded_banks`) enforces it. Five PR1-era pilot
+  prompts that were near-duplicates were reworded (deterministic grading is unaffected).
+
+Result: gold set **530 → 602**; `lab_grounded` 39 → 76, `architecture_reasoning` 36 → 71;
+**85 fact-grounded items** total. Ship gate **PASS** (both banks 1.0), `factstore validate`
+OK, retrieval-stability test still green.
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab
