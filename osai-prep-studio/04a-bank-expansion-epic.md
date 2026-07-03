@@ -107,6 +107,14 @@ can no longer shift retrieval for an existing item. That is a separate, later ep
 so the two workstreams don't entangle. Until it lands, the realistic clean ceiling is
 **~650–700**, and **517 is the shipped milestone**.
 
+> **Started — see [25-fact-store-epic.md](25-fact-store-epic.md).** PR1 delivers the
+> `FactStore`, the fact-card schema, structural provenance + source-fingerprint drift
+> detection, lifecycle (active/deprecated/draft), leakage validation, deterministic
+> `fact_id`-keyed grounding, and a **2–3 lab pilot** (L03/L08/L11) — 17 cards + 13
+> fact-grounded gold items (gold set 517 → 530), with a retrieval-stability test proving
+> that adding a card cannot shift an existing item's citation. Growth (PR2–PR4+) proceeds
+> from the fact store, not raw corpus.
+
 ## Target distribution (~750; ranges, not exact equality)
 
 | Bank | Target |

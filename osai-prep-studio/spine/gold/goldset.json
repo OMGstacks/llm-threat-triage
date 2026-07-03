@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "note": "Curated gold set for the ship gate (doc 04). Being grown incrementally toward the ~700-item target; every item is verified to pass the gate against the extractive tutor before being added.",
+  "note": "Curated gold set for the ship gate (doc 04). Being grown incrementally toward the ~700-item target; every item is verified to pass the gate against the extractive tutor before being added. | +13 fact-grounded pilot items (L03/L08/L11) via the structured fact store (25-fact-store-epic.md).",
   "items": [
     {
       "id": "FR-LLM01",
@@ -5249,6 +5249,253 @@
         "causal"
       ],
       "forbidden": []
+    },
+    {
+      "id": "LG-fs-L03-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire to two-signal-grade lab L03 (encoded / obfuscated payload smuggling)?",
+      "expected_keywords": [
+        "encoded_injection_payload"
+      ],
+      "forbidden": [
+        "vector_store_probe",
+        "excessive_agency_probe"
+      ],
+      "fact_ids": [
+        "L03.detector"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L08-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire to two-signal-grade lab L08 (RAG recon & fingerprinting)?",
+      "expected_keywords": [
+        "vector_store_probe"
+      ],
+      "forbidden": [
+        "encoded_injection_payload",
+        "excessive_agency_probe"
+      ],
+      "fact_ids": [
+        "L08.detector"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L11-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire to two-signal-grade lab L11 (MCP tool misuse / excessive agency)?",
+      "expected_keywords": [
+        "excessive_agency_probe"
+      ],
+      "forbidden": [
+        "encoded_injection_payload",
+        "vector_store_probe"
+      ],
+      "fact_ids": [
+        "L11.detector"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L03-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "easy",
+      "grounding": "factstore",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L03 exercise?",
+      "expected_keywords": [
+        "LLM01:2025"
+      ],
+      "forbidden": [
+        "LLM06:2025",
+        "LLM08:2025"
+      ],
+      "fact_ids": [
+        "L03.owasp"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L08-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "easy",
+      "grounding": "factstore",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L08 exercise?",
+      "expected_keywords": [
+        "LLM08:2025"
+      ],
+      "forbidden": [
+        "LLM01:2025",
+        "LLM06:2025"
+      ],
+      "fact_ids": [
+        "L08.owasp"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L11-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "easy",
+      "grounding": "factstore",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L11 exercise?",
+      "expected_keywords": [
+        "LLM06:2025"
+      ],
+      "forbidden": [
+        "LLM01:2025",
+        "LLM08:2025"
+      ],
+      "fact_ids": [
+        "L11.owasp"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L11-agentic",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which OWASP Agentic threat does lab L11 map to?",
+      "expected_keywords": [
+        "T2"
+      ],
+      "forbidden": [
+        "T5",
+        "T11"
+      ],
+      "fact_ids": [
+        "L11.agentic"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L03-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which audit log are lab L03 filter decisions recorded for grading?",
+      "expected_keywords": [
+        "/logs/filter_decisions.jsonl"
+      ],
+      "forbidden": [
+        "/logs/recon.jsonl"
+      ],
+      "fact_ids": [
+        "L03.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-owns-grading",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which component owns two-signal grading in OSAI Prep Studio?",
+      "expected_keywords": [
+        "validator"
+      ],
+      "forbidden": [
+        "progress engine"
+      ],
+      "fact_ids": [
+        "global.grader-owns-grading"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "AR-fs-two-signal",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "What are the two signals a learner must produce to pass a lab?",
+      "expected_keywords": [
+        "Signal A",
+        "Signal B"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "global.two-signal-definition"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "AR-fs-L08-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L08 sit?",
+      "expected_keywords": [
+        "reconnaissance"
+      ],
+      "forbidden": [
+        "execution"
+      ],
+      "fact_ids": [
+        "L08.killchain"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L11-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variants does lab L11 ship?",
+      "expected_keywords": [
+        "D5"
+      ],
+      "forbidden": [
+        "D2"
+      ],
+      "fact_ids": [
+        "L11.defense"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L03-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "easy",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module does lab L03 belong to?",
+      "expected_keywords": [
+        "M3"
+      ],
+      "forbidden": [
+        "M6"
+      ],
+      "fact_ids": [
+        "L03.module"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
     }
   ]
 }

@@ -192,6 +192,43 @@ def cmd_goldset(args) -> int:
     return 0 if report["passed"] else 1
 
 
+def cmd_factstore(args) -> int:
+    from . import factstore
+    from .factstore import FactStore
+    from .goldset import load_goldset
+    from .taxonomy import TaxonomyRegistry
+
+    fs = FactStore()
+    cov = factstore.coverage_report(fs)
+    if args.action == "coverage":
+        print(json.dumps(cov, indent=2))
+        return 0
+    if args.action == "freeze":
+        n = factstore.freeze()
+        print(f"froze {n} source fingerprints")
+        return 0
+    # validate (default): cards against their sources + gold items against the cards
+    store_rep = factstore.validate_store(fs, TaxonomyRegistry())
+    gs = load_goldset(args.goldset) if args.goldset else load_goldset()
+    item_rep = factstore.validate_items(fs, gs["items"])
+    ok = store_rep["ok"] and item_rep["ok"]
+    if args.json:
+        print(json.dumps({"ok": ok, "store": store_rep, "items": item_rep, "coverage": cov}, indent=2))
+    else:
+        print("== fact store validate ==")
+        print(f"  cards: {cov['cards_active']} active / {cov['cards_total']} total  ({cov['sensitive']} sensitive)")
+        print(f"  per lab:            {cov['per_lab']}")
+        print(f"  per claim_type:     {cov['per_claim_type']}")
+        print(f"  per-bank capacity:  {cov['per_bank_capacity']}")
+        print(f"  by status:          {cov['by_status']}")
+        for e in store_rep["errors"]:
+            print("  STORE ERR", e)
+        for iid, errs in item_rep["errors"].items():
+            print("  ITEM ERR ", iid, errs)
+        print("FACTSTORE:", "OK" if ok else "FAIL")
+    return 0 if ok else 1
+
+
 def cmd_capstone(args) -> int:
     from .capstone import TriageCapstone
 
@@ -319,6 +356,12 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--goldset", help="path to a gold-set JSON (defaults to gold/goldset.json)")
     sp.add_argument("--json", action="store_true", help="emit the full JSON report")
     sp.set_defaults(fn=cmd_goldset)
+
+    sp = sub.add_parser("factstore", help="validate the structured fact store (25-fact-store-epic.md)")
+    sp.add_argument("action", nargs="?", default="validate", choices=["validate", "coverage", "freeze"])
+    sp.add_argument("--goldset", default=None, help="gold set path for item validation")
+    sp.add_argument("--json", action="store_true")
+    sp.set_defaults(fn=cmd_factstore)
 
     sp = sub.add_parser("capstone", help="L20 blue-team triage capstone (score a triage vs engine ground truth)")
     sp.add_argument("--brief", action="store_true", help="print the incident log + task (no answer key)")

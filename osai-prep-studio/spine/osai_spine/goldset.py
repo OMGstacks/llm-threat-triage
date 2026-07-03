@@ -22,6 +22,7 @@ import json
 import re
 from pathlib import Path
 
+from . import factstore as factstore_mod
 from .report import ReportReviewer
 from .taxonomy import TaxonomyRegistry
 from .tutor import SourceLibrary, Tutor, validate_taxonomy_ids
@@ -61,10 +62,15 @@ def load_goldset(path=None) -> dict:
 class GoldSetRunner:
     """Runs a gold set through a tutor and reports gate metrics + pass/fail."""
 
-    def __init__(self, tutor=None, registry=None):
+    def __init__(self, tutor=None, registry=None, factstore=None):
         self.registry = registry or TaxonomyRegistry()
         self.tutor = tutor or Tutor(library=SourceLibrary(), registry=self.registry)
         self.reviewer = ReportReviewer(self.registry)  # report_quality reuses the rubric grader
+        # Deterministic, fact_id-keyed grounding for the corpus-bound banks
+        # (25-fact-store-epic.md). Loaded once; adding a card can't shift an existing
+        # item's citation, which is what the retrieval-stability test proves.
+        from .factstore import FactStore
+        self.factstore = factstore if factstore is not None else FactStore()
 
     def _grade(self, item: dict, res: dict) -> dict:
         bank = item["bank"]
@@ -143,6 +149,10 @@ class GoldSetRunner:
                 # not the tutor. The result carries the report card for _grade.
                 card = self.reviewer.review(item.get("finding", {}), item.get("transcript"))
                 res = {"report_card": card.to_dict(), "answer": "", "citations": []}
+            elif factstore_mod.is_fact_grounded(item):
+                # Deterministic keyed grounding from the fact store — no TF-IDF, so this
+                # answer/citation is stable under fact-store growth (25-fact-store-epic.md).
+                res = factstore_mod.ground(self.factstore, item)
             else:
                 res = self.tutor.ask(item["prompt"], item.get("mode", "tutor"))
             rows.append(self._grade(item, res))
