@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:01fb9b867c8d58a4d3451de8a5dd16c0eefea1448690354dcd13f91e372613e6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.detector",
+    "scope": "L18",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L18 (Cloud ML service & model-server exploitation) is two-signal graded by the unbounded_consumption_probe detector.",
+    "source": "osai-prep-studio/spine/labs/L18.json#two_signal_grading.detector_required",
+    "support": "unbounded_consumption_probe",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c4d18264210371fd2f067c6b32133dabfb15ef1147c424f733aceed745a17905",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.owasp",
+    "scope": "L18",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L18 maps to OWASP LLM10:2025 (Unbounded Consumption).",
+    "source": "osai-prep-studio/spine/labs/L18.json#frameworks.owasp",
+    "support": [
+      "LLM10:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1e4d09070b812b8fa1f5cedd1bbfb049aa017a43f3dd235bea36b1cb73a870eb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.atlas",
+    "scope": "L18",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0024"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L18 maps to MITRE ATLAS technique AML.T0024.",
+    "source": "osai-prep-studio/spine/labs/L18.json#frameworks.atlas",
+    "support": [
+      "AML.T0024"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:845fc19c70aab9dd5417c8ac957440ced92e4c666175f140aa98777cc5d8faa7",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.evidence-log",
+    "scope": "L18",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L18's grading evidence is recorded in the audit_log at /logs/gateway.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L18.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/gateway.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:61142030f3b29d65e79fc5fa0f76bf2dbf5fb6b6d19dabd8efb3295fda28d5f4",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.module",
+    "scope": "L18",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L18 belongs to AI-300 module M8.",
+    "source": "osai-prep-studio/spine/labs/L18.json#ai300_module",
+    "support": "M8",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:f3748e1948c88e473e72a78a27cf63c28a942fa03b3ffa84c1c11fc9ab631e69",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.killchain",
+    "scope": "L18",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L18 sits at the post-exploitation stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L18.json#kill_chain_stage",
+    "support": "post-exploitation",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:089f3eef706a8cabaf91830b1f23076dfdff176b9eb64ffc4c0df8ba86730bd2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.defense",
+    "scope": "L18",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L18 ships defense variants D0, D5, D7.",
+    "source": "osai-prep-studio/spine/labs/L18.json#defense_variants",
+    "support": [
+      "D0",
+      "D5",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M8"
+  }
+]

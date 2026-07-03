@@ -1,0 +1,184 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:3b23606d72c544f7336905167fb0eeb00dc82149da5c105d118b687b7601c7c9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.detector",
+    "scope": "L01",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L01 (Direct injection & guardrail bypass) is two-signal graded by the direct_prompt_injection detector.",
+    "source": "osai-prep-studio/spine/labs/L01.json#two_signal_grading.detector_required",
+    "support": "direct_prompt_injection",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6a62808747f696ffc438c4451108c26d31ad756944342f285ea251238cdbc3ce",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.owasp",
+    "scope": "L01",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L01 maps to OWASP LLM01:2025 (Prompt Injection).",
+    "source": "osai-prep-studio/spine/labs/L01.json#frameworks.owasp",
+    "support": [
+      "LLM01:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:fe34403130deb3990151f7eabd261cf2eb6cffcd63f33a0379b95f93ecc038b2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.atlas",
+    "scope": "L01",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0051.000"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L01 maps to MITRE ATLAS technique AML.T0051.000.",
+    "source": "osai-prep-studio/spine/labs/L01.json#frameworks.atlas",
+    "support": [
+      "AML.T0051.000"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:67629a19d082ed3a6a50d4e4ff97d02f6208b8706aeef961e0d6a438604211df",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.module",
+    "scope": "L01",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L01 belongs to AI-300 module M3.",
+    "source": "osai-prep-studio/spine/labs/L01.json#ai300_module",
+    "support": "M3",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ded07998650e891d6d72f27ebc7f4c04c3d9fef94aa967c55341b446c71977d6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.killchain",
+    "scope": "L01",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L01 sits at the access-injection stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L01.json#kill_chain_stage",
+    "support": "access-injection",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:36fd6aec50b7df8b4d6b9c418ad21f3afa9527c4a664177012aeff8de67645e0",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.defense",
+    "scope": "L01",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L01 ships defense variants D0, D1, D2, D7.",
+    "source": "osai-prep-studio/spine/labs/L01.json#defense_variants",
+    "support": [
+      "D0",
+      "D1",
+      "D2",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  }
+]

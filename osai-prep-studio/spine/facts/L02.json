@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5b203083200fe5bad537f3eb7375f3c215f9a94089988fcf74ca9941343e965b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.detector",
+    "scope": "L02",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L02 (Indirect injection via RAG document) is two-signal graded by the indirect_prompt_injection detector.",
+    "source": "osai-prep-studio/spine/labs/L02.json#two_signal_grading.detector_required",
+    "support": "indirect_prompt_injection",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6a62808747f696ffc438c4451108c26d31ad756944342f285ea251238cdbc3ce",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.owasp",
+    "scope": "L02",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L02 maps to OWASP LLM01:2025 (Prompt Injection).",
+    "source": "osai-prep-studio/spine/labs/L02.json#frameworks.owasp",
+    "support": [
+      "LLM01:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e5476aceef1ca621cad1ce355f8dd5e8214afa2aa91ad446af423c5632b8e97d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.atlas",
+    "scope": "L02",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0051.001"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L02 maps to MITRE ATLAS technique AML.T0051.001.",
+    "source": "osai-prep-studio/spine/labs/L02.json#frameworks.atlas",
+    "support": [
+      "AML.T0051.001"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d266d638f4c460882586c4d4636671f58c726bbda5547b5374777d0ffc530028",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.evidence-log",
+    "scope": "L02",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L02's grading evidence is recorded in the audit_log at /logs/policy_decisions.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L02.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/policy_decisions.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:25efb20dfe4953e14dbef1bc5ac6bd7ea8dc659c582e4118260b50508c8f5f25",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.module",
+    "scope": "L02",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L02 belongs to AI-300 module M5.",
+    "source": "osai-prep-studio/spine/labs/L02.json#ai300_module",
+    "support": "M5",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ded07998650e891d6d72f27ebc7f4c04c3d9fef94aa967c55341b446c71977d6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.killchain",
+    "scope": "L02",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L02 sits at the access-injection stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L02.json#kill_chain_stage",
+    "support": "access-injection",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae66ea4c99869a7d15613c3bf7cb2e357ccd501cd3008210a9e43274a5218c3d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.defense",
+    "scope": "L02",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L02 ships defense variants D0, D4, D7.",
+    "source": "osai-prep-studio/spine/labs/L02.json#defense_variants",
+    "support": [
+      "D0",
+      "D4",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  }
+]

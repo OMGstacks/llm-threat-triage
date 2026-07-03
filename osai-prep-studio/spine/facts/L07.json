@@ -1,0 +1,183 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:0d3f81a2fb338a5074a63b277846f42ce4eb9d12ff0d561c0d8ad4e6b5a11a2d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.detector",
+    "scope": "L07",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L07 (Sensitive information disclosure) is two-signal graded by the sensitive_information_disclosure detector.",
+    "source": "osai-prep-studio/spine/labs/L07.json#two_signal_grading.detector_required",
+    "support": "sensitive_information_disclosure",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:17c2bae488343b7fbf99f739c0fd8928cd3ba1045c7f48540b6dcd58d1dd8e6a",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.owasp",
+    "scope": "L07",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L07 maps to OWASP LLM02:2025 (Sensitive Information Disclosure).",
+    "source": "osai-prep-studio/spine/labs/L07.json#frameworks.owasp",
+    "support": [
+      "LLM02:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae0d3b0d6d3f2c76c36250f57432427ebe558dc89494d21bf6702119608a5d0b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.atlas",
+    "scope": "L07",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0057"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L07 maps to MITRE ATLAS technique AML.T0057.",
+    "source": "osai-prep-studio/spine/labs/L07.json#frameworks.atlas",
+    "support": [
+      "AML.T0057"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:67629a19d082ed3a6a50d4e4ff97d02f6208b8706aeef961e0d6a438604211df",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.module",
+    "scope": "L07",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L07 belongs to AI-300 module M3.",
+    "source": "osai-prep-studio/spine/labs/L07.json#ai300_module",
+    "support": "M3",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:86a807c080e312ce85cc8d6ddc01ba7d33dd71d998380d1bf8e7f1ce3507bb6c",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.killchain",
+    "scope": "L07",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L07 sits at the exfiltration-impact stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L07.json#kill_chain_stage",
+    "support": "exfiltration-impact",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfb4705f5523b6ed293ad41e10d80158702cba640dd621913597cb2f5c0ec2e9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.defense",
+    "scope": "L07",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L07 ships defense variants D0, D2, D7.",
+    "source": "osai-prep-studio/spine/labs/L07.json#defense_variants",
+    "support": [
+      "D0",
+      "D2",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  }
+]

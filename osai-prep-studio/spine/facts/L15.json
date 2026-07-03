@@ -1,0 +1,242 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5b203083200fe5bad537f3eb7375f3c215f9a94089988fcf74ca9941343e965b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.detector",
+    "scope": "L15",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L15 (Agent memory poisoning (cross-session persistence)) is two-signal graded by the indirect_prompt_injection detector.",
+    "source": "osai-prep-studio/spine/labs/L15.json#two_signal_grading.detector_required",
+    "support": "indirect_prompt_injection",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6a62808747f696ffc438c4451108c26d31ad756944342f285ea251238cdbc3ce",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.owasp",
+    "scope": "L15",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L15 maps to OWASP LLM01:2025 (Prompt Injection).",
+    "source": "osai-prep-studio/spine/labs/L15.json#frameworks.owasp",
+    "support": [
+      "LLM01:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:13119eb8ce79fa9ed401bd2548143466c2f9582dceeafdd4c0bcbf7e5406127b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.atlas",
+    "scope": "L15",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.TA0003"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L15 maps to MITRE ATLAS technique AML.TA0003.",
+    "source": "osai-prep-studio/spine/labs/L15.json#frameworks.atlas",
+    "support": [
+      "AML.TA0003"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:3cf06362b2eaff29a69336b253ebe9c238fb281ac603380fa4060de42a9323ca",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.agentic",
+    "scope": "L15",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "agentic": [
+        "T1"
+      ],
+      "topic": [
+        "agentic-mapping"
+      ]
+    },
+    "claim": "Lab L15 maps to OWASP Agentic threat T1 (Memory Poisoning).",
+    "source": "osai-prep-studio/spine/labs/L15.json#frameworks.agentic",
+    "support": [
+      "T1"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e1623c9ebee82b8269d3afe95101a67e84a4d91008ef1fb968d3bfd5dfad0f30",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.evidence-log",
+    "scope": "L15",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L15's grading evidence is recorded in the audit_log at /logs/memory_writes.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L15.json#two_signal_grading.evidence_tokens[2].path",
+    "support": "/logs/memory_writes.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:449a900ec53efd69a2257a22fea51a952f82eb4039b6d44626393f215aabe9c1",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.module",
+    "scope": "L15",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L15 belongs to AI-300 module M4.",
+    "source": "osai-prep-studio/spine/labs/L15.json#ai300_module",
+    "support": "M4",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:0d2a4d0e13a3e16b10271e1c232bb38ac04943133f58c30f37475518018063dc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.killchain",
+    "scope": "L15",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L15 sits at the persistence stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L15.json#kill_chain_stage",
+    "support": "persistence",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae66ea4c99869a7d15613c3bf7cb2e357ccd501cd3008210a9e43274a5218c3d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.defense",
+    "scope": "L15",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L15 ships defense variants D0, D4, D7.",
+    "source": "osai-prep-studio/spine/labs/L15.json#defense_variants",
+    "support": [
+      "D0",
+      "D4",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  }
+]

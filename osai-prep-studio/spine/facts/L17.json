@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b6796cf94a8e7126b03607255b04f54998c3a22d9f5e94eaf2ff95a0d60bde43",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.detector",
+    "scope": "L17",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L17 (Supply chain: poisoned model/adapter) is two-signal graded by the supply_chain_trigger detector.",
+    "source": "osai-prep-studio/spine/labs/L17.json#two_signal_grading.detector_required",
+    "support": "supply_chain_trigger",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:18c92c9742c19d20e56fd7a39325c20053232d8a8c27f069f2ac70c2f656ee26",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.owasp",
+    "scope": "L17",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L17 maps to OWASP LLM03:2025 (Supply Chain).",
+    "source": "osai-prep-studio/spine/labs/L17.json#frameworks.owasp",
+    "support": [
+      "LLM03:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c26bc08be5cabe783fb4f70d11291336521358df1425bf89e3817115d3686b50",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.atlas",
+    "scope": "L17",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0010"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L17 maps to MITRE ATLAS technique AML.T0010.",
+    "source": "osai-prep-studio/spine/labs/L17.json#frameworks.atlas",
+    "support": [
+      "AML.T0010"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:730bbbde916164b6ebba05f2d18cfd099d114a08c1b1d7a2be4d8b567686ec31",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.evidence-log",
+    "scope": "L17",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L17's grading evidence is recorded in the audit_log at /logs/provenance.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L17.json#two_signal_grading.evidence_tokens[2].path",
+    "support": "/logs/provenance.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c0e8b4b4fa3f87d3621c5298820de183516040d1b10521156abb22537874c663",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.module",
+    "scope": "L17",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L17 belongs to AI-300 module M7.",
+    "source": "osai-prep-studio/spine/labs/L17.json#ai300_module",
+    "support": "M7",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:939662e85f7b6e55a3fa8d23e07a9d3cdb4cbb949893a218f2c5f78cf89e3280",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.killchain",
+    "scope": "L17",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L17 sits at the resource-development stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L17.json#kill_chain_stage",
+    "support": "resource-development",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ef35ce2b66dcad352d33ba050fb39ce9c496617e376b64f13624bd5032eb04fb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.defense",
+    "scope": "L17",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L17 ships defense variants D0, D7, D8.",
+    "source": "osai-prep-studio/spine/labs/L17.json#defense_variants",
+    "support": [
+      "D0",
+      "D7",
+      "D8"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M7"
+  }
+]

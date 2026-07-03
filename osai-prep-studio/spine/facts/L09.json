@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5b203083200fe5bad537f3eb7375f3c215f9a94089988fcf74ca9941343e965b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.detector",
+    "scope": "L09",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L09 (RAG poisoning (write-path persistence)) is two-signal graded by the indirect_prompt_injection detector.",
+    "source": "osai-prep-studio/spine/labs/L09.json#two_signal_grading.detector_required",
+    "support": "indirect_prompt_injection",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5ba18965eb1df643907a3e8ca3fa94000aaa4867bc69fee223eccc9ff94ebeb3",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.owasp",
+    "scope": "L09",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L09 maps to OWASP LLM04:2025 (Data and Model Poisoning).",
+    "source": "osai-prep-studio/spine/labs/L09.json#frameworks.owasp",
+    "support": [
+      "LLM04:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c6523925b5103a0f99408caeb6be9d2b4e64552d6c9f2d41e4609b3adb969851",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.atlas",
+    "scope": "L09",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0020"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L09 maps to MITRE ATLAS technique AML.T0020.",
+    "source": "osai-prep-studio/spine/labs/L09.json#frameworks.atlas",
+    "support": [
+      "AML.T0020"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:61413ced7373b743877e643c5682e82c33c2b8f5b7055c2e49370aa1c9661d8a",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.evidence-log",
+    "scope": "L09",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L09's grading evidence is recorded in the audit_log at /logs/index_audit.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L09.json#two_signal_grading.evidence_tokens[2].path",
+    "support": "/logs/index_audit.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:25efb20dfe4953e14dbef1bc5ac6bd7ea8dc659c582e4118260b50508c8f5f25",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.module",
+    "scope": "L09",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L09 belongs to AI-300 module M5.",
+    "source": "osai-prep-studio/spine/labs/L09.json#ai300_module",
+    "support": "M5",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:0d2a4d0e13a3e16b10271e1c232bb38ac04943133f58c30f37475518018063dc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.killchain",
+    "scope": "L09",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L09 sits at the persistence stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L09.json#kill_chain_stage",
+    "support": "persistence",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae66ea4c99869a7d15613c3bf7cb2e357ccd501cd3008210a9e43274a5218c3d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.defense",
+    "scope": "L09",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L09 ships defense variants D0, D4, D7.",
+    "source": "osai-prep-studio/spine/labs/L09.json#defense_variants",
+    "support": [
+      "D0",
+      "D4",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  }
+]

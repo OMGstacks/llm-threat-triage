@@ -114,6 +114,30 @@ still hard-gated at 1.0.
 framework tag, sensitive count, by-status) — the seed for PR2's capacity report, so we can
 see whether the store can actually support 750 *before* generating items.
 
+## 6a. PR2 — full-lab expansion + capacity ledger (cards only)
+
+PR2 expands the store to **all labs except L13** (excluded per the standing "do not touch
+L13" constraint) — **cards only, no gold-set generation, no ship-gate change**. Cards are
+**deterministically extracted** from each manifest (every `support` is the exact value at
+its provenance path, so structural validation is correct by construction), plus four global
+architecture/concept cards. Result: **17 → 127 cards**; ship gate unchanged (**530**, all
+banks 1.0); `factstore validate` OK; full suite green.
+
+**Coverage / capacity ledger** (`factstore validate`):
+
+| Metric | Value |
+|---|---|
+| cards | **127** active / 127 total · 0 sensitive · all `active` |
+| per claim_type | detector 18 · framework_mapping 38 · module 18 · architecture 20 · defense 16 · evidence_path 15 · concept 2 |
+| per lab | every lab L01–L19 **except L13** (4–8 cards each) + 6 global |
+| capacity `lab_grounded` | 105 cards → 105–210 items — **supports target 125–150** |
+| capacity `architecture_reasoning` | 112 cards → 112–224 items — **supports target 75–100** |
+
+The ledger is the answer to "can the store support 750 without padding?" — **yes**: both
+corpus-bound banks now have card capacity above their targets, so PR3 growth is grounding-
+limited by real facts, not by raw-corpus retrieval. **L13 excluded**: `test_all_labs_except_l13_have_fact_cards`
+asserts coverage of every other lab and the L13 exclusion.
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab

@@ -1,0 +1,183 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:96b7052ab5976ccf45bd826849eb086810ff95ed78d95642cb35a1d9a43c34bc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L04.detector",
+    "scope": "L04",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L04 (System-prompt extraction) is two-signal graded by the system_prompt_extraction detector.",
+    "source": "osai-prep-studio/spine/labs/L04.json#two_signal_grading.detector_required",
+    "support": "system_prompt_extraction",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:afc3239b7db53bdcdcd7b5cfcc0f8f5d8e5749bbf1f7a3ce07d3b56e6c81f7b9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L04.owasp",
+    "scope": "L04",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L04 maps to OWASP LLM07:2025 (System Prompt Leakage).",
+    "source": "osai-prep-studio/spine/labs/L04.json#frameworks.owasp",
+    "support": [
+      "LLM07:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b509b9453f9d10fbdacf51fabcadc267b948a69808e7fb1e1499720ff62746ad",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L04.atlas",
+    "scope": "L04",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0056"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L04 maps to MITRE ATLAS technique AML.T0056.",
+    "source": "osai-prep-studio/spine/labs/L04.json#frameworks.atlas",
+    "support": [
+      "AML.T0056"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:0892a10ece1f933ee98f5d554601b28f8437801d1aa1b77799e4035ddcb6950c",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L04.module",
+    "scope": "L04",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L04 belongs to AI-300 module M2.",
+    "source": "osai-prep-studio/spine/labs/L04.json#ai300_module",
+    "support": "M2",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ded07998650e891d6d72f27ebc7f4c04c3d9fef94aa967c55341b446c71977d6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L04.killchain",
+    "scope": "L04",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L04 sits at the access-injection stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L04.json#kill_chain_stage",
+    "support": "access-injection",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfb4705f5523b6ed293ad41e10d80158702cba640dd621913597cb2f5c0ec2e9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L04.defense",
+    "scope": "L04",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L04 ships defense variants D0, D2, D7.",
+    "source": "osai-prep-studio/spine/labs/L04.json#defense_variants",
+    "support": [
+      "D0",
+      "D2",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
+  }
+]

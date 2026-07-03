@@ -213,6 +213,29 @@ def test_bank_eligibility_by_claim_type_enforced():
     assert any("not eligible for bank" in e for e in validate_card(card, REG))
 
 
+def test_all_labs_except_l13_have_fact_cards():
+    import glob
+    fs = FactStore()
+    scopes = {c["scope"] for c in fs.cards.values()}
+    labs = {f.split("/")[-1][:-5] for f in glob.glob("labs/*.json")}
+    missing = {lid for lid in labs if lid != "L13" and lid not in scopes}
+    assert not missing, f"labs without fact cards: {missing}"
+    assert "L13" not in scopes, "L13 must be excluded per the standing constraint"
+
+
+def test_capacity_supports_bank_targets():
+    cov = factstore.coverage_report(FactStore())
+    cap = cov["estimated_item_capacity"]
+    assert cap["architecture_reasoning"]["supports_target"], cap["architecture_reasoning"]
+    assert cap["lab_grounded"]["supports_target"], cap["lab_grounded"]
+
+
+def test_expanded_store_has_no_sensitive_or_draft_cards():
+    cov = factstore.coverage_report(FactStore())
+    assert cov["sensitive"] == 0
+    assert cov["by_status"] == {"active": cov["cards_total"]}
+
+
 def test_ground_missing_fact_id_fails_cleanly_not_crash():
     fs = FactStore()
     item = {"id": "X", "bank": "lab_grounded", "grounding": "factstore",

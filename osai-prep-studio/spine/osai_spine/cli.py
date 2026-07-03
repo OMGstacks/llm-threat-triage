@@ -221,6 +221,10 @@ def cmd_factstore(args) -> int:
         print(f"  per claim_type:     {cov['per_claim_type']}")
         print(f"  per-bank capacity:  {cov['per_bank_capacity']}")
         print(f"  by status:          {cov['by_status']}")
+        for b, c in cov["estimated_item_capacity"].items():
+            ok = "supports" if c["supports_target"] else "SHORT of"
+            print(f"  capacity {b}: {c['cards_eligible']} cards -> {c['floor_items']}-{c['ceiling_items_2x']} "
+                  f"items ({ok} target {c['target']})")
         for e in store_rep["errors"]:
             print("  STORE ERR", e)
         for iid, errs in item_rep["errors"].items():
