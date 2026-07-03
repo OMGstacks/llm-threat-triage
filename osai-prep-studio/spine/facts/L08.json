@@ -76,7 +76,7 @@
         "audit-log"
       ]
     },
-    "claim": "Lab L08's recon activity is captured for grading in the audit log at /logs/recon.jsonl.",
+    "claim": "Lab L08's grading evidence is recorded in a log at /logs/recon.jsonl.",
     "source": "osai-prep-studio/spine/labs/L08.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/recon.jsonl",
     "source_fingerprint": "sha256:620713558fee1d7f97d78825c8a058dd585eadf38c9a9828a94d72254b40e37f",

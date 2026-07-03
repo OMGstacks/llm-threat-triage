@@ -142,7 +142,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L16's grading evidence is recorded in the tool_call_log at /logs/tool_calls.jsonl.",
+    "claim": "Lab L16's grading evidence is recorded in a log at /logs/tool_calls.jsonl.",
     "source": "osai-prep-studio/spine/labs/L16.json#two_signal_grading.evidence_tokens[2].path",
     "support": "/logs/tool_calls.jsonl",
     "allowed_banks": [

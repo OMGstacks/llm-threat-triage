@@ -111,7 +111,7 @@
         "tool-call-log"
       ]
     },
-    "claim": "Lab L11's tool calls are captured for grading in the log at /logs/tool_calls.jsonl.",
+    "claim": "Lab L11's grading evidence is recorded in a log at /logs/tool_calls.jsonl.",
     "source": "osai-prep-studio/spine/labs/L11.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/tool_calls.jsonl",
     "source_fingerprint": "sha256:f602d25b765a7f8117d57062e5cd18c071f4022892cd561ddd175b7ed6f5a763",

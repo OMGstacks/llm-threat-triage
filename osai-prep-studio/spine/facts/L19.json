@@ -109,7 +109,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L19's grading evidence is recorded in the audit_log at /logs/consumption.jsonl.",
+    "claim": "Lab L19's grading evidence is recorded in a log at /logs/consumption.jsonl.",
     "source": "osai-prep-studio/spine/labs/L19.json#two_signal_grading.evidence_tokens[2].path",
     "support": "/logs/consumption.jsonl",
     "allowed_banks": [

@@ -76,7 +76,7 @@
         "audit-log"
       ]
     },
-    "claim": "Lab L03's filter decisions are recorded for grading in the audit log at /logs/filter_decisions.jsonl.",
+    "claim": "Lab L03's grading evidence is recorded in a log at /logs/filter_decisions.jsonl.",
     "source": "osai-prep-studio/spine/labs/L03.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/filter_decisions.jsonl",
     "source_fingerprint": "sha256:08d1286f46506017d6613d58b13aec482113283b2a029fc38ff6bafa8fe7c7e1",

@@ -109,7 +109,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L06's grading evidence is recorded in the callback at /logs/callback.jsonl.",
+    "claim": "Lab L06's grading evidence is recorded in a log at /logs/callback.jsonl.",
     "source": "osai-prep-studio/spine/labs/L06.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/callback.jsonl",
     "allowed_banks": [

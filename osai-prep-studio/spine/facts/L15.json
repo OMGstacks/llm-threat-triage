@@ -140,7 +140,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L15's grading evidence is recorded in the audit_log at /logs/memory_writes.jsonl.",
+    "claim": "Lab L15's grading evidence is recorded in a log at /logs/memory_writes.jsonl.",
     "source": "osai-prep-studio/spine/labs/L15.json#two_signal_grading.evidence_tokens[2].path",
     "support": "/logs/memory_writes.jsonl",
     "allowed_banks": [

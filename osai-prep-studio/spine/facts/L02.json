@@ -109,7 +109,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L02's grading evidence is recorded in the audit_log at /logs/policy_decisions.jsonl.",
+    "claim": "Lab L02's grading evidence is recorded in a log at /logs/policy_decisions.jsonl.",
     "source": "osai-prep-studio/spine/labs/L02.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/policy_decisions.jsonl",
     "allowed_banks": [

@@ -116,27 +116,36 @@ see whether the store can actually support 750 *before* generating items.
 
 ## 6a. PR2 — full-lab expansion + capacity ledger (cards only)
 
-PR2 expands the store to **all labs except L13** (excluded per the standing "do not touch
-L13" constraint) — **cards only, no gold-set generation, no ship-gate change**. Cards are
-**deterministically extracted** from each manifest (every `support` is the exact value at
-its provenance path, so structural validation is correct by construction), plus four global
-architecture/concept cards. Result: **17 → 127 cards**; ship gate unchanged (**530**, all
-banks 1.0); `factstore validate` OK; full suite green.
+PR2 expands the store to **every lab except L13** — **cards only, no gold-set generation, no
+ship-gate change**. Cards are **deterministically extracted** from each manifest (every
+`support` is the exact value at its provenance path, so structural validation is correct by
+construction), plus 4 new global architecture/concept cards (6 global total) and the L20
+blue-team capstone. Result: **17 → 129 cards**; ship gate unchanged (**530**, all banks 1.0);
+`factstore validate` OK; full suite green.
+
+**Lab coverage.** L01–L12 and L14–L19 are attack labs with a `two_signal_grading` manifest,
+so each gets detector / framework / evidence / module / kill-chain / defense cards. **L20**
+is the *blue-team triage capstone* — it has no attack manifest, so it is represented by two
+architecture/concept cards grounded in the `reference/osai-studio-architecture.md` L20
+section instead of the per-lab attack templates. **L13 is deliberately excluded** per the
+standing "do not touch L13" constraint. `test_all_labs_except_l13_have_fact_cards` asserts
+every other lab (incl. L20) is covered and L13 is absent.
 
 **Coverage / capacity ledger** (`factstore validate`):
 
 | Metric | Value |
 |---|---|
-| cards | **127** active / 127 total · 0 sensitive · all `active` |
-| per claim_type | detector 18 · framework_mapping 38 · module 18 · architecture 20 · defense 16 · evidence_path 15 · concept 2 |
-| per lab | every lab L01–L19 **except L13** (4–8 cards each) + 6 global |
-| capacity `lab_grounded` | 105 cards → 105–210 items — **supports target 125–150** |
-| capacity `architecture_reasoning` | 112 cards → 112–224 items — **supports target 75–100** |
+| cards | **129** active / 129 total · 0 sensitive · all `active` |
+| per claim_type | detector 18 · framework_mapping 38 · module 18 · architecture 21 · defense 16 · evidence_path 15 · concept 3 |
+| per lab | L01–L12, L14–L20 (4–8 cards each; L20 ×2) + 6 global |
+| capacity `architecture_reasoning` | 114 cards → 114–228 items — **clears target 75–100 at the 1-item/card floor** |
+| capacity `lab_grounded` | 105 cards → 105–210 items — **reaches target 125–150 above the floor (≤2 phrasings/card)** |
 
-The ledger is the answer to "can the store support 750 without padding?" — **yes**: both
-corpus-bound banks now have card capacity above their targets, so PR3 growth is grounding-
-limited by real facts, not by raw-corpus retrieval. **L13 excluded**: `test_all_labs_except_l13_have_fact_cards`
-asserts coverage of every other lab and the L13 exclusion.
+The ledger answers "can the store support 750 without padding?" honestly: `architecture_reasoning`
+already exceeds its target at the conservative 1-item-per-card floor; `lab_grounded` (105
+cards) sits just below its 125 floor and reaches 125–150 with ~1.2–1.4 items/card — reachable
+without padding, but **not** at the floor. Either way PR3 growth is grounding-limited by real
+facts, not raw-corpus retrieval.
 
 ## 7. Answer-key safety
 

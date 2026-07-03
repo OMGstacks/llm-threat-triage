@@ -1,0 +1,54 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e913f07821960e1b276507aaf1f22133a055630e4af7b1687855816b3b2dafa2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L20.role",
+    "scope": "L20",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "blue-team",
+        "capstone"
+      ]
+    },
+    "claim": "Lab L20 is the blue-team triage capstone: triage the incident log against the full detector catalog, with an OffSec-style report as the deliverable.",
+    "source": "reference/osai-studio-architecture.md#lab-l20-blue-team-triage-capstone",
+    "support": "Triage the incident log against the full detector catalog; the deliverable is an\nOffSec-style **report**.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M10"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e913f07821960e1b276507aaf1f22133a055630e4af7b1687855816b3b2dafa2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L20.focus",
+    "scope": "L20",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "defense",
+        "reporting"
+      ]
+    },
+    "claim": "Lab L20 exercises the defensive and reporting view across the taxonomy (the blue-team capstone).",
+    "source": "reference/osai-studio-architecture.md#lab-l20-blue-team-triage-capstone",
+    "support": "Exercises the defensive/reporting view across the taxonomy.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M10"
+  }
+]

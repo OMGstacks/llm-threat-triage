@@ -109,7 +109,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L17's grading evidence is recorded in the audit_log at /logs/provenance.jsonl.",
+    "claim": "Lab L17's grading evidence is recorded in a log at /logs/provenance.jsonl.",
     "source": "osai-prep-studio/spine/labs/L17.json#two_signal_grading.evidence_tokens[2].path",
     "support": "/logs/provenance.jsonl",
     "allowed_banks": [

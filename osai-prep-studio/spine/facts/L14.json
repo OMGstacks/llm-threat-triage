@@ -144,7 +144,7 @@
         "evidence"
       ]
     },
-    "claim": "Lab L14's grading evidence is recorded in the orchestration_log at /logs/agent_orchestration.jsonl.",
+    "claim": "Lab L14's grading evidence is recorded in a log at /logs/agent_orchestration.jsonl.",
     "source": "osai-prep-studio/spine/labs/L14.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/agent_orchestration.jsonl",
     "allowed_banks": [
