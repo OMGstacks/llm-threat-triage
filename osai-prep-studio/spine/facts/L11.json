@@ -246,5 +246,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a9026dacb2243535dcc0ea2231d4cef5f50b4bfd9439f401c78597b761dd5eb1",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L11.scope",
+    "scope": "L11",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L11's authorized scope is limited to: local docker network, lab MCP tool server.",
+    "source": "osai-prep-studio/spine/labs/L11.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "lab MCP tool server"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
   }
 ]

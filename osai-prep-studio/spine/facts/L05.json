@@ -207,5 +207,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a977d08b8d049386e74ed78bc90dbd34b5731ae21bc4dedd2d468a8dafbb2957",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L05.scope",
+    "scope": "L05",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L05's authorized scope is limited to: local lab container, lab callback server.",
+    "source": "osai-prep-studio/spine/labs/L05.json#authorized_scope",
+    "support": [
+      "local lab container",
+      "lab callback server"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
   }
 ]

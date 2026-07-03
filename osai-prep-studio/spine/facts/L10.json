@@ -207,5 +207,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfe715f262f186b01aa0a084e03e2acdc9fc7f3fa75270a74826c5a8f418fb78",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.scope",
+    "scope": "L10",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L10's authorized scope is limited to: local docker network, multi-tenant pgvector index.",
+    "source": "osai-prep-studio/spine/labs/L10.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "multi-tenant pgvector index"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
   }
 ]

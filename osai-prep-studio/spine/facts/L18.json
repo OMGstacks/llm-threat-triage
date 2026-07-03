@@ -207,5 +207,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e39b0931adbb3913493b9416d584bc13c495358accfc6d042842a894573c31d8",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.scope",
+    "scope": "L18",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L18's authorized scope is limited to: isolated cloud-sim network, misconfigured Triton/vLLM endpoint.",
+    "source": "osai-prep-studio/spine/labs/L18.json#authorized_scope",
+    "support": [
+      "isolated cloud-sim network",
+      "misconfigured Triton/vLLM endpoint"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M8"
   }
 ]

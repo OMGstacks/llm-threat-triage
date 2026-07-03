@@ -240,5 +240,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:caa29a1ce2a6fd06e20c171bb255071bc183c95b5375f1d048280eba243585ae",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L16.scope",
+    "scope": "L16",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L16's authorized scope is limited to: local docker network, over-permissioned destructive tool.",
+    "source": "osai-prep-studio/spine/labs/L16.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "over-permissioned destructive tool"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
   }
 ]

@@ -238,5 +238,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:56dc2c0a74a2e6356728d103eef2b56f2cc7dcf4bdefa635eb189dc5ec05b1d3",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L15.scope",
+    "scope": "L15",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L15's authorized scope is limited to: local docker network, agent with persistent memory store.",
+    "source": "osai-prep-studio/spine/labs/L15.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "agent with persistent memory store"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
   }
 ]

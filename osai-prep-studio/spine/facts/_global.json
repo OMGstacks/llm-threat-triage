@@ -154,5 +154,55 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bb4671cde27f68e9ed2690c8eaf8c605508cca283946539455510a953115adcd",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "global.transcript-chokepoint",
+    "scope": "global",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "transcripts"
+      ]
+    },
+    "claim": "Sending a learner attack transcript to a model is gated behind a second opt-in (OSAI_LLM_TRANSCRIPTS=1) and a fail-closed choke point that refuses unless consent is recorded, then redacts flags/secrets/PII, re-verifies before egress, audits counts-only, and enforces bounded retention.",
+    "source": "reference/osai-studio-architecture.md#data-handling-choke-point-for-transcripts",
+    "support": "Sending a learner attack transcript to a model is gated behind a **second** opt-in (`OSAI_LLM_TRANSCRIPTS=1`) and a fail-closed choke point (`datahandling.prepare_for_judging`): it refuses unless the gate is on **and** the learner has recorded **consent**, then **redacts** flags/secrets/PII and re-verifies the redaction before any egress, records an **audit** event (counts only, never content), and retains only redacted transcripts under a **bounded retention** window",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:376c024e2c83cde1aa4e35f3ce0150bb34df4bea859c12d44c2886e5608516fb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "global.lab-range",
+    "scope": "global",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "lab-range"
+      ]
+    },
+    "claim": "The range is 19 lab manifests (L01–L19) plus the L20 blue-team triage capstone.",
+    "source": "reference/osai-studio-architecture.md#lab-range-overview",
+    "support": "The range is 19 lab manifests (L01–L19) plus the L20 blue-team triage capstone.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
   }
 ]

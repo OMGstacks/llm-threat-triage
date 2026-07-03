@@ -211,5 +211,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfd4a0902d12719a2612f8c6f21859215cd3bd7c1013fdf66b8f01f5f069280f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L03.scope",
+    "scope": "L03",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L03's authorized scope is limited to: local lab container, naive keyword filter D2.",
+    "source": "osai-prep-studio/spine/labs/L03.json#authorized_scope",
+    "support": [
+      "local lab container",
+      "naive keyword filter D2"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
   }
 ]

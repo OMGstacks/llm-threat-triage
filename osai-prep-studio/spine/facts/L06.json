@@ -207,5 +207,38 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:935bc991dd5953acf406a60e05451a9ba8caa9cc8cdb8bc6a5b385f9d40d0be6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.scope",
+    "scope": "L06",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L06's authorized scope is limited to: local docker network, sandbox DOM sink, lab callback server.",
+    "source": "osai-prep-studio/spine/labs/L06.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "sandbox DOM sink",
+      "lab callback server"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
   }
 ]
