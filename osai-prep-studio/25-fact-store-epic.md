@@ -172,6 +172,21 @@ Result: gold set **530 → 602**; `lab_grounded` 39 → 76, `architecture_reason
 **85 fact-grounded items** total. Ship gate **PASS** (both banks 1.0), `factstore validate`
 OK, retrieval-stability test still green.
 
+**Slice #2 (602 → 635).** +33 net-new fact-grounded items (18 `architecture_reasoning`,
+15 `lab_grounded`), targeting the coverage gaps the slice-#1 distribution surfaced:
+per-lab `architecture_reasoning` (kill-chain/module/defense) for **L15–L19** and the **L20**
+capstone (bespoke role/focus prompts on its PR2 cards), plus `lab_grounded` atlas/evidence/
+detector for the thin labs. Every lab L01–L19 now has an even 3 per-lab `architecture_reasoning`
+items; L20 has 2. Each item cites a **distinct** card (max `fact_id` reuse = 1), 0 near-dups.
+**118 fact-grounded items** total; `lab_grounded` 91, `architecture_reasoning` 89.
+
+**Honest ceiling.** 635 (not the 660–675 target) is where the slice stops **on purpose**:
+it is the clean maximum at `fact_id` reuse = 1 with the current 137 cards (agentic and most
+owasp/detector facts are already tested). Reaching ~675 would require either a second
+distinct phrasing per card (reuse = 2) or a further **fact-card expansion** (more
+provenance-backed facts) — preferring "stop lower over forced reuse," this slice stops at
+635. The next lever for clean growth is more cards, not more phrasings.
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab
