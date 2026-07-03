@@ -171,9 +171,9 @@
         "transcripts"
       ]
     },
-    "claim": "Sending a learner attack transcript to a model is gated behind a **second** opt-in\n(`OSAI_LLM_TRANSCRIPTS=1`) and a fail-closed choke point",
+    "claim": "Sending a learner attack transcript to a model is gated behind a second opt-in (OSAI_LLM_TRANSCRIPTS=1) and a fail-closed choke point that refuses unless consent is recorded, then redacts flags/secrets/PII, re-verifies before egress, audits counts-only, and enforces bounded retention.",
     "source": "reference/osai-studio-architecture.md#data-handling-choke-point-for-transcripts",
-    "support": "Sending a learner attack transcript to a model is gated behind a **second** opt-in\n(`OSAI_LLM_TRANSCRIPTS=1`) and a fail-closed choke point",
+    "support": "Sending a learner attack transcript to a model is gated behind a **second** opt-in (`OSAI_LLM_TRANSCRIPTS=1`) and a fail-closed choke point (`datahandling.prepare_for_judging`): it refuses unless the gate is on **and** the learner has recorded **consent**, then **redacts** flags/secrets/PII and re-verifies the redaction before any egress, records an **audit** event (counts only, never content), and retains only redacted transcripts under a **bounded retention** window",
     "allowed_banks": [
       "architecture_reasoning"
     ],

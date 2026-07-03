@@ -132,7 +132,7 @@
     },
     "claim": "OWASP LLM05:2025 (Improper Output Handling): downstream systems consume model output without validating or encoding it, so the LLM becomes an injection vector into other systems (XSS, SSRF, SQLi, or RCE).",
     "source": "reference/owasp-llm-top-10.md#llm052025-improper-output-handling",
-    "support": "Downstream systems consume model output without validating or encoding it, so the LLM becomes an injection vector into *other* systems:",
+    "support": "Downstream systems consume model output without validating or encoding it, so the LLM becomes an injection vector into *other* systems: XSS in a web UI, SSRF/data exfil via rendered markdown images, SQL injection, or RCE if output is `eval`'d or shelled out.",
     "allowed_banks": [
       "architecture_reasoning"
     ],
