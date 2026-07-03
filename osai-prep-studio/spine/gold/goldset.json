@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "note": "Curated gold set for the ship gate (doc 04). Being grown incrementally toward the ~700-item target; every item is verified to pass the gate against the extractive tutor before being added. | +13 fact-grounded pilot items (L03/L08/L11) via the structured fact store (25-fact-store-epic.md).",
+  "note": "Curated gold set for the ship gate (doc 04). Being grown incrementally toward the ~700-item target; every item is verified to pass the gate against the extractive tutor before being added. | +13 fact-grounded pilot items (L03/L08/L11) via the structured fact store (25-fact-store-epic.md). | +72 PR3 net-new fact-grounded items.",
   "items": [
     {
       "id": "FR-LLM01",
@@ -5275,7 +5275,7 @@
       "bank": "lab_grounded",
       "difficulty": "medium",
       "grounding": "factstore",
-      "prompt": "Which detector must fire to two-signal-grade lab L08 (RAG recon & fingerprinting)?",
+      "prompt": "Lab L08 — RAG recon & fingerprinting — clears Signal A when which detector triggers?",
       "expected_keywords": [
         "vector_store_probe"
       ],
@@ -5315,7 +5315,7 @@
       "bank": "lab_grounded",
       "difficulty": "easy",
       "grounding": "factstore",
-      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L03 exercise?",
+      "prompt": "Under which OWASP LLM Top 10 (2025) id is lab L03 (Encoded / obfuscated payload smuggling) classified?",
       "expected_keywords": [
         "LLM01:2025"
       ],
@@ -5335,7 +5335,7 @@
       "bank": "lab_grounded",
       "difficulty": "easy",
       "grounding": "factstore",
-      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L08 exercise?",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L08 (RAG recon & fingerprinting) exercise?",
       "expected_keywords": [
         "LLM08:2025"
       ],
@@ -5355,7 +5355,7 @@
       "bank": "lab_grounded",
       "difficulty": "easy",
       "grounding": "factstore",
-      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L11 exercise?",
+      "prompt": "Lab L11 (MCP tool misuse / excessive agency) falls under which OWASP LLM Top 10 (2025) category?",
       "expected_keywords": [
         "LLM06:2025"
       ],
@@ -5412,7 +5412,7 @@
       "bank": "architecture_reasoning",
       "difficulty": "medium",
       "grounding": "factstore",
-      "prompt": "Which component owns two-signal grading in OSAI Prep Studio?",
+      "prompt": "Between the tutor and the grader, which component holds the two-signal verdict in OSAI Prep Studio?",
       "expected_keywords": [
         "validator"
       ],
@@ -5492,6 +5492,1391 @@
       ],
       "fact_ids": [
         "L03.module"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L01-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L01 (Direct injection & guardrail bypass) map to?",
+      "expected_keywords": [
+        "AML.T0051.000"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L01.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L04-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire (Signal A) to two-signal-grade lab L04, System-prompt extraction?",
+      "expected_keywords": [
+        "system_prompt_extraction"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L04.detector"
+      ],
+      "skill_tags": [
+        "LLM07:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L02-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L02's grading evidence recorded (Indirect injection via RAG document)?",
+      "expected_keywords": [
+        "/logs/policy_decisions.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L02.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L01-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L01 (Direct injection & guardrail bypass) exercise?",
+      "expected_keywords": [
+        "LLM01:2025"
+      ],
+      "forbidden": [
+        "LLM02:2025",
+        "LLM03:2025"
+      ],
+      "fact_ids": [
+        "L01.owasp"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L12-agentic",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which OWASP Agentic threat does lab L12 (MCP tool shadowing & rug-pull) map to?",
+      "expected_keywords": [
+        "T2"
+      ],
+      "forbidden": [
+        "T10",
+        "T11"
+      ],
+      "fact_ids": [
+        "L12.agentic"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L02-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L02 — Indirect injection via RAG document — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0051.001"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L02.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L05-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L05 — Markdown / zero-click exfil — clears Signal A when which detector triggers?",
+      "expected_keywords": [
+        "improper_output_handling"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L05.detector"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L05-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where is the grading evidence for lab L05 — Markdown / zero-click exfil — captured?",
+      "expected_keywords": [
+        "/logs/callback.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L05.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L12-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Under which OWASP LLM id is lab L12, MCP tool shadowing & rug-pull, classified?",
+      "expected_keywords": [
+        "LLM06:2025"
+      ],
+      "forbidden": [
+        "LLM01:2025",
+        "LLM02:2025"
+      ],
+      "fact_ids": [
+        "L12.owasp"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L14-agentic",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L14, Multi-agent goal/intent manipulation, exercises which OWASP Agentic threat id?",
+      "expected_keywords": [
+        "T5"
+      ],
+      "forbidden": [
+        "T10",
+        "T11"
+      ],
+      "fact_ids": [
+        "L14.agentic"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L03-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L03 (Encoded / obfuscated payload smuggling) map to?",
+      "expected_keywords": [
+        "AML.T0051.001"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L03.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L06-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Name the required detector for grading lab L06: Improper output handling -> XSS/SSRF sink.",
+      "expected_keywords": [
+        "improper_output_handling"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L06.detector"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L06-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L06's grading evidence recorded (Improper output handling -> XSS/SSRF sink)?",
+      "expected_keywords": [
+        "/logs/callback.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L06.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L14-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L14 (Multi-agent goal/intent manipulation) exercise?",
+      "expected_keywords": [
+        "LLM01:2025"
+      ],
+      "forbidden": [
+        "LLM02:2025",
+        "LLM03:2025"
+      ],
+      "fact_ids": [
+        "L14.owasp"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L16-agentic",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which OWASP Agentic threat does lab L16 (Excessive agency -> destructive tool action) map to?",
+      "expected_keywords": [
+        "T2"
+      ],
+      "forbidden": [
+        "T1",
+        "T10"
+      ],
+      "fact_ids": [
+        "L16.agentic"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L04-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L04 — System-prompt extraction — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0056"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L04.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L07-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire (Signal A) to two-signal-grade lab L07, Sensitive information disclosure?",
+      "expected_keywords": [
+        "sensitive_information_disclosure"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L07.detector"
+      ],
+      "skill_tags": [
+        "LLM02:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L08-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where is the grading evidence for lab L08 — RAG recon & fingerprinting — captured?",
+      "expected_keywords": [
+        "/logs/recon.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L08.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L15-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Under which OWASP LLM id is lab L15, Agent memory poisoning (cross-session persistence), classified?",
+      "expected_keywords": [
+        "LLM01:2025"
+      ],
+      "forbidden": [
+        "LLM02:2025",
+        "LLM03:2025"
+      ],
+      "fact_ids": [
+        "L15.owasp"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L05-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L05 (Markdown / zero-click exfil) map to?",
+      "expected_keywords": [
+        "AML.T0024"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L05.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L09-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L09 — RAG poisoning (write-path persistence) — clears Signal A when which detector triggers?",
+      "expected_keywords": [
+        "indirect_prompt_injection"
+      ],
+      "forbidden": [
+        "encoded_injection_payload",
+        "excessive_agency_probe"
+      ],
+      "fact_ids": [
+        "L09.detector"
+      ],
+      "skill_tags": [
+        "LLM04:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L09-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L09's grading evidence recorded (RAG poisoning (write-path persistence))?",
+      "expected_keywords": [
+        "/logs/index_audit.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L09.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM04:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L19-owasp",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which OWASP LLM Top 10 (2025) category does lab L19 (Adversarial ML / model extraction) exercise?",
+      "expected_keywords": [
+        "LLM10:2025"
+      ],
+      "forbidden": [
+        "LLM01:2025",
+        "LLM02:2025"
+      ],
+      "fact_ids": [
+        "L19.owasp"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L06-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L06 — Improper output handling -> XSS/SSRF sink — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0024"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L06.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L10-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Name the required detector for grading lab L10: Vector store cross-tenant leak.",
+      "expected_keywords": [
+        "sensitive_information_disclosure"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L10.detector"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L10-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where is the grading evidence for lab L10 — Vector store cross-tenant leak — captured?",
+      "expected_keywords": [
+        "/logs/retrieval_audit.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L10.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L07-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L07 (Sensitive information disclosure) map to?",
+      "expected_keywords": [
+        "AML.T0057"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L07.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L12-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire (Signal A) to two-signal-grade lab L12, MCP tool shadowing & rug-pull?",
+      "expected_keywords": [
+        "excessive_agency_probe"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L12.detector"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L11-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L11's grading evidence recorded (MCP tool misuse / excessive agency)?",
+      "expected_keywords": [
+        "/logs/tool_calls.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L11.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L08-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L08 — RAG recon & fingerprinting — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.TA0002"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L08.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L14-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L14 — Multi-agent goal/intent manipulation — clears Signal A when which detector triggers?",
+      "expected_keywords": [
+        "indirect_prompt_injection"
+      ],
+      "forbidden": [
+        "encoded_injection_payload",
+        "excessive_agency_probe"
+      ],
+      "fact_ids": [
+        "L14.detector"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L12-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where is the grading evidence for lab L12 — MCP tool shadowing & rug-pull — captured?",
+      "expected_keywords": [
+        "/logs/tool_calls.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L12.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L09-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L09 (RAG poisoning (write-path persistence)) map to?",
+      "expected_keywords": [
+        "AML.T0020"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0024"
+      ],
+      "fact_ids": [
+        "L09.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L15-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Name the required detector for grading lab L15: Agent memory poisoning (cross-session persistence).",
+      "expected_keywords": [
+        "indirect_prompt_injection"
+      ],
+      "forbidden": [
+        "encoded_injection_payload",
+        "excessive_agency_probe"
+      ],
+      "fact_ids": [
+        "L15.detector"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L14-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L14's grading evidence recorded (Multi-agent goal/intent manipulation)?",
+      "expected_keywords": [
+        "/logs/agent_orchestration.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L14.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L10-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L10 — Vector store cross-tenant leak — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0024"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L10.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L16-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire (Signal A) to two-signal-grade lab L16, Excessive agency -> destructive tool action?",
+      "expected_keywords": [
+        "excessive_agency_probe"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L16.detector"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L01-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L01 (Direct injection & guardrail bypass) sit?",
+      "expected_keywords": [
+        "access-injection"
+      ],
+      "forbidden": [
+        "execution",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L01.killchain"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L01-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L01, Direct injection & guardrail bypass?",
+      "expected_keywords": [
+        "M3"
+      ],
+      "forbidden": [
+        "M2",
+        "M4"
+      ],
+      "fact_ids": [
+        "L01.module"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L01-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L01 (Direct injection & guardrail bypass)?",
+      "expected_keywords": [
+        "D1"
+      ],
+      "forbidden": [
+        "D3",
+        "D4"
+      ],
+      "fact_ids": [
+        "L01.defense"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L02-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L02, Indirect injection via RAG document?",
+      "expected_keywords": [
+        "access-injection"
+      ],
+      "forbidden": [
+        "execution",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L02.killchain"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L02-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L02 — Indirect injection via RAG document — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M5"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L02.module"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L02-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L02 — Indirect injection via RAG document — add?",
+      "expected_keywords": [
+        "D4"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L02.defense"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L03-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L03 (Encoded / obfuscated payload smuggling) sit?",
+      "expected_keywords": [
+        "access-injection"
+      ],
+      "forbidden": [
+        "execution",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L03.killchain"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L04-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L04, System-prompt extraction?",
+      "expected_keywords": [
+        "M2"
+      ],
+      "forbidden": [
+        "M3",
+        "M4"
+      ],
+      "fact_ids": [
+        "L04.module"
+      ],
+      "skill_tags": [
+        "LLM07:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L03-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L03 (Encoded / obfuscated payload smuggling)?",
+      "expected_keywords": [
+        "D2"
+      ],
+      "forbidden": [
+        "D1",
+        "D3"
+      ],
+      "fact_ids": [
+        "L03.defense"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L04-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L04, System-prompt extraction?",
+      "expected_keywords": [
+        "access-injection"
+      ],
+      "forbidden": [
+        "execution",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L04.killchain"
+      ],
+      "skill_tags": [
+        "LLM07:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L05-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L05 — Markdown / zero-click exfil — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M3"
+      ],
+      "forbidden": [
+        "M2",
+        "M4"
+      ],
+      "fact_ids": [
+        "L05.module"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L04-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L04 — System-prompt extraction — add?",
+      "expected_keywords": [
+        "D2"
+      ],
+      "forbidden": [
+        "D1",
+        "D3"
+      ],
+      "fact_ids": [
+        "L04.defense"
+      ],
+      "skill_tags": [
+        "LLM07:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L05-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L05 (Markdown / zero-click exfil) sit?",
+      "expected_keywords": [
+        "exfiltration-impact"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L05.killchain"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L06-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L06, Improper output handling -> XSS/SSRF sink?",
+      "expected_keywords": [
+        "M3"
+      ],
+      "forbidden": [
+        "M2",
+        "M4"
+      ],
+      "fact_ids": [
+        "L06.module"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L05-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L05 (Markdown / zero-click exfil)?",
+      "expected_keywords": [
+        "D3"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L05.defense"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L06-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L06, Improper output handling -> XSS/SSRF sink?",
+      "expected_keywords": [
+        "execution"
+      ],
+      "forbidden": [
+        "access-injection",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L06.killchain"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L07-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L07 — Sensitive information disclosure — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M3"
+      ],
+      "forbidden": [
+        "M2",
+        "M4"
+      ],
+      "fact_ids": [
+        "L07.module"
+      ],
+      "skill_tags": [
+        "LLM02:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L06-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L06 — Improper output handling -> XSS/SSRF sink — add?",
+      "expected_keywords": [
+        "D3"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L06.defense"
+      ],
+      "skill_tags": [
+        "LLM05:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L07-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L07 (Sensitive information disclosure) sit?",
+      "expected_keywords": [
+        "exfiltration-impact"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L07.killchain"
+      ],
+      "skill_tags": [
+        "LLM02:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L08-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L08, RAG recon & fingerprinting?",
+      "expected_keywords": [
+        "M2"
+      ],
+      "forbidden": [
+        "M3",
+        "M4"
+      ],
+      "fact_ids": [
+        "L08.module"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L07-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L07 (Sensitive information disclosure)?",
+      "expected_keywords": [
+        "D2"
+      ],
+      "forbidden": [
+        "D1",
+        "D3"
+      ],
+      "fact_ids": [
+        "L07.defense"
+      ],
+      "skill_tags": [
+        "LLM02:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L09-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L09, RAG poisoning (write-path persistence)?",
+      "expected_keywords": [
+        "persistence"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L09.killchain"
+      ],
+      "skill_tags": [
+        "LLM04:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L09-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L09 — RAG poisoning (write-path persistence) — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M5"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L09.module"
+      ],
+      "skill_tags": [
+        "LLM04:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L08-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L08 — RAG recon & fingerprinting — add?",
+      "expected_keywords": [
+        "D4"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L08.defense"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L10-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L10 (Vector store cross-tenant leak) sit?",
+      "expected_keywords": [
+        "exfiltration"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L10.killchain"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L10-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L10, Vector store cross-tenant leak?",
+      "expected_keywords": [
+        "M5"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L10.module"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L09-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L09 (RAG poisoning (write-path persistence))?",
+      "expected_keywords": [
+        "D4"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L09.defense"
+      ],
+      "skill_tags": [
+        "LLM04:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L11-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L11, MCP tool misuse / excessive agency?",
+      "expected_keywords": [
+        "execution"
+      ],
+      "forbidden": [
+        "access-injection",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L11.killchain"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L11-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L11 — MCP tool misuse / excessive agency — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M6"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L11.module"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L10-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L10 — Vector store cross-tenant leak — add?",
+      "expected_keywords": [
+        "D4"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L10.defense"
+      ],
+      "skill_tags": [
+        "LLM08:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L12-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L12 (MCP tool shadowing & rug-pull) sit?",
+      "expected_keywords": [
+        "execution"
+      ],
+      "forbidden": [
+        "access-injection",
+        "exfiltration"
+      ],
+      "fact_ids": [
+        "L12.killchain"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L12-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L12, MCP tool shadowing & rug-pull?",
+      "expected_keywords": [
+        "M6"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L12.module"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L12-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L12 (MCP tool shadowing & rug-pull)?",
+      "expected_keywords": [
+        "D5"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L12.defense"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L14-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L14, Multi-agent goal/intent manipulation?",
+      "expected_keywords": [
+        "tool_call"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L14.causal-chain"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "AR-fs-L14-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L14 — Multi-agent goal/intent manipulation — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M4"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L14.module"
       ],
       "skill_tags": [
         "LLM01:2025"
