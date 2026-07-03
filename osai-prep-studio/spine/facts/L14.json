@@ -268,5 +268,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5c128e721f7a19ca4d83cb5982f8aa25640fa00f81bc4689243c5928c75485c8",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.scope",
+    "scope": "L14",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L14's authorized scope is limited to: local docker network, two cooperating lab agents.",
+    "source": "osai-prep-studio/spine/labs/L14.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "two cooperating lab agents"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
   }
 ]

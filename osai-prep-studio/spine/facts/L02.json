@@ -207,5 +207,38 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:64662e1e3dba94c64371ead3a9d67b1d1ef017207d738231ce0e8baeec940d20",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.scope",
+    "scope": "L02",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L02's authorized scope is limited to: local docker network, seeded fake corpus, lab callback server.",
+    "source": "osai-prep-studio/spine/labs/L02.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "seeded fake corpus",
+      "lab callback server"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
   }
 ]

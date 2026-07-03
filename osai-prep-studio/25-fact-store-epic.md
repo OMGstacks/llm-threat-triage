@@ -187,6 +187,28 @@ distinct phrasing per card (reuse = 2) or a further **fact-card expansion** (mor
 provenance-backed facts) — preferring "stop lower over forced reuse," this slice stops at
 635. The next lever for clean growth is more cards, not more phrasings.
 
+## 6c. PR21 — fact-card expansion (cards only, 137 → 183)
+
+Slice #2 stopped at 635 because net-new facts were exhausted at `fact_id` reuse = 1. PR21
+lifts that ceiling by adding **46 provenance-backed fact cards — no gold items**:
+
+- **29 framework concept cards** — OWASP **LLM01–10** and OWASP Agentic **T1–T15**
+  definitions, plus MITRE ATLAS and NIST AI RMF concepts, each an **anchor + verbatim span**
+  from the reference corpus (`owasp-llm-top-10.md`, `owasp-agentic-threats.md`,
+  `mitre-atlas.md`, `nist-ai-rmf.md`).
+- **15 `authorized_scope` cards** — a new **`scope` claim_type** wired through schema
+  validation, the bank-eligibility matrix, the coverage ledger, tests, and this doc — one per
+  lab whose authorized scope is meaningfully distinct (L01/L04/L07 skipped as generic;
+  **L13 excluded**), JSON-path-validated against the manifest.
+- **2 architecture cards** — the previously-uncarded `data-handling choke point` and
+  `lab range overview` sections.
+
+Store **137 → 183 cards** (0 sensitive, all active; 0 duplicate ids). Refreshed capacity:
+`lab_grounded` **125 cards → now clears its 125–150 target at the 1-item/card floor**;
+`architecture_reasoning` **168 cards** (far above 75–100). Ship gate unchanged at **635**;
+`factstore validate` OK; full suite green. This unlocks PR22 growth toward ~675–700 without
+forced reuse.
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab
@@ -195,7 +217,7 @@ the committed lab manifests, which contain paths, never flag values); the per-le
 **flag value**, hidden **rubric** prose, and grading internals are **sensitive**. The
 validator enforces this two ways — a structural secret scan on every card, and a
 sensitivity quarantine that keeps `answer_key_sensitive` cards out of learner banks unless
-explicitly overridden. All 137 shipped cards are public, non-sensitive; the sensitive path is
+explicitly overridden. All 183 shipped cards are public, non-sensitive; the sensitive path is
 exercised by tests, not shipped.
 
 ## 8. Epic sequence

@@ -267,6 +267,30 @@ def test_no_near_duplicate_prompts_in_grounded_banks():
         assert not dups, f"near-duplicate prompts in {bank}: {dups[:5]}"
 
 
+def test_scope_claim_type_is_wired_and_valid():
+    from osai_spine.factstore import BANK_ELIGIBILITY, CLAIM_TYPES
+    assert "scope" in CLAIM_TYPES
+    assert BANK_ELIGIBILITY["scope"] == {"lab_grounded", "architecture_reasoning"}
+    fs = FactStore()
+    scope_cards = [c for c in fs.cards.values() if c["claim_type"] == "scope"]
+    assert len(scope_cards) >= 10, f"expected authorized_scope cards, got {len(scope_cards)}"
+    assert "L13.scope" not in fs.cards, "L13 must stay excluded"
+    for c in scope_cards:
+        assert validate_card(c, REG) == [], c["fact_id"]
+        assert set(c["allowed_banks"]) <= BANK_ELIGIBILITY["scope"]
+
+
+def test_framework_concept_cards_present_and_valid():
+    fs = FactStore()
+    ids = set(fs.cards)
+    assert all(f"owasp.LLM{n:02d}" in ids for n in range(1, 11)), "OWASP LLM01-10 concept cards"
+    assert all(f"agentic.T{n}" in ids for n in range(1, 16)), "OWASP Agentic T1-T15 concept cards"
+    concept = [c for c in fs.cards.values() if c["claim_type"] == "concept"]
+    assert len(concept) >= 25
+    for c in concept:
+        assert validate_card(c, REG) == [], c["fact_id"]
+
+
 def test_ground_missing_fact_id_fails_cleanly_not_crash():
     fs = FactStore()
     item = {"id": "X", "bank": "lab_grounded", "grounding": "factstore",

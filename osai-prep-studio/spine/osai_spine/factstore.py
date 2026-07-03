@@ -41,7 +41,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 
 CLAIM_TYPES = {
     "detector", "framework_mapping", "evidence_path",
-    "architecture", "defense", "module", "concept",
+    "architecture", "defense", "module", "concept", "scope",
 }
 STATUSES = {"active", "deprecated", "draft"}
 
@@ -65,6 +65,7 @@ BANK_ELIGIBILITY = {
     "module": {"lab_grounded", "architecture_reasoning"},
     "architecture": {"architecture_reasoning"},
     "concept": {"architecture_reasoning", "framework_recall"},
+    "scope": {"lab_grounded", "architecture_reasoning"},
 }
 
 REQUIRED_FIELDS = (

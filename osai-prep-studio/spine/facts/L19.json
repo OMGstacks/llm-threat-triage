@@ -207,5 +207,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c1a3de67af66fb7e1633b0c72674b942e0e16894323dbac53e3419a043e7b27f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.scope",
+    "scope": "L19",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L19's authorized scope is limited to: exposed inference API, rate-limit-observability harness.",
+    "source": "osai-prep-studio/spine/labs/L19.json#authorized_scope",
+    "support": [
+      "exposed inference API",
+      "rate-limit-observability harness"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M9"
   }
 ]

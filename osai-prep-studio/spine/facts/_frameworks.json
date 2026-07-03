@@ -1,0 +1,802 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:f58c836c12c262faf2aa98366c8a057bacc0778814ff5332f0771a584858cf9c",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM01",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM01:2025 (Prompt Injection): Attacker-controlled text causes the model to follow instructions it\nshould not.",
+    "source": "reference/owasp-llm-top-10.md#llm012025-prompt-injection",
+    "support": "Attacker-controlled text causes the model to follow instructions it\nshould not.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:849b61f4243236b7117685fc39c69f2f509ef036738b544a067f36a015583b4f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM02",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM02:2025 (Sensitive Information Disclosure): The model emits data it should not — API keys, credentials, PII,\ninternal documents, training-data memorization.",
+    "source": "reference/owasp-llm-top-10.md#llm022025-sensitive-information-disclosure",
+    "support": "The model emits data it should not — API keys, credentials, PII,\ninternal documents, training-data memorization.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:623ff50e1c2aacd388c33739001b798a73070b8f59780e829736695609ad34fc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM03",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM03:2025 (Supply Chain): Vulnerabilities introduced through third-party components: base models\nand checkpoints pulled from hubs, LoRA/adapters, datasets, tokenizer files, and the usual\nPython/package dependency tree.",
+    "source": "reference/owasp-llm-top-10.md#llm032025-supply-chain",
+    "support": "Vulnerabilities introduced through third-party components: base models\nand checkpoints pulled from hubs, LoRA/adapters, datasets, tokenizer files, and the usual\nPython/package dependency tree.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:26fb81a27807d805846372f835f2240df82b140f6d1e7997359b2eaff5f2ebb9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM04",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM04:2025 (Data and Model Poisoning): Manipulation of the data the model learns from — pre-training,\nfine-tuning, or RAG-ingested corpora — to introduce bias, degrade quality, or plant\n**backdoors** (a hidden trigger that produces attacker-chosen behavior).",
+    "source": "reference/owasp-llm-top-10.md#llm042025-data-and-model-poisoning",
+    "support": "Manipulation of the data the model learns from — pre-training,\nfine-tuning, or RAG-ingested corpora — to introduce bias, degrade quality, or plant\n**backdoors** (a hidden trigger that produces attacker-chosen behavior).",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:8fd7ed423b62dbd42a5dc3173909b061d0071c5eadf84bedd0f0b1d774e6124f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM05",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM05:2025 (Improper Output Handling): downstream systems consume model output without validating or encoding it, so the LLM becomes an injection vector into other systems (XSS, SSRF, SQLi, or RCE).",
+    "source": "reference/owasp-llm-top-10.md#llm052025-improper-output-handling",
+    "support": "Downstream systems consume model output without validating or encoding it, so the LLM becomes an injection vector into *other* systems:",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:398027b23a5120829bc03a381c25a6a393cacf23961c71838f937a74222c7d40",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM06",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM06:2025 (Excessive Agency): The model can *act* — via tools, plugins, function-calling, autonomous\nagents — with more functionality, permissions, or autonomy than the task requires.",
+    "source": "reference/owasp-llm-top-10.md#llm062025-excessive-agency",
+    "support": "The model can *act* — via tools, plugins, function-calling, autonomous\nagents — with more functionality, permissions, or autonomy than the task requires.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ce4573ff332e9b6953f43ba38224d631ec2ba6a223ce01d17b88b3ca4e036b88",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM07",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM07:2025 (System Prompt Leakage): The hidden system prompt is extracted, or — worse — the application\n**relied on the system prompt to keep a secret** (keys, business logic, access rules).",
+    "source": "reference/owasp-llm-top-10.md#llm072025-system-prompt-leakage",
+    "support": "The hidden system prompt is extracted, or — worse — the application\n**relied on the system prompt to keep a secret** (keys, business logic, access rules).",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d53318916e6472726ec124bc22499a0d6c1f6917f4a999b84615116eb15e2178",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM08",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM08:2025 (Vector and Embedding Weaknesses): Flaws specific to RAG: the vector database and embedding pipeline.",
+    "source": "reference/owasp-llm-top-10.md#llm082025-vector-and-embedding-weaknesses",
+    "support": "Flaws specific to RAG: the vector database and embedding pipeline.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:977be85a3ca64ce352d818b35cfc048c6d8fcbb6594a0a7aee405b974448d311",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM09",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM09:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM09:2025 (Misinformation): The model produces plausible, confident, **incorrect** output —\nhallucinated facts, fabricated citations, wrong code — and a human or downstream system\noverrelies on it.",
+    "source": "reference/owasp-llm-top-10.md#llm092025-misinformation",
+    "support": "The model produces plausible, confident, **incorrect** output —\nhallucinated facts, fabricated citations, wrong code — and a human or downstream system\noverrelies on it.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:84b084ac321cb0851eb3765e716ea0d50874e3e9715299be0df19ea461e68f4c",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "owasp.LLM10",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "owasp-definition"
+      ]
+    },
+    "claim": "OWASP LLM10:2025 (Unbounded Consumption): Inference is allowed to run without limits on volume, cost, or\nresources.",
+    "source": "reference/owasp-llm-top-10.md#llm102025-unbounded-consumption",
+    "support": "Inference is allowed to run without limits on volume, cost, or\nresources.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a2c28d6cc30c99dc9f830488f76ae229fc401fe39b865334caba3a9aa5ad52d9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T1",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T1"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T1 (Memory Poisoning): Injecting false or malicious data into an agent's short- or long-term **memory** (e.g. a\nvector store, scratchpad, or conversation history) so later decisions are silently\ncorrupted.",
+    "source": "reference/owasp-agentic-threats.md#t1-memory-poisoning",
+    "support": "Injecting false or malicious data into an agent's short- or long-term **memory** (e.g. a\nvector store, scratchpad, or conversation history) so later decisions are silently\ncorrupted.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:8666076b7cafef7117688ba39bcb7c7db395b7d5aaa0a5ff378a624a43d9b9d8",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T2",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T2"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T2 (Tool Misuse): Manipulating the agent into invoking its **legitimate tools** in harmful ways — dangerous\nparameters, unintended targets, or chained calls that achieve an attacker goal.",
+    "source": "reference/owasp-agentic-threats.md#t2-tool-misuse",
+    "support": "Manipulating the agent into invoking its **legitimate tools** in harmful ways — dangerous\nparameters, unintended targets, or chained calls that achieve an attacker goal.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:20d7cd157b986fad412f4f6a35cdcc108520819df45a9600fa2b8997f555afcd",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T3",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T3"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T3 (Privilege Compromise): Exploiting excessive, mismanaged, or dynamically-escalated **permissions** so the agent\nacts beyond its intended authority.",
+    "source": "reference/owasp-agentic-threats.md#t3-privilege-compromise",
+    "support": "Exploiting excessive, mismanaged, or dynamically-escalated **permissions** so the agent\nacts beyond its intended authority.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ee6ac252bf2ab8337ec9b960ec399a5ecf882293aed9fd0d02e967c9be6ebbc0",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T4",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T4"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T4 (Resource Overload): Exhausting the agent's compute, memory, token, or downstream-service limits — an\navailability attack (and, on paid APIs, a **denial-of-wallet**).",
+    "source": "reference/owasp-agentic-threats.md#t4-resource-overload",
+    "support": "Exhausting the agent's compute, memory, token, or downstream-service limits — an\navailability attack (and, on paid APIs, a **denial-of-wallet**).",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:9227dec035de21f581dbc652f0614051a5d774c99a08ac262f8f5b520e96895c",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T5",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T5"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T5 (Cascading Hallucination): A hallucinated or wrong output is trusted by a downstream step or another agent, so the\nerror **compounds** through the pipeline.",
+    "source": "reference/owasp-agentic-threats.md#t5-cascading-hallucination",
+    "support": "A hallucinated or wrong output is trusted by a downstream step or another agent, so the\nerror **compounds** through the pipeline.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:35de9d6ec47fe1fb67cd12fa4576a48289f31cd6d4b18f954653b4934bf28070",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T6",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T6"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T6 (Intent Breaking & Goal Manipulation): Subverting the agent's **planning or goals** so it pursues the attacker's objective while\nappearing to follow the user.",
+    "source": "reference/owasp-agentic-threats.md#t6-intent-breaking-goal-manipulation",
+    "support": "Subverting the agent's **planning or goals** so it pursues the attacker's objective while\nappearing to follow the user.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1e512d7529ccf34ef8368babdc5e9269c98454134ebb78fa005b71b6224a6da6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T7",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T7"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T7 (Misaligned & Deceptive Behaviors): The agent pursues harmful goals or **deceives** (hides actions, misreports) to achieve them,\nincluding reward-hacking under optimization pressure.",
+    "source": "reference/owasp-agentic-threats.md#t7-misaligned-deceptive-behaviors",
+    "support": "The agent pursues harmful goals or **deceives** (hides actions, misreports) to achieve them,\nincluding reward-hacking under optimization pressure.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:301247fcb2cdaf962609af7cb9b92aeac83e6428a804637baed7f3c73cd9bcc7",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T8",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T8"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T8 (Repudiation & Untraceability): Agent actions cannot be reliably **attributed or audited** — no non-repudiation — so\nincidents can't be reconstructed.",
+    "source": "reference/owasp-agentic-threats.md#t8-repudiation-untraceability",
+    "support": "Agent actions cannot be reliably **attributed or audited** — no non-repudiation — so\nincidents can't be reconstructed.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:7995d8eb03a233464185b4b2a9ea4df85eec3020cd5f34cf7692046d87122afc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T9",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T9"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T9 (Identity Spoofing & Impersonation): An attacker impersonates a **user, agent, or service identity** to gain trust or authority\nwithin the system.",
+    "source": "reference/owasp-agentic-threats.md#t9-identity-spoofing-impersonation",
+    "support": "An attacker impersonates a **user, agent, or service identity** to gain trust or authority\nwithin the system.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6b93421c82fc9daa40bdd5a2966e8458ad2331a20c9bcbaa3ea9d9a30a9f9e1e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T10",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T10"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T10 (Overwhelming Human-in-the-Loop): Flooding or fatiguing **human reviewers** so oversight erodes into rubber-stamping, or\ntiming actions to slip past review.",
+    "source": "reference/owasp-agentic-threats.md#t10-overwhelming-human-in-the-loop",
+    "support": "Flooding or fatiguing **human reviewers** so oversight erodes into rubber-stamping, or\ntiming actions to slip past review.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:20f9259aca1261c2c7714910a15384eb850cb463ff2ddc5f26faa460e344af7d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T11",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T11"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T11 (Unexpected RCE & Code Attacks): The agent executes **attacker-controlled code** through a code-execution tool or an unsafe\neval sink, yielding remote code execution.",
+    "source": "reference/owasp-agentic-threats.md#t11-unexpected-rce-code-attacks",
+    "support": "The agent executes **attacker-controlled code** through a code-execution tool or an unsafe\neval sink, yielding remote code execution.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:22159ff4723c0ea1b0248962347e7e4b0c690878905e72e635392eb92361ca80",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T12",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T12"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T12 (Agent Communication Poisoning): Corrupting the **messages or channels** between agents so a downstream agent acts on\ntampered instructions or data.",
+    "source": "reference/owasp-agentic-threats.md#t12-agent-communication-poisoning",
+    "support": "Corrupting the **messages or channels** between agents so a downstream agent acts on\ntampered instructions or data.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:26addaff09f43610311c4f8a4b4b6493012926b612652d6bc9598cc6a93bc8ff",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T13",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T13"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T13 (Rogue Agents in Multi-Agent Systems): A **malicious or compromised agent** operates inside an otherwise-trusted multi-agent\nsystem, abusing the coordination trust.",
+    "source": "reference/owasp-agentic-threats.md#t13-rogue-agents-in-multi-agent-systems",
+    "support": "A **malicious or compromised agent** operates inside an otherwise-trusted multi-agent\nsystem, abusing the coordination trust.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:4a4d67a2adb2f4d6de5ecd66443eaa0fe3a5a104b310caefe1b5beb19e30a26b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T14",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T14"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T14 (Human Attacks on Multi-Agent Systems): Humans exploit the **trust and coordination** between agents (e.g. playing agents against\neach other) rather than attacking one agent directly.",
+    "source": "reference/owasp-agentic-threats.md#t14-human-attacks-on-multi-agent-systems",
+    "support": "Humans exploit the **trust and coordination** between agents (e.g. playing agents against\neach other) rather than attacking one agent directly.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b29024a7367ee2a903ac559e97a65874e9d110618ca5f45cd678010632da8872",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "agentic.T15",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "agentic": [
+        "T15"
+      ],
+      "topic": [
+        "agentic-definition"
+      ]
+    },
+    "claim": "OWASP Agentic threat T15 (Human Manipulation): The agent **manipulates its human** user — exploiting trust in the assistant to nudge\nharmful actions or disclosures.",
+    "source": "reference/owasp-agentic-threats.md#t15-human-manipulation",
+    "support": "The agent **manipulates its human** user — exploiting trust in the assistant to nudge\nharmful actions or disclosures.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:57e812e1e276ce96bb61c9de574628c43858bb71d1fc808c9557797cd2f720d2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "atlas.what",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "atlas"
+      ]
+    },
+    "claim": "MITRE ATLAS (Adversarial Threat Landscape for Artificial-Intelligence Systems) is a living knowledge base of adversary tactics (the why) and techniques (the how), specific to AI/ML-enabled systems.",
+    "source": "reference/mitre-atlas.md#what-atlas-is",
+    "support": "**MITRE ATLAS** (Adversarial Threat Landscape for Artificial-Intelligence Systems) is a living knowledge base of adversary **tactics** (the *why* — the attacker's goal at a step) and **techniques** (the *how* — the method used), specific to AI/ML-enabled systems.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:25514df439dccc147ebe90251b0dc87965c13d650acbcc81b1161a20c91479e3",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "nist.core-functions",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "nist-rmf"
+      ]
+    },
+    "claim": "NIST AI RMF organizes AI risk work into four core functions applied iteratively across the AI lifecycle: Govern, Map, Measure, and Manage.",
+    "source": "reference/nist-ai-rmf.md#ai-rmf-core-functions",
+    "support": "The framework organizes AI risk work into four core functions, applied iteratively across the AI lifecycle:",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:65bb3f93986c1686047faaae9d339630dfc47dc3327e94ae6ef453f782092009",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "nist.trustworthy",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "nist-rmf"
+      ]
+    },
+    "claim": "The NIST AI RMF frames trustworthy AI as valid and reliable (the foundation), plus safe, secure and resilient, accountable and transparent, explainable and interpretable, privacy-enhanced, and fair with harmful bias managed.",
+    "source": "reference/nist-ai-rmf.md#trustworthy-ai-characteristics",
+    "support": "The RMF frames trustworthy AI as **valid and reliable** (the foundation), plus **safe**, **secure and resilient**, **accountable and transparent**, **explainable and interpretable**, **privacy-enhanced**, and **fair — with harmful bias managed**.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1fd34570669e7e9c37d4bec3743fb133c6a439164bdfd4001abf3fd324cb3008",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "nist.genai-profile",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "nist-genai"
+      ]
+    },
+    "claim": "The Generative AI Profile enumerates twelve risks that are novel to, or amplified by,\ngenerative AI.",
+    "source": "reference/nist-ai-rmf.md#genai-profile-ai-600-1-the-twelve-risks",
+    "support": "The Generative AI Profile enumerates twelve risks that are novel to, or amplified by,\ngenerative AI.",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  }
+]

@@ -211,5 +211,37 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d7c8d53862613c371c0e212410f085a55cdf29afe2ed5e1e165b26633f9951fb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L08.scope",
+    "scope": "L08",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L08's authorized scope is limited to: local docker network, RAG service with unknown internals.",
+    "source": "osai-prep-studio/spine/labs/L08.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "RAG service with unknown internals"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
   }
 ]

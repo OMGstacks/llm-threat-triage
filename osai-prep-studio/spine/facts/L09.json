@@ -207,5 +207,38 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:96b90c7a4cf83f94c85112cc0e0c55fc07311c4be413f0c2a21864755e972abb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.scope",
+    "scope": "L09",
+    "claim_type": "scope",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "authorized-scope"
+      ]
+    },
+    "claim": "Lab L09's authorized scope is limited to: local docker network, seeded pgvector index, ingestion pipeline.",
+    "source": "osai-prep-studio/spine/labs/L09.json#authorized_scope",
+    "support": [
+      "local docker network",
+      "seeded pgvector index",
+      "ingestion pipeline"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
   }
 ]
