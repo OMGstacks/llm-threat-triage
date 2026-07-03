@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:0d3f81a2fb338a5074a63b277846f42ce4eb9d12ff0d561c0d8ad4e6b5a11a2d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.detector",
+    "scope": "L10",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L10 (Vector store cross-tenant leak) is two-signal graded by the sensitive_information_disclosure detector.",
+    "source": "osai-prep-studio/spine/labs/L10.json#two_signal_grading.detector_required",
+    "support": "sensitive_information_disclosure",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bd37d8c003b63322ae9245ae30c53f457b3abc21bbb7b5c1a086e2241653eed9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.owasp",
+    "scope": "L10",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L10 maps to OWASP LLM08:2025 (Vector and Embedding Weaknesses).",
+    "source": "osai-prep-studio/spine/labs/L10.json#frameworks.owasp",
+    "support": [
+      "LLM08:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1e4d09070b812b8fa1f5cedd1bbfb049aa017a43f3dd235bea36b1cb73a870eb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.atlas",
+    "scope": "L10",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0024"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L10 maps to MITRE ATLAS technique AML.T0024.",
+    "source": "osai-prep-studio/spine/labs/L10.json#frameworks.atlas",
+    "support": [
+      "AML.T0024"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d78f7d23ae7bbafa5b606b75dd0717c3da91491873d8571fe6978d0f1aa3f9bc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.evidence-log",
+    "scope": "L10",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L10's grading evidence is recorded in a log at /logs/retrieval_audit.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L10.json#two_signal_grading.evidence_tokens[2].path",
+    "support": "/logs/retrieval_audit.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:25efb20dfe4953e14dbef1bc5ac6bd7ea8dc659c582e4118260b50508c8f5f25",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.module",
+    "scope": "L10",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L10 belongs to AI-300 module M5.",
+    "source": "osai-prep-studio/spine/labs/L10.json#ai300_module",
+    "support": "M5",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6254a5107d1350aa5f9be0c6bb581a5fb81cf8cdffbb810aab281d3d96611772",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.killchain",
+    "scope": "L10",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L10 sits at the exfiltration stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L10.json#kill_chain_stage",
+    "support": "exfiltration",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae66ea4c99869a7d15613c3bf7cb2e357ccd501cd3008210a9e43274a5218c3d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.defense",
+    "scope": "L10",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L10 ships defense variants D0, D4, D7.",
+    "source": "osai-prep-studio/spine/labs/L10.json#defense_variants",
+    "support": [
+      "D0",
+      "D4",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M5"
+  }
+]

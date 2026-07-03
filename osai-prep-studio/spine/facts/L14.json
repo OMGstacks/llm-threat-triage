@@ -1,0 +1,272 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5b203083200fe5bad537f3eb7375f3c215f9a94089988fcf74ca9941343e965b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.detector",
+    "scope": "L14",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L14 (Multi-agent goal/intent manipulation) is two-signal graded by the indirect_prompt_injection detector.",
+    "source": "osai-prep-studio/spine/labs/L14.json#two_signal_grading.detector_required",
+    "support": "indirect_prompt_injection",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6a62808747f696ffc438c4451108c26d31ad756944342f285ea251238cdbc3ce",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.owasp",
+    "scope": "L14",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L14 maps to OWASP LLM01:2025 (Prompt Injection).",
+    "source": "osai-prep-studio/spine/labs/L14.json#frameworks.owasp",
+    "support": [
+      "LLM01:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e5476aceef1ca621cad1ce355f8dd5e8214afa2aa91ad446af423c5632b8e97d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.atlas",
+    "scope": "L14",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0051.001"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L14 maps to MITRE ATLAS technique AML.T0051.001.",
+    "source": "osai-prep-studio/spine/labs/L14.json#frameworks.atlas",
+    "support": [
+      "AML.T0051.001"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b88d9105a2f96839404ad7c26c32a161ed721be34967e1b93426c04df405d991",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.agentic",
+    "scope": "L14",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "agentic": [
+        "T5",
+        "T6",
+        "T13"
+      ],
+      "topic": [
+        "agentic-mapping"
+      ]
+    },
+    "claim": "Lab L14 maps to OWASP Agentic threats T5, T6, T13 (Cascading Hallucination; Intent Breaking & Goal Manipulation; Rogue Agents in Multi-Agent Systems).",
+    "source": "osai-prep-studio/spine/labs/L14.json#frameworks.agentic",
+    "support": [
+      "T5",
+      "T6",
+      "T13"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:f6909262bfd8ce33a8d9256f3ed413462273c2b1a717271c36f6121e68f92ad4",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.evidence-log",
+    "scope": "L14",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L14's grading evidence is recorded in a log at /logs/agent_orchestration.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L14.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/agent_orchestration.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:449a900ec53efd69a2257a22fea51a952f82eb4039b6d44626393f215aabe9c1",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.module",
+    "scope": "L14",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L14 belongs to AI-300 module M4.",
+    "source": "osai-prep-studio/spine/labs/L14.json#ai300_module",
+    "support": "M4",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6f61f46c23a66607af759dcd348ac132846385d8f39534e69b6cd934bdabad8b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.killchain",
+    "scope": "L14",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L14 sits at the impact stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L14.json#kill_chain_stage",
+    "support": "impact",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae66ea4c99869a7d15613c3bf7cb2e357ccd501cd3008210a9e43274a5218c3d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.defense",
+    "scope": "L14",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L14 ships defense variants D0, D4, D7.",
+    "source": "osai-prep-studio/spine/labs/L14.json#defense_variants",
+    "support": [
+      "D0",
+      "D4",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:99bd30a8e4c3e58fc1defdf5626b019fc311b42fae21005a5b4b551c2442ee54",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.causal-chain",
+    "scope": "L14",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "signal-c",
+        "causal-chain"
+      ]
+    },
+    "claim": "Lab L14 is graded with a causal-chain (Signal C) check that attributes the impact to a tool_call rather than to direct user coercion.",
+    "source": "osai-prep-studio/spine/labs/L14.json#causal_chain.impact",
+    "support": "tool_call",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M4"
+  }
+]

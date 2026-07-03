@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:01fb9b867c8d58a4d3451de8a5dd16c0eefea1448690354dcd13f91e372613e6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.detector",
+    "scope": "L19",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L19 (Adversarial ML / model extraction) is two-signal graded by the unbounded_consumption_probe detector.",
+    "source": "osai-prep-studio/spine/labs/L19.json#two_signal_grading.detector_required",
+    "support": "unbounded_consumption_probe",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c4d18264210371fd2f067c6b32133dabfb15ef1147c424f733aceed745a17905",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.owasp",
+    "scope": "L19",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L19 maps to OWASP LLM10:2025 (Unbounded Consumption).",
+    "source": "osai-prep-studio/spine/labs/L19.json#frameworks.owasp",
+    "support": [
+      "LLM10:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:252527676c809de933fa6b0dcf944bc3e70f7a8080b150a267defafce56d3d6f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.atlas",
+    "scope": "L19",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0034"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L19 maps to MITRE ATLAS technique AML.T0034.",
+    "source": "osai-prep-studio/spine/labs/L19.json#frameworks.atlas",
+    "support": [
+      "AML.T0034"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e51ecce237a9cec3823f22453afea4256ae68ea4c5a4cb5fd6a8c85c86f343c8",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.evidence-log",
+    "scope": "L19",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L19's grading evidence is recorded in a log at /logs/consumption.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L19.json#two_signal_grading.evidence_tokens[2].path",
+    "support": "/logs/consumption.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:7986de65e3d1d3f1e1e820ae9627431d9c3064a0d494a7be505e9b027c9ac9b7",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.module",
+    "scope": "L19",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L19 belongs to AI-300 module M9.",
+    "source": "osai-prep-studio/spine/labs/L19.json#ai300_module",
+    "support": "M9",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6f61f46c23a66607af759dcd348ac132846385d8f39534e69b6cd934bdabad8b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.killchain",
+    "scope": "L19",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L19 sits at the impact stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L19.json#kill_chain_stage",
+    "support": "impact",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:089f3eef706a8cabaf91830b1f23076dfdff176b9eb64ffc4c0df8ba86730bd2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.defense",
+    "scope": "L19",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L19 ships defense variants D0, D5, D7.",
+    "source": "osai-prep-studio/spine/labs/L19.json#defense_variants",
+    "support": [
+      "D0",
+      "D5",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M9"
+  }
+]

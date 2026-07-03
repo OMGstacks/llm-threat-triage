@@ -50,5 +50,109 @@
     "status": "active",
     "last_reviewed": "2026-07-03",
     "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d2e4a0def26a8890baf0c73b98e7ac6f67947d88ad569791ff5efb6ba6c9fd0f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "global.isolation",
+    "scope": "global",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "isolation",
+        "trust-boundary"
+      ]
+    },
+    "claim": "OSAI Prep Studio derives each learner's flag per-learner by HMAC from a server seed, so one learner's flag never grades another's submission (cross-learner isolation).",
+    "source": "reference/osai-studio-architecture.md#learner-identity-and-isolation-trust-boundary",
+    "support": "Flags are **per-learner**, derived by HMAC from a server seed, so one learner's flag never grades another's submission",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d57043b098ec7543cbbce8f856944021932c97ef0e35fedd9b5917cd4498fb56",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "global.mock-ci",
+    "scope": "global",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "ci",
+        "mock-target"
+      ]
+    },
+    "claim": "Lab targets use a deterministic stdlib mock by default so the full attack-target-grade loop runs offline in CI; a weakly-guardrailed Ollama model is an opt-in deploy-time upgrade.",
+    "source": "reference/osai-studio-architecture.md#why-the-mock-target-stays-in-ci-and-ollama-is-deploy-time-only",
+    "support": "Lab targets use a **deterministic stdlib mock** by default so the full",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ee1dccaf995667adb13fc9768f3c1f430df503c2cec1a04beef52f5278240b68",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "global.offline-first",
+    "scope": "global",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "offline-first",
+        "opt-in"
+      ]
+    },
+    "claim": "Every richer OSAI capability (generative tutor, auth, cookie mode, real-model targets) is an opt-in layer that is off by default; with none set, behaviour is deterministic and offline.",
+    "source": "reference/osai-studio-architecture.md#offline-first-and-opt-in-layers",
+    "support": "Every richer capability is an opt-in layer\nthat is **off by default**",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:8c6966109c0fdfc2a5ec7146e0c0cbb57843eb07de16d37e1a63bc633dba16cc",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "global.tutor-scope",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "tutor",
+        "scope-guard"
+      ]
+    },
+    "claim": "The tutor answers only from retrieved sources and abstains when the corpus does not support an answer, validates every taxonomy id, and a scope guard refuses real-target attacks and flag/answer-key requests.",
+    "source": "reference/osai-studio-architecture.md#tutor-grounding-and-scope-guard",
+    "support": "The tutor answers **only from retrieved sources** and **abstains** when the corpus does not\nsupport an answer",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
   }
 ]

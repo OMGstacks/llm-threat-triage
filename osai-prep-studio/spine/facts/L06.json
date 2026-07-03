@@ -1,0 +1,211 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ab778a07ea0e27fc7a96ab0b4e13fc22a9915bd019174d0c99be66e04331b861",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.detector",
+    "scope": "L06",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L06 (Improper output handling -> XSS/SSRF sink) is two-signal graded by the improper_output_handling detector.",
+    "source": "osai-prep-studio/spine/labs/L06.json#two_signal_grading.detector_required",
+    "support": "improper_output_handling",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:9d656f7a666f4997cedc9a05f6bd48db34a602ca50c031b88ac7c42598ac6287",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.owasp",
+    "scope": "L06",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L06 maps to OWASP LLM05:2025 (Improper Output Handling).",
+    "source": "osai-prep-studio/spine/labs/L06.json#frameworks.owasp",
+    "support": [
+      "LLM05:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1e4d09070b812b8fa1f5cedd1bbfb049aa017a43f3dd235bea36b1cb73a870eb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.atlas",
+    "scope": "L06",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0024"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L06 maps to MITRE ATLAS technique AML.T0024.",
+    "source": "osai-prep-studio/spine/labs/L06.json#frameworks.atlas",
+    "support": [
+      "AML.T0024"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:0fc0b20cb6d420dcbe54d21585e0ac134172ade28d36a460ac9234808e326ea6",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.evidence-log",
+    "scope": "L06",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L06's grading evidence is recorded in a log at /logs/callback.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L06.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/callback.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:67629a19d082ed3a6a50d4e4ff97d02f6208b8706aeef961e0d6a438604211df",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.module",
+    "scope": "L06",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L06 belongs to AI-300 module M3.",
+    "source": "osai-prep-studio/spine/labs/L06.json#ai300_module",
+    "support": "M3",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a402c4336ebfd78227dea06341f394c60ab50d13d841cedf38df329afe4a304e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.killchain",
+    "scope": "L06",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L06 sits at the execution stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L06.json#kill_chain_stage",
+    "support": "execution",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:38adc4a7c569411595f2c8a6f9184491db3da2d69bd297768d5d43dcff494b31",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.defense",
+    "scope": "L06",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L06 ships defense variants D0, D3, D7.",
+    "source": "osai-prep-studio/spine/labs/L06.json#defense_variants",
+    "support": [
+      "D0",
+      "D3",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3"
+  }
+]

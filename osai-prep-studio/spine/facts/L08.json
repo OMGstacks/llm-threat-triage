@@ -76,7 +76,7 @@
         "audit-log"
       ]
     },
-    "claim": "Lab L08's recon activity is captured for grading in the audit log at /logs/recon.jsonl.",
+    "claim": "Lab L08's grading evidence is recorded in a log at /logs/recon.jsonl.",
     "source": "osai-prep-studio/spine/labs/L08.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/recon.jsonl",
     "source_fingerprint": "sha256:620713558fee1d7f97d78825c8a058dd585eadf38c9a9828a94d72254b40e37f",
@@ -147,5 +147,69 @@
     "status": "active",
     "last_reviewed": "2026-07-03",
     "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:90438ad7c13ed6907f8f20e7bac2a15c8c1c8c877d6be033978200a5a646aa20",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L08.atlas",
+    "scope": "L08",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.TA0002"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L08 maps to MITRE ATLAS technique AML.TA0002.",
+    "source": "osai-prep-studio/spine/labs/L08.json#frameworks.atlas",
+    "support": [
+      "AML.TA0002"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:ae66ea4c99869a7d15613c3bf7cb2e357ccd501cd3008210a9e43274a5218c3d",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L08.defense",
+    "scope": "L08",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L08 ships defense variants D0, D4, D7.",
+    "source": "osai-prep-studio/spine/labs/L08.json#defense_variants",
+    "support": [
+      "D0",
+      "D4",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M2"
   }
 ]

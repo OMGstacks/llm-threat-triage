@@ -111,7 +111,7 @@
         "tool-call-log"
       ]
     },
-    "claim": "Lab L11's tool calls are captured for grading in the log at /logs/tool_calls.jsonl.",
+    "claim": "Lab L11's grading evidence is recorded in a log at /logs/tool_calls.jsonl.",
     "source": "osai-prep-studio/spine/labs/L11.json#two_signal_grading.evidence_tokens[1].path",
     "support": "/logs/tool_calls.jsonl",
     "source_fingerprint": "sha256:f602d25b765a7f8117d57062e5cd18c071f4022892cd561ddd175b7ed6f5a763",
@@ -187,5 +187,64 @@
     "status": "active",
     "last_reviewed": "2026-07-03",
     "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b774956202481408892063560fc147680dbf479e4c1d24d7afcd620c6080b404",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L11.atlas",
+    "scope": "L11",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0053"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L11 maps to MITRE ATLAS technique AML.T0053.",
+    "source": "osai-prep-studio/spine/labs/L11.json#frameworks.atlas",
+    "support": [
+      "AML.T0053"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a402c4336ebfd78227dea06341f394c60ab50d13d841cedf38df329afe4a304e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L11.killchain",
+    "scope": "L11",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L11 sits at the execution stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L11.json#kill_chain_stage",
+    "support": "execution",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
   }
 ]

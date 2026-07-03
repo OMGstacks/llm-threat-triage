@@ -1,0 +1,244 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:2d035d52d3511faaa451ab7814b2429ab23abb55dfcc89007bed9b89419f32cd",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.detector",
+    "scope": "L12",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "detector"
+      ]
+    },
+    "claim": "Lab L12 (MCP tool shadowing & rug-pull) is two-signal graded by the excessive_agency_probe detector.",
+    "source": "osai-prep-studio/spine/labs/L12.json#two_signal_grading.detector_required",
+    "support": "excessive_agency_probe",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:8a5d29b9e35c54df04ca9b76d23f3adfc75e26e2ae841ae60444bcc314b48a92",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.owasp",
+    "scope": "L12",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "owasp-mapping"
+      ]
+    },
+    "claim": "Lab L12 maps to OWASP LLM06:2025 (Excessive Agency).",
+    "source": "osai-prep-studio/spine/labs/L12.json#frameworks.owasp",
+    "support": [
+      "LLM06:2025"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b774956202481408892063560fc147680dbf479e4c1d24d7afcd620c6080b404",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.atlas",
+    "scope": "L12",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "atlas": [
+        "AML.T0053"
+      ],
+      "topic": [
+        "atlas-mapping"
+      ]
+    },
+    "claim": "Lab L12 maps to MITRE ATLAS technique AML.T0053.",
+    "source": "osai-prep-studio/spine/labs/L12.json#frameworks.atlas",
+    "support": [
+      "AML.T0053"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:3d5142e05c16f6b25342d9b57df1b064ce783c704a9437940fbb35cbf670889e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.agentic",
+    "scope": "L12",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "agentic": [
+        "T2",
+        "T12"
+      ],
+      "topic": [
+        "agentic-mapping"
+      ]
+    },
+    "claim": "Lab L12 maps to OWASP Agentic threats T2, T12 (Tool Misuse; Agent Communication Poisoning).",
+    "source": "osai-prep-studio/spine/labs/L12.json#frameworks.agentic",
+    "support": [
+      "T2",
+      "T12"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:f602d25b765a7f8117d57062e5cd18c071f4022892cd561ddd175b7ed6f5a763",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.evidence-log",
+    "scope": "L12",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "evidence"
+      ]
+    },
+    "claim": "Lab L12's grading evidence is recorded in a log at /logs/tool_calls.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L12.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/tool_calls.jsonl",
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:22c3722fa5700e15c92db7eaecc0ee30d09230bf4f998cad573df90f29bfd27f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.module",
+    "scope": "L12",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L12 belongs to AI-300 module M6.",
+    "source": "osai-prep-studio/spine/labs/L12.json#ai300_module",
+    "support": "M6",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a402c4336ebfd78227dea06341f394c60ab50d13d841cedf38df329afe4a304e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.killchain",
+    "scope": "L12",
+    "claim_type": "architecture",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "kill-chain"
+      ]
+    },
+    "claim": "Lab L12 sits at the execution stage of the attack kill chain.",
+    "source": "osai-prep-studio/spine/labs/L12.json#kill_chain_stage",
+    "support": "execution",
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:089f3eef706a8cabaf91830b1f23076dfdff176b9eb64ffc4c0df8ba86730bd2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.defense",
+    "scope": "L12",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L12 ships defense variants D0, D5, D7.",
+    "source": "osai-prep-studio/spine/labs/L12.json#defense_variants",
+    "support": [
+      "D0",
+      "D5",
+      "D7"
+    ],
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  }
+]

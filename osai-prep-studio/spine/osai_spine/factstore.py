@@ -404,6 +404,22 @@ def coverage_report(store) -> dict:
                 per_fw[tag] += 1
         if c["answer_key_sensitive"] or not c["learner_visible"]:
             sensitive += 1
+    # Estimated item capacity vs the bank-expansion targets (04a-bank-expansion-epic.md):
+    # a card is a conservative floor of >=1 distinct gold item; ~2 phrasings is a ceiling.
+    targets = {"lab_grounded": [125, 150], "architecture_reasoning": [75, 100]}
+    capacity = {}
+    for b, t in targets.items():
+        n = per_bank.get(b, 0)
+        capacity[b] = {
+            "cards_eligible": n,
+            "floor_items": n,            # >=1 distinct item per card (conservative)
+            "ceiling_items_2x": n * 2,   # up to ~2 phrasings per card
+            "target": t,
+            # honest, non-conflated verdicts: does the 1-item/card FLOOR already clear the
+            # target's lower bound, and is the target's UPPER bound reachable at <=2x?
+            "meets_floor_target": n >= t[0],
+            "reachable_target": n * 2 >= t[1],
+        }
     return {
         "cards_total": len(store.cards),
         "cards_active": len(active),
@@ -414,6 +430,7 @@ def coverage_report(store) -> dict:
         "learner_visible": len(active) - sensitive,
         "sensitive": sensitive,
         "by_status": dict(per_status),
+        "estimated_item_capacity": capacity,
     }
 
 
