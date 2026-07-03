@@ -1,0 +1,54 @@
+[
+  {
+    "schema_version": 1,
+    "fact_id": "global.grader-owns-grading",
+    "scope": "global",
+    "claim_type": "architecture",
+    "tags": {
+      "topic": [
+        "component-ownership",
+        "grading"
+      ]
+    },
+    "claim": "In OSAI Prep Studio the grader component (ChallengeValidator in validator.py) owns two-signal grading; the tutor is retrieval-first and citation-enforced and never owns grading.",
+    "source": "reference/osai-studio-architecture.md#component-ownership",
+    "support": "The **grader** owns verdicts: `ChallengeValidator` in `validator.py` performs two-signal grading.",
+    "source_fingerprint": "sha256:3c2cb2a6d85d5eda4578230dfa201b9035b384130015563070e686620ad4a6bb",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.two-signal-definition",
+    "scope": "global",
+    "claim_type": "concept",
+    "tags": {
+      "topic": [
+        "two-signal-grading",
+        "evidence"
+      ]
+    },
+    "claim": "A learner passes a lab only when both Signal A (the reused detector fires on the attack transcript) and Signal B (the attack produced an evidence token) hold; agentic labs add Signal C, a causal-chain check.",
+    "source": "reference/osai-studio-architecture.md#two-signal-grading-and-signal-c",
+    "support": "A learner passes a lab only when **both** signals hold: **Signal A** is that the reused detector fires on the attack transcript",
+    "source_fingerprint": "sha256:9842cd84d62fb08228fa5c554a88a17995cdf3d3c12d42f23f2b101469ae8d47",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  }
+]

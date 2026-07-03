@@ -1,0 +1,191 @@
+[
+  {
+    "schema_version": 1,
+    "fact_id": "L11.detector",
+    "scope": "L11",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "atlas": [
+        "AML.T0053"
+      ],
+      "agentic": [
+        "T2"
+      ],
+      "topic": [
+        "mcp",
+        "excessive-agency"
+      ]
+    },
+    "claim": "Lab L11 (MCP tool misuse / excessive agency) is two-signal graded by the excessive_agency_probe detector.",
+    "source": "osai-prep-studio/spine/labs/L11.json#two_signal_grading.detector_required",
+    "support": "excessive_agency_probe",
+    "source_fingerprint": "sha256:2d035d52d3511faaa451ab7814b2429ab23abb55dfcc89007bed9b89419f32cd",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L11.owasp",
+    "scope": "L11",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "excessive-agency"
+      ]
+    },
+    "claim": "Lab L11 maps to OWASP LLM06:2025 (Excessive Agency).",
+    "source": "osai-prep-studio/spine/labs/L11.json#frameworks.owasp",
+    "support": [
+      "LLM06:2025"
+    ],
+    "source_fingerprint": "sha256:8a5d29b9e35c54df04ca9b76d23f3adfc75e26e2ae841ae60444bcc314b48a92",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M6",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L11.agentic",
+    "scope": "L11",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "agentic": [
+        "T2"
+      ],
+      "topic": [
+        "tool-misuse"
+      ]
+    },
+    "claim": "Lab L11 maps to OWASP Agentic threat T2 (Tool Misuse).",
+    "source": "osai-prep-studio/spine/labs/L11.json#frameworks.agentic",
+    "support": [
+      "T2"
+    ],
+    "source_fingerprint": "sha256:a1b69a79a7470a05a94e07757d90f798b3aa9134c432f29df5a40014104cb83e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L11.evidence-log",
+    "scope": "L11",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "evidence",
+        "tool-call-log"
+      ]
+    },
+    "claim": "Lab L11's tool calls are captured for grading in the log at /logs/tool_calls.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L11.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/tool_calls.jsonl",
+    "source_fingerprint": "sha256:f602d25b765a7f8117d57062e5cd18c071f4022892cd561ddd175b7ed6f5a763",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L11.defense",
+    "scope": "L11",
+    "claim_type": "defense",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "defense-variants"
+      ]
+    },
+    "claim": "Lab L11 ships defense variants D0, D5, and D7.",
+    "source": "osai-prep-studio/spine/labs/L11.json#defense_variants",
+    "support": [
+      "D0",
+      "D5",
+      "D7"
+    ],
+    "source_fingerprint": "sha256:089f3eef706a8cabaf91830b1f23076dfdff176b9eb64ffc4c0df8ba86730bd2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L11.module",
+    "scope": "L11",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L11 belongs to AI-300 module M6.",
+    "source": "osai-prep-studio/spine/labs/L11.json#ai300_module",
+    "support": "M6",
+    "source_fingerprint": "sha256:22c3722fa5700e15c92db7eaecc0ee30d09230bf4f998cad573df90f29bfd27f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M6",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  }
+]

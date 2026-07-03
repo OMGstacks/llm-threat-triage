@@ -1,0 +1,123 @@
+[
+  {
+    "schema_version": 1,
+    "fact_id": "L03.detector",
+    "scope": "L03",
+    "claim_type": "detector",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "atlas": [
+        "AML.T0051.001"
+      ],
+      "topic": [
+        "encoding-evasion"
+      ]
+    },
+    "claim": "Lab L03 (encoded / obfuscated payload smuggling) is two-signal graded by the encoded_injection_payload detector.",
+    "source": "osai-prep-studio/spine/labs/L03.json#two_signal_grading.detector_required",
+    "support": "encoded_injection_payload",
+    "source_fingerprint": "sha256:a498283483c97e0d969292a68ee882ff8773006a6b16d44642744092e06e0449",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L03.owasp",
+    "scope": "L03",
+    "claim_type": "framework_mapping",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "prompt-injection"
+      ]
+    },
+    "claim": "Lab L03 maps to OWASP LLM01:2025 (Prompt Injection).",
+    "source": "osai-prep-studio/spine/labs/L03.json#frameworks.owasp",
+    "support": [
+      "LLM01:2025"
+    ],
+    "source_fingerprint": "sha256:6a62808747f696ffc438c4451108c26d31ad756944342f285ea251238cdbc3ce",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L03.evidence-log",
+    "scope": "L03",
+    "claim_type": "evidence_path",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "evidence",
+        "audit-log"
+      ]
+    },
+    "claim": "Lab L03's filter decisions are recorded for grading in the audit log at /logs/filter_decisions.jsonl.",
+    "source": "osai-prep-studio/spine/labs/L03.json#two_signal_grading.evidence_tokens[1].path",
+    "support": "/logs/filter_decisions.jsonl",
+    "source_fingerprint": "sha256:08d1286f46506017d6613d58b13aec482113283b2a029fc38ff6bafa8fe7c7e1",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M3",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "L03.module",
+    "scope": "L03",
+    "claim_type": "module",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "curriculum"
+      ]
+    },
+    "claim": "Lab L03 belongs to AI-300 module M3.",
+    "source": "osai-prep-studio/spine/labs/L03.json#ai300_module",
+    "support": "M3",
+    "source_fingerprint": "sha256:67629a19d082ed3a6a50d4e4ff97d02f6208b8706aeef961e0d6a438604211df",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3",
+    "status": "active",
+    "last_reviewed": "2026-07-03",
+    "reviewed_by": "OMGstacks"
+  }
+]
