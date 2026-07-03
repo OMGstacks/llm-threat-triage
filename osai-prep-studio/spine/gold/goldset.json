@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "note": "Curated gold set for the ship gate (doc 04). Being grown incrementally toward the ~700-item target; every item is verified to pass the gate against the extractive tutor before being added. | +13 fact-grounded pilot items (L03/L08/L11) via the structured fact store (25-fact-store-epic.md). | +72 PR3 net-new fact-grounded items.",
+  "note": "Curated gold set for the ship gate (doc 04). Being grown incrementally toward the ~700-item target; every item is verified to pass the gate against the extractive tutor before being added. | +13 fact-grounded pilot items (L03/L08/L11) via the structured fact store (25-fact-store-epic.md). | +72 PR3 net-new fact-grounded items. | +33 PR20 net-new fact-grounded items (slice #2).",
   "items": [
     {
       "id": "FR-LLM01",
@@ -6881,6 +6881,625 @@
       "skill_tags": [
         "LLM01:2025"
       ]
+    },
+    {
+      "id": "AR-fs-L15-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L15 (Agent memory poisoning (cross-session persistence)) sit?",
+      "expected_keywords": [
+        "persistence"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L15.killchain"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L15-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L15, Agent memory poisoning (cross-session persistence)?",
+      "expected_keywords": [
+        "M4"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L15.module"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L14-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L14 (Multi-agent goal/intent manipulation)?",
+      "expected_keywords": [
+        "D4"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L14.defense"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L20-focus",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which view of the taxonomy does the L20 capstone exercise?",
+      "expected_keywords": [
+        "defensive"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L20.focus"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "AR-fs-L16-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L16, Excessive agency -> destructive tool action?",
+      "expected_keywords": [
+        "impact"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L16.killchain"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L16-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L16 — Excessive agency -> destructive tool action — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M4"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L16.module"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L15-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L15 — Agent memory poisoning (cross-session persistence) — add?",
+      "expected_keywords": [
+        "D4"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L15.defense"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L20-role",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "What kind of lab is L20 in OSAI Prep Studio, and what is its deliverable?",
+      "expected_keywords": [
+        "blue-team triage capstone"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L20.role"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "AR-fs-L17-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L17 (Supply chain: poisoned model/adapter) sit?",
+      "expected_keywords": [
+        "resource-development"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L17.killchain"
+      ],
+      "skill_tags": [
+        "LLM03:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L17-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L17, Supply chain: poisoned model/adapter?",
+      "expected_keywords": [
+        "M7"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L17.module"
+      ],
+      "skill_tags": [
+        "LLM03:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L16-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L16 (Excessive agency -> destructive tool action)?",
+      "expected_keywords": [
+        "D5"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L16.defense"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L18-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where in the attack kill chain is lab L18, Cloud ML service & model-server exploitation?",
+      "expected_keywords": [
+        "post-exploitation"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L18.killchain"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L18-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L18 — Cloud ML service & model-server exploitation — belongs to which AI-300 module?",
+      "expected_keywords": [
+        "M8"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L18.module"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L17-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L17 — Supply chain: poisoned model/adapter — add?",
+      "expected_keywords": [
+        "D8"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L17.defense"
+      ],
+      "skill_tags": [
+        "LLM03:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L19-killchain",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "At which kill-chain stage does lab L19 (Adversarial ML / model extraction) sit?",
+      "expected_keywords": [
+        "impact"
+      ],
+      "forbidden": [
+        "access-injection",
+        "execution"
+      ],
+      "fact_ids": [
+        "L19.killchain"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L19-module",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which AI-300 module covers lab L19, Adversarial ML / model extraction?",
+      "expected_keywords": [
+        "M9"
+      ],
+      "forbidden": [
+        "M2",
+        "M3"
+      ],
+      "fact_ids": [
+        "L19.module"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L18-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which defense variant is distinctive to lab L18 (Cloud ML service & model-server exploitation)?",
+      "expected_keywords": [
+        "D5"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L18.defense"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "AR-fs-L19-defense",
+      "bank": "architecture_reasoning",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Beyond the D0/D7 baseline, which defense variant does lab L19 — Adversarial ML / model extraction — add?",
+      "expected_keywords": [
+        "D5"
+      ],
+      "forbidden": [
+        "D1",
+        "D2"
+      ],
+      "fact_ids": [
+        "L19.defense"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L11-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L11 (MCP tool misuse / excessive agency) map to?",
+      "expected_keywords": [
+        "AML.T0053"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L11.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L15-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L15's grading evidence recorded (Agent memory poisoning (cross-session persistence))?",
+      "expected_keywords": [
+        "/logs/memory_writes.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L15.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM01:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L18-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which detector must fire (Signal A) to two-signal-grade lab L18, Cloud ML service & model-server exploitation?",
+      "expected_keywords": [
+        "unbounded_consumption_probe"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L18.detector"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L12-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L12 — MCP tool shadowing & rug-pull — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0053"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L12.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L16-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where is the grading evidence for lab L16 — Excessive agency -> destructive tool action — captured?",
+      "expected_keywords": [
+        "/logs/tool_calls.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L16.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM06:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L19-detector",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Name the required detector for grading lab L19: Adversarial ML / model extraction.",
+      "expected_keywords": [
+        "unbounded_consumption_probe"
+      ],
+      "forbidden": [
+        "direct_prompt_injection",
+        "encoded_injection_payload"
+      ],
+      "fact_ids": [
+        "L19.detector"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L14-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L14 (Multi-agent goal/intent manipulation) map to?",
+      "expected_keywords": [
+        "AML.T0051.001"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L14.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L17-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L17's grading evidence recorded (Supply chain: poisoned model/adapter)?",
+      "expected_keywords": [
+        "/logs/provenance.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L17.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM03:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L15-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L15 — Agent memory poisoning (cross-session persistence) — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.TA0003"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L15.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L18-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Where is the grading evidence for lab L18 — Cloud ML service & model-server exploitation — captured?",
+      "expected_keywords": [
+        "/logs/gateway.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L18.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L16-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L16 (Excessive agency -> destructive tool action) map to?",
+      "expected_keywords": [
+        "AML.T0053"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L16.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L19-evidence",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "In which log is lab L19's grading evidence recorded (Adversarial ML / model extraction)?",
+      "expected_keywords": [
+        "/logs/consumption.jsonl"
+      ],
+      "forbidden": [],
+      "fact_ids": [
+        "L19.evidence-log"
+      ],
+      "skill_tags": [
+        "LLM10:2025"
+      ]
+    },
+    {
+      "id": "LG-fs-L17-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L17 — Supply chain: poisoned model/adapter — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0010"
+      ],
+      "forbidden": [
+        "AML.T0020",
+        "AML.T0024"
+      ],
+      "fact_ids": [
+        "L17.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L18-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Which MITRE ATLAS technique does lab L18 (Cloud ML service & model-server exploitation) map to?",
+      "expected_keywords": [
+        "AML.T0024"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L18.atlas"
+      ],
+      "skill_tags": []
+    },
+    {
+      "id": "LG-fs-L19-atlas",
+      "bank": "lab_grounded",
+      "difficulty": "medium",
+      "grounding": "factstore",
+      "prompt": "Lab L19 — Adversarial ML / model extraction — corresponds to which ATLAS technique id?",
+      "expected_keywords": [
+        "AML.T0034"
+      ],
+      "forbidden": [
+        "AML.T0010",
+        "AML.T0020"
+      ],
+      "fact_ids": [
+        "L19.atlas"
+      ],
+      "skill_tags": []
     }
   ]
 }
