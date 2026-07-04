@@ -60,6 +60,9 @@ FORBIDDEN_LEARNER_KEYS = (
     "distractor_misconceptions", "answer_key_hash",
 )
 
+_CAUSAL_RE = re.compile(r"\b(because|so that|in order to|therefore|thereby)\b", re.I)
+_LENGTH_TELL_RATIO = 1.5      # correct > 1.5x every distractor = conspicuous tell (fail)
+_LENGTH_BIAS_WARN = 0.40      # correct is the single longest in > 40% of items = advisory warn
 _TOKEN_RE = re.compile(r"[a-z0-9]+")
 _STOPWORDS = frozenset(
     "a an the of to in on for is are and or which what that this these those with by as "
@@ -174,6 +177,71 @@ def answer_position_problems(items, keys, max_share: float = _ANSWER_POSITION_MA
                 f"answer-position overfit: every item in objective {objective} has the "
                 f"correct answer at index {idxs[0]}; vary positions within an objective")
     return problems
+
+
+def _word_count(s: str) -> int:
+    return len(s.split())
+
+
+def answer_length_problems(items, keys) -> list:
+    """Anti-gaming (fail conditions, PR-8b.1): a correct answer must not be spottable by
+    shape. Fails when the correct choice is >1.5x longer than EVERY distractor, or is the
+    only option carrying a causal/explanatory tail ('because', 'so that', ...)."""
+    problems = []
+    kb = _keys_by_ref(keys)
+    for item in items:
+        key = kb.get(item.get("answer_key_ref"))
+        if key is None:
+            continue
+        ci = key.get("correct_index")
+        ch = item.get("choices", [])
+        if not isinstance(ci, int) or not (0 <= ci < len(ch)):
+            continue
+        others = [len(c) for j, c in enumerate(ch) if j != ci]
+        if others and len(ch[ci]) > _LENGTH_TELL_RATIO * max(others):
+            problems.append(
+                f"{item.get('id')}: correct choice is >{_LENGTH_TELL_RATIO}x longer than every "
+                "distractor (length tell) — balance choice lengths")
+        if _CAUSAL_RE.search(ch[ci]) and not any(_CAUSAL_RE.search(c) for j, c in enumerate(ch) if j != ci):
+            problems.append(
+                f"{item.get('id')}: correct choice is the only option with a causal 'because/so that' "
+                "tail (explanatory tell) — give distractors parallel reasoning or drop the tail")
+    return problems
+
+
+def choice_parallelism_problems(items) -> list:
+    """Anti-gaming (fail condition, PR-8b.1): all choices in an item must share a structure —
+    all short labels or all sentences. A single sentence among short labels (or vice versa)
+    is an odd-one-out tell. Flags an item mixing a <=3-word choice with a >=8-word choice."""
+    problems = []
+    for item in items:
+        wcs = [_word_count(c) for c in item.get("choices", [])]
+        if wcs and min(wcs) <= 3 and max(wcs) >= 8:
+            problems.append(
+                f"{item.get('id')}: choices mix short labels ({min(wcs)}w) and long sentences "
+                f"({max(wcs)}w) — make all choices parallel in structure")
+    return problems
+
+
+def answer_length_bias(items, keys) -> dict:
+    """Advisory metric (not a hard fail): the share of items where the correct choice is the
+    single longest option. A high share is a soft 'pick the longest' signal."""
+    kb = _keys_by_ref(keys)
+    total = longest = 0
+    for item in items:
+        key = kb.get(item.get("answer_key_ref"))
+        if key is None:
+            continue
+        ci = key.get("correct_index")
+        ch = item.get("choices", [])
+        if not isinstance(ci, int) or not (0 <= ci < len(ch)):
+            continue
+        total += 1
+        lens = [len(c) for c in ch]
+        if lens[ci] == max(lens) and lens.count(max(lens)) == 1:
+            longest += 1
+    return {"total": total, "longest_correct": longest,
+            "ratio": (longest / total if total else 0.0), "warn_threshold": _LENGTH_BIAS_WARN}
 
 
 def _load_registry(path: Path = None) -> dict:
@@ -322,6 +390,8 @@ def validate_gold(store, items, keys, registry=None) -> dict:
     problems += distractor_registry_problems(items, keys, registry_entries)
     problems += near_duplicate_problems(items)
     problems += answer_position_problems(items, keys)
+    problems += answer_length_problems(items, keys)      # PR-8b.1 conspicuous length / causal tell
+    problems += choice_parallelism_problems(items)       # PR-8b.1 odd-one-out structure
 
     return {"ok": not problems, "errors": problems}
 

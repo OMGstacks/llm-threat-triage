@@ -67,7 +67,7 @@
       "stem": "Which statement correctly distinguishes authentication from authorization?",
       "choices": [
         "Authorization verifies who the subject is; authentication then grants or denies what that identity may do.",
-        "Authorization must succeed first to establish permissions; authentication then assigns an identity to the subject.",
+        "Authorization must succeed first to establish the permissions, after which authentication assigns a matching identity to the subject.",
         "Authentication verifies who the subject is and must succeed first; authorization then grants or denies what that identity may do.",
         "Authentication and authorization are the same step, both confirming a user's login credentials."
       ],
@@ -123,7 +123,7 @@
       "stem": "Which statement correctly distinguishes due care from due diligence?",
       "choices": [
         "Due care is the ongoing monitoring that verifies safeguards remain effective; due diligence is the one-time act of implementing them.",
-        "Due care is a one-time legal investigation before a decision; due diligence is doing what a prudent person would do to protect assets.",
+        "Due care is a one-time legal investigation performed before a decision; due diligence is simply doing what a prudent person would do to protect assets.",
         "Due care is the action of implementing reasonable safeguards; due diligence is the ongoing monitoring that verifies those safeguards remain effective.",
         "Due care and due diligence are two names for the same continuous control-monitoring activity."
       ],
@@ -262,7 +262,7 @@
       "topic": "RTO vs MTD",
       "stem": "Which relationship between Recovery Time Objective (RTO) and Maximum Tolerable Downtime (MTD) is correct?",
       "choices": [
-        "RTO must always be greater than MTD",
+        "RTO must always be set to a value strictly greater than the MTD ceiling",
         "RTO must be equal to or less than MTD",
         "RTO and MTD are always identical",
         "RTO and MTD are unrelated values"
@@ -322,7 +322,7 @@
       "choices": [
         "A facility with hardware and network connectivity already in place, requiring only data restoration before use.",
         "A facility that provides space and power only, with no pre-configured equipment and the longest activation time.",
-        "A fully operational duplicate of the primary site that fails over immediately.",
+        "A fully operational duplicate of the primary site, kept continuously synchronized, that can fail over immediately with no data loss.",
         "A facility with servers pre-installed and configured that can be activated within minutes."
       ],
       "answer_key_ref": "D2.2.2.definition.0001.key",
@@ -714,7 +714,7 @@
       "topic": "IDS vs IPS",
       "stem": "How does an IPS differ from an IDS?",
       "choices": [
-        "An IDS blocks malicious traffic inline, while an IPS only logs and alerts on it.",
+        "An IDS blocks malicious traffic inline and drops the connection, while an IPS only passively logs and alerts on it.",
         "An IDS drops suspicious packets automatically, whereas an IPS forwards them for later review.",
         "An IPS actively blocks detected threats inline, while an IDS only monitors traffic and alerts on it.",
         "An IDS prevents intrusions in real time, while an IPS passively monitors for them."
@@ -855,7 +855,7 @@
       "stem": "How does the Zero Trust model differ from traditional perimeter-based security?",
       "choices": [
         "Zero Trust never grants implicit trust and verifies every access request, whereas perimeter security trusts traffic once it is inside the network boundary.",
-        "Zero Trust automatically trusts users and devices once they are inside the network perimeter, while perimeter security verifies each request.",
+        "Zero Trust automatically trusts users and devices once they are inside the network perimeter, while perimeter security verifies each request against a central policy engine.",
         "Zero Trust trusts any device connected to the internal LAN, whereas perimeter security continuously re-verifies internal traffic.",
         "Zero Trust relies on a single strong network boundary to grant implicit trust to internal hosts."
       ],
@@ -913,7 +913,7 @@
       "choices": [
         "It uses a public key to encrypt and a private key to decrypt",
         "It is a one-way function whose output cannot be reversed",
-        "It requires a certificate authority to issue key pairs",
+        "It requires a trusted certificate authority to generate and distribute the key pairs to both parties in advance",
         "It uses a single shared key for both encryption and decryption"
       ],
       "answer_key_ref": "D5.5.1.definition.0001.key",
@@ -1026,7 +1026,7 @@
       "choices": [
         "Overwriting the drive once with a fixed bit pattern.",
         "Running a full format on the drive's file system.",
-        "Deleting all files and then emptying the recycle bin.",
+        "Deleting all of the files, emptying the recycle bin, and then restarting the drive to finalize removal.",
         "Performing a cryptographic erase on a self-encrypting drive."
       ],
       "answer_key_ref": "D5.5.1.discrimination.0002.key",

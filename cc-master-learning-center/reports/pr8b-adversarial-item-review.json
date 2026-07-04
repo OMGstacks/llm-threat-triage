@@ -1,0 +1,292 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Machine-readable PR-8b adversarial item review (companion to pr8b-adversarial-item-review.md). Per-item review outcome; enables later dashboards.",
+  "method": "five independent per-domain adversarial reviewers (author != reviewer); review completed before commit per governance spec section 16.0",
+  "summary": {
+    "items": 40,
+    "factual_errors": 0,
+    "multiple_correct_blockers": 0,
+    "grounding_gaps": 0,
+    "minor_findings_fixed": 3
+  },
+  "pr8b1_length_hardening": {
+    "note": "correct-answer length balancing to pass the anti-gaming length gate and bring longest-correct from 52% to 32%",
+    "items_adjusted": [
+      "D1.1.1.discrimination.0001",
+      "D1.1.2.discrimination.0001",
+      "D2.2.1.discrimination.0001",
+      "D2.2.2.definition.0001",
+      "D3.3.1.definition.0002",
+      "D4.4.1.discrimination.0001",
+      "D4.4.3.discrimination.0001",
+      "D5.5.1.definition.0001",
+      "D5.5.1.discrimination.0002",
+      "D5.5.1.discrimination.0003",
+      "D5.5.1.scenario.0001",
+      "D5.5.1.scenario.0002"
+    ]
+  },
+  "review": [
+    {
+      "item_id": "D1.1.1.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D1.1.1.definition.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D1.1.1.discrimination.0001",
+      "review_status": "fixed",
+      "findings": [
+        {
+          "category": "stem-quality",
+          "problem": "correct option was conspicuously longest with parentheticals the distractors lacked",
+          "fix": "rewrote all four options to parallel length/structure",
+          "severity": "minor"
+        }
+      ],
+      "fixed_before_commit": true
+    },
+    {
+      "item_id": "D1.1.2.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D1.1.2.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D1.1.3.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D1.1.3.discrimination.0001",
+      "review_status": "fixed",
+      "findings": [
+        {
+          "category": "stem-quality",
+          "problem": "correct option was the only one with concrete examples and markedly longer",
+          "fix": "gave every option a parallel example; correct no longer longest",
+          "severity": "minor"
+        }
+      ],
+      "fixed_before_commit": true
+    },
+    {
+      "item_id": "D1.1.4.scenario.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.1.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.1.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.1.discrimination.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.2.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.2.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.3.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.3.definition.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.3.scenario.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.1.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.1.definition.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.1.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.definition.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.scenario.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.scenario.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.1.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.1.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.1.discrimination.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.1.scenario.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.3.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.3.definition.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.3.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.3.scenario.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.definition.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.definition.0002",
+      "review_status": "fixed",
+      "findings": [
+        {
+          "category": "stem-quality",
+          "problem": "all three distractors were equivalent restatements of symmetric encryption (odd-one-out)",
+          "fix": "diversified distractors to three distinct misconceptions",
+          "severity": "minor"
+        }
+      ],
+      "fixed_before_commit": true
+    },
+    {
+      "item_id": "D5.5.1.definition.0003",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.discrimination.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.discrimination.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.discrimination.0003",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.scenario.0001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.scenario.0002",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    }
+  ]
+}

@@ -65,6 +65,13 @@ then run through a five-reviewer adversarial pass BEFORE commit (governance spec
 0 factual errors, 3 minor stem-quality fixes plus an answer-length-bias trim. The
 misconception registry grew 8 -> 37 entries. Evidence in reports/pr8b-*. Still no
 exam_strategy items (PR-8d) and no holdout lane (PR-8c).
+PR-8b.1 hardens item quality before the holdout lane: ``quiz validate`` now fails on a
+conspicuous length tell (correct > 1.5x every distractor), a causal-tail-only correct
+answer, or mixed choice structure (short labels beside long sentences); it also reports an
+advisory answer-length-bias metric (40% warn). Eight near-tie items had a weak distractor
+strengthened to parallel length, bringing longest-correct 52% -> 32% without changing any
+keyed answer. Adds an all-choices grading smoke test over all 40 items and a machine-readable
+review artifact (reports/pr8b-adversarial-item-review.json).
 """
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"

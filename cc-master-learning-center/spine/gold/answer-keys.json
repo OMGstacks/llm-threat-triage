@@ -72,7 +72,7 @@
         }
       },
       "answer_key_hash": "sha256:fd435390081830aa9ce7b5e5baa7d577c899376cfa8469f8b2af0a5a7a647ac8",
-      "item_hash": "sha256:e9a8201f51ee85ecca945d7817bc8bf4b4210077cf0ee75b467eeb58de29b9b1"
+      "item_hash": "sha256:af4682b2493e1ae2a21b58fc0c6769efef609f80f9a0b79db97b9f95804c922e"
     },
     {
       "answer_key_ref": "D1.1.2.definition.0001.key",
@@ -120,7 +120,7 @@
         }
       },
       "answer_key_hash": "sha256:7edb79697dedf2ac6006b1f3bd0a2d9e7ef7bc583358544d227fa95129d7398a",
-      "item_hash": "sha256:948c9260a0db7084556d7823e7ca6cbd405a056dc57ba932ca02c466d97b4902"
+      "item_hash": "sha256:1f4f915162ad516eacdde385cec7e2dab960bb064f4085d724353db696a40217"
     },
     {
       "answer_key_ref": "D1.1.3.definition.0001.key",
@@ -241,7 +241,7 @@
         }
       },
       "answer_key_hash": "sha256:bda2f6920b031cb52786ec8457f1cdefeedd310e5843b05be002e650a50d2a5e",
-      "item_hash": "sha256:0ee1041935074b9795ff2f65e22da3124b85d87ffef7e1c633f6b459005c0b11"
+      "item_hash": "sha256:b1f3dd086a5b9d789269592f0f0543d3030e4e57948182c6c4fa8d51675ed5ab"
     },
     {
       "answer_key_ref": "D2.2.1.discrimination.0002.key",
@@ -290,7 +290,7 @@
         }
       },
       "answer_key_hash": "sha256:d04cc655c56ea9b985621b74cee655b9fd5d9e7a06b6157fc419760fa47ef15e",
-      "item_hash": "sha256:1e8df68e5a45e3673d548936c502d41a97950072b52e3cece699521456acbd5b"
+      "item_hash": "sha256:5bb7842aba1662e89941764cbe154c681f88ec07f642e2d94ff47e09679e4778"
     },
     {
       "answer_key_ref": "D2.2.2.discrimination.0001.key",
@@ -628,7 +628,7 @@
         }
       },
       "answer_key_hash": "sha256:1c067e5dcb046e9308dc28d49fc73cbff769a5b1e95fec73d5639aaaefcce915",
-      "item_hash": "sha256:8d2bc51864ddb9177f06b72320204cca25d301f28c7a8e0b0a4dffc2e0f7412e"
+      "item_hash": "sha256:c314d15ee41d490034f408154a3d13e1637ad153eaebfbf80ea3e2699860d762"
     },
     {
       "answer_key_ref": "D4.4.1.discrimination.0002.key",
@@ -748,7 +748,7 @@
         }
       },
       "answer_key_hash": "sha256:23fae607cc5eba731a71cf749bdff6b4354046a73c1769869607d8de21a5d662",
-      "item_hash": "sha256:d7da08deecaf8b13cb3b0f8f7751586d134e165e05091f39562b9335bb5f5e79"
+      "item_hash": "sha256:a66197165562b2ff347b4ac18af1741ec4827d6fb1e90bf1699bf734d6d85f74"
     },
     {
       "answer_key_ref": "D4.4.3.scenario.0001.key",
@@ -797,7 +797,7 @@
         }
       },
       "answer_key_hash": "sha256:d1c1770756b69f3f7af2ded0b76360196563883343d36b004815d014a7b24c94",
-      "item_hash": "sha256:7a9e3ea579978928f0c21ad8010037f98dbf481e15f860dda96da9d80b2041fc"
+      "item_hash": "sha256:3bacc4e5d97f46e95358928b48fb5742cce58c5fe7c2b5ab19fc04c81e55809c"
     },
     {
       "answer_key_ref": "D5.5.1.definition.0002.key",
@@ -894,7 +894,7 @@
         }
       },
       "answer_key_hash": "sha256:faf85f39d932bd0a26cc8285c5e9a7b21fb303bc18d8e6163e39efa29a177e3b",
-      "item_hash": "sha256:ffe5e126e2f8b4df0acdd2dee8440e6b66208eeddaa453ff7c70c174be9e97cc"
+      "item_hash": "sha256:f816492455ba6dbed2e7dff3c6eaae3d2bb16da8bd515da673e5ec53c4a126dc"
     },
     {
       "answer_key_ref": "D5.5.1.discrimination.0003.key",

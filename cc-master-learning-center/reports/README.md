@@ -29,3 +29,4 @@ slice starts. At minimum:
 | [`pr7-adversarial-review.md`](pr7-adversarial-review.md) | PR-7 | 2 defects + 2 near-duplicates fixed; misconception-registry seeds for PR-8 |
 | [`pr8b-gold-item-distribution.md`](pr8b-gold-item-distribution.md) | PR-8b | 40 gold items, banks 18/14/8, 8/domain; anti-gaming metrics |
 | [`pr8b-adversarial-item-review.md`](pr8b-adversarial-item-review.md) | PR-8b | 5 per-domain reviewers; 3 minor stem-quality fixes; 0 factual errors |
+| [`pr8b-adversarial-item-review.json`](pr8b-adversarial-item-review.json) | PR-8b | machine-readable per-item review outcome (companion to the .md) |

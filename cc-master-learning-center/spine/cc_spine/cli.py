@@ -110,12 +110,18 @@ def cmd_quiz(args) -> int:
         return 0
 
     rep = quiz.validate_gold(fs, items, keys)
+    bias = quiz.answer_length_bias(items, keys)
     if args.json:
-        print(json.dumps(rep, indent=2))
+        print(json.dumps({**rep, "answer_length_bias": bias}, indent=2))
         return 0 if rep["ok"] else 1
     print(f"gold set: {len(items)} item(s), {len(keys)} isolated key(s)")
+    # advisory (non-failing) anti-gaming metric
+    if bias["ratio"] > bias["warn_threshold"]:
+        print(f"  WARN answer-length bias: correct is the longest choice in "
+              f"{bias['longest_correct']}/{bias['total']} items ({bias['ratio']:.0%} > "
+              f"{bias['warn_threshold']:.0%} target)")
     return _report(
-        "gold items validate (grounding, key isolation, hash drift, near-duplicate stems)",
+        "gold items validate (grounding, isolation, hash drift, near-dup, length/parity tells)",
         rep["errors"],
     )
 

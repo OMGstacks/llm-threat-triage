@@ -69,17 +69,20 @@ depth is light and L5 (exam-trap synthesis) is absent — a target for later sli
 | Correct-answer index distribution | {0:10, 1:10, 2:11, 3:9} | ✅ no index > 40% (max 27.5%) |
 | Same correct index across an objective | none | ✅ per-objective gate |
 | Near-duplicate stems (within objective) | none | ✅ Jaccard gate |
-| **Answer-length bias** (correct is the single longest choice) | **21/40 (52%)** | ⚠️ advisory, not yet gated |
-| Conspicuous length tell (correct > 1.5× every distractor) | **0/40** | fixed in review |
+| **Answer-length bias** (correct is the single longest choice) | **13/40 (32%)** — was 52% | ✅ under 40% target (advisory) |
+| Conspicuous length tell (correct > 1.5× every distractor) | **0/40** | ✅ gated (fail) |
+| Causal-tail-only (correct is the only "because …" option) | **0/40** | ✅ gated (fail) |
+| Choice parallelism (mix of short labels + long sentences) | **0/40** | ✅ gated (fail) |
 
-**Length-bias note.** Three items where the correct answer carried a "because …" justification tail
-the distractors lacked (up to 2.26× longer) were flagged by the adversarial review and trimmed;
-after fixes, no item has a conspicuous (>1.5×) tell. The residual 52%-longest figure reflects that a
-fully-correct answer is often naturally more complete than a terse distractor; it is above the 25%
-chance line and is recorded here as a tracked metric. **Target for PR-8b-onward authoring: < 40%,
-by giving distractors parallel length/detail.** A formal length-bias gate is proposed for a future
-hardening slice (analogous to the answer-position gate) once distractor-balancing patterns are
-established.
+**Length-bias note (updated in PR-8b.1).** The adversarial review flagged three items whose correct
+answer carried a "because …" tail the distractors lacked (up to 2.26× longer); those were fixed.
+PR-8b.1 then hardened this into code: `quiz validate` now **fails** on a conspicuous length tell
+(correct > 1.5× every distractor), on a causal-tail-only correct answer, and on mixed choice
+structure (short labels beside long sentences) — the "odd-one-out" leak. The advisory
+longest-correct metric is reported with a 40% warn threshold. To clear the advisory, eight near-tie
+items had an under-length (often throwaway) distractor strengthened to a fuller parallel statement —
+each still unambiguously wrong — bringing longest-correct from **52% → 32%**. Correct answers and
+grounding were untouched, so no keyed answer changed.
 
 ## 7. Grounding & misconception coverage
 

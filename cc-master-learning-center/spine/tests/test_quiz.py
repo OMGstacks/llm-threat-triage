@@ -251,6 +251,61 @@ class AnswerPositionTest(unittest.TestCase):
         self.assertTrue(any("within an objective" in p for p in problems))
 
 
+class AllChoicesGradingTest(unittest.TestCase):
+    """R&D-2: exhaustively grade every choice of every shipped item."""
+
+    def test_every_choice_of_every_item(self):
+        kb = quiz._keys_by_ref(KEYS)
+        for item in ITEMS:
+            key = kb[item["answer_key_ref"]]
+            ci = key["correct_index"]
+            corrects = 0
+            for j in range(len(item["choices"])):
+                res = quiz.grade(item, KEYS, j)
+                self.assertTrue(res["graded"], item["id"])
+                if res["correct"]:
+                    corrects += 1
+                    self.assertEqual(j, ci, item["id"])
+                    self.assertIsNone(res["misconception"],
+                                      f"{item['id']}: correct choice returns a distractor misconception")
+                else:
+                    self.assertIsNotNone(res["misconception"],
+                                         f"{item['id']}: wrong choice {j} has no misconception")
+            self.assertEqual(corrects, 1, f"{item['id']} must have exactly one correct choice")
+
+
+class LengthAndParityGateTest(unittest.TestCase):
+    """PR-8b.1: anti-gaming length + parallelism gates."""
+
+    def test_shipped_set_passes_both_gates(self):
+        self.assertEqual(quiz.answer_length_problems(ITEMS, KEYS), [])
+        self.assertEqual(quiz.choice_parallelism_problems(ITEMS), [])
+
+    def test_shipped_length_bias_under_target(self):
+        bias = quiz.answer_length_bias(ITEMS, KEYS)
+        self.assertLess(bias["ratio"], bias["warn_threshold"])
+
+    def test_conspicuous_length_tell_fails(self):
+        items = copy.deepcopy(ITEMS)
+        it = items[0]
+        ci = quiz._keys_by_ref(KEYS)[it["answer_key_ref"]]["correct_index"]
+        it["choices"][ci] = it["choices"][ci] + " " + ("padding " * 60)
+        self.assertTrue(any("length tell" in p for p in quiz.answer_length_problems(items, KEYS)))
+
+    def test_causal_tail_only_fails(self):
+        items = copy.deepcopy(ITEMS)
+        it = items[0]  # distractors are one-word labels with no causal marker
+        ci = quiz._keys_by_ref(KEYS)[it["answer_key_ref"]]["correct_index"]
+        it["choices"][ci] = "Confidentiality, because it prevents disclosure"
+        self.assertTrue(any("explanatory tell" in p for p in quiz.answer_length_problems(items, KEYS)))
+
+    def test_mixed_structure_fails(self):
+        items = copy.deepcopy(ITEMS)
+        items[0]["choices"] = ["Confidentiality", "Integrity", "Availability",
+                               "It is the property that keeps information secret from every unauthorized party"]
+        self.assertTrue(any("parallel" in p for p in quiz.choice_parallelism_problems(items)))
+
+
 class NearDuplicateTest(unittest.TestCase):
     def test_near_duplicate_stems_in_same_objective_fail(self):
         items = copy.deepcopy(ITEMS)
