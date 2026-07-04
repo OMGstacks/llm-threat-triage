@@ -104,11 +104,17 @@ sha256 cache keys, audio paths), `narration/L03.vtt` (WebVTT captions/transcript
 The player in §5 consumes exactly these three artifacts. The whole pipeline is proven
 end-to-end offline in `tests/test_lesson_l03.py` with a mocked local voice.
 
-## 5. The lesson player (next build)
+## 5. The lesson player (built)
 
-A new `/lessons/[id]` route: audio element + synced highlighted transcript (word/segment
-timings from the manifest) + slide/terminal panel that advances on segment boundaries, plus
-speed, scrub, and a silent-read toggle. Captions = the script, so it's accessible by default.
+The `/lessons/[id]` route (`web/app/lessons/[id]/page.tsx` + `web/components/LessonPlayer.tsx`)
+loads the committed manifest (`web/public/lessons/<id>.manifest.json`) and plays the lesson:
+a slide panel (title + cue + caption) advances in sync with a highlighted transcript, with
+play/pause and per-segment seek. It plays **rendered per-segment audio when present**
+(`/lessons/<id>/…` — probed on load) and **degrades gracefully** when it isn't: timed captions
+by the manifest's segment durations, with an optional "read aloud" browser voice. It is **pure
+presentation** — no grading, no cloud calls. The committed manifest + VTT are kept in lockstep
+with the shipped script by a contract test (`test_lesson_l03.py`), so the page can never show
+stale data. Live at **`/lessons/L03`**.
 
 ## 6. Premium path — **your voice and your face** ("my own course")
 
@@ -172,8 +178,10 @@ cost — that pushes toward the subscription/lab-time model rather than a cheap 
 - ✅ **Proven (this PR):** the **first real lesson**, `spine/lessons/L03.json`, renders
   end-to-end through the local OSS seam — manifest + captions + per-segment audio — tested
   offline in `tests/test_lesson_l03.py` (§4.1).
-- ▶ **Next (in order):** (1) the `/lessons/[id]` **player** that consumes the manifest +
-  VTT (synced captions/slides, speed/scrub); (2) author the Track-2 lesson scripts;
-  (3) wire the ElevenLabs + HeyGen premium pipeline behind the same seam; (4) package +
+- ✅ **Built (this PR):** the repo `/lessons/[id]` **player** — consumes the committed
+  manifest + VTT, synced slides/captions, audio-when-present with a graceful captions/timing
+  fallback, contract-tested against the script. Live at `/lessons/L03`.
+- ▶ **Next (in order):** (1) author the Track-2 lesson scripts (more real lessons);
+  (2) wire the ElevenLabs + HeyGen premium pipeline behind the same seam; (3) package +
   price per §7. The repo-backed `/tutor` · `/report` · lab-grader web vertical slice still
   stands as a parallel track.

@@ -290,3 +290,32 @@ export interface CapstoneScore {
   escalation_correct: boolean;
   counts: { submitted: number; correct: number; missed: number; false_positive: number };
 }
+
+// Narrated-lesson render manifest (produced offline by `osai_spine narrate`;
+// served statically from /public/lessons/<id>.manifest.json). The lesson player is
+// pure presentation — it never grades.
+export interface LessonSegment {
+  id: string;
+  text: string;
+  chars: number;
+  start: number;
+  end: number;
+  est_seconds: number;
+  audio: string;
+  slide?: string;
+}
+
+export interface LessonManifest {
+  lesson_id: string;
+  title: string;
+  voice: string;
+  provider: string;
+  kind: string;
+  segments: LessonSegment[];
+  segment_count: number;
+  total_chars: number;
+  est_duration: string;
+  est_seconds: number;
+  est_cost_usd: number;
+  rate_per_million_usd: number;
+}
