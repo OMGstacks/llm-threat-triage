@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osai-narrate"
+version = "0.1.0"
+description = "Portable, offline-first, provider-agnostic narrated-lesson renderer: turn a lesson script into a deterministic render plan, WebVTT captions, and (with a local or cloud voice) audio. Shared across course projects so voice/avatar/render upgrades land once."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+# Stdlib-only. No course-app coupling, no third-party runtime deps — that is the point.
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+narrate = "osai_narrate.cli:main"
+
+[tool.setuptools]
+packages = ["osai_narrate"]

@@ -6,6 +6,7 @@ on:
     paths:
       - "osai-prep-studio/spine/**"
       - "osai-prep-studio/web/**"
+      - "osai-prep-studio/packages/**"
       - "reference/**"
       - "projects/llm-log-triage/src/detectors.py"
       - ".github/workflows/osai-spine.yml"
@@ -13,6 +14,7 @@ on:
     paths:
       - "osai-prep-studio/spine/**"
       - "osai-prep-studio/web/**"
+      - "osai-prep-studio/packages/**"
       - "reference/**"
       - "projects/llm-log-triage/src/detectors.py"
 
