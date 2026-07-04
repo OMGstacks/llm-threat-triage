@@ -15,7 +15,8 @@ engine (``ingest``), the source-registry freshness guard (``sources``), the
 IP-boundary support-span guard (``ipboundary``), and the CLI (``cli``). PR-3
 adds the copy-adapted fact store (``factstore``), the CC registry over the
 objective matrix and source registry (``registry``), and the note review-state
-lifecycle (``notes_lifecycle``).
+lifecycle (``notes_lifecycle``). PR-4 completes the 2026-09 outline + crosswalk
+in the objective matrix and adds the source-freshness ledger (``next_review``).
 """
 
-__version__ = "0.0.3"
+__version__ = "0.0.4"

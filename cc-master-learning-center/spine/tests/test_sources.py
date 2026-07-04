@@ -48,10 +48,36 @@ class SourceFreshnessTest(unittest.TestCase):
     def test_missing_source_url_fails(self):
         bad = {"sources": [{
             "id": "x", "tier": 1, "type": "reference", "status": "current",
-            "topic": "t", "retrieved_at": "2026-07-04",
+            "topic": "t", "retrieved_at": "2026-07-04", "next_review": "2027-01-01",
         }]}
         failures = sources.validate_registry(bad, today=datetime.date(2026, 7, 4))
         self.assertTrue(any("missing source_url" in f for f in failures))
+
+    def test_missing_next_review_fails(self):
+        # Freshness ledger (PR-4): every source must carry a next_review date.
+        bad = {"sources": [{
+            "id": "x", "tier": 1, "type": "reference", "status": "current",
+            "topic": "t", "source_url": "u", "retrieved_at": "2026-07-04",
+        }]}
+        failures = sources.validate_registry(bad, today=datetime.date(2026, 7, 4))
+        self.assertTrue(any("missing next_review" in f for f in failures))
+
+    def test_past_next_review_is_stale(self):
+        bad = {"sources": [{
+            "id": "x", "tier": 1, "type": "reference", "status": "current",
+            "topic": "t", "source_url": "u", "retrieved_at": "2026-01-04",
+            "next_review": "2026-06-01",
+        }]}
+        failures = sources.validate_registry(bad, today=datetime.date(2026, 7, 4))
+        self.assertTrue(any("source review is due" in f for f in failures))
+
+    def test_isc2_sources_go_stale_at_transition(self):
+        # The registry's ISC2 entries carry next_review = 2026-09-01, so the
+        # freshness ledger forces a human re-review at the outline transition.
+        failures = sources.validate_registry(REGISTRY, today=datetime.date(2026, 9, 2))
+        stale = [f for f in failures if "source review is due" in f]
+        self.assertTrue(any("isc2.cc-outline.2025-10" in f for f in stale))
+        self.assertTrue(any("isc2.cc-outline.2026-09" in f for f in stale))
 
     def test_duplicate_id_is_rejected(self):
         entry = {

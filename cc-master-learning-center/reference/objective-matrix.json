@@ -16,7 +16,10 @@
     "duration_minutes": 120,
     "item_count_min": 100,
     "item_count_max": 125,
-    "item_formats": ["multiple-choice", "advanced innovative items"],
+    "item_formats": [
+      "multiple-choice",
+      "advanced innovative items"
+    ],
     "passing_score_scaled": 700,
     "score_scale_max": 1000,
     "source_id": "isc2.cc-outline.2025-10"
@@ -44,8 +47,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D1"
+              ]
             },
             {
               "objective_id": "1.2",
@@ -58,8 +69,17 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D1",
+                "D2"
+              ]
             },
             {
               "objective_id": "1.3",
@@ -72,8 +92,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D1"
+              ]
             },
             {
               "objective_id": "1.4",
@@ -86,8 +114,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D1"
+              ]
             },
             {
               "objective_id": "1.5",
@@ -100,15 +136,23 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D2"
+              ]
             }
           ]
         },
         {
           "domain_id": "D2",
           "domain_title": "Business Continuity (BC), Disaster Recovery (DR) & Incident Response Concepts",
-          "weight": 0.10,
+          "weight": 0.1,
           "source_id": "isc2.cc-outline.2025-10",
           "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-2-business-continuity-disaster-recovery-and-incident-response-concepts",
           "objectives": [
@@ -123,8 +167,16 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D2"
+              ]
             },
             {
               "objective_id": "2.2",
@@ -137,8 +189,16 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D2"
+              ]
             },
             {
               "objective_id": "2.3",
@@ -151,8 +211,16 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D5"
+              ]
             }
           ]
         },
@@ -174,8 +242,16 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D3"
+              ]
             },
             {
               "objective_id": "3.2",
@@ -188,8 +264,16 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D3"
+              ]
             }
           ]
         },
@@ -211,8 +295,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D4"
+              ]
             },
             {
               "objective_id": "4.2",
@@ -225,8 +317,17 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D4",
+                "D5"
+              ]
             },
             {
               "objective_id": "4.3",
@@ -239,8 +340,16 @@
               "confidence": "medium",
               "volatility": "transitioning",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D4"
+              ]
             }
           ]
         },
@@ -262,8 +371,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D5"
+              ]
             },
             {
               "objective_id": "5.2",
@@ -276,8 +393,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D5"
+              ]
             },
             {
               "objective_id": "5.3",
@@ -290,8 +415,16 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": false,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D2"
+              ]
             },
             {
               "objective_id": "5.4",
@@ -304,26 +437,109 @@
               "confidence": "medium",
               "volatility": "stable",
               "ai_security_extension": true,
-              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
-              "crosswalk_2026": []
+              "content_status": {
+                "notes": false,
+                "facts": false,
+                "definition_cards": false,
+                "scenario_items": false,
+                "holdout_items": false
+              },
+              "crosswalk_2026": [
+                "D2"
+              ]
             }
           ]
         }
       ]
     },
     "2026-09": {
-      "status": "upcoming-stub",
+      "status": "upcoming",
       "source_id": "isc2.cc-outline.2026-09",
-      "weights_confidence": "approximate-needs-verification",
-      "note": "Stub only. Crosswalk map is populated in PR-4 after official-source review. Weights below are approximate and pending verification against the official outline.",
+      "weights_confidence": "reviewer-supplied-needs-official-verification",
+      "note": "Completed in PR-4 from reviewer-supplied course material. Domain titles and approximate weights pend official-source verification: isc2.org returned HTTP 403 to this environment on 2026-07-04 (declared not-run; see 00-governance-spec.md section 17). Objectives are not enumerated until officially verifiable.",
       "domains": [
-        {"domain_id": "D1", "domain_title": "Security Principles", "weight_approx": 0.24},
-        {"domain_id": "D2", "domain_title": "Security Governance", "weight_approx": 0.173},
-        {"domain_id": "D3", "domain_title": "Identity and Access Management (IAM) Concepts", "weight_approx": 0.20},
-        {"domain_id": "D4", "domain_title": "Networking and Cloud Security Concepts", "weight_approx": 0.213},
-        {"domain_id": "D5", "domain_title": "Security Operations and Incident Response", "weight_approx": 0.173}
+        {
+          "domain_id": "D1",
+          "domain_title": "Security Principles",
+          "weight_approx": 0.24
+        },
+        {
+          "domain_id": "D2",
+          "domain_title": "Security Governance",
+          "weight_approx": 0.173
+        },
+        {
+          "domain_id": "D3",
+          "domain_title": "Identity and Access Management (IAM) Concepts",
+          "weight_approx": 0.2
+        },
+        {
+          "domain_id": "D4",
+          "domain_title": "Networking and Cloud Security Concepts",
+          "weight_approx": 0.213
+        },
+        {
+          "domain_id": "D5",
+          "domain_title": "Security Operations and Incident Response",
+          "weight_approx": 0.173
+        }
       ],
-      "crosswalk_map": {}
+      "crosswalk_map": {
+        "1.1": [
+          "D1"
+        ],
+        "1.2": [
+          "D1",
+          "D2"
+        ],
+        "1.3": [
+          "D1"
+        ],
+        "1.4": [
+          "D1"
+        ],
+        "1.5": [
+          "D2"
+        ],
+        "2.1": [
+          "D2"
+        ],
+        "2.2": [
+          "D2"
+        ],
+        "2.3": [
+          "D5"
+        ],
+        "3.1": [
+          "D3"
+        ],
+        "3.2": [
+          "D3"
+        ],
+        "4.1": [
+          "D4"
+        ],
+        "4.2": [
+          "D4",
+          "D5"
+        ],
+        "4.3": [
+          "D4"
+        ],
+        "5.1": [
+          "D5"
+        ],
+        "5.2": [
+          "D5"
+        ],
+        "5.3": [
+          "D2"
+        ],
+        "5.4": [
+          "D2"
+        ]
+      },
+      "effective_date": "2026-09-01"
     }
   },
   "extensions": [
@@ -332,7 +548,13 @@
       "status": "official-current-integrated",
       "source_id": "isc2.cc-outline.2025-10",
       "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#ai-security-integration-current-outline",
-      "applies_to": ["D1", "D2", "D3", "D4", "D5"],
+      "applies_to": [
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5"
+      ],
       "volatility": "emerging",
       "coverage_status": "seeded",
       "verification_status": "needs_official_source_review",

@@ -14,7 +14,8 @@
       "effective_date": "2025-10-01",
       "superseded_by_notice": "A new CC exam outline becomes effective 2026-09-01 (see isc2.cc-outline.2026-09)",
       "confidence": "official-current",
-      "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source"
+      "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source",
+      "next_review": "2026-09-01"
     },
     {
       "id": "isc2.cc-outline.2026-09",
@@ -28,7 +29,8 @@
       "effective_date": "2026-09-01",
       "superseded_by_notice": null,
       "confidence": "official-upcoming",
-      "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source"
+      "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source",
+      "next_review": "2026-09-01"
     },
     {
       "id": "nist.sp800-88r2",
@@ -42,7 +44,8 @@
       "effective_date": null,
       "superseded_by_notice": null,
       "confidence": "official-current",
-      "copyright_note": "US government work; cite and summarize"
+      "copyright_note": "US government work; cite and summarize",
+      "next_review": "2027-07-04"
     },
     {
       "id": "nist.sp800-61r3",
@@ -56,7 +59,8 @@
       "effective_date": null,
       "superseded_by_notice": null,
       "confidence": "official-current",
-      "copyright_note": "US government work; cite and summarize"
+      "copyright_note": "US government work; cite and summarize",
+      "next_review": "2027-07-04"
     },
     {
       "id": "nist.pqc.fips-203-204-205",
@@ -70,7 +74,8 @@
       "effective_date": "2024-08-13",
       "superseded_by_notice": null,
       "confidence": "official-current",
-      "copyright_note": "US government work; cite and summarize"
+      "copyright_note": "US government work; cite and summarize",
+      "next_review": "2027-07-04"
     },
     {
       "id": "nist.sp800-145",
@@ -84,7 +89,8 @@
       "effective_date": null,
       "superseded_by_notice": null,
       "confidence": "official-current",
-      "copyright_note": "US government work; cite and summarize"
+      "copyright_note": "US government work; cite and summarize",
+      "next_review": "2027-07-04"
     }
   ]
 }

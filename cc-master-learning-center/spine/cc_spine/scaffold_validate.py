@@ -142,15 +142,49 @@ def _check_matrix(matrix, registry_ids: set[str], failures: list[str]) -> None:
             if not isinstance(obj.get("crosswalk_2026"), list):
                 failures.append(f"{label}: crosswalk_2026 must be a list")
 
-    stub = matrix.get("outlines", {}).get("2026-09")
-    if not stub:
-        failures.append("objective-matrix.json: missing 2026-09 stub outline")
+    upcoming = matrix.get("outlines", {}).get("2026-09")
+    if not upcoming:
+        failures.append("objective-matrix.json: missing 2026-09 outline")
     else:
-        approx_total = sum(d.get("weight_approx", 0.0) for d in stub.get("domains", []))
+        up_domains = upcoming.get("domains", [])
+        up_ids = [d.get("domain_id") for d in up_domains]
+        if up_ids != list(DOMAINS):
+            failures.append(f"objective-matrix.json: 2026-09 domain ids {up_ids} != {list(DOMAINS)}")
+        for d in up_domains:
+            if not d.get("domain_title"):
+                failures.append(f"objective-matrix.json: 2026-09 {d.get('domain_id')} missing domain_title")
+        approx_total = sum(d.get("weight_approx", 0.0) for d in up_domains)
         if abs(approx_total - 1.0) > 0.02:
             failures.append(f"objective-matrix.json: 2026-09 approx weights sum {approx_total} outside 1.0 +/- 0.02")
-        if not isinstance(stub.get("crosswalk_map"), dict):
+        if not upcoming.get("weights_confidence"):
+            failures.append("objective-matrix.json: 2026-09 outline must declare weights_confidence")
+        crosswalk = upcoming.get("crosswalk_map")
+        if not isinstance(crosswalk, dict):
             failures.append("objective-matrix.json: 2026-09 crosswalk_map must be an object")
+        else:
+            # PR-4 completeness: every current objective maps to >=1 valid 2026 domain,
+            # per-objective crosswalk_2026 mirrors the map, and no orphan keys exist.
+            up_id_set = set(up_ids)
+            if set(crosswalk) != seen_objectives:
+                missing = sorted(seen_objectives - set(crosswalk))
+                orphans = sorted(set(crosswalk) - seen_objectives)
+                failures.append(
+                    "objective-matrix.json: crosswalk_map keys must be exactly the 2025-10 "
+                    f"objective ids (missing: {missing}; orphans: {orphans})")
+            for oid, targets in crosswalk.items():
+                if not (isinstance(targets, list) and targets):
+                    failures.append(f"objective-matrix.json: crosswalk_map[{oid!r}] must be a non-empty list")
+                    continue
+                for t in targets:
+                    if t not in up_id_set:
+                        failures.append(f"objective-matrix.json: crosswalk_map[{oid!r}] target {t!r} is not a 2026-09 domain")
+            for domain in domains:
+                for obj in domain.get("objectives", []):
+                    oid = obj.get("objective_id")
+                    if oid in crosswalk and obj.get("crosswalk_2026") != crosswalk[oid]:
+                        failures.append(
+                            f"objective-matrix.json objective {oid}: crosswalk_2026 "
+                            f"{obj.get('crosswalk_2026')} != crosswalk_map entry {crosswalk[oid]}")
 
     extensions = {e.get("id"): e for e in matrix.get("extensions", [])}
     ai_ext = extensions.get("global.ai-security")

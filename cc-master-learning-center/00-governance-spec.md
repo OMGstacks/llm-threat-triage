@@ -394,7 +394,7 @@ note status (`cc_spine.notes_lifecycle`).
 | 1 | governance spec + scaffold + source-registry schema | stdlib scaffold validator; scope-only diff (PR-1 happened to be fully additive) |
 | 2 | ingestion engine + source-registry validator + `cc-spine.yml` CI | deterministic DOCX/text extraction; correction audit trail; CI |
 | 3 | copy-adapt factstore + registry + notes lifecycle + CLI | fact-card validation; fingerprint drift; tombstones; retrieval stability; unsupported_claim_guard |
-| 4 | completed current outline + 2026-09 crosswalk | source freshness ledger; matrix schema validation |
+| 4 | completed 2026-09 outline + crosswalk + freshness ledger | source freshness ledger (next_review); crosswalk-integrity validation |
 | 5 | transcript ingestion **after explicit authorization** | IP boundary check; no raw transcript dump; correction audit |
 | 6 | D4/D5 fact-card seeds (slices ≤ 75) | source coverage; no near-dup; no unsupported claims |
 | 7 | D1–D3 fact-card seeds | same + domain distribution ledger |
@@ -461,6 +461,21 @@ python3 -m cc_spine.cli factstore validate     # provenance, drift, tombstones, 
 python3 -m unittest discover -s tests          # 101 stdlib tests incl. the 20-gate factstore suite
 git diff --name-only <base> | grep -v -e '^cc-master-learning-center/' \
     -e '^\.github/workflows/cc-spine\.yml$'    # scope-only diff check: must be empty
+```
+
+PR-4 verification (CI-enforced via the same chain). **Declared not-run:** the official-source
+verification pass could not execute — `https://www.isc2.org/certifications/cc/cc-certification-exam-outline`
+and `https://www.isc2.org/exams/before-your-exam` both returned **HTTP 403** to this
+environment on 2026-07-04. Consequently every `verification_status` remains
+`needs_official_source_review`, the 2026-09 outline is labeled
+`reviewer-supplied-needs-official-verification`, and the freshness ledger forces re-review:
+both ISC2 registry entries carry `next_review: 2026-09-01`, after which `validate-sources`
+fails until a human re-reviews against the official source.
+
+```bash
+python3 -m cc_spine.cli validate-sources       # freshness ledger: next_review enforced
+python3 -m cc_spine.scaffold_validate          # crosswalk completeness + consistency checks
+python3 -m unittest discover -s tests          # 109 tests incl. crosswalk/staleness negatives
 ```
 
 Later PRs add: ship gate + distribution report (PR-8) and the full slice-gate suite (PR-9+) —

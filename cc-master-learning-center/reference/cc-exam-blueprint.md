@@ -133,19 +133,45 @@ through public AI tools.
 Confidence: `confirmed` (policy), `seeded-pending-review` (2026 details).
 
 The primary study target is the **current (2025-10) outline**. A new outline becomes
-effective 2026-09-01 with reshaped domains (approximate: Security Principles 24%; Security
-Governance 17.3%; IAM Concepts 20%; Networking and Cloud Security Concepts 21.3%; Security
-Operations and Incident Response 17.3% — pending verification). The crosswalk lives **only**
-in `objective-matrix.json` (`outlines.2026-09.crosswalk_map`, populated in PR-4), never on
+effective 2026-09-01 with reshaped domains. The crosswalk lives **only** in
+`objective-matrix.json` (`outlines.2026-09.crosswalk_map`, completed in PR-4), never on
 individual fact cards, so there is a single source of truth. If the learner's exam date moves
 to 2026-09-01 or later, the matrix flips primary target and the crosswalk drives re-mapping.
+
+## 2026-09 Outline (Upcoming)
+
+Confidence: `reviewer-supplied-needs-official-verification` — isc2.org returned HTTP 403 to
+this environment on 2026-07-04 (declared not-run; see governance spec §17). Domain titles and
+approximate weights come from reviewer-supplied course material.
+
+| Domain | Title | Approx. weight |
+|---|---|---:|
+| D1 | Security Principles | 24% |
+| D2 | Security Governance | 17.3% |
+| D3 | Identity and Access Management (IAM) Concepts | 20% |
+| D4 | Networking and Cloud Security Concepts | 21.3% |
+| D5 | Security Operations and Incident Response | 17.3% |
+
+Crosswalk summary (current objective → 2026 domain; normative map in the matrix):
+
+| Current | → 2026 | Rationale |
+|---|---|---|
+| 1.1, 1.3, 1.4 | D1 | Information assurance, controls, ethics stay Security Principles |
+| 1.2 | D1 + D2 | Risk process splits across principles and GRC governance |
+| 1.5, 5.3, 5.4 | D2 | Governance processes, policies, awareness → Security Governance |
+| 2.1, 2.2 | D2 | BC/DR/redundancy fold into Security Governance |
+| 2.3 | D5 | Incident response joins Security Operations and IR |
+| 3.1, 3.2 | D3 | Physical + logical access controls → IAM Concepts |
+| 4.1, 4.3 | D4 | Networking + infrastructure (incl. cloud) → Networking and Cloud Security |
+| 4.2 | D4 + D5 | Network threats stay D4; threat actors/CTI/frameworks move to D5 |
+| 5.1, 5.2 | D5 | Data security and hardening/config management stay operations |
 
 ## Confidence Ledger
 
 | Section | Confidence | Re-review trigger |
 |---|---|---|
 | Exam Facts | confirmed | Outline change notice or 2026-09-01 |
-| Domain 1–5 scope summaries | seeded-pending-review | PR-4 official-source review |
+| Domain 1–5 scope summaries | seeded-pending-review | Official-source review (isc2.org 403 to this environment on 2026-07-04 — deferred) |
 | Crypto-agility note | confirmed | New NIST PQC guidance |
-| AI Security Integration | seeded-pending-review | PR-4 official-source review |
-| 2026-09 crosswalk details | seeded-pending-review | PR-4 official-source review |
+| AI Security Integration | seeded-pending-review | Official-source review (deferred as above) |
+| 2026-09 outline + crosswalk | reviewer-supplied-needs-official-verification | Official-source review; hard stop at 2026-09-01 (source-registry next_review) |

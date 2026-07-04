@@ -39,9 +39,20 @@ def validate_registry(registry: dict, *, today: datetime.date | None = None) -> 
         tier = entry.get("tier")
         if not isinstance(tier, int) or not 0 <= tier <= 4:
             failures.append(f"{label}: tier must be an integer 0-4")
-        for req in ("type", "status", "topic", "source_url", "retrieved_at"):
+        for req in ("type", "status", "topic", "source_url", "retrieved_at", "next_review"):
             if not entry.get(req):
                 failures.append(f"{label}: missing {req}")
+
+        # Freshness ledger (PR-4): every source carries a next_review date; a
+        # source past its review date is stale until a human re-reviews it.
+        try:
+            next_review = _parse_date(entry.get("next_review"))
+            if next_review and next_review <= today and entry.get("status") != "deprecated":
+                failures.append(
+                    f"{label}: source review is due (next_review {next_review} <= {today}); "
+                    "re-review against the official source and bump next_review")
+        except ValueError:
+            failures.append(f"{label}: next_review not an ISO date")
 
         status = entry.get("status")
         if status not in VALID_STATUSES:

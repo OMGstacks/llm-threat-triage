@@ -7,6 +7,8 @@ Runnable with stock Python from the spine directory
 required because the project path is not an importable package name).
 """
 
+import copy
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -14,6 +16,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from cc_spine import scaffold_validate
+
+MATRIX = json.loads(
+    (Path(__file__).resolve().parents[2] / "reference" / "objective-matrix.json")
+    .read_text(encoding="utf-8"))
 
 
 class ScaffoldValidationTest(unittest.TestCase):
@@ -35,6 +41,43 @@ class ScaffoldValidationTest(unittest.TestCase):
     def test_pr2_activated_freshness_and_ip_guards(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["source_freshness_guard"], "active")
         self.assertEqual(scaffold_validate.GUARD_STATUS["ip_boundary_guard"], "active")
+
+    def _matrix_failures(self, matrix):
+        registry_ids = {s["id"] for s in json.loads(
+            (Path(__file__).resolve().parents[2] / "reference" / "source-registry.json")
+            .read_text(encoding="utf-8"))["sources"]}
+        failures = []
+        scaffold_validate._check_matrix(matrix, registry_ids, failures)
+        return failures
+
+    def test_completed_crosswalk_validates(self):
+        # PR-4: the real matrix carries a complete, consistent crosswalk.
+        self.assertEqual(self._matrix_failures(MATRIX), [])
+
+    def test_crosswalk_missing_objective_fails(self):
+        broken = copy.deepcopy(MATRIX)
+        del broken["outlines"]["2026-09"]["crosswalk_map"]["4.2"]
+        failures = self._matrix_failures(broken)
+        self.assertTrue(any("crosswalk_map keys must be exactly" in f for f in failures))
+
+    def test_crosswalk_bad_target_domain_fails(self):
+        broken = copy.deepcopy(MATRIX)
+        broken["outlines"]["2026-09"]["crosswalk_map"]["1.1"] = ["D9"]
+        failures = self._matrix_failures(broken)
+        self.assertTrue(any("is not a 2026-09 domain" in f for f in failures))
+
+    def test_crosswalk_objective_inconsistency_fails(self):
+        # A per-objective crosswalk_2026 that disagrees with the map must fail.
+        broken = copy.deepcopy(MATRIX)
+        broken["outlines"]["2026-09"]["crosswalk_map"]["2.3"] = ["D2"]  # matrix objective says D5
+        failures = self._matrix_failures(broken)
+        self.assertTrue(any("!= crosswalk_map entry" in f for f in failures))
+
+    def test_crosswalk_empty_target_list_fails(self):
+        broken = copy.deepcopy(MATRIX)
+        broken["outlines"]["2026-09"]["crosswalk_map"]["5.1"] = []
+        failures = self._matrix_failures(broken)
+        self.assertTrue(any("non-empty list" in f for f in failures))
 
     def test_pr3_activated_unsupported_claim_guard(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["unsupported_claim_guard"], "active")
