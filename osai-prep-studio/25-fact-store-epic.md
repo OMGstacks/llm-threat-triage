@@ -295,6 +295,52 @@ covering the plan's PR25 target of **+35 to +42** fact-grounded items (`lab_grou
 OK; retrieval-stability green; suite **258**. No L13 / transcript / provider / auth / Ollama
 changes.
 
+## 6f. PR25 — fact-grounded growth slice #4 (671 → 706)
+
+Puts PR24's new cards to work: **+35 fact-grounded items**, every one `grounding:factstore`
++ a **distinct** `fact_id` (max reuse **1**), 0 near-dups, retrieval-stable.
+
+- **+28 `lab_grounded`** (106 → **134**, the top of its 130–134 target): **16 `complements`**
+  (one per lab, topic-enriched prompts, two phrasings; L06/L07 dropped as duplicate-answer of
+  L05/L04), **9 detector-severity** (spanning critical/high/medium tiers), **3 `detector`**
+  (L01/L02/L17). `indirect_prompt_injection.severity` was intentionally left out — its prompt
+  near-dups `direct_prompt_injection.severity` (shared `prompt`+`injection` name tokens); the
+  detector itself is still covered via the `L02.detector` item.
+- **+7 `tool_use_judgment`** (33 → **40**): the seven agentic decision cards, each a
+  scenario → decision (block / require human approval / allow / throttled). First
+  fact-grounded/retrieval-stable items in this bank.
+
+**Why it lands at the +35 floor (706), not higher.** The completion plan's PR25 upper end
+(+42 → 713) assumed `tool_use_judgment` +10–14; PR24 established the honest cap is **+7** (only
+7 real decision sections). `lab_grounded` is at its plan ceiling (+28 → 134). The remaining
+plan headroom is `architecture_reasoning` +4–6 — but its only unused genuine-reasoning cards
+are 3 same-`(global, architecture)`-slot platform cards, and the other unused arch-eligible
+cards are framework-*recognition* facts that belong in `framework_recall` (the PR22 lesson),
+so growing arch here would be padding or a bank misassignment. Landing at **+35 → 706** is the
+clean, honest maximum for this slice; PR26 (authored `report_quality`/`stale_claim`/`refusal`)
+carries the rest toward 750–756.
+
+| bank | before | after | Δ |
+|---|---:|---:|---:|
+| `lab_grounded` | 106 | 134 | **+28** |
+| `tool_use_judgment` | 33 | 40 | **+7** |
+| all others | — | — | 0 |
+| **total** | **671** | **706** | **+35** |
+
+**Adversarial pass** (2 finders → verify): 1 confirmed defect fixed — `LG-fs-L01-detector`'s
+keyword `direct_prompt_injection` is a substring of the sibling detector
+`indirect_prompt_injection` (the only such collision in the catalog), so a wrong "indirect"
+answer would pass substring grading; added `indirect_prompt_injection` to that item's
+`forbidden`. One low finding refuted (immaterial to the deterministic grader), but the
+`TUJ-fs-verify-identity` prompt was reframed anyway to test the unambiguous principle
+(verify identity → identity spoofing) rather than the card's co-equal block/approval branch.
+
+Ship gate **PASS** (all gated banks 1.0, `framework_id_validation` 1.0, 0 hallucinated ids,
+0 lab-answer-leakage); `factstore validate` OK; near-dup + semantic-dedup + retrieval-stability
+green; reuse = 1 (0 reused); 0 answer-key/flag leakage; suite **258**. No authored
+report/stale/refusal items (those are PR26). No L13 / transcript / provider / auth / Ollama
+changes.
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab
