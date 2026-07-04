@@ -81,7 +81,7 @@ def scan_notes(notes_dir: Path) -> list[str]:
         if not keys:
             failures.append(f"{path.name}: published note is missing a front-matter block")
             continue
-        if re.search(r"^status:\s*reviewed\b", text, re.MULTILINE) is None:
+        if re.search(r"^status:\s*(reviewed|promoted)\b", text, re.MULTILINE) is None:
             continue  # draft notes are not yet subject to the published-span gate
         body = text.split("---", 2)[-1]
         for para in ingest._PARA_SPLIT_RE.split(body):

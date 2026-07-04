@@ -32,14 +32,18 @@ CONTENT_STATUS_KEYS = {"notes", "facts", "definition_cards", "scenario_items", "
 FORBIDDEN_UPLOAD_SUFFIXES = {".docx", ".doc", ".pdf", ".pptx"}
 
 # Guard activation status. Guards move from "reserved" to "active" as the PR
-# roadmap delivers them. PR-2 activated the freshness and IP-boundary guards.
+# roadmap delivers them. PR-2 activated the freshness and IP-boundary guards;
+# PR-3 activated the unsupported-claim guard (factstore validate_item).
 GUARD_STATUS = {
     "source_freshness_guard": "active",       # PR-2: cc_spine.sources
     "ip_boundary_guard": "active",            # PR-2: cc_spine.ipboundary
     "no_verbatim_bulk_reproduction": "reserved",
     "holdout_leakage_guard": "reserved",
+    # Card-level answer-key quarantine shipped in PR-3 (factstore validate_card +
+    # ground()/for_bank filters); the guard itself names bank-output/holdout
+    # isolation, which activates with the quiz engine in PR-8.
     "answer_key_isolation_guard": "reserved",
-    "unsupported_claim_guard": "reserved",
+    "unsupported_claim_guard": "active",      # PR-3: cc_spine.factstore validate_item
 }
 
 # Retained for callers that only need the still-reserved set.

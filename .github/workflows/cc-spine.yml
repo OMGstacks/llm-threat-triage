@@ -33,6 +33,8 @@ jobs:
         run: python -m cc_spine.cli validate-sources
       - name: IP-boundary support-span guard (ip_boundary_guard)
         run: python -m cc_spine.cli check-ip
+      - name: Fact-store validator (drift, tombstones, eligibility — unsupported_claim_guard)
+        run: python -m cc_spine.cli factstore validate
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

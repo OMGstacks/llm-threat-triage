@@ -12,8 +12,10 @@ checklist.
 
 PR-1 ships only the scaffold validator. PR-2 adds the deterministic ingestion
 engine (``ingest``), the source-registry freshness guard (``sources``), the
-IP-boundary support-span guard (``ipboundary``), and the CLI (``cli``). The
-factstore lands in PR-3.
+IP-boundary support-span guard (``ipboundary``), and the CLI (``cli``). PR-3
+adds the copy-adapted fact store (``factstore``), the CC registry over the
+objective matrix and source registry (``registry``), and the note review-state
+lifecycle (``notes_lifecycle``).
 """
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"

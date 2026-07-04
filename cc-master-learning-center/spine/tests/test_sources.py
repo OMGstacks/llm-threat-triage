@@ -45,6 +45,14 @@ class SourceFreshnessTest(unittest.TestCase):
         failures = sources.validate_registry(bad, today=datetime.date(2026, 7, 4))
         self.assertTrue(any("future" in f for f in failures))
 
+    def test_missing_source_url_fails(self):
+        bad = {"sources": [{
+            "id": "x", "tier": 1, "type": "reference", "status": "current",
+            "topic": "t", "retrieved_at": "2026-07-04",
+        }]}
+        failures = sources.validate_registry(bad, today=datetime.date(2026, 7, 4))
+        self.assertTrue(any("missing source_url" in f for f in failures))
+
     def test_duplicate_id_is_rejected(self):
         entry = {
             "id": "dup", "tier": 1, "type": "reference", "status": "current",

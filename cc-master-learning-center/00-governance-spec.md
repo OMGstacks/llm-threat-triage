@@ -166,6 +166,22 @@ generated, because misheard terms are dangerous for memorization. Rules:
 The cleaned-notes contract (front-matter, anchor stability, IP rules) is in
 [`notes/README.md`](notes/README.md).
 
+**Note review-state lifecycle (PR-3, `cc_spine.notes_lifecycle`).** Notes move through a
+declared state machine; the states and transitions are module data mirrored as a table in
+`notes/README.md`:
+
+```text
+draft     -> reviewed | rejected
+reviewed  -> promoted | deprecated | draft   (draft = manual edit, re-review required)
+promoted  -> deprecated
+rejected  -> (terminal)      deprecated -> (terminal)
+```
+
+Only **reviewed** or **promoted** notes may ground fact cards; a missing or unknown status
+fails closed. The factstore enforces the grounding rule from PR-3 (a card whose source lives
+under `notes/` fails validation unless the note's status is grounding-eligible); the full
+ingestion→review→promotion pipeline wiring lands in PR-5.
+
 ## 7. Fact-Card Schema
 
 Contract: [`spine/schemas/fact-card.schema.json`](spine/schemas/fact-card.schema.json).
@@ -220,11 +236,11 @@ Validators (fail-closed; a check that cannot run is a failure, not a skip):
 | `source_freshness_guard` (`cc_spine.sources`; supersession + field checks) | **active** | 2 |
 | `ip_boundary_guard` (`cc_spine.ipboundary`; support-span limits, no-full-MCQ) | **active** | 2 |
 | `no_verbatim_bulk_reproduction` | reserved | 5 |
-| `unsupported_claim_guard` (item asserts nothing beyond cited cards) | reserved | 3 |
-| fingerprint drift + tombstone lifecycle (factstore validate) | reserved | 3 |
-| retrieval-stability proof (adding cards never changes existing groundings) | reserved | 3 |
+| `unsupported_claim_guard` (`cc_spine.factstore` validate_item: item asserts nothing beyond cited cards) | **active** | 3 |
+| fingerprint drift + tombstone lifecycle (`factstore validate`) | **active** | 3 |
+| retrieval-stability proof (adding cards never changes existing groundings) | **active** | 3 |
 | `holdout_leakage_guard` | reserved | 8 |
-| `answer_key_isolation_guard` | reserved | 8 |
+| `answer_key_isolation_guard` (card-level quarantine shipped PR-3; bank-output/holdout isolation) | reserved | 8 |
 
 ## 9. Bank Design & Allocation Policy
 
@@ -346,6 +362,19 @@ fingerprinting, JSON-path resolver, markdown section/slug resolvers, store loade
 into `cc_spine/factstore.py` with a provenance header recording the source path and commit
 SHA, and defines CC domain tables fresh.
 
+**Delivered (PR-3):** the first five parity rows below are now proven by
+`cc_spine/factstore.py` + `tests/test_factstore.py`. Deliberate deviations from the OSAI
+original, recorded in the module's provenance header: (a) structured support equality
+compares **canonical forms** (the CC schema forces `support` to be a string while sources may
+resolve to typed values, e.g. `passing_score_scaled` → int `700`); (b) **duplicate markdown
+anchors fail closed** — anchors must be unique after slug normalization, a citation never
+silently picks between two sections (OSAI resolves first-match); (c) source paths are
+confined to the repo root (no absolute paths, no `../` traversal, only `.json`/`.md`);
+(d) every support span passes `ipboundary.check_support_span`; (e) `sensitive_override`
+requires `override_reason` + `last_reviewed` + `reviewed_by` and never clears
+residual-secret/full-MCQ failures; (f) cards grounded on `notes/` require reviewed/promoted
+note status (`cc_spine.notes_lifecycle`).
+
 **Parity checklist** — invariants both stores must keep proving, mapped to PRs:
 
 | Invariant (OSAI test inventory) | CC PR |
@@ -362,9 +391,9 @@ SHA, and defines CC domain tables fresh.
 
 | PR | Scope | Gates active after |
 |---|---|---|
-| 1 (this) | governance spec + scaffold + source-registry schema | stdlib scaffold validator; additive-only diff |
+| 1 | governance spec + scaffold + source-registry schema | stdlib scaffold validator; scope-only diff (PR-1 happened to be fully additive) |
 | 2 | ingestion engine + source-registry validator + `cc-spine.yml` CI | deterministic DOCX/text extraction; correction audit trail; CI |
-| 3 | copy-adapt factstore + validators + CLI | fact-card validation; fingerprint drift; tombstones; retrieval stability |
+| 3 | copy-adapt factstore + registry + notes lifecycle + CLI | fact-card validation; fingerprint drift; tombstones; retrieval stability; unsupported_claim_guard |
 | 4 | completed current outline + 2026-09 crosswalk | source freshness ledger; matrix schema validation |
 | 5 | transcript ingestion **after explicit authorization** | IP boundary check; no raw transcript dump; correction audit |
 | 6 | D4/D5 fact-card seeds (slices ≤ 75) | source coverage; no near-dup; no unsupported claims |
@@ -420,6 +449,19 @@ python3 -m unittest discover -s tests          # 28 stdlib tests, no third-party
 python3 -m cc_spine.cli ingest ... (twice) && cmp  # ingestion determinism smoke
 ```
 
-Later PRs add: `cc_spine.cli factstore validate` (PR-3), ship gate + distribution report
-(PR-8), and the full slice-gate suite (PR-9+) — each becoming CI-enforced when its gate
-activates per §15.
+PR-3 verification (CI-enforced; also in `make ci`). The diff gate is **scope-only**, not
+additive-only — PR-3 legitimately modifies PR-1/PR-2 files. Allowed paths:
+`cc-master-learning-center/**` and `.github/workflows/cc-spine.yml`; forbidden: everything
+else (`osai-prep-studio/**`, `projects/**`, `red-team/**`, `docs/**`, root `README.md`,
+top-level `reference/**`, every other workflow).
+
+```bash
+python3 -m cc_spine.cli factstore validate     # provenance, drift, tombstones, eligibility,
+                                               # answer-key quarantine, unsupported_claim_guard
+python3 -m unittest discover -s tests          # 101 stdlib tests incl. the 20-gate factstore suite
+git diff --name-only <base> | grep -v -e '^cc-master-learning-center/' \
+    -e '^\.github/workflows/cc-spine\.yml$'    # scope-only diff check: must be empty
+```
+
+Later PRs add: ship gate + distribution report (PR-8) and the full slice-gate suite (PR-9+) —
+each becoming CI-enforced when its gate activates per §15.

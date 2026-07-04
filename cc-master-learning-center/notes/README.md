@@ -18,9 +18,25 @@ corrections_applied:      # audit trail — every applied correction, with locat
   - {wrong: "hedging", right: "hashing", paragraph: 42}
 corrections_flagged:      # [VERIFY] items awaiting human review
 reviewed_by: reviewer sign-off (required before status: reviewed)
-status: draft | reviewed
+status: draft | reviewed | promoted | rejected | deprecated
 outline_version: "2025-10"
 ```
+
+## Review-state lifecycle (enforced by `cc_spine.notes_lifecycle` from PR-3)
+
+| From | Allowed transitions |
+|---|---|
+| `draft` | `reviewed`, `rejected` |
+| `reviewed` | `promoted`, `deprecated`, `draft` (manual edit → re-review) |
+| `promoted` | `deprecated` |
+| `rejected` | — (terminal) |
+| `deprecated` | — (terminal) |
+
+**Only `reviewed` or `promoted` notes may ground fact cards.** The factstore enforces this
+from PR-3: a card whose source cites a note in any other state — or with a missing/unknown
+status — fails validation (fail-closed). Full pipeline-wide enforcement lands in PR-5.
+Published (reviewed/promoted) notes are also subject to the transcript span limit via
+`cc_spine.cli check-ip`.
 
 ## Anchor stability
 

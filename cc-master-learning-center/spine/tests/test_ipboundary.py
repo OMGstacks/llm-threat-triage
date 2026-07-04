@@ -1,6 +1,7 @@
 """IP-boundary guard tests (cc_spine.ipboundary)."""
 
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -10,6 +11,11 @@ from cc_spine import ipboundary
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SPINE = PROJECT_ROOT / "spine"
+
+
+def _note(status: str, paragraph: str) -> str:
+    return (f"---\nsource_doc_id: x\nstatus: {status}\nreviewed_by: r\n---\n\n"
+            f"{paragraph}\n")
 
 
 class SupportSpanLimitTest(unittest.TestCase):
@@ -46,6 +52,33 @@ class StoreScanTest(unittest.TestCase):
 
     def test_notes_dir_passes_with_only_readme(self):
         self.assertEqual(ipboundary.scan_notes(PROJECT_ROOT / "notes"), [])
+
+
+class NotesScanTest(unittest.TestCase):
+    """R&D-1a: published (reviewed/promoted) notes must respect the 25-word span
+    limit — must-fail proofs, via tmp notes dirs."""
+
+    def _scan(self, status: str, words: int):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        (Path(tmp.name) / "D4.md").write_text(
+            _note(status, " ".join(["word"] * words)), encoding="utf-8")
+        return ipboundary.scan_notes(Path(tmp.name))
+
+    def test_reviewed_note_paragraph_over_25_words_fails(self):
+        failures = self._scan("reviewed", 26)
+        self.assertTrue(any("exceeds transcript span limit" in f for f in failures))
+
+    def test_promoted_note_paragraph_over_25_words_fails(self):
+        # The lifecycle's 'promoted' state must not bypass the published-span gate.
+        failures = self._scan("promoted", 26)
+        self.assertTrue(any("exceeds transcript span limit" in f for f in failures))
+
+    def test_draft_note_is_not_subject_to_published_gate(self):
+        self.assertEqual(self._scan("draft", 26), [])
+
+    def test_reviewed_note_within_limit_passes(self):
+        self.assertEqual(self._scan("reviewed", 25), [])
 
 
 if __name__ == "__main__":

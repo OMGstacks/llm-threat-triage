@@ -26,9 +26,12 @@ else in this directory is the scaffold that spec governs.
 | [`reference/source-policy.md`](reference/source-policy.md) | Source tiers + ISC2/transcript IP boundaries + support-span limits |
 | [`notes/`](notes/README.md) | Cleaned domain notes (empty until PR-5; contract documented) |
 | [`learner-state/`](learner-state/README.md) | Learner progress layer (reserved; separate from content by design) |
-| [`spine/cc_spine/`](spine/cc_spine/__init__.py) | Stdlib-only package: scaffold validator, ingestion engine, freshness + IP guards, CLI (factstore in PR-3) |
+| [`spine/cc_spine/`](spine/cc_spine/__init__.py) | Stdlib-only package: scaffold validator, ingestion engine, freshness + IP guards, fact store, registry, notes lifecycle, CLI |
 | [`spine/cc_spine/ingest.py`](spine/cc_spine/ingest.py) | Deterministic DOCX/text extraction + suggest-only correction engine + audit-trail note builder |
-| [`spine/cc_spine/cli.py`](spine/cc_spine/cli.py) | Runnable surface: `validate`, `validate-sources`, `check-ip`, `ingest` |
+| [`spine/cc_spine/factstore.py`](spine/cc_spine/factstore.py) | Copy-adapted fact store: provenance resolvers, fingerprint drift, tombstones, bank eligibility, answer-key quarantine, deterministic `ground()` |
+| [`spine/cc_spine/registry.py`](spine/cc_spine/registry.py) | CC registry over the objective matrix + source registry (tags/source_id validation) |
+| [`spine/cc_spine/notes_lifecycle.py`](spine/cc_spine/notes_lifecycle.py) | Note review-state machine; only reviewed/promoted notes may ground cards |
+| [`spine/cc_spine/cli.py`](spine/cc_spine/cli.py) | Runnable surface: `validate`, `validate-sources`, `check-ip`, `ingest`, `factstore` |
 | [`spine/schemas/`](spine/schemas/fact-card.schema.json) | Contracts: fact card, bank item, objective matrix, correction dictionary |
 | [`spine/ingest/correction-dictionary.json`](spine/ingest/correction-dictionary.json) | ASR-error corrections (suggest-only, confidence-guarded) |
 | [`spine/facts/`](spine/facts/D1.json) | Fact store, one file per scope (empty in PR-1) |
@@ -41,7 +44,8 @@ else in this directory is the scaffold that spec governs.
 | Milestone | Status |
 |---|---|
 | PR-1 — governance spec + scaffold | done |
-| PR-2 — ingestion engine + freshness/IP guards + CI | **this PR** |
+| PR-2 — ingestion engine + freshness/IP guards + CI | done |
+| PR-3 — factstore + registry + notes lifecycle + retrieval-stability gates | **this PR** |
 | PR-3 — copy-adapt factstore + validators | planned |
 | PR-4 — verified outline + 2026-09 crosswalk | planned |
 | PR-5 — transcript ingestion (after explicit authorization) | planned |
@@ -60,8 +64,9 @@ make ci          # scaffold gate + freshness guard + IP guard + tests + ingestio
 
 Or run the steps individually: `python3 -m cc_spine.scaffold_validate`,
 `python3 -m cc_spine.cli validate-sources`, `python3 -m cc_spine.cli check-ip`,
-`python3 -m unittest discover -s tests`. Stdlib only — no dependencies to install. CI
-(`.github/workflows/cc-spine.yml`) runs the same steps, path-filtered to this directory.
+`python3 -m cc_spine.cli factstore validate`, `python3 -m unittest discover -s tests`.
+Stdlib only — no dependencies to install. CI (`.github/workflows/cc-spine.yml`) runs the
+same steps, path-filtered to this directory.
 
 ## Relationship to osai-prep-studio
 

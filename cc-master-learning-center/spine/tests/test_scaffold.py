@@ -35,14 +35,18 @@ class ScaffoldValidationTest(unittest.TestCase):
     def test_pr2_activated_freshness_and_ip_guards(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["source_freshness_guard"], "active")
         self.assertEqual(scaffold_validate.GUARD_STATUS["ip_boundary_guard"], "active")
-        # The remaining four are not delivered until later PRs.
+
+    def test_pr3_activated_unsupported_claim_guard(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["unsupported_claim_guard"], "active")
+        # The remaining three are not delivered until later PRs (answer-key
+        # isolation names bank-output/holdout enforcement — PR-8; card-level
+        # quarantine already ships in the PR-3 factstore).
         self.assertEqual(
             set(scaffold_validate.RESERVED_GUARDS),
             {
                 "no_verbatim_bulk_reproduction",
                 "holdout_leakage_guard",
                 "answer_key_isolation_guard",
-                "unsupported_claim_guard",
             },
         )
 

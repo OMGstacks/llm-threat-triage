@@ -4,6 +4,7 @@
     python -m cc_spine.cli validate-sources    # source-registry freshness guard
     python -m cc_spine.cli check-ip            # IP-boundary support-span guard
     python -m cc_spine.cli ingest --source t.txt --source-doc-id demo [--out note.md]
+    python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
 
 Stdlib-only; no third-party dependencies.
 """
@@ -16,8 +17,9 @@ import json
 import sys
 from pathlib import Path
 
+from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import ipboundary, scaffold_validate, sources
+from . import ipboundary, registry, scaffold_validate, sources
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -48,6 +50,43 @@ def cmd_validate_sources(args) -> int:
 def cmd_check_ip(args) -> int:
     failures = ipboundary.scan_facts(SPINE / "facts") + ipboundary.scan_notes(PROJECT_ROOT / "notes")
     return _report("IP-boundary support spans (ip_boundary_guard)", failures)
+
+
+def cmd_factstore(args) -> int:
+    fs = factstore_mod.FactStore()
+    if args.action == "coverage":
+        print(json.dumps(factstore_mod.coverage_report(fs), indent=2))
+        return 0
+    if args.action == "freeze":
+        n = factstore_mod.freeze()
+        print(f"froze {n} card fingerprint(s)")
+        return 0
+    # validate (default): every card + cross-card invariants + grounded items
+    try:
+        reg = registry.Registry()
+    except Exception as exc:
+        print(f"FAIL fact store: registry unavailable ({exc})")
+        return 1
+    store_rep = factstore_mod.validate_store(fs, reg)
+    goldset_path = Path(args.goldset) if args.goldset else SPINE / "gold" / "goldset.json"
+    items = json.loads(goldset_path.read_text(encoding="utf-8")).get("items", [])
+    item_rep = factstore_mod.validate_items(fs, items)
+    ok = store_rep["ok"] and item_rep["ok"]
+    if args.json:
+        print(json.dumps({"store": store_rep, "items": item_rep, "ok": ok}, indent=2))
+    else:
+        report = factstore_mod.coverage_report(fs)
+        print(f"fact store: {report['cards_total']} card(s), "
+              f"{report['cards_active']} active, {report['sensitive']} sensitive; "
+              f"{len(items)} goldset item(s)")
+        for err in store_rep["errors"]:
+            print(f"  STORE ERR {err}")
+        for iid, errs in item_rep["errors"].items():
+            for err in errs:
+                print(f"  ITEM ERR {err}")
+        print(f"{'OK  ' if ok else 'FAIL'} fact store validate "
+              "(drift, tombstones, eligibility, answer-key quarantine, unsupported_claim_guard)")
+    return 0 if ok else 1
 
 
 def cmd_ingest(args) -> int:
@@ -83,6 +122,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_src.set_defaults(func=cmd_validate_sources)
 
     sub.add_parser("check-ip", help="IP-boundary support-span guard").set_defaults(func=cmd_check_ip)
+
+    p_fs = sub.add_parser(
+        "factstore",
+        help="fact-store validator (PR-3): provenance, drift, tombstones, "
+             "eligibility, answer-key quarantine")
+    p_fs.add_argument("action", nargs="?", default="validate",
+                      choices=["validate", "coverage", "freeze"])
+    p_fs.add_argument("--goldset", default=None, help="override goldset path (testing)")
+    p_fs.add_argument("--json", action="store_true", help="emit the full JSON report")
+    p_fs.set_defaults(func=cmd_factstore)
 
     p_ing = sub.add_parser("ingest", help="extract + suggest corrections + build a note")
     p_ing.add_argument("--source", required=True, help="path to a .docx or .txt source")
