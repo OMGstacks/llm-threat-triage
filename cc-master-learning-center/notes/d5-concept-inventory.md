@@ -11,6 +11,10 @@ ip_note: Original distilled learning objects. Glosses are written from domain kn
 
 # Domain 5 — Data Security & Cryptography Concept Inventory
 
+> **Authoring-aid only.** This file is a candidate-selection tool for PR-6/7, not an
+> authoritative fact source. Fact cards must be grounded on blueprint/NIST/official
+> anchors, not on this inventory. Do not cite this file as a `source_id` in any fact card.
+
 Compact, original fact-card candidates distilled from the Domain 5 transcript (graded `strong`
 for 5.1; a dedicated crypto + data-security source). PR-6 grounds these on the blueprint and
 NIST SP 800-88r2 (sanitization) / FIPS 203–205 (post-quantum) anchors.

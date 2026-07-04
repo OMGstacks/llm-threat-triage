@@ -11,6 +11,10 @@ ip_note: Original distilled learning objects. Written from domain knowledge and 
 
 # Study Strategy & Exam Logistics Concept Inventory
 
+> **Authoring-aid only.** This file is a candidate-selection tool for PR-6/7, not an
+> authoritative fact source. Fact cards must be grounded on blueprint/NIST/official
+> anchors, not on this inventory. Do not cite this file as a `source_id` in any fact card.
+
 Compact, original learning objects distilled from the How2Study / Domain Recaps transcript
 (the exam-strategy + cross-domain recap source). These feed the `exam_strategy` bank (excluded
 from domain readiness) and the wrong-answer remediation loop.

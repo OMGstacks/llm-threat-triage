@@ -23,6 +23,11 @@ PR-5 ingests the transcripts by semantic distillation: a source manifest
 (raw_committed:false), an IP-safe correction audit, objective coverage/gap maps,
 compact original concept inventories, and the no_verbatim_bulk_reproduction
 guard (``ipboundary.scan_verbatim``).
+PR-5.1 hardens the no-verbatim guard against table-cell bypass (per-cell/row word
+caps), expands the raw-file scan to repo root, anonymises the manifest's
+``authorized_by`` field, adds ``grading_policy`` to the coverage map, documents
+concept inventories as authoring aids, and tracks flagged-but-unresolved
+corrections.
 """
 
-__version__ = "0.0.6"
+__version__ = "0.0.7"

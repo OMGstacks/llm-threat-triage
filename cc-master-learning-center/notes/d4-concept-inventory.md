@@ -11,6 +11,10 @@ ip_note: Original distilled learning objects. Glosses are written from domain kn
 
 # Domain 4 — Networking Concept Inventory
 
+> **Authoring-aid only.** This file is a candidate-selection tool for PR-6/7, not an
+> authoritative fact source. Fact cards must be grounded on blueprint/NIST/official
+> anchors, not on this inventory. Do not cite this file as a `source_id` in any fact card.
+
 Compact, original fact-card candidates distilled from the Domain 4 transcript's coverage
 (graded `strong` for 4.1/4.3). Each gloss is exam-accurate and written fresh; PR-6 turns these
 into provenance-backed fact cards grounded on the blueprint/NIST anchors, not this file.

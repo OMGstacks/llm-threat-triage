@@ -73,11 +73,43 @@ def scan_facts(facts_dir: Path) -> list[str]:
 # are thousands of words.
 _MAX_PROSE_WORDS = 150
 _STRUCTURED_LINE = re.compile(r"^\s*(#{1,6}\s|\||>|[-*]\s|\d+\.\s|```|:?---\s*$)")
+# Table cell/row caps (P0-2 hardening): prevents long transcript content being
+# hidden inside table cells that would otherwise pass the structured-line check.
+_MAX_TABLE_CELL_WORDS = 50
+_MAX_TABLE_ROW_WORDS = 100
+_TABLE_SEPARATOR_RE = re.compile(r"^[\s|:\-]+$")
 
 
 def _is_structured_block(block: str) -> bool:
     lines = [ln for ln in block.splitlines() if ln.strip()]
     return bool(lines) and all(_STRUCTURED_LINE.match(ln) for ln in lines)
+
+
+def _is_table_block(block: str) -> bool:
+    lines = [ln for ln in block.splitlines() if ln.strip()]
+    return bool(lines) and all(ln.strip().startswith("|") or _TABLE_SEPARATOR_RE.match(ln) for ln in lines)
+
+
+def _table_content_problems(block: str, path_name: str,
+                             max_cell: int, max_row: int) -> list[str]:
+    problems = []
+    for line in block.splitlines():
+        stripped = line.strip()
+        if not stripped or _TABLE_SEPARATOR_RE.match(stripped):
+            continue
+        cells = [c.strip() for c in stripped.strip("|").split("|")]
+        row_words = sum(count_words(c) for c in cells)
+        if row_words > max_row:
+            problems.append(
+                f"{path_name}: table row of {row_words} words exceeds row cap ({max_row}); "
+                f"distill table cells into short glosses")
+        for cell in cells:
+            cw = count_words(cell)
+            if cw > max_cell:
+                problems.append(
+                    f"{path_name}: table cell of {cw} words exceeds cell cap ({max_cell}); "
+                    f"distill into a short gloss")
+    return problems
 
 
 def _strip_frontmatter(text: str) -> str:
@@ -90,9 +122,14 @@ def _strip_frontmatter(text: str) -> str:
 
 
 def scan_verbatim(md_dirs, max_words: int = _MAX_PROSE_WORDS) -> list[str]:
-    """Flag committed markdown paragraphs that look like transcript-shaped bulk
-    prose (over max_words). Structured content (headings/tables/bullets/code) is
-    exempt. Fenced code blocks are skipped wholesale."""
+    """Flag committed markdown that looks like transcript-shaped bulk prose.
+
+    Two checks:
+    - Plain prose paragraphs over max_words fail.
+    - Table blocks with any cell over _MAX_TABLE_CELL_WORDS or any row over
+      _MAX_TABLE_ROW_WORDS fail (closes the table-cell bypass loophole).
+    Fenced code blocks and purely structured blocks (headings, bullets) are exempt.
+    """
     failures: list[str] = []
     for md_dir in md_dirs:
         for path in sorted(Path(md_dir).rglob("*.md")):
@@ -100,7 +137,13 @@ def scan_verbatim(md_dirs, max_words: int = _MAX_PROSE_WORDS) -> list[str]:
             # drop fenced code blocks (may legitimately hold long lines)
             body = re.sub(r"```.*?```", "", body, flags=re.DOTALL)
             for block in re.split(r"\n\s*\n", body):
-                if not block.strip() or _is_structured_block(block):
+                if not block.strip():
+                    continue
+                if _is_table_block(block):
+                    failures.extend(_table_content_problems(
+                        block, path.name, _MAX_TABLE_CELL_WORDS, _MAX_TABLE_ROW_WORDS))
+                    continue
+                if _is_structured_block(block):
                     continue
                 words = count_words(block)
                 if words > max_words:

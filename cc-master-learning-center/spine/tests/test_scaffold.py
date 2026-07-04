@@ -10,6 +10,7 @@ required because the project path is not an importable package name).
 import copy
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -105,6 +106,24 @@ class ScaffoldValidationTest(unittest.TestCase):
             set(scaffold_validate.RESERVED_GUARDS),
             {"holdout_leakage_guard", "answer_key_isolation_guard"},
         )
+
+    def test_raw_docx_anywhere_in_repo_scope_fails(self):
+        # P0-3: raw file scan covers the full repo root, not just the project dir.
+        # Simulate a .docx outside the cc-master-learning-center tree by patching
+        # REPO_ROOT to a tmp directory with a stray .docx in a sibling folder.
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        sibling = Path(tmp.name) / "other-project"
+        sibling.mkdir()
+        (sibling / "transcript.docx").write_bytes(b"")
+        orig = scaffold_validate.REPO_ROOT
+        try:
+            scaffold_validate.REPO_ROOT = Path(tmp.name)
+            failures: list[str] = []
+            scaffold_validate._check_no_raw_transcripts(failures)
+        finally:
+            scaffold_validate.REPO_ROOT = orig
+        self.assertTrue(any(".docx" in f for f in failures))
 
 
 if __name__ == "__main__":

@@ -97,9 +97,24 @@ class NoVerbatimGuardTest(unittest.TestCase):
         self.assertTrue(any("exceeds the no-verbatim cap" in f for f in failures))
 
     def test_structured_content_passes(self):
+        # Table with short cells, bullet with many words — both fine.
         md = ("# Heading\n\n| Concept | Gloss |\n|---|---|\n"
-              "| " + " ".join(["x"] * 200) + " | short |\n\n- " + " ".join(["y"] * 200) + "\n")
+              "| ARP | Address resolution protocol |\n\n- " + " ".join(["y"] * 200) + "\n")
         self.assertEqual(ipboundary.scan_verbatim([self._dir_with(md)]), [])
+
+    def test_long_table_cell_fails_verbatim_guard(self):
+        # A single table cell with >50 words must be caught (closes bypass loophole).
+        cell = " ".join(["word"] * 51)
+        md = f"# H\n\n| Concept | Gloss |\n|---|---|\n| {cell} | short |\n"
+        failures = ipboundary.scan_verbatim([self._dir_with(md)])
+        self.assertTrue(any("table cell" in f and "cell cap" in f for f in failures))
+
+    def test_long_table_row_fails_verbatim_guard(self):
+        # A row whose total word count exceeds 100 must be caught.
+        half = " ".join(["word"] * 55)
+        md = f"# H\n\n| Col1 | Col2 |\n|---|---|\n| {half} | {half} |\n"
+        failures = ipboundary.scan_verbatim([self._dir_with(md)])
+        self.assertTrue(any("table row" in f and "row cap" in f for f in failures))
 
     def test_short_prose_passes(self):
         self.assertEqual(ipboundary.scan_verbatim([self._dir_with("# H\n\nA short intro line.\n")]), [])

@@ -4,7 +4,7 @@
   "description": "Ingestion source manifest (PR-5). Records the raw transcript inputs by content hash WITHOUT committing them. raw_committed is false for every entry: the .docx files are processed privately as source ore, never checked into this repo. What the repo ships is refined, original learning objects (concept inventories, coverage/gap maps) plus this audit — never transcript bodies. See 00-governance-spec.md section 6 and the Course Transcript IP Boundary in section 3.",
   "ip_policy": "distillation_only",
   "authorization": {
-    "authorized_by": "izu.uhiara@gmail.com",
+    "authorized_by": "user_explicit_chat_authorization",
     "authorized_on": "2026-07-04",
     "scope": "Private/local processing of the listed transcripts as source inputs only. No raw or verbatim transcript content may be committed. Preserve instructional essence as original structured learning objects.",
     "decision_ref": "PR-5 notes-handling decision: 'Manifest + audit + semantic distillation'"

@@ -8,6 +8,24 @@
     "distinct_ambiguous_terms_flagged": 2,
     "total_corrections_applied": 107
   },
+  "unresolved_corrections": [
+    {
+      "source_doc_id": "domain-4",
+      "wrong": "wi-fi city",
+      "candidate_right": "Zigbee or another low-power wireless protocol",
+      "confidence": "low",
+      "resolution_needed": "Human reviewer must identify the intended protocol from context; do not auto-apply",
+      "status": "flagged_for_human_review"
+    },
+    {
+      "source_doc_id": "domain-4",
+      "wrong": "wings",
+      "candidate_right": "WAN",
+      "confidence": "medium",
+      "resolution_needed": "Plausible but short homophone; confirm from context before promoting to dictionary",
+      "status": "flagged_for_human_review"
+    }
+  ],
   "by_document": {
     "domain-4": {
       "corrections_applied": 50,

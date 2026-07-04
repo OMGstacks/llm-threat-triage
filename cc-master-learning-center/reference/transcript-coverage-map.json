@@ -4,6 +4,13 @@
   "description": "Which 2025-10 CC objectives each source transcript materially covers, graded from an IP-safe keyword-frequency scan (signal-term counts, not transcript text). 'strong' = the transcript is a primary teaching source for the objective; 'partial' = touched; 'none' = not a source. Drives which objectives can seed fact cards from distilled transcript concepts (PR-6/7) versus which need blueprint/NIST grounding.",
   "outline": "2025-10",
   "grade_scale": ["strong", "partial", "none"],
+  "grading_policy": {
+    "strong": "The transcript is a primary teaching source for this objective: multiple dedicated sections, significant concept density, high signal-term frequency. Distilled concept inventory is a viable seed for PR-6/7 fact cards (still requires blueprint/NIST grounding anchors).",
+    "partial": "Objective is touched but not the transcript's main focus: one or two mentions, supporting context only. Not a reliable primary seed; use blueprint/NIST as the grounding anchor with transcript as supporting context.",
+    "none": "No material coverage detected. Fact cards for this objective must be grounded on blueprint or official NIST/ISC2 sources only.",
+    "seed_threshold": "strong",
+    "seed_note": "Only 'strong'-graded objectives may treat distilled transcript concepts as candidate seed material. 'partial' or 'none' objectives go directly to blueprint/official-source grounding in PR-6/7."
+  },
   "coverage": {
     "1.1": {"title": "Understand the security concepts of information assurance", "sources": {"cc-overview": "strong", "how2study-recaps": "partial"}},
     "1.2": {"title": "Understand the risk management process", "sources": {"cc-overview": "strong", "how2study-recaps": "strong"}},

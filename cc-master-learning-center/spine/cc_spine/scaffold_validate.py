@@ -29,7 +29,11 @@ VOLATILITY_LEVELS = {"stable", "transitioning", "emerging"}
 CORRECTION_CONFIDENCE = {"high", "medium", "low", "never_auto"}
 CORRECTION_STATUSES = {"seed", "verified", "retired"}
 CONTENT_STATUS_KEYS = {"notes", "facts", "definition_cards", "scenario_items", "holdout_items"}
+# Raw transcript/presentation formats must never be committed anywhere in the repo.
+# PDFs are also prohibited within the cc-master-learning-center project but are
+# allowed elsewhere in the repository (e.g. docs/ reference material).
 FORBIDDEN_UPLOAD_SUFFIXES = {".docx", ".doc", ".pdf", ".pptx"}
+_FORBIDDEN_REPO_SUFFIXES = {".docx", ".doc", ".pptx"}  # repo-root scan (P0-3)
 
 # Guard activation status. Guards move from "reserved" to "active" as the PR
 # roadmap delivers them. PR-2 activated the freshness and IP-boundary guards;
@@ -422,10 +426,19 @@ def _check_manifest(manifest, failures: list[str]) -> None:
 
 
 def _check_no_raw_transcripts(failures: list[str]) -> None:
-    for path in sorted(PROJECT_ROOT.rglob("*")):
-        if path.suffix.lower() in FORBIDDEN_UPLOAD_SUFFIXES:
+    # Two-tier scan (P0-3 hardening):
+    # 1. Repo-root scope: DOCX/DOC/PPTX only — transcript formats that must never
+    #    be committed anywhere. PDFs are legitimate docs/ reference material outside
+    #    this project and are excluded from the repo-wide check.
+    # 2. Project scope: full FORBIDDEN_UPLOAD_SUFFIXES (adds PDF) — no binary blobs
+    #    are expected inside cc-master-learning-center at all.
+    for path in sorted(REPO_ROOT.rglob("*")):
+        suffix = path.suffix.lower()
+        in_project = path.is_relative_to(PROJECT_ROOT)
+        if (in_project and suffix in FORBIDDEN_UPLOAD_SUFFIXES) or \
+                (not in_project and suffix in _FORBIDDEN_REPO_SUFFIXES):
             failures.append(
-                f"{path.relative_to(PROJECT_ROOT)}: raw transcript/document files are not authorized in this repo"
+                f"{path.relative_to(REPO_ROOT)}: raw transcript/document files are not authorized in this repo"
             )
 
 
