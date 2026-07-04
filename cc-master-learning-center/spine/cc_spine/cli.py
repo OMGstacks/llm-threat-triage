@@ -5,7 +5,7 @@
     python -m cc_spine.cli check-ip            # IP-boundary support-span guard
     python -m cc_spine.cli ingest --source t.txt --source-doc-id demo [--out note.md]
     python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
-    python -m cc_spine.cli quiz [validate|learner-view]           # PR-8a quiz engine
+    python -m cc_spine.cli quiz [validate|export-learner]         # PR-8a quiz engine
 
 Stdlib-only; no third-party dependencies.
 """
@@ -103,8 +103,9 @@ def cmd_quiz(args) -> int:
     items = json.loads(goldset_path.read_text(encoding="utf-8")).get("items", [])
     keys = quiz.load_answer_keys(keys_path)
 
-    if args.action == "learner-view":
-        # Prove by construction what a learner receives — never an answer.
+    if args.action == "export-learner":
+        # The ONLY learner-facing representation. Prove by construction what a learner
+        # receives — never an answer. CI scans this output for answer-bearing fields.
         print(json.dumps([quiz.learner_view(it) for it in items], indent=2))
         return 0
 
@@ -167,7 +168,7 @@ def build_parser() -> argparse.ArgumentParser:
         "quiz",
         help="quiz-engine gate (PR-8a): validate gold items + answer-key isolation")
     p_quiz.add_argument("action", nargs="?", default="validate",
-                        choices=["validate", "learner-view"])
+                        choices=["validate", "export-learner"])
     p_quiz.add_argument("--goldset", default=None, help="override goldset path (testing)")
     p_quiz.add_argument("--answer-keys", default=None, help="override answer-key store path (testing)")
     p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")

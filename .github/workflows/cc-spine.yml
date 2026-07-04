@@ -37,6 +37,13 @@ jobs:
         run: python -m cc_spine.cli factstore validate
       - name: Quiz-engine gate (gold grounding, answer-key isolation, near-duplicate stems)
         run: python -m cc_spine.cli quiz validate
+      - name: Learner-export leakage scan (no answer-bearing field reaches the learner lane)
+        run: |
+          python -m cc_spine.cli quiz export-learner > "$RUNNER_TEMP/learner_export.json"
+          if grep -qE '"(correct_index|correct|answer|answer_key_ref|answer_key_hash|item_hash|rationale_refs|rationales|distractor_misconceptions|fact_ids|expected_keywords|source_policy|status|holdout|misconception_tags)"[[:space:]]*:' "$RUNNER_TEMP/learner_export.json"; then
+            echo "FAIL: learner export contains an answer-bearing field"; exit 1
+          fi
+          echo "OK: learner export carries no answer-bearing field"
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

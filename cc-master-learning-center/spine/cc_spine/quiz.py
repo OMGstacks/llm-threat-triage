@@ -3,6 +3,12 @@
 This module turns fact-grounded bank items into a learner-facing quiz while keeping
 the answer key strictly isolated. Three responsibilities:
 
+0. **Two representations, one direction.** ``spine/gold/goldset.json`` is the
+   AUTHORING/VALIDATION source: it carries validation metadata (answer_key_ref, fact_ids,
+   expected_keywords, status, holdout) but never a correct answer. It is NOT the learner
+   export. The ONLY learner-facing representation is ``learner_view`` (a.k.a.
+   ``cc_spine.cli quiz export-learner``). Nothing hands a learner a raw goldset item.
+
 1. **Learner view** (``learner_view``) — the ONLY item projection a learner ever sees.
    It is an allowlist: stem, choices, and neutral metadata. It can never contain the
    correct answer, a rationale, grounding fact_ids, or the answer_key_ref. This is the
@@ -35,6 +41,12 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 _PROJECT_ROOT = Path(__file__).resolve().parents[2]
 GOLDSET_PATH = _PROJECT_ROOT / "spine" / "gold" / "goldset.json"
 ANSWER_KEYS_PATH = _PROJECT_ROOT / "spine" / "gold" / "answer-keys.json"
+MISCONCEPTION_REGISTRY_PATH = _PROJECT_ROOT / "reference" / "misconception-registry.json"
+
+# No single correct-answer index may dominate the set (anti-pattern-learning gate).
+_ANSWER_POSITION_MAX_SHARE = 0.40
+# Fields folded into the full-item drift hash (canonical, sorted).
+_ITEM_HASH_FIELDS = ("id", "stem", "choices", "fact_ids", "expected_keywords", "objective", "bank")
 
 # The learner view is an ALLOWLIST — only these keys are ever projected to a learner.
 # Everything else (answer_key_ref, fact_ids, expected_keywords, misconception_tags,
@@ -64,6 +76,17 @@ def answer_key_hash(item_id: str, correct_choice: str) -> str:
     Uses a unit separator so ``a`` + ``bc`` cannot collide with ``ab`` + ``c``."""
     digest = hashlib.sha256(f"{item_id}\x1f{correct_choice}".encode("utf-8")).hexdigest()
     return f"sha256:{digest}"
+
+
+def item_hash(item: dict) -> str:
+    """Full-item drift pin over canonical content (id, stem, choices, fact_ids,
+    expected_keywords, objective, bank). Catches semantic drift the correct-choice hash
+    misses — e.g. the stem is rewritten but the correct-choice text is unchanged, so the
+    key would still 'match' a now-different question. Canonical JSON → stable across runs."""
+    canon = {k: item.get(k, []) if k in ("fact_ids", "expected_keywords") else item.get(k)
+             for k in _ITEM_HASH_FIELDS}
+    blob = json.dumps(canon, sort_keys=True, ensure_ascii=False, separators=(",", ":"))
+    return "sha256:" + hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
 # --- learner view + grading ------------------------------------------------- #
@@ -121,6 +144,83 @@ def _jaccard(a: frozenset, b: frozenset) -> float:
     if not a or not b:
         return 0.0
     return len(a & b) / len(a | b)
+
+
+def answer_position_problems(items, keys, max_share: float = _ANSWER_POSITION_MAX_SHARE) -> list:
+    """Anti-pattern-learning gate: the correct answer must not cluster at one position.
+    No single index may hold more than ``max_share`` of the set, and no objective with
+    multiple items may put the correct answer at the same index every time."""
+    problems = []
+    key_by_ref = _keys_by_ref(keys)
+    positions, by_obj = [], {}
+    for item in items:
+        key = key_by_ref.get(item.get("answer_key_ref"))
+        if key is None or not isinstance(key.get("correct_index"), int):
+            continue
+        ci = key["correct_index"]
+        positions.append(ci)
+        by_obj.setdefault(item.get("objective"), []).append(ci)
+    if positions:
+        from collections import Counter
+        counts = Counter(positions)
+        top_index, top_count = counts.most_common(1)[0]
+        if top_count / len(positions) > max_share:
+            problems.append(
+                f"answer-position overfit: index {top_index} is correct in "
+                f"{top_count}/{len(positions)} items (> {max_share:.0%}); vary correct positions")
+    for objective, idxs in by_obj.items():
+        if len(idxs) >= 2 and len(set(idxs)) == 1:
+            problems.append(
+                f"answer-position overfit: every item in objective {objective} has the "
+                f"correct answer at index {idxs[0]}; vary positions within an objective")
+    return problems
+
+
+def _load_registry(path: Path = None) -> dict:
+    path = path or MISCONCEPTION_REGISTRY_PATH
+    entries = json.loads(path.read_text(encoding="utf-8")).get("entries", [])
+    return {e["id"]: e for e in entries}
+
+
+def distractor_registry_problems(items, keys, registry_entries: dict) -> list:
+    """Every WRONG choice must map to a registry misconception (P0-1): the id resolves,
+    the declared category matches the registry, and the registry objective matches the
+    item's objective (or is global)."""
+    problems = []
+    key_by_ref = _keys_by_ref(keys)
+    for item in items:
+        iid = item.get("id", "<no-id>")
+        key = key_by_ref.get(item.get("answer_key_ref"))
+        if key is None:
+            continue
+        ci = key.get("correct_index")
+        n = len(item.get("choices", []))
+        mapping = key.get("distractor_misconceptions", {})
+        wrong_indices = {str(i) for i in range(n) if i != ci}
+        missing = wrong_indices - set(mapping)
+        if missing:
+            problems.append(
+                f"{iid}: distractors {sorted(missing)} lack a misconception mapping "
+                "(every wrong choice must name one)")
+        for idx_s, entry in mapping.items():
+            if not isinstance(entry, dict):
+                problems.append(f"{iid}: distractor {idx_s} must map to {{misconception_id, category}}")
+                continue
+            mid = entry.get("misconception_id")
+            reg = registry_entries.get(mid)
+            if reg is None:
+                problems.append(f"{iid}: distractor {idx_s} misconception_id {mid!r} not in the registry")
+                continue
+            if entry.get("category") != reg.get("category"):
+                problems.append(
+                    f"{iid}: distractor {idx_s} category {entry.get('category')!r} != "
+                    f"registry category {reg.get('category')!r} for {mid!r}")
+            reg_obj = reg.get("objective")
+            if reg_obj not in (item.get("objective"), "global"):
+                problems.append(
+                    f"{iid}: distractor {idx_s} misconception {mid!r} is objective {reg_obj!r}, "
+                    f"not the item's {item.get('objective')!r} (nor global)")
+    return problems
 
 
 def near_duplicate_problems(items, threshold: float = _NEAR_DUP_THRESHOLD) -> list:
@@ -189,9 +289,11 @@ def validate_gold(store, items, keys, registry=None) -> dict:
             problems.append(f"{iid}: correct_index {ci!r} is out of range for {len(choices)} choices")
             continue
 
-        # 4. hash integrity — detects choices drifting out from under the key
+        # 4. hash integrity — correct-choice hash AND full-item hash (semantic drift)
         if key.get("answer_key_hash") != answer_key_hash(iid, choices[ci]):
-            problems.append(f"{iid}: answer_key_hash mismatch — item choices drifted from the key")
+            problems.append(f"{iid}: answer_key_hash mismatch — correct-choice text drifted from the key")
+        if key.get("item_hash") != item_hash(item):
+            problems.append(f"{iid}: item_hash mismatch — item content drifted from the key")
 
         # 5. rationale_refs must be grounded by the item's own cited cards
         if not set(key.get("rationale_refs", [])) <= set(item.get("fact_ids", [])):
@@ -210,9 +312,16 @@ def validate_gold(store, items, keys, registry=None) -> dict:
         if ref not in item_refs:
             problems.append(f"orphan answer key {ref!r} grades no item")
 
-    # 8. isolation + near-duplicate gates
+    # 8. isolation, registry-linked distractors, near-duplicate + answer-position gates
     problems += isolation_problems(items)
+    try:
+        registry_entries = _load_registry()
+    except Exception as exc:  # fail closed — an unreadable registry is a gate failure
+        problems.append(f"misconception registry unreadable: {exc}")
+        registry_entries = {}
+    problems += distractor_registry_problems(items, keys, registry_entries)
     problems += near_duplicate_problems(items)
+    problems += answer_position_problems(items, keys)
 
     return {"ok": not problems, "errors": problems}
 

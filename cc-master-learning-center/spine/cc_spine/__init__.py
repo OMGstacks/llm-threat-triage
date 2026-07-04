@@ -51,6 +51,13 @@ while the grader answer keys live in a separate ``spine/gold/answer-keys.json`` 
 gates; a red-team test suite proves no answer leaks into the learner lane. Ships 6 first
 gold items across the three core banks and a misconception registry seeded from the PR-7
 review. No holdout items yet (that guard stays reserved).
+PR-8a.1 hardens the quiz isolation before scale-up: distractors now name a specific
+misconception-registry id (validated for existence, category, and objective match), not
+just a taxonomy category; answer keys gain a full-item ``item_hash`` that catches semantic
+drift the correct-choice hash misses; correct-answer positions are varied and gated against
+overfit; ``cc_spine.cli quiz export-learner`` emits the sole learner projection and CI
+scans it for any answer-bearing field; and goldset.json is documented as the authoring
+source, not the learner export.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"

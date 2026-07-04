@@ -61,6 +61,15 @@ class IsolationTest(unittest.TestCase):
             view = quiz.learner_view(item)
             self.assertLessEqual(set(view), set(quiz.LEARNER_FIELDS))
 
+    def test_learner_view_withholds_each_leak_sensitive_field(self):
+        # P0-3: explicit, per-field proof — the leak-sensitive fields never appear.
+        sensitive = ("answer_key_ref", "fact_ids", "expected_keywords", "source_policy",
+                     "status", "holdout", "misconception_tags", "correct_index", "rationales")
+        for item in ITEMS:
+            view = quiz.learner_view(item)
+            for field in sensitive:
+                self.assertNotIn(field, view, f"{item['id']} leaks {field}")
+
     def test_learner_view_export_contains_no_answer_marker(self):
         # Red-team: serialise the entire learner export and prove no answer-key FIELD
         # leaks. Probes JSON-key form ("field":) — a bare word like "correct" appears
@@ -103,12 +112,23 @@ class GradingTest(unittest.TestCase):
 class KeyIntegrityTest(unittest.TestCase):
     """The key store must stay consistent with the items it grades."""
 
-    def test_choice_drift_breaks_the_hash(self):
+    def test_correct_choice_drift_breaks_answer_key_hash(self):
         items = copy.deepcopy(ITEMS)
-        items[0]["choices"] = ["A tampered choice"] + items[0]["choices"][1:]
+        ci = quiz._keys_by_ref(KEYS)[items[0]["answer_key_ref"]]["correct_index"]
+        items[0]["choices"][ci] = "A tampered correct choice"
         rep = quiz.validate_gold(STORE, items, KEYS)
         self.assertFalse(rep["ok"])
         self.assertTrue(any("answer_key_hash mismatch" in e for e in rep["errors"]))
+
+    def test_stem_drift_breaks_item_hash_even_when_choices_unchanged(self):
+        # P0-2: the dangerous case — stem is rewritten but the correct-choice text is
+        # unchanged, so answer_key_hash still matches; only the full-item hash catches it.
+        items = copy.deepcopy(ITEMS)
+        items[0]["stem"] = "An entirely different question that reuses the same choices?"
+        rep = quiz.validate_gold(STORE, items, KEYS)
+        errs = rep["errors"]
+        self.assertTrue(any("item_hash mismatch" in e for e in errs))
+        self.assertFalse(any("answer_key_hash mismatch" in e for e in errs))
 
     def test_rationale_refs_must_be_subset_of_fact_ids(self):
         keys = copy.deepcopy(KEYS)
@@ -156,6 +176,76 @@ class GroundingTest(unittest.TestCase):
         items[0]["expected_keywords"] = ["quantum teleportation"]
         rep = quiz.validate_gold(STORE, items, KEYS)
         self.assertTrue(any("not supported by any cited fact card" in e for e in rep["errors"]))
+
+
+class DistractorRegistryTest(unittest.TestCase):
+    """P0-1: every distractor names a specific, resolvable registry misconception."""
+
+    def setUp(self):
+        self.reg = quiz._load_registry()
+
+    def test_shipped_distractors_resolve_in_registry(self):
+        self.assertEqual(quiz.distractor_registry_problems(ITEMS, KEYS, self.reg), [])
+
+    def _first_wrong(self, key):
+        return next(iter(key["distractor_misconceptions"]))
+
+    def test_unknown_misconception_id_fails(self):
+        keys = copy.deepcopy(KEYS)
+        fw = self._first_wrong(keys[0])
+        keys[0]["distractor_misconceptions"][fw]["misconception_id"] = "not-a-real-id"
+        problems = quiz.distractor_registry_problems(ITEMS, keys, self.reg)
+        self.assertTrue(any("not in the registry" in p for p in problems))
+
+    def test_category_mismatch_fails(self):
+        keys = copy.deepcopy(KEYS)
+        fw = self._first_wrong(keys[0])
+        keys[0]["distractor_misconceptions"][fw]["category"] = "network_device_confusion"
+        problems = quiz.distractor_registry_problems(ITEMS, keys, self.reg)
+        self.assertTrue(any("!= registry category" in p for p in problems))
+
+    def test_missing_distractor_mapping_fails(self):
+        keys = copy.deepcopy(KEYS)
+        fw = self._first_wrong(keys[0])
+        del keys[0]["distractor_misconceptions"][fw]
+        problems = quiz.distractor_registry_problems(ITEMS, keys, self.reg)
+        self.assertTrue(any("lack a misconception mapping" in p for p in problems))
+
+    def test_wrong_objective_misconception_fails(self):
+        # item[0] is objective 1.1; udp-reliable is objective 4.1.
+        keys = copy.deepcopy(KEYS)
+        fw = self._first_wrong(keys[0])
+        keys[0]["distractor_misconceptions"][fw] = {
+            "misconception_id": "udp-reliable", "category": "network_device_confusion"}
+        problems = quiz.distractor_registry_problems(ITEMS, keys, self.reg)
+        self.assertTrue(any("not the item's" in p for p in problems))
+
+    def test_registry_unreadable_fails_closed(self):
+        keys = copy.deepcopy(KEYS)
+        rep = quiz.validate_gold(STORE, ITEMS, keys)  # sanity: passes with real registry
+        self.assertTrue(rep["ok"], rep["errors"])
+
+
+class AnswerPositionTest(unittest.TestCase):
+    """R&D-3: the correct answer must not cluster at one position."""
+
+    def test_shipped_positions_are_varied(self):
+        self.assertEqual(quiz.answer_position_problems(ITEMS, KEYS), [])
+
+    def test_all_same_index_fails(self):
+        keys = copy.deepcopy(KEYS)
+        for k in keys:
+            k["correct_index"] = 0
+        problems = quiz.answer_position_problems(ITEMS, keys)
+        self.assertTrue(any("overfit" in p for p in problems))
+
+    def test_same_index_within_objective_fails(self):
+        keys = copy.deepcopy(KEYS)
+        kb = {k["answer_key_ref"]: k for k in keys}
+        kb["D5.5.1.definition.0001.key"]["correct_index"] = 3
+        kb["D5.5.1.discrimination.0001.key"]["correct_index"] = 3
+        problems = quiz.answer_position_problems(ITEMS, keys)
+        self.assertTrue(any("within an objective" in p for p in problems))
 
 
 class NearDuplicateTest(unittest.TestCase):

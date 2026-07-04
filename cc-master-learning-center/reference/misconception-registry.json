@@ -5,6 +5,22 @@
   "taxonomy_source": "spine/schemas/bank-item.schema.json#/properties/misconception_tags",
   "entries": [
     {
+      "id": "cia-property-confusion",
+      "misconception": "Confusing which CIA-triad property applies to a scenario (e.g., confidentiality vs integrity vs availability).",
+      "correct": "Confidentiality = no unauthorized disclosure; integrity = accuracy/completeness; availability = timely access.",
+      "category": "definition_confusion",
+      "objective": "1.1",
+      "origin": "definition card family D1.11"
+    },
+    {
+      "id": "symmetric-vs-asymmetric",
+      "misconception": "Confusing symmetric encryption (one shared key) with asymmetric encryption (a public/private key pair) or with hashing.",
+      "correct": "Symmetric uses one shared key for both directions; asymmetric uses a linked public/private pair; hashing is one-way.",
+      "category": "crypto_property_confusion",
+      "objective": "5.1",
+      "origin": "definition card family D5.51"
+    },
+    {
       "id": "ir-six-phase",
       "misconception": "The incident-response lifecycle has six phases.",
       "correct": "Four phases; Containment, Eradication & Recovery is one combined phase.",

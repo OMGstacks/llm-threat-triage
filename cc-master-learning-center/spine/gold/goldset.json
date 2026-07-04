@@ -1,6 +1,6 @@
 {
-  "version": "0.2.0",
-  "note": "PR-8a first gold items (machinery proof). Learner-facing: no correct answers or rationales here; those live only in gold/answer-keys.json. Banks proven: definition_recall, concept_discrimination, scenario_application. exam_strategy deferred (no fact card yet carries it in allowed_banks).",
+  "version": "0.3.1",
+  "note": "PR-8a first gold items (machinery proof). AUTHORING/VALIDATION SOURCE - not the learner export. It carries validation metadata (answer_key_ref, fact_ids, expected_keywords, status, holdout) but never a correct answer. The only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions are varied on purpose (anti-pattern-learning). Banks proven: definition_recall, concept_discrimination, scenario_application. exam_strategy deferred (no fact card carries it in allowed_banks).",
   "items": [
     {
       "id": "D1.1.1.definition.0001",
@@ -10,9 +10,9 @@
       "topic": "CIA triad",
       "stem": "Which security property is defined as preventing the unauthorized disclosure of information?",
       "choices": [
-        "Confidentiality",
         "Integrity",
         "Availability",
+        "Confidentiality",
         "Non-repudiation"
       ],
       "answer_key_ref": "D1.1.1.definition.0001.key",
@@ -66,10 +66,10 @@
       "topic": "Hashing vs encryption",
       "stem": "An application must store user passwords so that the stored value cannot be reversed back to the original password. Which technique meets this requirement?",
       "choices": [
-        "Hashing",
         "Symmetric encryption",
         "Asymmetric encryption",
-        "Base64 encoding"
+        "Base64 encoding",
+        "Hashing"
       ],
       "answer_key_ref": "D5.5.1.discrimination.0001.key",
       "fact_ids": [
@@ -95,8 +95,8 @@
       "topic": "RTO vs MTD",
       "stem": "Which relationship between Recovery Time Objective (RTO) and Maximum Tolerable Downtime (MTD) is correct?",
       "choices": [
-        "RTO must be equal to or less than MTD",
         "RTO must always be greater than MTD",
+        "RTO must be equal to or less than MTD",
         "RTO and MTD are always identical",
         "RTO and MTD are unrelated values"
       ],
@@ -124,9 +124,9 @@
       "topic": "Access control models",
       "stem": "In a system, the operating system decides access by comparing each user's clearance to a resource's classification label, and resource owners cannot grant access on their own. Which access-control model is in use?",
       "choices": [
-        "Mandatory Access Control (MAC)",
         "Discretionary Access Control (DAC)",
         "Role-Based Access Control (RBAC)",
+        "Mandatory Access Control (MAC)",
         "Attribute-Based Access Control (ABAC)"
       ],
       "answer_key_ref": "D3.3.2.scenario.0001.key",

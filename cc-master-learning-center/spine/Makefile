@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-export-scan ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -22,6 +22,13 @@ factstore-validate:
 quiz-validate:
 	python3 -m cc_spine.cli quiz validate
 
+# PR-8a.1 leakage scan: the learner export must carry no answer-bearing field. grep
+# returns 0 on a match, so a match makes this target fail.
+quiz-export-scan:
+	python3 -m cc_spine.cli quiz export-learner > /tmp/cc_learner_export.json
+	! grep -qE '"(correct_index|correct|answer|answer_key_ref|answer_key_hash|item_hash|rationale_refs|rationales|distractor_misconceptions|fact_ids|expected_keywords|source_policy|status|holdout|misconception_tags)"[[:space:]]*:' /tmp/cc_learner_export.json
+	@echo "OK   learner export carries no answer-bearing field"
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -35,4 +42,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-export-scan test ingest-check

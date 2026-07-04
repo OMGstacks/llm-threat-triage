@@ -5,7 +5,7 @@
   "title": "CC grader answer key",
   "description": "The isolated answer key for one bank item. Lives in a grader-only store (spine/gold/answer-keys.json), never in a learner-facing item file. The quiz engine's learner view resolves an item WITHOUT touching this store; only the grader/validator context reads it. Added PR-8a with the quiz engine and the answer_key_isolation_guard flip to active.",
   "type": "object",
-  "required": ["answer_key_ref", "item_id", "correct_index", "rationale_refs", "answer_key_hash"],
+  "required": ["answer_key_ref", "item_id", "correct_index", "rationale_refs", "answer_key_hash", "item_hash"],
   "additionalProperties": false,
   "properties": {
     "answer_key_ref": {
@@ -31,20 +31,33 @@
     },
     "distractor_misconceptions": {
       "type": "object",
-      "description": "Maps a choice index (as a string) to the misconception taxonomy tag its distractor targets. Feeds the wrong-answer journal; enum mirrors bank-item.schema.json misconception_tags.",
+      "description": "Maps each WRONG choice index (as a string) to the specific registry misconception it embodies. Every non-correct choice must be present (checked by validate_gold). misconception_id resolves in reference/misconception-registry.json; category mirrors the bank-item taxonomy and must equal the registry entry's category.",
       "additionalProperties": {
-        "enum": [
-          "definition_confusion", "process_order_confusion", "best_vs_first_qualifier_miss",
-          "control_category_confusion", "overly_technical_answer", "overly_expensive_answer",
-          "ignored_business_or_data_owner", "current_vs_2026_outline_confusion",
-          "crypto_property_confusion", "network_device_confusion"
-        ]
+        "type": "object",
+        "required": ["misconception_id", "category"],
+        "additionalProperties": false,
+        "properties": {
+          "misconception_id": {"type": "string", "description": "Resolves in reference/misconception-registry.json."},
+          "category": {
+            "enum": [
+              "definition_confusion", "process_order_confusion", "best_vs_first_qualifier_miss",
+              "control_category_confusion", "overly_technical_answer", "overly_expensive_answer",
+              "ignored_business_or_data_owner", "current_vs_2026_outline_confusion",
+              "crypto_property_confusion", "network_device_confusion"
+            ]
+          }
+        }
       }
     },
     "answer_key_hash": {
       "type": "string",
       "pattern": "^sha256:[0-9a-f]{64}$",
-      "description": "sha256 of item_id + unit-separator + correct-choice text. Recomputed by validate_gold from the live item; a mismatch means the item's choices drifted out from under the key."
+      "description": "sha256 of item_id + unit-separator + correct-choice text. Catches correct-choice text drift."
+    },
+    "item_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "sha256 over the canonical full item (id, stem, choices, fact_ids, expected_keywords, objective, bank). Catches semantic drift the correct-choice hash misses — e.g. the stem changing while the correct-choice text stays the same."
     }
   }
 }
