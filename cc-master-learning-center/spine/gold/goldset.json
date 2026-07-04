@@ -1,6 +1,6 @@
 {
-  "version": "0.3.1",
-  "note": "PR-8a first gold items (machinery proof). AUTHORING/VALIDATION SOURCE - not the learner export. It carries validation metadata (answer_key_ref, fact_ids, expected_keywords, status, holdout) but never a correct answer. The only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions are varied on purpose (anti-pattern-learning). Banks proven: definition_recall, concept_discrimination, scenario_application. exam_strategy deferred (no fact card carries it in allowed_banks).",
+  "version": "0.4.0",
+  "note": "PR-8b gold set: 40 non-holdout items across D1-D5 (three core banks 18/14/8). AUTHORING/VALIDATION SOURCE - not the learner export; the only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions varied per-objective (anti-pattern-learning). No exam_strategy items yet (deferred to PR-8d); no holdout items (deferred to PR-8c).",
   "items": [
     {
       "id": "D1.1.1.definition.0001",
@@ -10,9 +10,9 @@
       "topic": "CIA triad",
       "stem": "Which security property is defined as preventing the unauthorized disclosure of information?",
       "choices": [
+        "Confidentiality",
         "Integrity",
         "Availability",
-        "Confidentiality",
         "Non-repudiation"
       ],
       "answer_key_ref": "D1.1.1.definition.0001.key",
@@ -31,60 +31,227 @@
       ]
     },
     {
-      "id": "D5.5.1.definition.0001",
+      "id": "D1.1.1.definition.0002",
       "bank": "definition_recall",
-      "domain": "D5",
-      "objective": "5.1",
-      "topic": "Symmetric encryption",
-      "stem": "Which statement correctly describes symmetric encryption?",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "integrity",
+      "stem": "In the CIA triad, which security property ensures that information is accurate, complete, and unaltered?",
       "choices": [
-        "It uses a single shared key for both encryption and decryption",
-        "It uses a public key to encrypt and a private key to decrypt",
-        "It is a one-way function whose output cannot be reversed",
-        "It requires a certificate authority to issue key pairs"
+        "Confidentiality",
+        "Integrity",
+        "Availability",
+        "Non-repudiation"
       ],
-      "answer_key_ref": "D5.5.1.definition.0001.key",
+      "answer_key_ref": "D1.1.1.definition.0002.key",
       "fact_ids": [
-        "D5.51-symmetric-encryption"
+        "D1.11-integrity"
       ],
       "expected_keywords": [
-        "single shared key"
+        "accurate, complete, and unaltered"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.1.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "authentication vs authorization",
+      "stem": "Which statement correctly distinguishes authentication from authorization?",
+      "choices": [
+        "Authorization verifies who the subject is; authentication then grants or denies what that identity may do.",
+        "Authorization must succeed first to establish permissions; authentication then assigns an identity to the subject.",
+        "Authentication verifies who the subject is and must succeed first; authorization then grants or denies what that identity may do.",
+        "Authentication and authorization are the same step, both confirming a user's login credentials."
+      ],
+      "answer_key_ref": "D1.1.1.discrimination.0001.key",
+      "fact_ids": [
+        "D1.11-authn-vs-authz"
+      ],
+      "expected_keywords": [
+        "granting or denying permissions"
       ],
       "difficulty": "L2",
       "holdout": false,
       "status": "active",
       "source_policy": "factstore|required",
       "misconception_tags": [
-        "crypto_property_confusion"
+        "definition_confusion"
       ]
     },
     {
-      "id": "D5.5.1.discrimination.0001",
-      "bank": "concept_discrimination",
-      "domain": "D5",
-      "objective": "5.1",
-      "topic": "Hashing vs encryption",
-      "stem": "An application must store user passwords so that the stored value cannot be reversed back to the original password. Which technique meets this requirement?",
+      "id": "D1.1.2.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "vulnerability",
+      "stem": "Which term describes a weakness in a system, process, or control that could be exploited by a threat?",
       "choices": [
-        "Symmetric encryption",
-        "Asymmetric encryption",
-        "Base64 encoding",
-        "Hashing"
+        "Threat",
+        "Vulnerability",
+        "Risk",
+        "Likelihood"
       ],
-      "answer_key_ref": "D5.5.1.discrimination.0001.key",
+      "answer_key_ref": "D1.1.2.definition.0001.key",
       "fact_ids": [
-        "D5.51-hashing",
-        "D5.51-symmetric-encryption"
+        "D1.12-vulnerability"
       ],
       "expected_keywords": [
-        "one-way"
+        "weakness in a system"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.2.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "due care vs due diligence",
+      "stem": "Which statement correctly distinguishes due care from due diligence?",
+      "choices": [
+        "Due care is the ongoing monitoring that verifies safeguards remain effective; due diligence is the one-time act of implementing them.",
+        "Due care is a one-time legal investigation before a decision; due diligence is doing what a prudent person would do to protect assets.",
+        "Due care is the action of implementing reasonable safeguards; due diligence is the ongoing monitoring that verifies those safeguards remain effective.",
+        "Due care and due diligence are two names for the same continuous control-monitoring activity."
+      ],
+      "answer_key_ref": "D1.1.2.discrimination.0001.key",
+      "fact_ids": [
+        "D1.12-due-care-vs-diligence"
+      ],
+      "expected_keywords": [
+        "implementing reasonable safeguards"
       ],
       "difficulty": "L3",
       "holdout": false,
       "status": "active",
       "source_policy": "factstore|required",
       "misconception_tags": [
-        "crypto_property_confusion"
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.3.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.3",
+      "topic": "administrative controls",
+      "stem": "Written policies, security awareness training, and employee background checks are examples of which category of security control?",
+      "choices": [
+        "Technical (logical) controls",
+        "Physical controls",
+        "Administrative (managerial) controls",
+        "Preventive controls"
+      ],
+      "answer_key_ref": "D1.1.3.definition.0001.key",
+      "fact_ids": [
+        "D1.13-administrative-controls"
+      ],
+      "expected_keywords": [
+        "policies, procedures, training"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.3.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D1",
+      "objective": "1.3",
+      "topic": "preventive vs detective controls",
+      "stem": "Which statement correctly distinguishes a preventive control from a detective control?",
+      "choices": [
+        "A preventive control identifies that an event occurred (e.g., an audit log); a detective control blocks it before it happens (e.g., a door lock).",
+        "A preventive control records evidence for later response (e.g., CCTV); a detective control stops the attack from succeeding (e.g., a firewall).",
+        "Preventive and detective controls both stop an event before it occurs (e.g., firewalls); they differ only in cost.",
+        "A preventive control stops an event before it happens (e.g., a firewall); a detective control identifies that one occurred (e.g., an IDS alert)."
+      ],
+      "answer_key_ref": "D1.1.3.discrimination.0001.key",
+      "fact_ids": [
+        "D1.13-preventive-vs-detective"
+      ],
+      "expected_keywords": [
+        "Block threats before they occur"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.4.scenario.0001",
+      "bank": "scenario_application",
+      "domain": "D1",
+      "objective": "1.4",
+      "topic": "ISC2 Code of Ethics canon priority",
+      "stem": "An employer directs a security professional to conceal a product flaw that endangers public safety; under the ISC2 Code of Ethics, what should the professional do?",
+      "choices": [
+        "Comply with the directive, because Canon 3 (diligent service to principals) is the professional's highest obligation.",
+        "Comply, because following a lawful instruction from one's employer always satisfies the Code of Ethics.",
+        "Take no action, because the four canons carry equal weight and cannot resolve a conflict between employer and public.",
+        "Refuse and act to protect the public, because Canon 1 (protect society) takes precedence over Canon 3 (provide diligent service to principals)."
+      ],
+      "answer_key_ref": "D1.1.4.scenario.0001.key",
+      "fact_ids": [
+        "D1.14-canon-priority"
+      ],
+      "expected_keywords": [
+        "takes precedence over"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "process_order_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.1.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "BIA",
+      "stem": "Which of the following best describes the purpose of a Business Impact Analysis (BIA)?",
+      "choices": [
+        "Identifying an organization's critical functions and quantifying the effect of their disruption.",
+        "Identifying threats and vulnerabilities and calculating the likelihood and impact of each risk.",
+        "Evaluating the probability that a threat will exploit a vulnerability across the organization's assets.",
+        "Ranking risks by their likelihood and impact so that mitigating controls can be prioritized."
+      ],
+      "answer_key_ref": "D2.2.1.definition.0001.key",
+      "fact_ids": [
+        "D2.21-bia"
+      ],
+      "expected_keywords": [
+        "identifying critical functions"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
       ]
     },
     {
@@ -117,6 +284,345 @@
       ]
     },
     {
+      "id": "D2.2.1.discrimination.0002",
+      "bank": "concept_discrimination",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "RPO vs RTO",
+      "stem": "How does the Recovery Point Objective (RPO) differ from the Recovery Time Objective (RTO)?",
+      "choices": [
+        "RPO sets the target time to restore the system, while RTO sets the acceptable amount of lost data.",
+        "RPO measures how long recovery takes, while RTO measures how old the recovered data may be.",
+        "RPO defines the maximum acceptable data loss measured in time, whereas RTO defines the target time to restore the function.",
+        "RPO and RTO are interchangeable terms, both expressing how quickly systems must be brought back online."
+      ],
+      "answer_key_ref": "D2.2.1.discrimination.0002.key",
+      "fact_ids": [
+        "D2.21-rto-vs-rpo",
+        "D2.21-rpo"
+      ],
+      "expected_keywords": [
+        "maximum acceptable data loss"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "Cold site",
+      "stem": "In disaster recovery planning, which description matches a cold site?",
+      "choices": [
+        "A facility with hardware and network connectivity already in place, requiring only data restoration before use.",
+        "A facility that provides space and power only, with no pre-configured equipment and the longest activation time.",
+        "A fully operational duplicate of the primary site that fails over immediately.",
+        "A facility with servers pre-installed and configured that can be activated within minutes."
+      ],
+      "answer_key_ref": "D2.2.2.definition.0001.key",
+      "fact_ids": [
+        "D2.22-cold-site"
+      ],
+      "expected_keywords": [
+        "space and power only"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "Differential vs incremental backup",
+      "stem": "How does a differential backup differ from an incremental backup?",
+      "choices": [
+        "A differential backup copies only the data changed since the last backup of any type, so restoration needs the full backup plus every differential taken since.",
+        "A differential backup must be restored together with every differential taken since the last full backup, making its restore the slowest option.",
+        "A differential backup copies all data changed since the last full backup, so restoration needs only the last full backup plus the most recent differential.",
+        "A differential backup captures only the changes made since the previous backup of any kind, minimizing each backup's size and creation time."
+      ],
+      "answer_key_ref": "D2.2.2.discrimination.0001.key",
+      "fact_ids": [
+        "D2.22-differential-backup",
+        "D2.22-backup-comparison"
+      ],
+      "expected_keywords": [
+        "since the last full backup"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.3.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.3",
+      "topic": "IR lifecycle phase count",
+      "stem": "According to the ISC2 CC incident response lifecycle, how many phases are there and what are they?",
+      "choices": [
+        "Six phases: Preparation; Identification; Containment; Eradication; Recovery; and Lessons Learned.",
+        "Six phases: Preparation; Detection; Analysis; Containment; Eradication; and Recovery.",
+        "Four phases: Preparation; Detection and Analysis; Containment, Eradication and Recovery (one combined phase); and Post-Incident Activity.",
+        "Five phases: Preparation; Detection and Analysis; Containment; Eradication; and Recovery."
+      ],
+      "answer_key_ref": "D2.2.3.definition.0001.key",
+      "fact_ids": [
+        "D2.23-ir-lifecycle"
+      ],
+      "expected_keywords": [
+        "four phases"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "process_order_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.3.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.3",
+      "topic": "Post-Incident Activity",
+      "stem": "Which activities characterize the Post-Incident Activity phase of the incident response lifecycle?",
+      "choices": [
+        "Restoring and validating affected systems and returning them to normal operations.",
+        "Rebuilding compromised servers from clean backups and confirming they function correctly.",
+        "Bringing affected systems back online once the threat has been removed.",
+        "Conducting a lessons-learned review, retaining evidence, and collecting metrics to improve future response."
+      ],
+      "answer_key_ref": "D2.2.3.definition.0002.key",
+      "fact_ids": [
+        "D2.23-ir-post-incident"
+      ],
+      "expected_keywords": [
+        "lessons-learned review"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "process_order_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.3.scenario.0001",
+      "bank": "scenario_application",
+      "domain": "D2",
+      "objective": "2.3",
+      "topic": "IR phase identification",
+      "stem": "A SOC analyst receives alerts about unusual outbound traffic from a workstation and is examining logs to confirm whether a genuine security incident has occurred and how severe it is; which phase of the ISC2 CC incident response lifecycle is the analyst currently performing?",
+      "choices": [
+        "Detection and Analysis",
+        "Preparation",
+        "Containment, Eradication and Recovery",
+        "Post-Incident Activity"
+      ],
+      "answer_key_ref": "D2.2.3.scenario.0001.key",
+      "fact_ids": [
+        "D2.23-ir-lifecycle"
+      ],
+      "expected_keywords": [
+        "Detection and Analysis"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "process_order_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "Mantrap",
+      "stem": "Which physical access control is a two-door entry that permits only one door to be open at a time, requiring authentication before the inner door opens so only a single authorized person passes per cycle?",
+      "choices": [
+        "A turnstile",
+        "A bollard",
+        "A mechanical door lock",
+        "A mantrap (airlock)"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0001.key",
+      "fact_ids": [
+        "D3.31-mantrap"
+      ],
+      "expected_keywords": [
+        "prevents tailgating"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "Security guards",
+      "stem": "Which physical security control is described as the only one capable of judgment-based response to novel situations, providing deterrence, presence, and response capability?",
+      "choices": [
+        "Security guards",
+        "CCTV cameras",
+        "Perimeter lighting",
+        "Electronic door locks"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0002.key",
+      "fact_ids": [
+        "D3.31-guards"
+      ],
+      "expected_keywords": [
+        "judgment-based response"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "Mantrap vs CCTV",
+      "stem": "Which statement correctly distinguishes a mantrap from CCTV in physical security?",
+      "choices": [
+        "A mantrap is a detective control that records intrusions, whereas CCTV is a preventive control that blocks entry.",
+        "A mantrap is a preventive control that physically stops tailgating, whereas CCTV is a detective control that records what happened.",
+        "Both a mantrap and CCTV are detective controls that only document intrusions after they occur.",
+        "Both a mantrap and CCTV are preventive controls that physically block unauthorized entry."
+      ],
+      "answer_key_ref": "D3.3.1.discrimination.0001.key",
+      "fact_ids": [
+        "D3.31-mantrap-vs-cctv",
+        "D3.31-cctv"
+      ],
+      "expected_keywords": [
+        "detective control that records"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "Least privilege",
+      "stem": "Which logical access control principle requires granting a subject only the minimum permissions needed to perform its function, thereby limiting the damage from a compromised account?",
+      "choices": [
+        "Least privilege",
+        "Need to know",
+        "Separation of duties",
+        "Defense in depth"
+      ],
+      "answer_key_ref": "D3.3.2.definition.0001.key",
+      "fact_ids": [
+        "D3.32-least-privilege"
+      ],
+      "expected_keywords": [
+        "minimum permissions needed"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "RBAC",
+      "stem": "Which access control model ties permissions to roles and assigns users to those roles, so that a single permission change applies to every user in the role at once?",
+      "choices": [
+        "DAC (Discretionary Access Control)",
+        "RBAC (Role-Based Access Control)",
+        "MAC (Mandatory Access Control)",
+        "RuBAC (Rule-Based Access Control)"
+      ],
+      "answer_key_ref": "D3.3.2.definition.0002.key",
+      "fact_ids": [
+        "D3.32-rbac"
+      ],
+      "expected_keywords": [
+        "permissions tied to roles"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "Least privilege vs need to know",
+      "stem": "Which statement correctly distinguishes least privilege from need to know?",
+      "choices": [
+        "Need to know limits the scope of actions a subject can perform, while least privilege limits access to specific information items.",
+        "Least privilege and need to know are identical principles, both limiting only the actions a subject may perform.",
+        "Least privilege limits the scope of actions a subject can perform, while need to know limits access to specific information items even within an authorized permission level.",
+        "Least privilege applies only to classification labels, while need to know applies only to assigned job roles."
+      ],
+      "answer_key_ref": "D3.3.2.discrimination.0001.key",
+      "fact_ids": [
+        "D3.32-least-priv-vs-need-to-know"
+      ],
+      "expected_keywords": [
+        "scope of actions"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
       "id": "D3.3.2.scenario.0001",
       "bank": "scenario_application",
       "domain": "D3",
@@ -126,8 +632,8 @@
       "choices": [
         "Discretionary Access Control (DAC)",
         "Role-Based Access Control (RBAC)",
-        "Mandatory Access Control (MAC)",
-        "Attribute-Based Access Control (ABAC)"
+        "Attribute-Based Access Control (ABAC)",
+        "Mandatory Access Control (MAC)"
       ],
       "answer_key_ref": "D3.3.2.scenario.0001.key",
       "fact_ids": [
@@ -142,6 +648,118 @@
       "source_policy": "factstore|required",
       "misconception_tags": [
         "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.scenario.0002",
+      "bank": "scenario_application",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "Account deprovisioning",
+      "stem": "A contractor's project ended last month, but her network account remained active and was recently used in a breach; which account lifecycle failure does this represent?",
+      "choices": [
+        "Failure of timely deprovisioning — access should have been revoked promptly when her engagement ended.",
+        "Failure of provisioning — her account was created with the wrong permissions.",
+        "Failure of periodic access recertification — the annual review cycle had not yet run.",
+        "Failure of privileged access management — her account's admin rights were not vaulted."
+      ],
+      "answer_key_ref": "D3.3.2.scenario.0002.key",
+      "fact_ids": [
+        "D3.32-account-lifecycle"
+      ],
+      "expected_keywords": [
+        "timely deprovision"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "HTTPS port",
+      "stem": "Which port does HTTPS use by default to secure web traffic?",
+      "choices": [
+        "TCP 80",
+        "TCP 443",
+        "TCP 22",
+        "UDP 53"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0001.key",
+      "fact_ids": [
+        "D4.41-ports-web-dns"
+      ],
+      "expected_keywords": [
+        "TCP 443"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "IDS vs IPS",
+      "stem": "How does an IPS differ from an IDS?",
+      "choices": [
+        "An IDS blocks malicious traffic inline, while an IPS only logs and alerts on it.",
+        "An IDS drops suspicious packets automatically, whereas an IPS forwards them for later review.",
+        "An IPS actively blocks detected threats inline, while an IDS only monitors traffic and alerts on it.",
+        "An IDS prevents intrusions in real time, while an IPS passively monitors for them."
+      ],
+      "answer_key_ref": "D4.4.1.discrimination.0001.key",
+      "fact_ids": [
+        "D4.41-ids-vs-ips"
+      ],
+      "expected_keywords": [
+        "actively blocks detected threats"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.discrimination.0002",
+      "bank": "concept_discrimination",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "Switch vs router",
+      "stem": "What distinguishes a switch from a router?",
+      "choices": [
+        "A switch forwards packets using IP addresses at Layer 3, while a router forwards frames using MAC addresses at Layer 2.",
+        "A switch routes between different networks using IP addresses, while a router connects hosts within one segment using MAC addresses.",
+        "A switch operates at Layer 3 to separate broadcast domains, while a router operates at Layer 2 within a single segment.",
+        "A switch forwards frames using MAC addresses at Layer 2, while a router forwards packets using IP addresses at Layer 3."
+      ],
+      "answer_key_ref": "D4.4.1.discrimination.0002.key",
+      "fact_ids": [
+        "D4.41-layer2-vs-layer3-trap"
+      ],
+      "expected_keywords": [
+        "MAC addresses"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
       ]
     },
     {
@@ -170,6 +788,347 @@
       "source_policy": "factstore|required",
       "misconception_tags": [
         "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "NIST cloud characteristics",
+      "stem": "Which of the following is one of the five NIST essential characteristics of cloud computing?",
+      "choices": [
+        "Shared responsibility",
+        "Vendor lock-in",
+        "Rapid elasticity",
+        "Data sovereignty"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0001.key",
+      "fact_ids": [
+        "D4.43-cloud-characteristics"
+      ],
+      "expected_keywords": [
+        "rapid elasticity"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "VPN",
+      "stem": "What does a VPN (Virtual Private Network) create to enable secure remote access over the internet?",
+      "choices": [
+        "A logically isolated broadcast domain on a shared physical switch",
+        "A network zone that isolates public-facing servers from internal systems",
+        "An access-control checkpoint that isolates non-compliant devices before admission",
+        "An encrypted tunnel over a public network"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0002.key",
+      "fact_ids": [
+        "D4.43-vpn"
+      ],
+      "expected_keywords": [
+        "encrypted tunnel"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "Zero Trust vs perimeter",
+      "stem": "How does the Zero Trust model differ from traditional perimeter-based security?",
+      "choices": [
+        "Zero Trust never grants implicit trust and verifies every access request, whereas perimeter security trusts traffic once it is inside the network boundary.",
+        "Zero Trust automatically trusts users and devices once they are inside the network perimeter, while perimeter security verifies each request.",
+        "Zero Trust trusts any device connected to the internal LAN, whereas perimeter security continuously re-verifies internal traffic.",
+        "Zero Trust relies on a single strong network boundary to grant implicit trust to internal hosts."
+      ],
+      "answer_key_ref": "D4.4.3.discrimination.0001.key",
+      "fact_ids": [
+        "D4.43-zero-trust-vs-perimeter"
+      ],
+      "expected_keywords": [
+        "never grants implicit trust"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.scenario.0001",
+      "bank": "scenario_application",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "Cloud shared responsibility (IaaS)",
+      "stem": "A company runs its application on a cloud provider's IaaS platform; which security task remains the customer's responsibility?",
+      "choices": [
+        "Only configuring user accounts; the provider secures the OS, applications, and data.",
+        "The customer secures OS, applications, and data, while the provider secures the hardware.",
+        "Only the network firewall rules; the provider patches the operating system and applications.",
+        "Nothing - in IaaS the provider secures every layer, including the OS and applications."
+      ],
+      "answer_key_ref": "D4.4.3.scenario.0001.key",
+      "fact_ids": [
+        "D4.43-cloud-vs-on-prem",
+        "D4.43-shared-responsibility"
+      ],
+      "expected_keywords": [
+        "customer secures OS"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "Symmetric encryption",
+      "stem": "Which statement correctly describes symmetric encryption?",
+      "choices": [
+        "It uses a public key to encrypt and a private key to decrypt",
+        "It is a one-way function whose output cannot be reversed",
+        "It requires a certificate authority to issue key pairs",
+        "It uses a single shared key for both encryption and decryption"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0001.key",
+      "fact_ids": [
+        "D5.51-symmetric-encryption"
+      ],
+      "expected_keywords": [
+        "single shared key"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "asymmetric encryption",
+      "stem": "Which statement best describes asymmetric encryption?",
+      "choices": [
+        "It uses a mathematically linked key pair in which the public key encrypts and the private key decrypts.",
+        "It uses a single shared secret key for both encryption and decryption.",
+        "It applies a one-way function, so the resulting ciphertext cannot be decrypted.",
+        "Either key can freely encrypt or decrypt, so it does not matter which key is public and which is private."
+      ],
+      "answer_key_ref": "D5.5.1.definition.0002.key",
+      "fact_ids": [
+        "D5.51-asymmetric-encryption"
+      ],
+      "expected_keywords": [
+        "public key encrypts"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "crypto-agility",
+      "stem": "In the context of cryptographic standards management, what does crypto-agility refer to?",
+      "choices": [
+        "Always selecting the longest available key length to maximize cipher strength.",
+        "The ability to inventory, replace, test, and validate cryptographic algorithms as standards and threats change.",
+        "Choosing the single strongest encryption algorithm and applying it to all data.",
+        "Periodically increasing key sizes so encryption stays ahead of attackers."
+      ],
+      "answer_key_ref": "D5.5.1.definition.0003.key",
+      "fact_ids": [
+        "D5.51-crypto-agility"
+      ],
+      "expected_keywords": [
+        "replace, test, and validate"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "Hashing vs encryption",
+      "stem": "An application must store user passwords so that the stored value cannot be reversed back to the original password. Which technique meets this requirement?",
+      "choices": [
+        "Symmetric encryption",
+        "Asymmetric encryption",
+        "Hashing",
+        "Base64 encoding"
+      ],
+      "answer_key_ref": "D5.5.1.discrimination.0001.key",
+      "fact_ids": [
+        "D5.51-hashing",
+        "D5.51-symmetric-encryption"
+      ],
+      "expected_keywords": [
+        "one-way"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.discrimination.0002",
+      "bank": "concept_discrimination",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "sanitization Purge",
+      "stem": "Which technique achieves Purge-level media sanitization as defined by NIST SP 800-88?",
+      "choices": [
+        "Overwriting the drive once with a fixed bit pattern.",
+        "Running a full format on the drive's file system.",
+        "Deleting all files and then emptying the recycle bin.",
+        "Performing a cryptographic erase on a self-encrypting drive."
+      ],
+      "answer_key_ref": "D5.5.1.discrimination.0002.key",
+      "fact_ids": [
+        "D5.51-sanitization-purge",
+        "D5.51-sanitization-clear"
+      ],
+      "expected_keywords": [
+        "cryptographic erase"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.discrimination.0003",
+      "bank": "concept_discrimination",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "hash integrity vs encryption confidentiality",
+      "stem": "Which statement correctly distinguishes the security property a hash provides from the property encryption provides?",
+      "choices": [
+        "A hash provides integrity (data unaltered); encryption provides confidentiality (data unreadable).",
+        "A hash conceals the contents of the data, providing confidentiality.",
+        "Applying a hash encrypts the data so unauthorized parties cannot read it.",
+        "A hash both hides a file's contents and detects tampering, providing confidentiality."
+      ],
+      "answer_key_ref": "D5.5.1.discrimination.0003.key",
+      "fact_ids": [
+        "D5.51-integrity-vs-confidentiality-trap"
+      ],
+      "expected_keywords": [
+        "hash achieves integrity"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.scenario.0001",
+      "bank": "scenario_application",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "sanitization Destroy",
+      "stem": "A hospital is disposing of old hard drives that stored highly sensitive patient records; the drives will not be reused. Which sanitization method should be applied?",
+      "choices": [
+        "Clear the drives by overwriting them once with a fixed pattern before discarding them.",
+        "Destroy the drives by physical destruction — shred, pulverize, or incinerate them.",
+        "Purge the drives by degaussing them, then send them to a landfill.",
+        "Delete the patient records and reformat the drives before discarding them."
+      ],
+      "answer_key_ref": "D5.5.1.scenario.0001.key",
+      "fact_ids": [
+        "D5.51-sanitization-procedure",
+        "D5.51-sanitization-comparison"
+      ],
+      "expected_keywords": [
+        "Destroy eliminates all recovery paths"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "best_vs_first_qualifier_miss"
+      ]
+    },
+    {
+      "id": "D5.5.1.scenario.0002",
+      "bank": "scenario_application",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "digital signatures",
+      "stem": "Alice wants to send a contract to Bob so that Bob can verify it genuinely came from Alice and was not altered in transit. Which technique should Alice apply?",
+      "choices": [
+        "Encrypt the contract with a symmetric key that she and Bob both share.",
+        "Encrypt the contract with Bob's public key so only Bob can open it.",
+        "Apply a digital signature by hashing the contract and signing the hash with her private key.",
+        "Send the contract to Bob through an encrypted VPN tunnel."
+      ],
+      "answer_key_ref": "D5.5.1.scenario.0002.key",
+      "fact_ids": [
+        "D5.51-digital-signature",
+        "D5.51-sym-vs-asym"
+      ],
+      "expected_keywords": [
+        "proves authenticity and integrity"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
       ]
     }
   ]

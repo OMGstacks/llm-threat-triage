@@ -240,11 +240,14 @@ class AnswerPositionTest(unittest.TestCase):
         self.assertTrue(any("overfit" in p for p in problems))
 
     def test_same_index_within_objective_fails(self):
-        keys = copy.deepcopy(KEYS)
-        kb = {k["answer_key_ref"]: k for k in keys}
-        kb["D5.5.1.definition.0001.key"]["correct_index"] = 3
-        kb["D5.5.1.discrimination.0001.key"]["correct_index"] = 3
-        problems = quiz.answer_position_problems(ITEMS, keys)
+        # Self-contained: two items in one objective, both correct at the same index.
+        items = [{"id": "D9.9.9.definition.0001", "objective": "9.9",
+                  "answer_key_ref": "k1", "choices": ["a", "b", "c", "d"]},
+                 {"id": "D9.9.9.definition.0002", "objective": "9.9",
+                  "answer_key_ref": "k2", "choices": ["a", "b", "c", "d"]}]
+        keys = [{"answer_key_ref": "k1", "correct_index": 2},
+                {"answer_key_ref": "k2", "correct_index": 2}]
+        problems = quiz.answer_position_problems(items, keys)
         self.assertTrue(any("within an objective" in p for p in problems))
 
 

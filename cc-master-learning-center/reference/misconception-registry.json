@@ -67,6 +67,238 @@
       "category": "network_device_confusion",
       "objective": "4.1",
       "origin": "comparison card D4.41-tcp-vs-udp"
+    },
+    {
+      "id": "authn-authz-confusion",
+      "misconception": "Authentication and authorization are the same thing, or their roles and order are reversed.",
+      "correct": "Authentication verifies identity and must succeed first; authorization then grants or denies permissions.",
+      "category": "definition_confusion",
+      "objective": "1.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "risk-terminology-confusion",
+      "misconception": "The core risk terms threat, vulnerability, risk, and likelihood are interchangeable synonyms.",
+      "correct": "A vulnerability is a weakness; a threat is a potential harmful event; likelihood is probability; risk combines likelihood and impact.",
+      "category": "definition_confusion",
+      "objective": "1.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "due-care-diligence-confusion",
+      "misconception": "Due care and due diligence are synonymous or swapped.",
+      "correct": "Due care is implementing reasonable safeguards; due diligence is the ongoing monitoring that verifies they remain effective.",
+      "category": "definition_confusion",
+      "objective": "1.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "control-category-function-confusion",
+      "misconception": "A control's category (technical/administrative/physical) is confused with its function (preventive/detective/etc.).",
+      "correct": "Administrative controls are policies and human processes; category is a separate dimension from function.",
+      "category": "control_category_confusion",
+      "objective": "1.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "preventive-detective-confusion",
+      "misconception": "Preventive and detective control functions are reversed.",
+      "correct": "A preventive control stops an event before it happens; a detective control identifies that one occurred.",
+      "category": "control_category_confusion",
+      "objective": "1.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "canon-priority-principal-over-society",
+      "misconception": "Duty to employer (Canon 3) outranks duty to protect society (Canon 1).",
+      "correct": "Canon 1 (protect society) takes precedence over Canon 3 (serve principals) when they conflict.",
+      "category": "process_order_confusion",
+      "objective": "1.4",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "bia-vs-risk-assessment",
+      "misconception": "Treating the BIA as a risk assessment (enumerate threats, compute likelihood x impact).",
+      "correct": "A BIA identifies critical functions and quantifies disruption impact (driving MTD/RTO/RPO); a risk assessment evaluates threats/vulnerabilities/likelihood/impact.",
+      "category": "definition_confusion",
+      "objective": "2.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "cold-site-readiness-overstated",
+      "misconception": "Assuming a cold site has pre-configured equipment/connectivity (overstating readiness).",
+      "correct": "A cold site provides only space and power, lowest cost but longest activation; hardware must be procured/configured from scratch.",
+      "category": "definition_confusion",
+      "objective": "2.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "postincident-vs-recovery-confusion",
+      "misconception": "Believing Recovery is the final phase and its activities define post-incident.",
+      "correct": "Post-Incident Activity is the final phase (lessons-learned, evidence retention, metrics); restoring systems belongs to Recovery.",
+      "category": "process_order_confusion",
+      "objective": "2.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "rto-vs-rpo-confusion",
+      "misconception": "Swapping RTO and RPO (treating RPO as a restore-time target).",
+      "correct": "RPO = acceptable data loss in time (drives backup frequency); RTO = target time to restore the function.",
+      "category": "definition_confusion",
+      "objective": "2.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "incremental-vs-differential-confusion",
+      "misconception": "Attributing incremental behavior to a differential backup.",
+      "correct": "Differential copies changes since the last FULL backup (restore: full + most recent differential); incremental copies changes since the last backup of ANY type (restore: full + every incremental).",
+      "category": "definition_confusion",
+      "objective": "2.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "ir-detection-phase-misid",
+      "misconception": "Mis-attributing validation/triage of a suspected incident to another phase.",
+      "correct": "Confirming a suspected event is a real incident and classifying severity is Detection and Analysis.",
+      "category": "process_order_confusion",
+      "objective": "2.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "physical-control-name-confusion",
+      "misconception": "Confusing named physical access controls, selecting the wrong device for a described function.",
+      "correct": "Each physical control has a distinct function: a mantrap is a two-door anti-tailgating entry; guards give judgment-based response; turnstiles, bollards, locks, CCTV differ.",
+      "category": "definition_confusion",
+      "objective": "3.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "access-principle-confusion",
+      "misconception": "Confusing least privilege with need to know, separation of duties, or defense in depth.",
+      "correct": "Least privilege = minimum permissions needed; distinct from the others.",
+      "category": "definition_confusion",
+      "objective": "3.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "access-model-confusion",
+      "misconception": "Attributing RBAC's role-to-permission mapping to DAC, MAC, or rule-based access control.",
+      "correct": "RBAC ties permissions to roles; DAC is owner-discretion, MAC is label-based, RuBAC is rule-based.",
+      "category": "definition_confusion",
+      "objective": "3.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "physical-control-function-confusion",
+      "misconception": "Treating a preventive control (mantrap) as detective, or a detective control (CCTV) as preventive.",
+      "correct": "A mantrap is preventive (stops tailgating); CCTV is detective (records what happened).",
+      "category": "control_category_confusion",
+      "objective": "3.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "least-priv-need-to-know-swap",
+      "misconception": "Swapping least privilege (scope of actions) with need to know (specific information items).",
+      "correct": "Least privilege limits scope of actions; need to know limits access to specific information.",
+      "category": "definition_confusion",
+      "objective": "3.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "account-lifecycle-stage-confusion",
+      "misconception": "Misidentifying which account-lifecycle activity revokes access when a need ends.",
+      "correct": "Leaving an account active after termination is a failure of timely deprovisioning.",
+      "category": "definition_confusion",
+      "objective": "3.2",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "https-port-confusion",
+      "misconception": "Believing HTTPS uses a well-known port other than TCP 443.",
+      "correct": "HTTPS uses TCP port 443.",
+      "category": "definition_confusion",
+      "objective": "4.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "cloud-essential-characteristics",
+      "misconception": "Mistaking general cloud governance/economic concepts for the five NIST essential characteristics.",
+      "correct": "The five are on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service.",
+      "category": "definition_confusion",
+      "objective": "4.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "vpn-vs-segmentation-confusion",
+      "misconception": "Believing a VPN's purpose is to isolate/segment network areas rather than create an encrypted tunnel.",
+      "correct": "A VPN creates an encrypted tunnel over a public network for secure remote access.",
+      "category": "definition_confusion",
+      "objective": "4.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "ids-vs-ips-reversed",
+      "misconception": "Reversing IDS and IPS roles.",
+      "correct": "An IPS actively blocks detected threats inline; an IDS only monitors and alerts.",
+      "category": "network_device_confusion",
+      "objective": "4.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "switch-vs-router-layer-reversed",
+      "misconception": "Reversing switch (L2/MAC) and router (L3/IP) functions.",
+      "correct": "A switch forwards frames by MAC at Layer 2; a router forwards packets by IP at Layer 3.",
+      "category": "network_device_confusion",
+      "objective": "4.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "zero-trust-implicit-internal-trust",
+      "misconception": "Believing Zero Trust grants implicit trust based on network location.",
+      "correct": "Zero Trust grants no implicit trust and verifies every access request regardless of location.",
+      "category": "definition_confusion",
+      "objective": "4.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "iaas-provider-patches-os",
+      "misconception": "Believing the provider patches/secures the guest OS in IaaS (confusing IaaS with SaaS).",
+      "correct": "In IaaS the customer secures the OS, applications, and data; the provider secures the hardware/virtualization.",
+      "category": "definition_confusion",
+      "objective": "4.3",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "crypto-agility-is-key-strength",
+      "misconception": "Crypto-agility means using the strongest algorithm or longest key length.",
+      "correct": "Crypto-agility is the ability to inventory, replace, test, and validate algorithms so they can be migrated as standards and threats change.",
+      "category": "definition_confusion",
+      "objective": "5.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "clear-vs-purge",
+      "misconception": "A logical overwrite or format achieves Purge-level, lab-resistant sanitization.",
+      "correct": "Purge requires physical or cryptographic techniques (degauss, cryptographic erase) to resist lab attacks; a single overwrite/format is only Clear-level.",
+      "category": "definition_confusion",
+      "objective": "5.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "under-sanitize-disposal",
+      "misconception": "A lower tier (Clear/Purge) is sufficient when disposing of highest-sensitivity media.",
+      "correct": "For highest-sensitivity media not being reused, Destroy (physical destruction) is required as the highest-assurance tier.",
+      "category": "best_vs_first_qualifier_miss",
+      "objective": "5.1",
+      "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "signing-vs-encryption",
+      "misconception": "Encrypting for confidentiality also proves sender and integrity.",
+      "correct": "Proof of authenticity and integrity requires a digital signature (hash encrypted with the sender's private key), not confidentiality encryption.",
+      "category": "crypto_property_confusion",
+      "objective": "5.1",
+      "origin": "pr8b gold-item authoring"
     }
   ]
 }

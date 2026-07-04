@@ -58,6 +58,13 @@ drift the correct-choice hash misses; correct-answer positions are varied and ga
 overfit; ``cc_spine.cli quiz export-learner`` emits the sole learner projection and CI
 scans it for any answer-bearing field; and goldset.json is documented as the authoring
 source, not the learner export.
+PR-8b scales the gold set to 40 non-holdout items (three core banks 18/14/8, 8 per
+domain) grounded on the fact store, each distractor naming a specific registry
+misconception. Items were authored by per-domain agents, mechanically grounding-checked,
+then run through a five-reviewer adversarial pass BEFORE commit (governance spec §16.0):
+0 factual errors, 3 minor stem-quality fixes plus an answer-length-bias trim. The
+misconception registry grew 8 -> 37 entries. Evidence in reports/pr8b-*. Still no
+exam_strategy items (PR-8d) and no holdout lane (PR-8c).
 """
 
-__version__ = "0.3.1"
+__version__ = "0.4.0"
