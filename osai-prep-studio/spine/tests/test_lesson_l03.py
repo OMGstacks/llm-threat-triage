@@ -96,3 +96,20 @@ def test_shipped_lesson_has_no_secret_material():
     # authored content must never carry a flag/secret/PII (defense-in-depth on our own file)
     from osai_spine import llm
     assert llm.residual_secrets(_script()) == []
+
+
+# --- the web player consumes committed static artifacts — they must not drift ---------- #
+
+_WEB = Path(__file__).resolve().parents[2] / "web" / "public" / "lessons"
+
+
+def test_web_manifest_matches_the_seam_output():
+    """The /lessons/L03 player loads web/public/lessons/L03.manifest.json — it must equal
+    what the seam renders from the shipped script, so the page can never show stale data."""
+    committed = json.loads((_WEB / "L03.manifest.json").read_text(encoding="utf-8"))
+    assert committed == nar.render_plan(_script())
+
+
+def test_web_vtt_matches_the_seam_output():
+    committed = (_WEB / "L03.vtt").read_text(encoding="utf-8").strip()
+    assert committed == nar.to_vtt(nar.render_plan(_script())).strip()
