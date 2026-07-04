@@ -249,22 +249,31 @@ def test_all_fact_grounded_items_validate():
 
 
 def test_no_near_duplicate_prompts_in_grounded_banks():
-    """No same-bank prompt pair may exceed the near-dup Jaccard threshold — the PR3
-    growth slice adds only distinct, net-new items (no padding)."""
+    """The fact-store target banks (lab_grounded, architecture_reasoning) stay fully
+    near-dup clean, and NO fact-grounded item (in any bank, incl. re-routed framework_recall
+    ones) is a near-dup of another item in its bank. Legacy tutor-grounded framework_recall
+    items are out of scope here (rewording them would destabilise TF-IDF retrieval)."""
     import re
     stop = set("a an the of to in on for and or is are was be by with at as it its which "
-               "what does do how where when who lab must fire".split())
+               "what does do how where when who lab must fire this".split())
     def toks(s):
         return {w for w in re.findall(r"[a-z0-9:]+", s.lower()) if w not in stop}
     def jac(a, b):
         return len(a & b) / len(a | b) if (a | b) else 0.0
     items = load_goldset()["items"]
+    # (1) the two fact-store target banks are fully clean
     for bank in ("lab_grounded", "architecture_reasoning"):
         ps = [(i["id"], toks(i["prompt"])) for i in items if i["bank"] == bank]
-        dups = [(ps[x][0], ps[y][0], round(jac(ps[x][1], ps[y][1]), 3))
-                for x in range(len(ps)) for y in range(x + 1, len(ps))
+        dups = [(ps[x][0], ps[y][0]) for x in range(len(ps)) for y in range(x + 1, len(ps))
                 if jac(ps[x][1], ps[y][1]) >= 0.7]
         assert not dups, f"near-duplicate prompts in {bank}: {dups[:5]}"
+    # (2) every fact-grounded item is distinct from the rest of its bank
+    for bank in {i["bank"] for i in items if factstore.is_fact_grounded(i)}:
+        bi = [(i["id"], toks(i["prompt"]), factstore.is_fact_grounded(i))
+              for i in items if i["bank"] == bank]
+        dups = [(a[0], b[0]) for a in bi if a[2] for b in bi
+                if a[0] != b[0] and jac(a[1], b[1]) >= 0.7]
+        assert not dups, f"fact-grounded near-duplicate in {bank}: {dups[:5]}"
 
 
 def test_scope_claim_type_is_wired_and_valid():

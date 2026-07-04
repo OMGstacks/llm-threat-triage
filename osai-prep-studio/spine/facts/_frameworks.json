@@ -22,7 +22,8 @@
     "source": "reference/owasp-llm-top-10.md#llm012025-prompt-injection",
     "support": "Attacker-controlled text causes the model to follow instructions it\nshould not.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -50,7 +51,8 @@
     "source": "reference/owasp-llm-top-10.md#llm022025-sensitive-information-disclosure",
     "support": "The model emits data it should not — API keys, credentials, PII,\ninternal documents, training-data memorization.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -78,7 +80,8 @@
     "source": "reference/owasp-llm-top-10.md#llm032025-supply-chain",
     "support": "Vulnerabilities introduced through third-party components: base models\nand checkpoints pulled from hubs, LoRA/adapters, datasets, tokenizer files, and the usual\nPython/package dependency tree.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -106,7 +109,8 @@
     "source": "reference/owasp-llm-top-10.md#llm042025-data-and-model-poisoning",
     "support": "Manipulation of the data the model learns from — pre-training,\nfine-tuning, or RAG-ingested corpora — to introduce bias, degrade quality, or plant\n**backdoors** (a hidden trigger that produces attacker-chosen behavior).",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -134,7 +138,8 @@
     "source": "reference/owasp-llm-top-10.md#llm052025-improper-output-handling",
     "support": "Downstream systems consume model output without validating or encoding it, so the LLM becomes an injection vector into *other* systems: XSS in a web UI, SSRF/data exfil via rendered markdown images, SQL injection, or RCE if output is `eval`'d or shelled out.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -162,7 +167,8 @@
     "source": "reference/owasp-llm-top-10.md#llm062025-excessive-agency",
     "support": "The model can *act* — via tools, plugins, function-calling, autonomous\nagents — with more functionality, permissions, or autonomy than the task requires.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -190,7 +196,8 @@
     "source": "reference/owasp-llm-top-10.md#llm072025-system-prompt-leakage",
     "support": "The hidden system prompt is extracted, or — worse — the application\n**relied on the system prompt to keep a secret** (keys, business logic, access rules).",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -218,7 +225,8 @@
     "source": "reference/owasp-llm-top-10.md#llm082025-vector-and-embedding-weaknesses",
     "support": "Flaws specific to RAG: the vector database and embedding pipeline.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -246,7 +254,8 @@
     "source": "reference/owasp-llm-top-10.md#llm092025-misinformation",
     "support": "The model produces plausible, confident, **incorrect** output —\nhallucinated facts, fabricated citations, wrong code — and a human or downstream system\noverrelies on it.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -274,7 +283,8 @@
     "source": "reference/owasp-llm-top-10.md#llm102025-unbounded-consumption",
     "support": "Inference is allowed to run without limits on volume, cost, or\nresources.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -302,7 +312,8 @@
     "source": "reference/owasp-agentic-threats.md#t1-memory-poisoning",
     "support": "Injecting false or malicious data into an agent's short- or long-term **memory** (e.g. a\nvector store, scratchpad, or conversation history) so later decisions are silently\ncorrupted.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -330,7 +341,8 @@
     "source": "reference/owasp-agentic-threats.md#t2-tool-misuse",
     "support": "Manipulating the agent into invoking its **legitimate tools** in harmful ways — dangerous\nparameters, unintended targets, or chained calls that achieve an attacker goal.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -358,7 +370,8 @@
     "source": "reference/owasp-agentic-threats.md#t3-privilege-compromise",
     "support": "Exploiting excessive, mismanaged, or dynamically-escalated **permissions** so the agent\nacts beyond its intended authority.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -386,7 +399,8 @@
     "source": "reference/owasp-agentic-threats.md#t4-resource-overload",
     "support": "Exhausting the agent's compute, memory, token, or downstream-service limits — an\navailability attack (and, on paid APIs, a **denial-of-wallet**).",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -414,7 +428,8 @@
     "source": "reference/owasp-agentic-threats.md#t5-cascading-hallucination",
     "support": "A hallucinated or wrong output is trusted by a downstream step or another agent, so the\nerror **compounds** through the pipeline.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -442,7 +457,8 @@
     "source": "reference/owasp-agentic-threats.md#t6-intent-breaking-goal-manipulation",
     "support": "Subverting the agent's **planning or goals** so it pursues the attacker's objective while\nappearing to follow the user.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -470,7 +486,8 @@
     "source": "reference/owasp-agentic-threats.md#t7-misaligned-deceptive-behaviors",
     "support": "The agent pursues harmful goals or **deceives** (hides actions, misreports) to achieve them,\nincluding reward-hacking under optimization pressure.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -498,7 +515,8 @@
     "source": "reference/owasp-agentic-threats.md#t8-repudiation-untraceability",
     "support": "Agent actions cannot be reliably **attributed or audited** — no non-repudiation — so\nincidents can't be reconstructed.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -526,7 +544,8 @@
     "source": "reference/owasp-agentic-threats.md#t9-identity-spoofing-impersonation",
     "support": "An attacker impersonates a **user, agent, or service identity** to gain trust or authority\nwithin the system.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -554,7 +573,8 @@
     "source": "reference/owasp-agentic-threats.md#t10-overwhelming-human-in-the-loop",
     "support": "Flooding or fatiguing **human reviewers** so oversight erodes into rubber-stamping, or\ntiming actions to slip past review.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -582,7 +602,8 @@
     "source": "reference/owasp-agentic-threats.md#t11-unexpected-rce-code-attacks",
     "support": "The agent executes **attacker-controlled code** through a code-execution tool or an unsafe\neval sink, yielding remote code execution.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -610,7 +631,8 @@
     "source": "reference/owasp-agentic-threats.md#t12-agent-communication-poisoning",
     "support": "Corrupting the **messages or channels** between agents so a downstream agent acts on\ntampered instructions or data.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -638,7 +660,8 @@
     "source": "reference/owasp-agentic-threats.md#t13-rogue-agents-in-multi-agent-systems",
     "support": "A **malicious or compromised agent** operates inside an otherwise-trusted multi-agent\nsystem, abusing the coordination trust.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -666,7 +689,8 @@
     "source": "reference/owasp-agentic-threats.md#t14-human-attacks-on-multi-agent-systems",
     "support": "Humans exploit the **trust and coordination** between agents (e.g. playing agents against\neach other) rather than attacking one agent directly.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -694,7 +718,8 @@
     "source": "reference/owasp-agentic-threats.md#t15-human-manipulation",
     "support": "The agent **manipulates its human** user — exploiting trust in the assistant to nudge\nharmful actions or disclosures.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
@@ -719,7 +744,8 @@
     "source": "reference/mitre-atlas.md#what-atlas-is",
     "support": "**MITRE ATLAS** (Adversarial Threat Landscape for Artificial-Intelligence Systems) is a living knowledge base of adversary **tactics** (the *why* — the attacker's goal at a step) and **techniques** (the *how* — the method used), specific to AI/ML-enabled systems.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -744,7 +770,8 @@
     "source": "reference/nist-ai-rmf.md#ai-rmf-core-functions",
     "support": "The framework organizes AI risk work into four core functions, applied iteratively across the AI lifecycle:",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -769,7 +796,8 @@
     "source": "reference/nist-ai-rmf.md#trustworthy-ai-characteristics",
     "support": "The RMF frames trustworthy AI as **valid and reliable** (the foundation), plus **safe**, **secure and resilient**, **accountable and transparent**, **explainable and interpretable**, **privacy-enhanced**, and **fair — with harmful bias managed**.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"
@@ -794,7 +822,8 @@
     "source": "reference/nist-ai-rmf.md#genai-profile-ai-600-1-the-twelve-risks",
     "support": "The Generative AI Profile enumerates twelve risks that are novel to, or amplified by,\ngenerative AI.",
     "allowed_banks": [
-      "architecture_reasoning"
+      "architecture_reasoning",
+      "framework_recall"
     ],
     "difficulty": "medium",
     "exam_relevance": "M1"

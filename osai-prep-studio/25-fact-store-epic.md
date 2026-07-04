@@ -209,6 +209,36 @@ Store **137 → 183 cards** (0 sensitive, all active; 0 duplicate ids). Refreshe
 `factstore validate` OK; full suite green. This unlocks PR22 growth toward ~675–700 without
 forced reuse.
 
+## 6d. PR22 — growth slice #3 (635 → 671)
+
+Puts PR21's new cards to work: **+36 fact-grounded items** (21 `architecture_reasoning`,
+15 `lab_grounded`), every one `grounding:factstore` + a **distinct** `fact_id` (max reuse 1),
+0 near-dups (bank max 0.60 / 0.64).
+
+**Bank allocation is by learning objective** (decided at review): framework ID/category
+recognition belongs in `framework_recall`, not `architecture_reasoning`.
+
+- **15 `authorized_scope` items** → `lab_grounded` (91 → 106) — per-lab scope-discipline facts.
+- **18 framework-APPLIED items** → **`framework_recall`** (140 → 158): OWASP LLM01–10 (10) and
+  OWASP Agentic T1–T15 (8) as **scenario→category** questions (e.g. *"A web UI renders raw
+  model output as HTML with no sanitization, yielding stored XSS — which OWASP category?"*),
+  grounded on the PR21 concept cards (answer = the category id). The concept cards'
+  `allowed_banks` were extended to include `framework_recall` to home them correctly.
+- **3 genuine architecture/causal items** → `architecture_reasoning` (89 → 92): L14 Signal-C,
+  lab-range, transcript choke-point.
+- **PR20 bug fixed:** the existing `AR-fs-L14-killchain` asked the kill-chain question but was
+  mis-grounded on the causal-chain card (expecting `tool_call`); repointed to the matching
+  `L14.killchain` card (answer "impact"), and the freed causal-chain card now grounds its own
+  `AR-fs-L14-causal` item.
+
+Result: gold set **635 → 671** — `framework_recall` 140→**158**, `lab_grounded` 91→**106**,
+`architecture_reasoning` 89→**92** (stays within its 75–100 target). Ship gate **PASS** (all
+gated banks 1.0, `framework_id_validation` 1.0, 0 hallucinated ids); `factstore validate` OK;
+retrieval-stability green; suite 251. Every new item cites a **distinct** `fact_id` (reuse 1);
+the fact-grounded items are near-dup clean in every bank. (Four *pre-existing*, tutor-grounded
+`framework_recall` near-dup pairs are a legacy artifact left untouched — rewording them would
+destabilise TF-IDF retrieval.)
+
 ## 7. Answer-key safety
 
 The public/sensitive boundary is the one the codebase already draws: per-lab
