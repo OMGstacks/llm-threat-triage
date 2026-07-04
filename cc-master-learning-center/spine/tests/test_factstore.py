@@ -173,6 +173,14 @@ class SyntheticCardTest(unittest.TestCase):
             tags={"domain": [], "objective": ["1.1", "global.ai-security"], "topic": []})
         self.assertEqual(factstore.validate_card(card, REG), [])
 
+    def test_registry_lane_discipline_2026_objectives_not_taggable(self):
+        # R&D-3: the 2026 objective set is documented in the matrix but cards may
+        # only tag 2025-10 objectives until the primary-target flip. The registry
+        # derives objective ids from 2025-10 only.
+        self.assertTrue(REG.is_objective("1.1"))   # shared id, in 2025-10
+        self.assertFalse(REG.is_objective("2.4"))  # 2026-only (2025-10 D2 stops at 2.3)
+        self.assertFalse(REG.is_objective("5.5"))  # 2026-only (2025-10 D5 stops at 5.4)
+
 
 class ProvenanceFailureTest(unittest.TestCase):
     """Gate 3: missing/bad source paths fail closed."""

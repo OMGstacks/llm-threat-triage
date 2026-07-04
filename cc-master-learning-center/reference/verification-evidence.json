@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "description": "Two-lane source-verification ledger. Lane 1 (operator_fetch_attempts) records what THIS execution environment could reach; every ISC2 and third-party URL returned HTTP 403 here (Cloudflare-fronted egress). Lane 2 (reviewer_attestations) records official-source confirmations made from the reviewer's environment, which can reach the same URLs. A source may only carry an 'official*' confidence when the operator fetched it directly OR a reviewer attestation backs it (enforced by cc_spine.sources).",
+  "operator_environment": "Claude Code remote execution environment (agent proxy egress). ISC2 pages, the direct 2026 outline PDF, the exam-outline index, and two Cloudflare-fronted third-party hosts all returned HTTP 403 on 2026-07-04.",
+  "operator_fetch_attempts": [
+    {
+      "url": "https://www.isc2.org/certifications/cc/cc-certification-exam-outline",
+      "result": "blocked",
+      "http_status": 403,
+      "attempted_on": "2026-07-04",
+      "purpose": "current CC outline, upcoming-outline notice, current/upcoming PDF discovery"
+    },
+    {
+      "url": "https://www.isc2.org/certifications/exam-outlines",
+      "result": "blocked",
+      "http_status": 403,
+      "attempted_on": "2026-07-04",
+      "purpose": "ISC2 certification exam-outline index"
+    },
+    {
+      "url": "https://www.isc2.org/exams/before-your-exam",
+      "result": "blocked",
+      "http_status": 403,
+      "attempted_on": "2026-07-04",
+      "purpose": "exam format, scoring, item types, exam preparation policy"
+    },
+    {
+      "url": "https://edge.sitecorecloud.io/internationf173-xmc4e73-prodbc0f-9660/media/Project/ISC2/Main/Media/documents/exam-outlines/2026/EXAMS-CC_Exam_Outline-English-Revised-01-2026-Final.pdf",
+      "result": "blocked",
+      "http_status": 403,
+      "attempted_on": "2026-07-04",
+      "purpose": "official upcoming 2026 CC PDF: weights and 19 objective IDs/titles"
+    },
+    {
+      "url": "https://trainingcamp.com/articles/isc2-cc-certification-guide-2026-exam-domains-cost-and-what-its-worth/",
+      "result": "blocked",
+      "http_status": 403,
+      "attempted_on": "2026-07-04",
+      "purpose": "third-party corroboration only; not normative"
+    },
+    {
+      "url": "https://certifiedcissp.com/news/isc2-is-refreshing-the-ccsp-and-cc-exams-in-2026-what-it-means-for-the-cissp/",
+      "result": "blocked",
+      "http_status": 403,
+      "attempted_on": "2026-07-04",
+      "purpose": "third-party corroboration only; not normative"
+    }
+  ],
+  "reviewer_attestations": [
+    {
+      "attested_by": "reviewer_chatgpt_environment",
+      "date": "2026-07-04",
+      "method": "web_review",
+      "url": "https://www.isc2.org/certifications/cc/cc-certification-exam-outline",
+      "confirms": [
+        "Current CC outline effective date is 2025-10-01.",
+        "New CC outline notice says the upcoming outline becomes effective 2026-09-01.",
+        "Current CC exam uses CAT, 2 hours, 100-125 items, multiple choice and advanced item types, passing grade 700/1000, Pearson VUE.",
+        "Current domain weights are D1 26%, D2 10%, D3 22%, D4 24%, D5 18%.",
+        "Foundational AI concepts are integrated across all five current domains."
+      ]
+    },
+    {
+      "attested_by": "reviewer_chatgpt_environment",
+      "date": "2026-07-04",
+      "method": "web_review",
+      "url": "https://www.isc2.org/exams/before-your-exam",
+      "confirms": [
+        "ISC2 exam preparation page corroborates exam procedure, scoring, and item types.",
+        "Use only minimal summaries and official links in repository files."
+      ]
+    },
+    {
+      "attested_by": "reviewer_chatgpt_environment",
+      "date": "2026-07-04",
+      "method": "web_pdf_review",
+      "url": "https://edge.sitecorecloud.io/internationf173-xmc4e73-prodbc0f-9660/media/Project/ISC2/Main/Media/documents/exam-outlines/2026/EXAMS-CC_Exam_Outline-English-Revised-01-2026-Final.pdf",
+      "confirms": [
+        "Upcoming CC outline effective date is 2026-09-01.",
+        "2026 domain weights are D1 24%, D2 17.3%, D3 20%, D4 21.3%, D5 17.3%.",
+        "2026 exam structure remains 2 hours, 100-125 items, multiple choice and advanced item types, passing grade 700/1000, Pearson VUE.",
+        "2026 objective set includes 19 objectives: D1 1.1-1.5, D2 2.1-2.4, D3 3.1-3.2, D4 4.1-4.3, D5 5.1-5.5, with the titles recorded in objective-matrix.json."
+      ]
+    }
+  ],
+  "third_party_context": [
+    {
+      "url": "https://trainingcamp.com/articles/isc2-cc-certification-guide-2026-exam-domains-cost-and-what-its-worth/",
+      "authority": "non_normative_third_party",
+      "note": "Corroboration/context only; never a normative source."
+    },
+    {
+      "url": "https://certifiedcissp.com/news/isc2-is-refreshing-the-ccsp-and-cc-exams-in-2026-what-it-means-for-the-cissp/",
+      "authority": "non_normative_third_party",
+      "note": "Corroboration/context only; never a normative source."
+    }
+  ]
+}

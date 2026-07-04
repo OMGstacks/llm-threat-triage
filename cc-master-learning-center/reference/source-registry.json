@@ -15,7 +15,11 @@
       "superseded_by_notice": "A new CC exam outline becomes effective 2026-09-01 (see isc2.cc-outline.2026-09)",
       "confidence": "official-current",
       "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source",
-      "next_review": "2026-09-01"
+      "next_review": "2026-09-01",
+      "operator_fetch_status": "blocked_403",
+      "attestation_urls": [
+        "https://www.isc2.org/certifications/cc/cc-certification-exam-outline"
+      ]
     },
     {
       "id": "isc2.cc-outline.2026-09",
@@ -28,9 +32,14 @@
       "retrieved_at": "2026-07-04",
       "effective_date": "2026-09-01",
       "superseded_by_notice": null,
-      "confidence": "official-upcoming",
+      "confidence": "official-upcoming-verified",
       "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source",
-      "next_review": "2026-09-01"
+      "next_review": "2026-09-01",
+      "operator_fetch_status": "blocked_403",
+      "source_pdf_url": "https://edge.sitecorecloud.io/internationf173-xmc4e73-prodbc0f-9660/media/Project/ISC2/Main/Media/documents/exam-outlines/2026/EXAMS-CC_Exam_Outline-English-Revised-01-2026-Final.pdf",
+      "attestation_urls": [
+        "https://edge.sitecorecloud.io/internationf173-xmc4e73-prodbc0f-9660/media/Project/ISC2/Main/Media/documents/exam-outlines/2026/EXAMS-CC_Exam_Outline-English-Revised-01-2026-Final.pdf"
+      ]
     },
     {
       "id": "nist.sp800-88r2",
@@ -45,7 +54,9 @@
       "superseded_by_notice": null,
       "confidence": "official-current",
       "copyright_note": "US government work; cite and summarize",
-      "next_review": "2027-07-04"
+      "next_review": "2027-07-04",
+      "operator_fetch_status": "not_attempted",
+      "attestation_urls": []
     },
     {
       "id": "nist.sp800-61r3",
@@ -60,7 +71,9 @@
       "superseded_by_notice": null,
       "confidence": "official-current",
       "copyright_note": "US government work; cite and summarize",
-      "next_review": "2027-07-04"
+      "next_review": "2027-07-04",
+      "operator_fetch_status": "not_attempted",
+      "attestation_urls": []
     },
     {
       "id": "nist.pqc.fips-203-204-205",
@@ -75,7 +88,9 @@
       "superseded_by_notice": null,
       "confidence": "official-current",
       "copyright_note": "US government work; cite and summarize",
-      "next_review": "2027-07-04"
+      "next_review": "2027-07-04",
+      "operator_fetch_status": "not_attempted",
+      "attestation_urls": []
     },
     {
       "id": "nist.sp800-145",
@@ -90,7 +105,9 @@
       "superseded_by_notice": null,
       "confidence": "official-current",
       "copyright_note": "US government work; cite and summarize",
-      "next_review": "2027-07-04"
+      "next_review": "2027-07-04",
+      "operator_fetch_status": "not_attempted",
+      "attestation_urls": []
     }
   ]
 }

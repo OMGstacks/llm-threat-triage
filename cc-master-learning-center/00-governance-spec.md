@@ -395,6 +395,7 @@ note status (`cc_spine.notes_lifecycle`).
 | 2 | ingestion engine + source-registry validator + `cc-spine.yml` CI | deterministic DOCX/text extraction; correction audit trail; CI |
 | 3 | copy-adapt factstore + registry + notes lifecycle + CLI | fact-card validation; fingerprint drift; tombstones; retrieval stability; unsupported_claim_guard |
 | 4 | completed 2026-09 outline + crosswalk + freshness ledger | source freshness ledger (next_review); crosswalk-integrity validation |
+| 4.1 | official 2026 verification: two-lane evidence + 19 objectives + attestation guard | attestation guard; evidence-file check |
 | 5 | transcript ingestion **after explicit authorization** | IP boundary check; no raw transcript dump; correction audit |
 | 6 | D4/D5 fact-card seeds (slices ≤ 75) | source coverage; no near-dup; no unsupported claims |
 | 7 | D1–D3 fact-card seeds | same + domain distribution ledger |
@@ -425,6 +426,24 @@ Stop and ask for review if any of the following occur:
 
 Evidence types are always labeled: **local-only** (run by the operator, not CI-enforced),
 **future-CI** (enforced from PR-2), **not-run** (explicitly declared, never implied).
+
+**Two-lane official-source verification (PR-4.1).** External official sources (the ISC2
+outline pages and the 2026 PDF) are unreachable from this execution environment — every ISC2
+URL and two Cloudflare-fronted third-party hosts returned **HTTP 403** on 2026-07-04. Rather
+than a single "not-run", the repo keeps two labeled lanes in
+[`reference/verification-evidence.json`](reference/verification-evidence.json):
+
+- `operator_fetch_attempts` — what *this* environment tried (6 URLs, all 403).
+- `reviewer_attestations` — official confirmations made from the reviewer's environment,
+  which can reach the same URLs (current outline page, before-your-exam page, 2026 PDF).
+
+A source may carry an `official*` confidence only if the operator fetched it directly **or**
+a dated reviewer attestation backs each of its `attestation_urls` (`retrieved_at` ≤ attestation
+date). This is enforced fail-closed by `cc_spine.sources` (attestation guard) and the scaffold
+evidence check. The 2026-09 outline's weights and 19 objective IDs/titles are
+`official-upcoming-verified` on this basis; the freshness ledger still forces re-review at
+2026-09-01. Third-party pages (Training Camp, CertifiedCISSP) are recorded as non-normative
+context only, never as sources.
 
 PR-1 verification (all local-only, from repo root):
 
@@ -476,6 +495,14 @@ fails until a human re-reviews against the official source.
 python3 -m cc_spine.cli validate-sources       # freshness ledger: next_review enforced
 python3 -m cc_spine.scaffold_validate          # crosswalk completeness + consistency checks
 python3 -m unittest discover -s tests          # 109 tests incl. crosswalk/staleness negatives
+```
+
+PR-4.1 verification (CI-enforced; same chain):
+
+```bash
+python3 -m cc_spine.cli validate-sources       # attestation guard + freshness ledger
+python3 -m cc_spine.scaffold_validate          # evidence file + 19 official 2026 objectives
+python3 -m unittest discover -s tests          # 116 tests incl. attestation-guard negatives
 ```
 
 Later PRs add: ship gate + distribution report (PR-8) and the full slice-gate suite (PR-9+) —

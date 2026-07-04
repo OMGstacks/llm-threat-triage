@@ -158,6 +158,21 @@ def _check_matrix(matrix, registry_ids: set[str], failures: list[str]) -> None:
             failures.append(f"objective-matrix.json: 2026-09 approx weights sum {approx_total} outside 1.0 +/- 0.02")
         if not upcoming.get("weights_confidence"):
             failures.append("objective-matrix.json: 2026-09 outline must declare weights_confidence")
+        # PR-4.1b: the official 19-objective 2026 set (verified from the ISC2 PDF via
+        # reviewer attestation). Ids unique, titles present, count == 19.
+        up_objectives = []
+        for d in up_domains:
+            for obj in d.get("objectives", []):
+                oid = obj.get("objective_id")
+                up_objectives.append(oid)
+                if not obj.get("objective_title"):
+                    failures.append(f"objective-matrix.json: 2026-09 objective {oid} missing title")
+                if oid and not oid.startswith(d.get("domain_id", "")[1:] + "."):
+                    failures.append(f"objective-matrix.json: 2026-09 objective {oid} prefix != domain {d.get('domain_id')}")
+        if len(up_objectives) != len(set(up_objectives)):
+            failures.append("objective-matrix.json: 2026-09 has duplicate objective ids")
+        if up_objectives and len(up_objectives) != 19:
+            failures.append(f"objective-matrix.json: 2026-09 objective count {len(up_objectives)} != 19 (official set)")
         crosswalk = upcoming.get("crosswalk_map")
         if not isinstance(crosswalk, dict):
             failures.append("objective-matrix.json: 2026-09 crosswalk_map must be an object")
@@ -353,6 +368,40 @@ def _check_markdown_links(failures: list[str]) -> None:
                     )
 
 
+def _check_evidence(evidence, registry, failures: list[str]) -> None:
+    """PR-4.1: the two-lane verification ledger is well-formed, and every
+    operator-unreachable official source has a matching dated attestation."""
+    if evidence is None:
+        failures.append("reference/verification-evidence.json missing or unparseable")
+        return
+    attempts = evidence.get("operator_fetch_attempts")
+    attestations = evidence.get("reviewer_attestations")
+    if not isinstance(attempts, list) or not attempts:
+        failures.append("verification-evidence.json: operator_fetch_attempts must be a non-empty list")
+    else:
+        for i, a in enumerate(attempts):
+            if not a.get("url") or not a.get("result"):
+                failures.append(f"verification-evidence.json: fetch attempt {i} missing url/result")
+    att_urls: set[str] = set()
+    if not isinstance(attestations, list) or not attestations:
+        failures.append("verification-evidence.json: reviewer_attestations must be a non-empty list")
+    else:
+        for i, a in enumerate(attestations):
+            if not a.get("url") or not a.get("date") or not a.get("confirms"):
+                failures.append(f"verification-evidence.json: attestation {i} missing url/date/confirms")
+            else:
+                att_urls.add(a["url"])
+    # Every operator-blocked official source names attestation_urls that exist here.
+    for entry in (registry or {}).get("sources", []):
+        if entry.get("operator_fetch_status") == "blocked_403" \
+                and str(entry.get("confidence", "")).startswith("official"):
+            for url in entry.get("attestation_urls") or ["<none>"]:
+                if url not in att_urls:
+                    failures.append(
+                        f"verification-evidence.json: source {entry.get('id')} needs an "
+                        f"attestation for {url}, none present")
+
+
 def _check_no_raw_transcripts(failures: list[str]) -> None:
     for path in sorted(PROJECT_ROOT.rglob("*")):
         if path.suffix.lower() in FORBIDDEN_UPLOAD_SUFFIXES:
@@ -377,6 +426,8 @@ def run_checks() -> list[str]:
         parsed.get(PROJECT_ROOT / "spine" / "ingest" / "correction-dictionary.json"), failures
     )
     _check_goldset(parsed.get(PROJECT_ROOT / "spine" / "gold" / "goldset.json"), failures)
+    _check_evidence(
+        parsed.get(PROJECT_ROOT / "reference" / "verification-evidence.json"), registry, failures)
     _check_schema_headers(parsed, failures)
     _check_markdown_links(failures)
     _check_no_raw_transcripts(failures)

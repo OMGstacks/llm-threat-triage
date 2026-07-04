@@ -140,17 +140,31 @@ to 2026-09-01 or later, the matrix flips primary target and the crosswalk drives
 
 ## 2026-09 Outline (Upcoming)
 
-Confidence: `reviewer-supplied-needs-official-verification` — isc2.org returned HTTP 403 to
-this environment on 2026-07-04 (declared not-run; see governance spec §17). Domain titles and
-approximate weights come from reviewer-supplied course material.
+Confidence: `official-upcoming-verified` — verified from the official ISC2 2026 CC outline PDF
+via reviewer attestation ([`verification-evidence.json`](verification-evidence.json)). This
+environment could not fetch ISC2 directly (HTTP 403 on 2026-07-04); the two-lane evidence
+model records the operator-blocked fetch and the reviewer's official attestation separately
+(governance spec §17).
 
-| Domain | Title | Approx. weight |
+| Domain | Title | Weight |
 |---|---|---:|
 | D1 | Security Principles | 24% |
 | D2 | Security Governance | 17.3% |
 | D3 | Identity and Access Management (IAM) Concepts | 20% |
 | D4 | Networking and Cloud Security Concepts | 21.3% |
 | D5 | Security Operations and Incident Response | 17.3% |
+
+Official 2026 objectives (19, from the ISC2 PDF; minimal titles only). Documented for the
+crosswalk and future flip — **not yet valid for fact-card tagging** (cards stay on the 2025-10
+outline until a deliberate primary-target flip):
+
+| Domain | Objectives |
+|---|---|
+| D1 | 1.1 Understand cybersecurity concepts · 1.2 Understand risk management concepts · 1.3 Understand governance concepts · 1.4 Understand cybersecurity controls · 1.5 Maintain professional and ethical conduct |
+| D2 | 2.1 Plan Governance, Risk, and Compliance (GRC) · 2.2 Understand redundancy · 2.3 Understand security awareness · 2.4 Measure cybersecurity effectiveness |
+| D3 | 3.1 Understand identity life cycle management · 3.2 Understand logical access controls |
+| D4 | 4.1 Understand network security · 4.2 Understand network security architecture · 4.3 Understand cloud security |
+| D5 | 5.1 Understand data security · 5.2 Understand security operations · 5.3 Understand Incident Response (IR) · 5.4 Understand asset protection · 5.5 Understand security testing |
 
 Crosswalk summary (current objective → 2026 domain; normative map in the matrix):
 
@@ -174,4 +188,4 @@ Crosswalk summary (current objective → 2026 domain; normative map in the matri
 | Domain 1–5 scope summaries | seeded-pending-review | Official-source review (isc2.org 403 to this environment on 2026-07-04 — deferred) |
 | Crypto-agility note | confirmed | New NIST PQC guidance |
 | AI Security Integration | seeded-pending-review | Official-source review (deferred as above) |
-| 2026-09 outline + crosswalk | reviewer-supplied-needs-official-verification | Official-source review; hard stop at 2026-09-01 (source-registry next_review) |
+| 2026-09 outline + 19 objectives + crosswalk | official-upcoming-verified (ISC2 PDF, reviewer attestation) | Hard stop at 2026-09-01 (source-registry next_review); re-attest if PDF changes |

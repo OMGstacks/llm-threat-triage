@@ -455,33 +455,119 @@
     "2026-09": {
       "status": "upcoming",
       "source_id": "isc2.cc-outline.2026-09",
-      "weights_confidence": "reviewer-supplied-needs-official-verification",
-      "note": "Completed in PR-4 from reviewer-supplied course material. Domain titles and approximate weights pend official-source verification: isc2.org returned HTTP 403 to this environment on 2026-07-04 (declared not-run; see 00-governance-spec.md section 17). Objectives are not enumerated until officially verifiable.",
+      "weights_confidence": "official-upcoming-verified",
+      "note": "Official 2026-09 CC outline. Domain titles, approximate weights, and 19 objective IDs/titles verified from the official ISC2 2026 PDF via reviewer attestation (reference/verification-evidence.json). Objectives are documented here but are NOT yet valid for fact-card tagging: cards remain grounded in the 2025-10 outline until a deliberate primary-target flip (cc_spine.registry derives objective ids from 2025-10 only).",
       "domains": [
         {
           "domain_id": "D1",
           "domain_title": "Security Principles",
-          "weight_approx": 0.24
+          "weight_approx": 0.24,
+          "objectives": [
+            {
+              "objective_id": "1.1",
+              "objective_title": "Understand cybersecurity concepts"
+            },
+            {
+              "objective_id": "1.2",
+              "objective_title": "Understand risk management concepts"
+            },
+            {
+              "objective_id": "1.3",
+              "objective_title": "Understand governance concepts"
+            },
+            {
+              "objective_id": "1.4",
+              "objective_title": "Understand cybersecurity controls"
+            },
+            {
+              "objective_id": "1.5",
+              "objective_title": "Maintain professional and ethical conduct"
+            }
+          ]
         },
         {
           "domain_id": "D2",
           "domain_title": "Security Governance",
-          "weight_approx": 0.173
+          "weight_approx": 0.173,
+          "objectives": [
+            {
+              "objective_id": "2.1",
+              "objective_title": "Plan Governance, Risk, and Compliance (GRC)"
+            },
+            {
+              "objective_id": "2.2",
+              "objective_title": "Understand redundancy"
+            },
+            {
+              "objective_id": "2.3",
+              "objective_title": "Understand security awareness"
+            },
+            {
+              "objective_id": "2.4",
+              "objective_title": "Measure cybersecurity effectiveness"
+            }
+          ]
         },
         {
           "domain_id": "D3",
           "domain_title": "Identity and Access Management (IAM) Concepts",
-          "weight_approx": 0.2
+          "weight_approx": 0.2,
+          "objectives": [
+            {
+              "objective_id": "3.1",
+              "objective_title": "Understand identity life cycle management"
+            },
+            {
+              "objective_id": "3.2",
+              "objective_title": "Understand logical access controls"
+            }
+          ]
         },
         {
           "domain_id": "D4",
           "domain_title": "Networking and Cloud Security Concepts",
-          "weight_approx": 0.213
+          "weight_approx": 0.213,
+          "objectives": [
+            {
+              "objective_id": "4.1",
+              "objective_title": "Understand network security"
+            },
+            {
+              "objective_id": "4.2",
+              "objective_title": "Understand network security architecture"
+            },
+            {
+              "objective_id": "4.3",
+              "objective_title": "Understand cloud security"
+            }
+          ]
         },
         {
           "domain_id": "D5",
           "domain_title": "Security Operations and Incident Response",
-          "weight_approx": 0.173
+          "weight_approx": 0.173,
+          "objectives": [
+            {
+              "objective_id": "5.1",
+              "objective_title": "Understand data security"
+            },
+            {
+              "objective_id": "5.2",
+              "objective_title": "Understand security operations"
+            },
+            {
+              "objective_id": "5.3",
+              "objective_title": "Understand Incident Response (IR)"
+            },
+            {
+              "objective_id": "5.4",
+              "objective_title": "Understand asset protection"
+            },
+            {
+              "objective_id": "5.5",
+              "objective_title": "Understand security testing"
+            }
+          ]
         }
       ],
       "crosswalk_map": {
@@ -539,7 +625,10 @@
           "D2"
         ]
       },
-      "effective_date": "2026-09-01"
+      "effective_date": "2026-09-01",
+      "verification_status": "official_source_reviewed",
+      "source_pdf_url": "https://edge.sitecorecloud.io/internationf173-xmc4e73-prodbc0f-9660/media/Project/ISC2/Main/Media/documents/exam-outlines/2026/EXAMS-CC_Exam_Outline-English-Revised-01-2026-Final.pdf",
+      "attested_by": "reviewer_chatgpt_environment (see reference/verification-evidence.json); operator fetch blocked HTTP 403 on 2026-07-04"
     }
   },
   "extensions": [
