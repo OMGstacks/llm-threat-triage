@@ -39,6 +39,10 @@ PR-7 completes fact-card seeding across the remaining domains: 90 cards over D1
 NIST SP 800-61r3's CSF-2.0 reframing kept as a tier-1 note). An adversarial content
 review flagged a six-vs-four phase error and two near-duplicate cards, both fixed.
 Fact store now holds 149 validated cards; all five domains have seed coverage.
+PR-7.1 persists the slice acceptance evidence under ``reports/`` (a data-derived
+distribution report + the adversarial-review record) and records two content-slice
+rules in the governance spec: 40-75 items per growth slice, and no content commit
+until its adversarial review completes. No cards changed.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"

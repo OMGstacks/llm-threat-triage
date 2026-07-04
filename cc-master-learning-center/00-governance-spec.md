@@ -413,14 +413,31 @@ note status (`cc_spine.notes_lifecycle`).
 | 5 | transcript ingestion (distillation): manifest + audit + coverage/gap + concept inventories | no_verbatim guard; manifest raw_committed:false; correction audit |
 | 6 | D4/D5 fact-card seeds (slices ≤ 75) | source coverage; no near-dup; no unsupported claims |
 | 7 | D1–D3 fact-card seeds | same + domain distribution ledger |
-| 8 | quiz engine + first gold items (40–75) | **ship gate activates**: answer-key/holdout leakage, pass rate |
+| 7.1 | fact-card seed acceptance report (distribution + adversarial review, no new cards) | persisted evidence in `reports/`; slice-size + review-order rules recorded (§16) |
+| 8 | quiz engine + first gold items (40–75; first set 40) | **ship gate activates**: answer-key isolation, holdout/leakage, near-dup stem scan, pass rate |
 | 9+ | growth slices toward bank targets | 40–75 slices; rollback on gate failure |
 | n | mock-exam assembler + readiness dashboard + journal + cram sheets | readiness gates; learner-state isolation |
 
 Every PR: small, independently mergeable, gate-proven, started from fresh verified `main`.
-No stacking growth PRs on unmerged branches.
+No stacking growth PRs on unmerged branches. Growth slices carry a persisted acceptance report
+in `reports/` (distribution + adversarial review) — see PR-7.1 for the template.
 
 ## 16. Stop Conditions & Risks
+
+### 16.0 Content-slice discipline (added PR-7.1)
+
+Two rules govern every content-growth slice, both learned from PR-7:
+
+1. **Slice size.** Growth slices are **40–75 items**. A larger slice requires explicit approval
+   *before* implementation, and the acceptance report must record the exception and its
+   justification (PR-7's 90-card slice is the documented precedent; see
+   `reports/pr7-fact-card-distribution.md` §7).
+2. **Review order.** **No content-growth commit until its adversarial content review completes.**
+   Deterministic gates prove well-formedness; only semantic review proves correctness. Committing
+   ahead of review opens a window where a factually-wrong item can ship — unacceptable once
+   answer keys and gold items exist (PR-8+). If the review is still running, the commit waits.
+
+### 16.1 Stop and ask for review
 
 Stop and ask for review if any of the following occur:
 
