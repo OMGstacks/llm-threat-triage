@@ -104,11 +104,11 @@ class ScaffoldValidationTest(unittest.TestCase):
 
     def test_pr8_activated_answer_key_isolation_guard(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["answer_key_isolation_guard"], "active")
-        # Only the holdout guard remains reserved (activates when holdout items land).
-        self.assertEqual(
-            set(scaffold_validate.RESERVED_GUARDS),
-            {"holdout_leakage_guard"},
-        )
+
+    def test_pr8c_activated_holdout_leakage_guard(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["holdout_leakage_guard"], "active")
+        # All tracked guards are now active — none reserved.
+        self.assertEqual(set(scaffold_validate.RESERVED_GUARDS), set())
 
     def test_raw_docx_anywhere_in_repo_scope_fails(self):
         # P0-3: raw file scan covers the full repo root, not just the project dir.

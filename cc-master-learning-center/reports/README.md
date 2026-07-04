@@ -30,3 +30,5 @@ slice starts. At minimum:
 | [`pr8b-gold-item-distribution.md`](pr8b-gold-item-distribution.md) | PR-8b | 40 gold items, banks 18/14/8, 8/domain; anti-gaming metrics |
 | [`pr8b-adversarial-item-review.md`](pr8b-adversarial-item-review.md) | PR-8b | 5 per-domain reviewers; 3 minor stem-quality fixes; 0 factual errors |
 | [`pr8b-adversarial-item-review.json`](pr8b-adversarial-item-review.json) | PR-8b | machine-readable per-item review outcome (companion to the .md) |
+| [`pr8c-holdout-lane.md`](pr8c-holdout-lane.md) | PR-8c | 8 holdout items in a physically separate lane; holdout_leakage_guard active |
+| [`pr8c-holdout-adversarial-review.json`](pr8c-holdout-adversarial-review.json) | PR-8c | holdout review outcome — 0 findings |

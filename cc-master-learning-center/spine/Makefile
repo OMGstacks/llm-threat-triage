@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-export-scan ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -22,6 +22,10 @@ factstore-validate:
 quiz-validate:
 	python3 -m cc_spine.cli quiz validate
 
+# PR-8c holdout lane: same item gates + physical partition + no leakage into practice.
+quiz-holdout-validate:
+	python3 -m cc_spine.cli quiz validate-holdout
+
 # PR-8a.1 leakage scan: the learner export must carry no answer-bearing field. grep
 # returns 0 on a match, so a match makes this target fail.
 quiz-export-scan:
@@ -42,4 +46,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-export-scan test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan test ingest-check

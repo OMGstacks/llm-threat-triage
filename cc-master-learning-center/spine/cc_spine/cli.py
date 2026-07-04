@@ -104,10 +104,23 @@ def cmd_quiz(args) -> int:
     keys = quiz.load_answer_keys(keys_path)
 
     if args.action == "export-learner":
-        # The ONLY learner-facing representation. Prove by construction what a learner
-        # receives — never an answer. CI scans this output for answer-bearing fields.
+        # The ONLY learner-facing representation. Reads the PRACTICE goldset only —
+        # never the holdout lane. CI scans this output for answer-bearing fields.
         print(json.dumps([quiz.learner_view(it) for it in items], indent=2))
         return 0
+
+    if args.action == "validate-holdout":
+        # Explicit evaluator command — the only path that opens the holdout lane.
+        hold = quiz.load_holdout()
+        hkeys = quiz.load_holdout_keys()
+        rep = quiz.validate_gold(fs, hold, hkeys)
+        part = quiz.holdout_partition_problems(items, hold)
+        leak = quiz.holdout_leakage_problems([quiz.learner_view(it) for it in items], hold, hkeys)
+        print(f"holdout lane: {len(hold)} item(s), {len(hkeys)} isolated key(s)")
+        return _report(
+            "holdout validate (same item gates + lane partition + no-leak into practice)",
+            rep["errors"] + part + leak,
+        )
 
     rep = quiz.validate_gold(fs, items, keys)
     bias = quiz.answer_length_bias(items, keys)
@@ -174,7 +187,7 @@ def build_parser() -> argparse.ArgumentParser:
         "quiz",
         help="quiz-engine gate (PR-8a): validate gold items + answer-key isolation")
     p_quiz.add_argument("action", nargs="?", default="validate",
-                        choices=["validate", "export-learner"])
+                        choices=["validate", "export-learner", "validate-holdout"])
     p_quiz.add_argument("--goldset", default=None, help="override goldset path (testing)")
     p_quiz.add_argument("--answer-keys", default=None, help="override answer-key store path (testing)")
     p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")

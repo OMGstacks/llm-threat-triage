@@ -41,6 +41,11 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 _PROJECT_ROOT = Path(__file__).resolve().parents[2]
 GOLDSET_PATH = _PROJECT_ROOT / "spine" / "gold" / "goldset.json"
 ANSWER_KEYS_PATH = _PROJECT_ROOT / "spine" / "gold" / "answer-keys.json"
+# Holdout lane — a PHYSICALLY separate store (PR-8c). The learner practice path
+# (load_goldset / learner_view / export-learner) never opens these files; only the
+# explicit evaluator commands (validate-holdout) do.
+HOLDOUT_PATH = _PROJECT_ROOT / "spine" / "gold" / "holdout.json"
+HOLDOUT_KEYS_PATH = _PROJECT_ROOT / "spine" / "gold" / "holdout-keys.json"
 MISCONCEPTION_REGISTRY_PATH = _PROJECT_ROOT / "reference" / "misconception-registry.json"
 
 # No single correct-answer index may dominate the set (anti-pattern-learning gate).
@@ -408,3 +413,59 @@ def load_answer_keys(path: Path = None) -> list:
     if not path.exists():
         return []
     return json.loads(path.read_text(encoding="utf-8")).get("keys", [])
+
+
+# --- holdout lane (PR-8c) --------------------------------------------------- #
+
+def load_holdout(path: Path = None) -> list:
+    path = path or HOLDOUT_PATH
+    if not path.exists():
+        return []
+    return json.loads(path.read_text(encoding="utf-8")).get("items", [])
+
+
+def load_holdout_keys(path: Path = None) -> list:
+    path = path or HOLDOUT_KEYS_PATH
+    if not path.exists():
+        return []
+    return json.loads(path.read_text(encoding="utf-8")).get("keys", [])
+
+
+def holdout_partition_problems(practice_items, holdout_items) -> list:
+    """The two lanes must be cleanly labelled: every practice item is holdout:false,
+    every holdout item is holdout:true, and no id appears in both lanes."""
+    problems = []
+    for it in practice_items:
+        if it.get("holdout"):
+            problems.append(f"{it.get('id')}: practice item is marked holdout:true (wrong lane)")
+    for it in holdout_items:
+        if not it.get("holdout"):
+            problems.append(f"{it.get('id')}: holdout item must set holdout:true")
+    overlap = {it.get("id") for it in practice_items} & {it.get("id") for it in holdout_items}
+    for iid in sorted(overlap):
+        problems.append(f"{iid}: same id appears in both the practice and holdout lanes")
+    return problems
+
+
+def holdout_leakage_problems(learner_export, holdout_items, holdout_keys) -> list:
+    """The core PR-8c invariant: no holdout stem, choice, or rationale reaches the learner
+    practice lane, and no practice stem is a near-duplicate paraphrase of a holdout stem
+    (which would leak the held-out answer). ``learner_export`` is the list of learner_view
+    projections of the PRACTICE set."""
+    problems = []
+    blob = json.dumps(learner_export, ensure_ascii=False).lower()
+    for h in holdout_items:
+        hid = h.get("id", "<no-id>")
+        # The question itself must never appear in the learner lane.
+        if h.get("stem", "").lower() in blob:
+            problems.append(f"{hid}: holdout stem appears verbatim in the learner export (leak)")
+        # Near-duplicate stem = a practice item that paraphrases the held-out question, which
+        # would teach its answer. (Shared short distractor LABELS across items are domain
+        # vocabulary, not leakage, so they are intentionally not flagged.)
+        ht = _stem_tokens(h.get("stem", ""))
+        for p in learner_export:
+            if _jaccard(ht, _stem_tokens(p.get("stem", ""))) >= _NEAR_DUP_THRESHOLD:
+                problems.append(
+                    f"{hid} / {p.get('id')}: holdout stem near-duplicates a practice stem "
+                    "(derived-leakage risk)")
+    return problems

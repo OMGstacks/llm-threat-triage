@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Machine-readable PR-8c holdout adversarial item review (companion to pr8c-holdout-lane.md).",
+  "method": "one independent adversarial reviewer (author != reviewer); review completed before commit per governance spec section 16.0",
+  "summary": {
+    "items": 8,
+    "factual_errors": 0,
+    "multiple_correct_blockers": 0,
+    "grounding_gaps": 0,
+    "findings": 0
+  },
+  "review": [
+    {
+      "item_id": "D1.1.2.definition.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D2.2.2.definition.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.definition.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D3.3.2.discrimination.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.1.definition.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D4.4.1.discrimination.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.definition.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    },
+    {
+      "item_id": "D5.5.1.scenario.9001",
+      "review_status": "clean",
+      "findings": [],
+      "fixed_before_commit": false
+    }
+  ]
+}

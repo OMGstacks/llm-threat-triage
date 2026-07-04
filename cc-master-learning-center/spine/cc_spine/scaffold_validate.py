@@ -42,7 +42,10 @@ GUARD_STATUS = {
     "source_freshness_guard": "active",       # PR-2: cc_spine.sources
     "ip_boundary_guard": "active",            # PR-2: cc_spine.ipboundary
     "no_verbatim_bulk_reproduction": "active",   # PR-5: cc_spine.ipboundary.scan_verbatim
-    "holdout_leakage_guard": "reserved",   # activates when holdout items land (PR-8b+)
+    # PR-8c: holdout items live in a physically separate lane (spine/gold/holdout.json);
+    # the scaffold enforces the structural half (holdout:true, no answer-bearing field),
+    # cc_spine.cli quiz validate-holdout enforces the grounding + no-leak-into-practice half.
+    "holdout_leakage_guard": "active",
     # PR-8a: the quiz engine isolates answer keys into a separate grader store. The
     # scaffold enforces the structural half here (no answer-bearing field in a learner
     # item file); cc_spine.cli quiz validate enforces the grounding + hash + near-dup half.
@@ -357,6 +360,31 @@ def _check_goldset(goldset, failures: list[str]) -> None:
                     "(answer_key_isolation_guard)")
 
 
+def _check_holdout(holdout, failures: list[str]) -> None:
+    """PR-8c holdout_leakage_guard (structural half): the holdout item file must exist,
+    every item must set holdout:true, and — like the practice lane — carry no answer-bearing
+    field. The grounding + no-leak-into-practice half runs in cli quiz validate-holdout."""
+    if holdout is None:
+        failures.append("holdout.json missing or unparseable")
+        return
+    items = holdout.get("items")
+    if not isinstance(items, list):
+        failures.append("holdout.json: items must be a JSON array")
+        return
+    for item in items:
+        if not isinstance(item, dict):
+            failures.append("holdout.json: each item must be an object")
+            continue
+        iid = item.get("id", "<no-id>")
+        if item.get("holdout") is not True:
+            failures.append(f"holdout.json: item {iid} must set holdout:true (lane label)")
+        for bad in _GOLDSET_FORBIDDEN_KEYS:
+            if bad in item:
+                failures.append(
+                    f"holdout.json: item {iid} carries answer-bearing field {bad!r} "
+                    "(holdout_leakage_guard)")
+
+
 def _check_schema_headers(parsed: dict[Path, object], failures: list[str]) -> None:
     schema_dir = PROJECT_ROOT / "spine" / "schemas"
     schema_files = sorted(schema_dir.glob("*.schema.json"))
@@ -480,6 +508,7 @@ def run_checks() -> list[str]:
         parsed.get(PROJECT_ROOT / "spine" / "ingest" / "correction-dictionary.json"), failures
     )
     _check_goldset(parsed.get(PROJECT_ROOT / "spine" / "gold" / "goldset.json"), failures)
+    _check_holdout(parsed.get(PROJECT_ROOT / "spine" / "gold" / "holdout.json"), failures)
     _check_evidence(
         parsed.get(PROJECT_ROOT / "reference" / "verification-evidence.json"), registry, failures)
     _check_manifest(
@@ -507,7 +536,7 @@ def main() -> int:
             print(f"  - {failure}")
     else:
         print("OK: JSON well-formed; matrix, registry joins, banks, correction dictionary,")
-        print("    facts/goldset arrays, answer-key isolation, schema headers, markdown links, no-transcript rule all pass.")
+        print("    facts/goldset/holdout arrays, answer-key + holdout isolation, schema headers, markdown links, no-transcript rule all pass.")
     print("Guard status (active guards run via cc_spine.cli; reserved activate in later PRs):")
     for guard, status in GUARD_STATUS.items():
         print(f"  {guard}: {status}")

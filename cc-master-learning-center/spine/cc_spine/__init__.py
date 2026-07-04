@@ -72,6 +72,14 @@ advisory answer-length-bias metric (40% warn). Eight near-tie items had a weak d
 strengthened to parallel length, bringing longest-correct 52% -> 32% without changing any
 keyed answer. Adds an all-choices grading smoke test over all 40 items and a machine-readable
 review artifact (reports/pr8b-adversarial-item-review.json).
+PR-8c adds the holdout lane in a PHYSICALLY separate store (spine/gold/holdout.json +
+holdout-keys.json) that the learner practice path never opens; only the explicit
+``quiz validate-holdout`` evaluator command reads it. It flips the ``holdout_leakage_guard``
+active: the scaffold enforces holdout:true + answer isolation structurally, and the CLI
+enforces the same item gates plus lane partition and a no-leak-into-practice check (no
+holdout stem, verbatim or near-duplicate, reaches the learner export). Ships 8 unseen
+holdout items on concepts distinct from the 40 practice items; all tracked guards are now
+active. Evidence in reports/pr8c-*.
 """
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"

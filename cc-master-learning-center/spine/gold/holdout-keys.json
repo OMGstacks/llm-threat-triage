@@ -1,0 +1,198 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Grader-only holdout answer keys (PR-8c). Physically separate from both the learner lane and the practice grader keys.",
+  "keys": [
+    {
+      "answer_key_ref": "D1.1.2.definition.9001.key",
+      "item_id": "D1.1.2.definition.9001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D1.12-risk"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:74200c9235f35fb9346ac9096667542c71f0d6d1fec6a92e549b99793904fccd",
+      "item_hash": "sha256:a48cccbc0a464e2ae6cc02c1564e9e6dc9ec5b3be97806bc3b6d0db3690a6acc"
+    },
+    {
+      "answer_key_ref": "D2.2.2.definition.9001.key",
+      "item_id": "D2.2.2.definition.9001",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D2.22-hot-site"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "dr-site-tier-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "dr-site-tier-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "dr-site-tier-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:2d27e74dff5b715a2756c9dd6a85eb96a665a5041de21dc517fd1c96d369ba3c",
+      "item_hash": "sha256:5942ec5012759f416f5ca19d7d4ac175103376b31fd894d5548240d77b95a7ca"
+    },
+    {
+      "answer_key_ref": "D3.3.2.definition.9001.key",
+      "item_id": "D3.3.2.definition.9001",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D3.32-separation-of-duties"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "access-principle-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "access-principle-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "access-principle-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:a875bcedbb84cf22fbf2dc9dd542d806a1c018832b19445f06a0082fd904ec29",
+      "item_hash": "sha256:793cc07de27fc2fce1a2b9d8767df8099422904c7a8a632533cf5904bf6b6cfb"
+    },
+    {
+      "answer_key_ref": "D3.3.2.discrimination.9001.key",
+      "item_id": "D3.3.2.discrimination.9001",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D3.32-mac-vs-rbac"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:d732952b0f2ef0b04b1f7bc49331d015dd03ab804313e9fac30194d73e58da12",
+      "item_hash": "sha256:f0cf683a6145b13b4c21da17f9be42cc8e847edd1a78069b62ddc7bfbfe2155a"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.9001.key",
+      "item_id": "D4.4.1.definition.9001",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D4.41-ports-admin"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "ssh-port-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "ssh-port-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "ssh-port-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:2de1f02f54c56738b5064c2bbc4d0b0101af796389094a3cebc3598c7d6d569e",
+      "item_hash": "sha256:ac31a7cd8146d2fbea9a8f3116df91976adbf78eaf9342b831a7302f68df1035"
+    },
+    {
+      "answer_key_ref": "D4.4.1.discrimination.9001.key",
+      "item_id": "D4.4.1.discrimination.9001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D4.41-osi-vs-tcpip"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "3": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:42fe252828e0800e83e9dbd1d9b725e5d0831a9e8fcd026500f5de5d568707fd",
+      "item_hash": "sha256:547a02fda4af40abaf4df29fa4bc73c4c91f8f0ade46f4835b0036cd0b580e50"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.9001.key",
+      "item_id": "D5.5.1.definition.9001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D5.51-data-classification"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:48dd06c4a27e4dedf30d97ceb73d89b63a23d74e149b483ee987dee01777c71d",
+      "item_hash": "sha256:fdffd29709e790bd62fe3d434d6747b8bfbe1d7ebf2b160d0c37ed29e56b3488"
+    },
+    {
+      "answer_key_ref": "D5.5.1.scenario.9001.key",
+      "item_id": "D5.5.1.scenario.9001",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D5.51-hybrid-encryption"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "hybrid-vs-pure-asymmetric",
+          "category": "crypto_property_confusion"
+        },
+        "2": {
+          "misconception_id": "hybrid-vs-pure-asymmetric",
+          "category": "crypto_property_confusion"
+        },
+        "3": {
+          "misconception_id": "hybrid-vs-pure-asymmetric",
+          "category": "crypto_property_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:9039b65681f1f67db520bdcbf2d154bb095c6cb4c9bd37d88279d9fe8539139d",
+      "item_hash": "sha256:afcbcac9e8c55319e2d462d0d4a3f202c92609357149a5c6d68fec9e0257a1d3"
+    }
+  ]
+}

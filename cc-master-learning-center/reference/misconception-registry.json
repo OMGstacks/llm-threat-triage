@@ -299,6 +299,46 @@
       "category": "crypto_property_confusion",
       "objective": "5.1",
       "origin": "pr8b gold-item authoring"
+    },
+    {
+      "id": "dr-site-tier-confusion",
+      "misconception": "Confusing the DR site tiers (hot/warm/cold) and their readiness levels.",
+      "correct": "A hot site is fully operational with current data for immediate failover; a warm site is partially configured; a cold site is space and power only.",
+      "category": "definition_confusion",
+      "objective": "2.2",
+      "origin": "pr8c holdout authoring"
+    },
+    {
+      "id": "osi-tcpip-confusion",
+      "misconception": "The OSI and TCP/IP models have the same layer count or the same role.",
+      "correct": "Swapping the OSI reference model (7 theoretical layers) with the TCP/IP model (4 practical layers used by the internet).",
+      "category": "network_device_confusion",
+      "objective": "4.1",
+      "origin": "pr8c holdout authoring"
+    },
+    {
+      "id": "ssh-port-confusion",
+      "misconception": "Assigning SSH a well-known port other than TCP 22.",
+      "correct": "SSH uses TCP port 22; Telnet is 23, SMTP is 25, RDP is 3389.",
+      "category": "definition_confusion",
+      "objective": "4.1",
+      "origin": "pr8c holdout authoring"
+    },
+    {
+      "id": "data-handling-term-confusion",
+      "misconception": "Confusing data-handling terms (classification, retention, masking, tokenization).",
+      "correct": "Data classification assigns sensitivity labels; retention sets keep/dispose periods; masking and tokenization substitute values.",
+      "category": "definition_confusion",
+      "objective": "5.1",
+      "origin": "pr8c holdout authoring"
+    },
+    {
+      "id": "hybrid-vs-pure-asymmetric",
+      "misconception": "Believing asymmetric encryption alone is the right tool to encrypt large files.",
+      "correct": "Hybrid encryption uses asymmetric to exchange a symmetric session key, then symmetric for bulk data; pure asymmetric is too slow for large files.",
+      "category": "crypto_property_confusion",
+      "objective": "5.1",
+      "origin": "pr8c holdout authoring"
     }
   ]
 }

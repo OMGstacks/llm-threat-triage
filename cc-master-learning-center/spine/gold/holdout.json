@@ -1,0 +1,230 @@
+{
+  "version": "0.5.0",
+  "note": "PR-8c holdout lane: 8 unseen items in a PHYSICALLY separate store. The learner practice path (goldset.json / export-learner) never opens this file. Read only by explicit evaluator commands (quiz validate-holdout) and, later, the mock-exam draw. Same isolation as goldset: no correct answer lives here; keys are in holdout-keys.json.",
+  "items": [
+    {
+      "id": "D1.1.2.definition.9001",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "risk",
+      "stem": "Which term is defined as the combination of the likelihood of a threat event and the impact if it occurs?",
+      "choices": [
+        "Risk",
+        "Threat",
+        "Vulnerability",
+        "Impact"
+      ],
+      "answer_key_ref": "D1.1.2.definition.9001.key",
+      "fact_ids": [
+        "D1.12-risk"
+      ],
+      "expected_keywords": [
+        "combination of the likelihood"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.definition.9001",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "hot site",
+      "stem": "Which disaster-recovery site is fully operational with equipment and current data, enabling near-immediate failover?",
+      "choices": [
+        "A cold site",
+        "A hot site",
+        "A warm site",
+        "A mobile recovery van"
+      ],
+      "answer_key_ref": "D2.2.2.definition.9001.key",
+      "fact_ids": [
+        "D2.22-hot-site"
+      ],
+      "expected_keywords": [
+        "fully operational"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.9001",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "separation of duties",
+      "stem": "Which principle requires that no single person controls an entire high-risk process from start to finish?",
+      "choices": [
+        "Least privilege",
+        "Need to know",
+        "Separation of duties",
+        "Defense in depth"
+      ],
+      "answer_key_ref": "D3.3.2.definition.9001.key",
+      "fact_ids": [
+        "D3.32-separation-of-duties"
+      ],
+      "expected_keywords": [
+        "no single person"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.discrimination.9001",
+      "bank": "concept_discrimination",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "MAC vs RBAC",
+      "stem": "Which statement correctly distinguishes MAC from RBAC?",
+      "choices": [
+        "RBAC enforces access by mandatory classification labels the owner cannot override; MAC grants access based on job roles.",
+        "Both MAC and RBAC let the resource owner grant access at their own discretion.",
+        "MAC assigns permissions to job roles, while RBAC applies government classification labels.",
+        "MAC enforces access by mandatory classification labels the owner cannot override; RBAC grants access based on assigned job roles."
+      ],
+      "answer_key_ref": "D3.3.2.discrimination.9001.key",
+      "fact_ids": [
+        "D3.32-mac-vs-rbac"
+      ],
+      "expected_keywords": [
+        "classification labels"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.9001",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "SSH port",
+      "stem": "Which port does SSH use for encrypted remote administration?",
+      "choices": [
+        "TCP 23",
+        "TCP 25",
+        "TCP 3389",
+        "TCP 22"
+      ],
+      "answer_key_ref": "D4.4.1.definition.9001.key",
+      "fact_ids": [
+        "D4.41-ports-admin"
+      ],
+      "expected_keywords": [
+        "SSH = TCP 22"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.discrimination.9001",
+      "bank": "concept_discrimination",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "OSI vs TCP/IP model",
+      "stem": "Which statement correctly distinguishes the OSI model from the TCP/IP model?",
+      "choices": [
+        "OSI is a 7-layer theoretical reference model, whereas TCP/IP is a 4-layer practical model used by the internet.",
+        "TCP/IP is a 7-layer theoretical reference model, whereas OSI is the 4-layer model used by the internet.",
+        "Both OSI and TCP/IP have exactly seven layers and are used interchangeably in practice.",
+        "OSI is the protocol suite the internet runs on, while TCP/IP is only a teaching diagram."
+      ],
+      "answer_key_ref": "D4.4.1.discrimination.9001.key",
+      "fact_ids": [
+        "D4.41-osi-vs-tcpip"
+      ],
+      "expected_keywords": [
+        "7 layers"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.9001",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "data classification",
+      "stem": "Which process assigns sensitivity labels such as Public or Confidential to data to drive how it is handled?",
+      "choices": [
+        "Data classification",
+        "Data retention",
+        "Data masking",
+        "Data tokenization"
+      ],
+      "answer_key_ref": "D5.5.1.definition.9001.key",
+      "fact_ids": [
+        "D5.51-data-classification"
+      ],
+      "expected_keywords": [
+        "sensitivity labels"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.scenario.9001",
+      "bank": "scenario_application",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "hybrid encryption",
+      "stem": "An application must encrypt a large file for a recipient with whom it shares no key in advance; which approach fits best?",
+      "choices": [
+        "Encrypt the entire large file directly with the recipient's public key using asymmetric encryption.",
+        "Use hybrid encryption: exchange a symmetric session key using asymmetric encryption, then encrypt the file with that symmetric key.",
+        "Hash the file with SHA-256 and send the digest so the recipient can recover the contents.",
+        "Encrypt the file with a symmetric key and email that same key alongside the file."
+      ],
+      "answer_key_ref": "D5.5.1.scenario.9001.key",
+      "fact_ids": [
+        "D5.51-hybrid-encryption"
+      ],
+      "expected_keywords": [
+        "asymmetric to securely exchange"
+      ],
+      "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    }
+  ]
+}
