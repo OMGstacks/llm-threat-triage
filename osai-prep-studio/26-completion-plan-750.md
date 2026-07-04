@@ -126,3 +126,32 @@ frozen at **750–756** · docs updated.
 No generation in PR23 · no reuse padding · no ship-gate weakening · **no L13** · no
 transcript/provider/auth/Ollama changes · `fact_id` grounding for all new fact-grounded
 growth · `framework_recall` +≤2 and `architecture_reasoning` +≤6 (do not overgrow to hit 750).
+
+## 10. Completion progress (actuals)
+
+| PR | landed | net | gold set | notes |
+|---|---|---:|---:|---|
+| **PR24** | ✅ merged | +37 cards | 671 | `reference`/`detector_property`/`decision` claim types + `catalog` source; 0 items. |
+| **PR25** | ✅ merged | +35 items | **706** | fact-grounded: `lab_grounded` +28 → 134, `tool_use_judgment` +7 → 40. Landed at the floor — `tool_use_judgment` is honestly capped at +7 (7 real decision sections). |
+| **PR26** | this PR | +40 items | **746** | authored: `report_quality` +22 → 84, `stale_claim_detection` +12 → 48, `refusal` +6 → 56. |
+| **PR27** | pending | ±trim | **750–756** | stabilise/freeze; top up the last few only if clearly justified. |
+
+**Bank distribution at 746 vs 04a targets** (● in range · ▲ at/above cap · ○ below):
+
+| bank | now | target | |
+|---|---:|---:|:--|
+| `framework_recall` | 158 | 140–160 | ● |
+| `architecture_reasoning` | 92 | 75–100 | ● |
+| `abstention` | 75 | 75–100 | ● (held, no padding) |
+| `lab_grounded` | 134 | 125–150 | ● |
+| `report_quality` | 84 | 100–125 | ○ (largest remaining gap; distinct exemplars only) |
+| `tool_use_judgment` | 40 | 50–75 | ○ (fact cards exhausted at +7; needs authored items or a new source) |
+| `stale_claim_detection` | 48 | 50–75 | ○ (near cap of distinct claims the grader can adjudicate) |
+| `refusal` | 56 | 75–100 | ○ (grown only where scenarios are genuinely distinct) |
+| `lab_answer_leakage` | 59 | 75–100 | ○ (deferred — needs realistic new probes) |
+
+At 746 the set is **9 items short of 755**; PR27 lands the exact **750–756** by a whole-set
+dedupe/near-dup sweep plus, only if clearly justified, a handful of additional distinct items
+in the still-below banks. The remaining gaps (`report_quality`, `tool_use_judgment`,
+`stale_claim`, `refusal`, `lab_answer_leakage`) are **honest coverage limits**, not padding
+targets — closing them fully is future work beyond the 750 line.
