@@ -212,18 +212,21 @@ def render_plan(script, *, provider: str | None = None, ext: str = "mp3") -> dic
     sc = parse_script(script)
     provider = provider or provider_name()
     voice = sc["voice"]
-    segs, total_chars, total_secs = [], 0, 0.0
+    segs, total_chars, cursor = [], 0, 0.0
     for seg in sc["segments"]:
         chars = len(seg["text"])
         secs = chars / _CHARS_PER_SEC
         key = cache_key(seg["text"], provider=provider, voice=voice)
         segs.append({
-            "id": seg["id"], "chars": chars, "est_seconds": round(secs, 1),
+            "id": seg["id"], "text": seg["text"], "chars": chars,
+            "start": round(cursor, 2), "end": round(cursor + secs, 2),
+            "est_seconds": round(secs, 1),
             "audio": f"{sc['lesson_id']}/{seg['id']}.{key}.{ext}",
             **({"slide": seg["slide"]} if "slide" in seg else {}),
         })
         total_chars += chars
-        total_secs += secs
+        cursor += secs
+    total_secs = cursor
     rate = rate_per_million(provider)
     return {
         "lesson_id": sc["lesson_id"], "title": sc["title"], "voice": voice,
@@ -234,6 +237,20 @@ def render_plan(script, *, provider: str | None = None, ext: str = "mp3") -> dic
         "est_cost_usd": round(total_chars / 1_000_000 * rate, 4),
         "rate_per_million_usd": rate,
     }
+
+
+def to_vtt(plan: dict) -> str:
+    """WebVTT captions from a render plan — the player renders these as synced subtitles,
+    and they double as the accessible transcript. Timings are the estimated segment
+    boundaries; a renderer can refine them to the real audio durations."""
+    def ts(s: float) -> str:
+        h, rem = divmod(float(s), 3600)
+        m, sec = divmod(rem, 60)
+        return f"{int(h):02d}:{int(m):02d}:{sec:06.3f}"
+    lines = ["WEBVTT", ""]
+    for s in plan["segments"]:
+        lines += [s["id"], f"{ts(s['start'])} --> {ts(s['end'])}", s["text"], ""]
+    return "\n".join(lines)
 
 
 def render_segment(text: str, out_path, *, provider: str | None = None, voice: str | None = None):
@@ -279,7 +296,10 @@ def write_manifest(script, out_dir, *, provider: str | None = None) -> dict:
     timing and captions, and a batch renderer fills in the audio files listed in it."""
     import json
     plan = render_plan(script, provider=provider)
-    out = Path(out_dir) / f"{plan['lesson_id']}.manifest.json"
-    out.parent.mkdir(parents=True, exist_ok=True)
+    base = Path(out_dir)
+    base.mkdir(parents=True, exist_ok=True)
+    out = base / f"{plan['lesson_id']}.manifest.json"
     out.write_text(json.dumps(plan, indent=2), encoding="utf-8")
-    return {"manifest": str(out), "plan": plan}
+    vtt = base / f"{plan['lesson_id']}.vtt"                 # captions ship next to the manifest
+    vtt.write_text(to_vtt(plan), encoding="utf-8")
+    return {"manifest": str(out), "captions": str(vtt), "plan": plan}
