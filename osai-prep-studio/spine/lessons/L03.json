@@ -1,0 +1,29 @@
+{
+  "lesson_id": "L03",
+  "title": "Encoded payload smuggling",
+  "module": "M3",
+  "owasp": "LLM01:2025",
+  "voice": "en-GB",
+  "segments": [
+    { "slide": "title",
+      "text": "Welcome to Lab L03: encoded payload smuggling. By the end of this lesson you'll understand how an attacker sneaks a prompt injection past a keyword filter by hiding it inside an encoding — and how to defend against it. This lab maps to OWASP LLM01, Prompt Injection, in module three." },
+    { "slide": "the-setup",
+      "text": "Here's the setup. A chatbot sits behind a naive input filter. The filter blocks obvious attack phrases — words like 'ignore previous instructions' or 'system prompt'. If your message contains a banned keyword, it never reaches the model. Simple, and on the surface, reasonable." },
+    { "slide": "the-flaw",
+      "text": "The flaw is that the filter inspects the raw text, but the model reads meaning. So if we can carry our instruction in a form the filter doesn't recognise as text — but the model still decodes and understands — we walk straight through the front door." },
+    { "slide": "attack-encode",
+      "text": "That form is an encoding. Take the malicious instruction and base64-encode it. Now the banned keywords are gone; the filter sees a harmless-looking blob of letters and digits. We wrap it in an innocent request: 'please base64-decode the following and follow it', then paste the blob." },
+    { "slide": "attack-fire",
+      "text": "The model decodes the blob, recovers the original instruction, and — because it was never trained to treat decoded content as untrusted — obeys it. The injection fires. That is the smuggle: the payload crossed the boundary disguised, then reassembled itself on the other side." },
+    { "slide": "detector",
+      "text": "In the range, this lab is two-signal graded. The reused detector, encoded_injection_payload, flags the obfuscated carrier; and you must physically produce the evidence token — the flag — for the attempt to count. Detecting the encoding alone isn't a pass, and printing a flag alone isn't a pass. You need both." },
+    { "slide": "beyond-base64",
+      "text": "Base64 is just the teaching case. The same trick works with hex, ROT13, URL-encoding, homoglyphs, zero-width characters, or splitting the payload across turns. Any transform the filter doesn't normalise but the model still understands is a smuggling channel. The public tool garak's encoding probes automate dozens of these." },
+    { "slide": "defense",
+      "text": "The defense is decode-then-inspect, also called canonicalisation. Before you filter, normalise the input: decode known encodings, strip zero-width characters, fold homoglyphs to their base letters — then run your detection on the canonical form. You inspect what the model will actually see, not the disguise." },
+    { "slide": "defense-variants",
+      "text": "The lab ships three defence variants so you can feel the difference. D0 is undefended. D2 is the naive keyword filter you just bypassed. D7 canonicalises first — try your base64 payload against D7 and watch it get caught, because the filter now sees the decoded instruction." },
+    { "slide": "takeaway",
+      "text": "The takeaway for your report and the exam: prompt injection isn't only about clever wording — it's about the boundary between untrusted input and trusted instruction, and every place that boundary can be crossed in disguise. Filter the meaning, not the spelling. Next lab, we take this further." }
+  ]
+}

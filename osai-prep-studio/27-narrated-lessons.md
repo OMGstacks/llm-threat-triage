@@ -79,6 +79,31 @@ captions) and a **batch renderer** (fill in the audio) consume.
 Pipeline: **author script → `narrate plan` (review/cost) → batch render once → cache audio +
 manifest → ship.** Slides/terminal come from the doc-08 Marp/reveal.js/Mermaid path.
 
+## 4.1 Worked example — render L03 locally (the first real lesson)
+
+The first real narrated lesson ships at `spine/lessons/L03.json` (encoded payload
+smuggling, 10 segments, ~3:19, grounded in the lab's own detector/OWASP/defence facts).
+Rendering it needs **only a local OSS voice** — no key, no cloud:
+
+```bash
+# 1. plan it (offline — no provider needed): segments, timing, cost, cache keys
+osai_spine narrate --script spine/lessons/L03.json plan
+
+# 2. install a local voice once, e.g. Piper (or Kokoro / XTTS) — any CLI works
+#    (see https://github.com/rhasspy/piper); download a British English voice model
+
+# 3. render audio + manifest + WebVTT captions, cached and idempotent
+OSAI_TTS=1 \
+OSAI_TTS_CMD='piper --model en_GB-alan-medium.onnx --output_file {out}' \
+  osai_spine narrate --script spine/lessons/L03.json --out narration render
+```
+
+Output: `narration/L03.manifest.json` (segment ids, captions, `start`/`end` timings,
+sha256 cache keys, audio paths), `narration/L03.vtt` (WebVTT captions/transcript), and
+`narration/L03/*.mp3` (one file per segment). Re-running only re-renders changed segments.
+The player in §5 consumes exactly these three artifacts. The whole pipeline is proven
+end-to-end offline in `tests/test_lesson_l03.py` with a mocked local voice.
+
 ## 5. The lesson player (next build)
 
 A new `/lessons/[id]` route: audio element + synced highlighted transcript (word/segment
@@ -142,9 +167,13 @@ cost — that pushes toward the subscription/lab-time model rather than a cheap 
 ## 8. Status & roadmap
 
 - ✅ **Built:** the provider-agnostic narration seam (`narration.py`), the `narrate
-  status/plan/render` CLI, script parsing, deterministic plan/manifest + cost model, gated
-  fail-closed render, 15 offline tests. OSS-default, off by default, no keys, CI-green.
-- ▶ **Next (in order):** (1) render one real lesson end-to-end with a local OSS voice;
-  (2) the `/lessons/[id]` player with synced captions/slides; (3) author the Track-2 lesson
-  scripts; (4) wire the ElevenLabs + HeyGen premium pipeline behind the same seam;
-  (5) package + price per §7.
+  status/plan/render` CLI, script parsing, deterministic plan/manifest + WebVTT captions +
+  cost model, gated fail-closed render. OSS-default, off by default, no keys, CI-green.
+- ✅ **Proven (this PR):** the **first real lesson**, `spine/lessons/L03.json`, renders
+  end-to-end through the local OSS seam — manifest + captions + per-segment audio — tested
+  offline in `tests/test_lesson_l03.py` (§4.1).
+- ▶ **Next (in order):** (1) the `/lessons/[id]` **player** that consumes the manifest +
+  VTT (synced captions/slides, speed/scrub); (2) author the Track-2 lesson scripts;
+  (3) wire the ElevenLabs + HeyGen premium pipeline behind the same seam; (4) package +
+  price per §7. The repo-backed `/tutor` · `/report` · lab-grader web vertical slice still
+  stands as a parallel track.
