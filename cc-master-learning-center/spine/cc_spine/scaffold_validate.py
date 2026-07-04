@@ -37,7 +37,7 @@ FORBIDDEN_UPLOAD_SUFFIXES = {".docx", ".doc", ".pdf", ".pptx"}
 GUARD_STATUS = {
     "source_freshness_guard": "active",       # PR-2: cc_spine.sources
     "ip_boundary_guard": "active",            # PR-2: cc_spine.ipboundary
-    "no_verbatim_bulk_reproduction": "reserved",
+    "no_verbatim_bulk_reproduction": "active",   # PR-5: cc_spine.ipboundary.scan_verbatim
     "holdout_leakage_guard": "reserved",
     # Card-level answer-key quarantine shipped in PR-3 (factstore validate_card +
     # ground()/for_bank filters); the guard itself names bank-output/holdout
@@ -402,6 +402,25 @@ def _check_evidence(evidence, registry, failures: list[str]) -> None:
                         f"attestation for {url}, none present")
 
 
+def _check_manifest(manifest, failures: list[str]) -> None:
+    """PR-5: the ingestion source manifest never commits raw transcripts."""
+    if manifest is None:
+        return  # manifest is optional until PR-5 ships one
+    if manifest.get("ip_policy") != "distillation_only":
+        failures.append("source-manifest.json: ip_policy must be 'distillation_only'")
+    if not manifest.get("authorization", {}).get("authorized_by"):
+        failures.append("source-manifest.json: missing authorization.authorized_by")
+    for entry in manifest.get("sources", []):
+        sid = entry.get("source_doc_id", "<missing>")
+        if entry.get("raw_committed") is not False:
+            failures.append(f"source-manifest.json {sid}: raw_committed must be false")
+        if not re.fullmatch(r"[0-9a-f]{64}", str(entry.get("sha256", ""))):
+            failures.append(f"source-manifest.json {sid}: sha256 must be a 64-hex digest")
+        name = entry.get("original_filename")
+        if name and (PROJECT_ROOT / name).exists():
+            failures.append(f"source-manifest.json {sid}: raw file {name!r} must not be in the repo")
+
+
 def _check_no_raw_transcripts(failures: list[str]) -> None:
     for path in sorted(PROJECT_ROOT.rglob("*")):
         if path.suffix.lower() in FORBIDDEN_UPLOAD_SUFFIXES:
@@ -428,10 +447,20 @@ def run_checks() -> list[str]:
     _check_goldset(parsed.get(PROJECT_ROOT / "spine" / "gold" / "goldset.json"), failures)
     _check_evidence(
         parsed.get(PROJECT_ROOT / "reference" / "verification-evidence.json"), registry, failures)
+    _check_manifest(
+        parsed.get(PROJECT_ROOT / "spine" / "ingest" / "source-manifest.json"), failures)
     _check_schema_headers(parsed, failures)
     _check_markdown_links(failures)
     _check_no_raw_transcripts(failures)
+    for problem in _verbatim_module().scan_verbatim(
+            [PROJECT_ROOT / "notes", PROJECT_ROOT / "reference"]):
+        failures.append(problem)
     return failures
+
+
+def _verbatim_module():
+    from . import ipboundary
+    return ipboundary
 
 
 def main() -> int:

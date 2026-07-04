@@ -65,6 +65,51 @@ def scan_facts(facts_dir: Path) -> list[str]:
     return failures
 
 
+# no_verbatim_bulk_reproduction guard (PR-5): committed learner-facing markdown
+# must be distilled (structured: headings, tables, bullets, short glosses), never
+# transcript-shaped bulk prose. A prose paragraph over this cap reads as a dumped
+# or lightly-paraphrased lecture passage — the Course Transcript IP Boundary
+# forbids it. Distilled paragraphs run well under this; transcript paragraphs here
+# are thousands of words.
+_MAX_PROSE_WORDS = 150
+_STRUCTURED_LINE = re.compile(r"^\s*(#{1,6}\s|\||>|[-*]\s|\d+\.\s|```|:?---\s*$)")
+
+
+def _is_structured_block(block: str) -> bool:
+    lines = [ln for ln in block.splitlines() if ln.strip()]
+    return bool(lines) and all(_STRUCTURED_LINE.match(ln) for ln in lines)
+
+
+def _strip_frontmatter(text: str) -> str:
+    lines = text.splitlines()
+    if lines and lines[0].strip() == "---":
+        for i in range(1, len(lines)):
+            if lines[i].strip() == "---":
+                return "\n".join(lines[i + 1:])
+    return text
+
+
+def scan_verbatim(md_dirs, max_words: int = _MAX_PROSE_WORDS) -> list[str]:
+    """Flag committed markdown paragraphs that look like transcript-shaped bulk
+    prose (over max_words). Structured content (headings/tables/bullets/code) is
+    exempt. Fenced code blocks are skipped wholesale."""
+    failures: list[str] = []
+    for md_dir in md_dirs:
+        for path in sorted(Path(md_dir).rglob("*.md")):
+            body = _strip_frontmatter(path.read_text(encoding="utf-8"))
+            # drop fenced code blocks (may legitimately hold long lines)
+            body = re.sub(r"```.*?```", "", body, flags=re.DOTALL)
+            for block in re.split(r"\n\s*\n", body):
+                if not block.strip() or _is_structured_block(block):
+                    continue
+                words = count_words(block)
+                if words > max_words:
+                    failures.append(
+                        f"{path.name}: prose paragraph of {words} words exceeds the "
+                        f"no-verbatim cap ({max_words}); distill into structured learning objects")
+    return failures
+
+
 def scan_notes(notes_dir: Path) -> list[str]:
     """Check published (status: reviewed) notes for over-length verbatim spans.
 

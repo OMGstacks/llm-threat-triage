@@ -15,11 +15,14 @@
       "context_regex": "(area network|wearable|bluetooth|personal)",
       "never_before": "(test|tester|testing)",
       "false_positive_notes": "'pen' also appears in 'pen test' / 'penetration testing'; never suggest there.",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'a pen connects wearables' -> 'a PAN connects wearables'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "land",
@@ -29,11 +32,14 @@
       "confidence": "medium",
       "context_regex": "(network|local area|switch|ethernet|office)",
       "false_positive_notes": "Common English word; only suggest in networking context.",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'devices on the same land' -> 'devices on the same LAN'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "wings",
@@ -43,11 +49,14 @@
       "confidence": "low",
       "context_regex": "(wide area|network|geographic|sites|branch)",
       "false_positive_notes": "Low-confidence ASR error; mark [VERIFY] on every hit.",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'connect offices over the wings' -> 'connect offices over the WAN'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "art",
@@ -57,11 +66,14 @@
       "confidence": "medium",
       "context_regex": "(address resolution|MAC|IP address|protocol)",
       "false_positive_notes": "Common English word; only suggest in address-resolution context.",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'art maps IP addresses to MAC addresses' -> 'ARP maps IP addresses to MAC addresses'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "ICP",
@@ -70,11 +82,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(ping|echo|control message|protocol)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'ping uses ICP' -> 'ping uses ICMP'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "DHTP",
@@ -83,11 +98,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(IP address|lease|assign|dynamic)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'DHTP assigns IP addresses' -> 'DHCP assigns IP addresses'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "DMC",
@@ -96,11 +114,14 @@
       "case_sensitive": false,
       "confidence": "medium",
       "context_regex": "(firewall|perimeter|public-facing|demilitarized|zone)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'web servers go in the DMC' -> 'web servers go in the DMZ'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "IS SAS pass",
@@ -109,11 +130,14 @@
       "case_sensitive": false,
       "confidence": "medium",
       "context_regex": "(cloud|service model)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'cloud models IS SAS pass' -> 'cloud models IaaS, SaaS, PaaS'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "mag address",
@@ -122,11 +146,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(hardware|network interface|physical|switch)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'every NIC has a mag address' -> 'every NIC has a MAC address'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "secure cipher",
@@ -136,11 +163,14 @@
       "confidence": "medium",
       "context_regex": "(shift|substitution|alphabet|historical|rome|roman)",
       "false_positive_notes": "'secure cipher' can be a legitimate phrase; only suggest in classical-crypto context.",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'the secure cipher shifts letters by three' -> 'the Caesar cipher shifts letters by three'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "Spartan side tail",
@@ -149,11 +179,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(cipher|rod|wrap|transposition|ancient)",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'the Spartan side tail wrapped leather around a rod' -> 'the Spartan scytale wrapped leather around a rod'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "metric encryption",
@@ -162,11 +195,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(key|shared|same key|AES|encrypt)",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'metric encryption uses one shared key' -> 'symmetric encryption uses one shared key'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "none repudiation",
@@ -174,7 +210,10 @@
       "match": "phrase",
       "case_sensitive": false,
       "confidence": "high",
-      "domains": ["D1", "D5"],
+      "domains": [
+        "D1",
+        "D5"
+      ],
       "mode": "suggest_only",
       "status": "seed",
       "example": "'digital signatures give none repudiation' -> 'digital signatures give non-repudiation'",
@@ -188,11 +227,14 @@
       "confidence": "high",
       "context_regex": "(one way|one-way|integrity|fixed length|fixed-length|message digest|checksum)",
       "false_positive_notes": "Do not suggest if financial hedging context appears (risk transfer, investment).",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'hedging produces a fixed-length digest' -> 'hashing produces a fixed-length digest'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "Degas",
@@ -202,11 +244,14 @@
       "confidence": "high",
       "context_regex": "(magnetic|media|destroy|sanitiz|disk|tape)",
       "false_positive_notes": "Degas is also a painter; only suggest in media-sanitization context.",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'Degas the drives before disposal' -> 'degauss the drives before disposal'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "cross wedding",
@@ -215,11 +260,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(paper|document|destroy|dispos)",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'use cross wedding for sensitive documents' -> 'use cross-cut shredding for sensitive documents'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "overriding",
@@ -229,11 +277,14 @@
       "confidence": "medium",
       "context_regex": "(sanitiz|media|data destruction|wipe|zeros|passes)",
       "false_positive_notes": "'overriding' is a legitimate word (e.g. overriding a policy); only suggest in media-sanitization context.",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'overriding the disk with zeros' -> 'overwriting the disk with zeros'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "bagging system",
@@ -242,11 +293,14 @@
       "case_sensitive": false,
       "confidence": "medium",
       "context_regex": "(audit|event|record|monitor|SIEM)",
-      "domains": ["D5"],
+      "domains": [
+        "D5"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'the bagging system records events' -> 'the logging system records events'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "blue jacket",
@@ -255,11 +309,14 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(bluetooth|unsolicited|message)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'blue jacket sends unsolicited Bluetooth messages' -> 'bluejacking sends unsolicited Bluetooth messages'",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     },
     {
       "wrong": "bluesnuffing",
@@ -268,7 +325,9 @@
       "case_sensitive": false,
       "confidence": "high",
       "context_regex": "(bluetooth|steal|data|unauthorized)",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
       "status": "seed",
       "example": "'bluesnuffing steals data over Bluetooth' -> 'bluesnarfing steals data over Bluetooth'",
@@ -281,11 +340,14 @@
       "case_sensitive": false,
       "confidence": "never_auto",
       "false_positive_notes": "Ambiguous ASR error; requires human verification against the source lecture before any correction.",
-      "domains": ["D4"],
+      "domains": [
+        "D4"
+      ],
       "mode": "suggest_only",
-      "status": "seed",
+      "status": "verified",
       "example": "'IoT devices use Wi-Fi city' -> flag for human review",
-      "added": "2026-07-04"
+      "added": "2026-07-04",
+      "verified_against": "PR-5 transcripts (source-manifest.json)"
     }
   ]
 }

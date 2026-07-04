@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "description": "Deterministic correction audit for the PR-5 ingestion. Records which correction-dictionary entries fired per transcript, as short term pairs and counts only (never surrounding transcript text). Every extraction is byte-reproducible (same file + dictionary version -> identical result). This is the IP-safe audit trail; full cleaned drafts are private/local artifacts, not repo files.",
+  "dictionary_version": "1.0.0",
+  "totals": {
+    "documents": 4,
+    "distinct_ambiguous_terms_flagged": 2,
+    "total_corrections_applied": 107
+  },
+  "by_document": {
+    "domain-4": {
+      "corrections_applied": 50,
+      "corrections": ["art->ARP (12)", "blue jacket->bluejacking (1)", "dhtp->DHCP (4)", "dmc->DMZ (3)", "icp->ICMP (10)", "is sas pass->IaaS, SaaS, PaaS (1)", "land->LAN (15)", "mag address->MAC address (2)", "pen->PAN (2)"],
+      "flagged_for_human_review": ["wi-fi city->[VERIFY: likely Zigbee or another low-power wireless protocol]", "wings->WAN"]
+    },
+    "domain-5": {
+      "corrections_applied": 49,
+      "corrections": ["bagging system->logging system (2)", "cross wedding->cross-cut shredding (2)", "degas->degauss (1)", "hedging->hashing (2)", "metric encryption->symmetric encryption (38)", "overriding->overwriting (2)", "secure cipher->Caesar cipher (1)", "spartan side tail->Spartan scytale (1)"],
+      "flagged_for_human_review": []
+    },
+    "how2study-recaps": {
+      "corrections_applied": 7,
+      "corrections": ["art->ARP (2)", "degas->degauss (1)", "dhtp->DHCP (1)", "icp->ICMP (1)", "mag address->MAC address (1)", "overriding->overwriting (1)"],
+      "flagged_for_human_review": []
+    },
+    "cc-overview": {
+      "corrections_applied": 1,
+      "corrections": ["art->ARP (1)"],
+      "flagged_for_human_review": []
+    }
+  }
+}

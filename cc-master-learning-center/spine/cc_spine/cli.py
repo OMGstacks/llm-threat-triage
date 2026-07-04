@@ -49,7 +49,10 @@ def cmd_validate_sources(args) -> int:
 
 def cmd_check_ip(args) -> int:
     failures = ipboundary.scan_facts(SPINE / "facts") + ipboundary.scan_notes(PROJECT_ROOT / "notes")
-    return _report("IP-boundary support spans (ip_boundary_guard)", failures)
+    verbatim = ipboundary.scan_verbatim([PROJECT_ROOT / "notes", PROJECT_ROOT / "reference"])
+    ip_ok = _report("IP-boundary support spans (ip_boundary_guard)", failures)
+    verbatim_ok = _report("no verbatim bulk reproduction (no_verbatim_bulk_reproduction)", verbatim)
+    return 0 if ip_ok == 0 and verbatim_ok == 0 else 1
 
 
 def cmd_factstore(args) -> int:

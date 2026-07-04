@@ -166,6 +166,20 @@ generated, because misheard terms are dangerous for memorization. Rules:
 The cleaned-notes contract (front-matter, anchor stability, IP rules) is in
 [`notes/README.md`](notes/README.md).
 
+**Ingestion outcome (PR-5) — semantic distillation, not paraphrase.** Raw transcripts are
+processed privately as source ore and **never committed** (`raw_committed: false` in
+[`spine/ingest/source-manifest.json`](spine/ingest/source-manifest.json)). The repo ships
+refined, original learning objects: compact concept inventories
+([`notes/d4-concept-inventory.md`](notes/d4-concept-inventory.md), d5, study-strategy), an
+IP-safe correction audit ([`spine/ingest/transcript-audit-summary.json`](spine/ingest/transcript-audit-summary.json)),
+and objective coverage/gap maps ([`reference/transcript-coverage-map.json`](reference/transcript-coverage-map.json),
+[`reference/transcript-gap-report.md`](reference/transcript-gap-report.md)). No raw or verbatim
+transcript body, and no long paraphrased lecture prose, is committed — enforced by the
+`no_verbatim_bulk_reproduction` guard (committed markdown must be distilled/structured, not
+transcript-shaped bulk prose) and the manifest check (`raw_committed` must be false, the raw
+file must be absent from the repo). Full cleaned drafts are private/local artifacts for the
+operator, never repo files.
+
 **Note review-state lifecycle (PR-3, `cc_spine.notes_lifecycle`).** Notes move through a
 declared state machine; the states and transitions are module data mirrored as a table in
 `notes/README.md`:
@@ -235,7 +249,7 @@ Validators (fail-closed; a check that cannot run is a failure, not a skip):
 | `scaffold_validate` (JSON, matrix, joins, banks, dictionary, links, no-transcripts) | **active** | 1 |
 | `source_freshness_guard` (`cc_spine.sources`; supersession + field checks) | **active** | 2 |
 | `ip_boundary_guard` (`cc_spine.ipboundary`; support-span limits, no-full-MCQ) | **active** | 2 |
-| `no_verbatim_bulk_reproduction` | reserved | 5 |
+| `no_verbatim_bulk_reproduction` (`cc_spine.ipboundary.scan_verbatim`; distilled, not transcript-shaped) | **active** | 5 |
 | `unsupported_claim_guard` (`cc_spine.factstore` validate_item: item asserts nothing beyond cited cards) | **active** | 3 |
 | fingerprint drift + tombstone lifecycle (`factstore validate`) | **active** | 3 |
 | retrieval-stability proof (adding cards never changes existing groundings) | **active** | 3 |
@@ -396,7 +410,7 @@ note status (`cc_spine.notes_lifecycle`).
 | 3 | copy-adapt factstore + registry + notes lifecycle + CLI | fact-card validation; fingerprint drift; tombstones; retrieval stability; unsupported_claim_guard |
 | 4 | completed 2026-09 outline + crosswalk + freshness ledger | source freshness ledger (next_review); crosswalk-integrity validation |
 | 4.1 | official 2026 verification: two-lane evidence + 19 objectives + attestation guard | attestation guard; evidence-file check |
-| 5 | transcript ingestion **after explicit authorization** | IP boundary check; no raw transcript dump; correction audit |
+| 5 | transcript ingestion (distillation): manifest + audit + coverage/gap + concept inventories | no_verbatim guard; manifest raw_committed:false; correction audit |
 | 6 | D4/D5 fact-card seeds (slices ≤ 75) | source coverage; no near-dup; no unsupported claims |
 | 7 | D1–D3 fact-card seeds | same + domain distribution ledger |
 | 8 | quiz engine + first gold items (40–75) | **ship gate activates**: answer-key/holdout leakage, pass rate |

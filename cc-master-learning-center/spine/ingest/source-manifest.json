@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "description": "Ingestion source manifest (PR-5). Records the raw transcript inputs by content hash WITHOUT committing them. raw_committed is false for every entry: the .docx files are processed privately as source ore, never checked into this repo. What the repo ships is refined, original learning objects (concept inventories, coverage/gap maps) plus this audit — never transcript bodies. See 00-governance-spec.md section 6 and the Course Transcript IP Boundary in section 3.",
+  "ip_policy": "distillation_only",
+  "authorization": {
+    "authorized_by": "izu.uhiara@gmail.com",
+    "authorized_on": "2026-07-04",
+    "scope": "Private/local processing of the listed transcripts as source inputs only. No raw or verbatim transcript content may be committed. Preserve instructional essence as original structured learning objects.",
+    "decision_ref": "PR-5 notes-handling decision: 'Manifest + audit + semantic distillation'"
+  },
+  "dictionary_version": "1.0.0",
+  "sources": [
+    {
+      "source_doc_id": "domain-4",
+      "original_filename": "Domain 4.docx",
+      "sha256": "cba58397ebdb64b635438f1802a531fa2f01b45343cae3f4807158ee611c350b",
+      "size_bytes": 101809,
+      "source_tier": 3,
+      "raw_committed": false,
+      "primary_domains": ["D4"],
+      "extraction": {"paragraphs": 10, "words": 47952, "deterministic": true}
+    },
+    {
+      "source_doc_id": "domain-5",
+      "original_filename": "Domain 5.docx",
+      "sha256": "c2c6c806d98522f386a064eb678433c0f297e1bfc71eb2a7e37b3f2d8c3deb6d",
+      "size_bytes": 38986,
+      "source_tier": 3,
+      "raw_committed": false,
+      "primary_domains": ["D5"],
+      "extraction": {"paragraphs": 3, "words": 12207, "deterministic": true}
+    },
+    {
+      "source_doc_id": "how2study-recaps",
+      "original_filename": "How2Study & Domain Recaps.docx",
+      "sha256": "e2b39d864cf2885ea0dec12b9a49ba06c659d3e7600f1c50a8a95c0cfdfadc5a",
+      "size_bytes": 112062,
+      "source_tier": 3,
+      "raw_committed": false,
+      "primary_domains": ["global", "D1", "D2", "D3", "D4", "D5"],
+      "extraction": {"paragraphs": 3, "words": 41191, "deterministic": true}
+    },
+    {
+      "source_doc_id": "cc-overview",
+      "original_filename": "CC.docx",
+      "sha256": "e592d1d7a7b4ab7e38bb017458e3003dbefcd25060fb49dd92e33dbe205a7318",
+      "size_bytes": 93864,
+      "source_tier": 3,
+      "raw_committed": false,
+      "primary_domains": ["D1", "D2", "D3"],
+      "extraction": {"paragraphs": 15, "words": 42555, "deterministic": true}
+    }
+  ]
+}

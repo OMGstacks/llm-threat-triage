@@ -81,5 +81,33 @@ class NotesScanTest(unittest.TestCase):
         self.assertEqual(self._scan("reviewed", 25), [])
 
 
+class NoVerbatimGuardTest(unittest.TestCase):
+    """PR-5 no_verbatim_bulk_reproduction: committed markdown must be distilled,
+    not transcript-shaped bulk prose."""
+
+    def _dir_with(self, text: str):
+        tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(tmp.cleanup)
+        (Path(tmp.name) / "note.md").write_text(text, encoding="utf-8")
+        return Path(tmp.name)
+
+    def test_long_prose_paragraph_fails(self):
+        dump = " ".join(["word"] * 200)
+        failures = ipboundary.scan_verbatim([self._dir_with(f"# H\n\n{dump}\n")])
+        self.assertTrue(any("exceeds the no-verbatim cap" in f for f in failures))
+
+    def test_structured_content_passes(self):
+        md = ("# Heading\n\n| Concept | Gloss |\n|---|---|\n"
+              "| " + " ".join(["x"] * 200) + " | short |\n\n- " + " ".join(["y"] * 200) + "\n")
+        self.assertEqual(ipboundary.scan_verbatim([self._dir_with(md)]), [])
+
+    def test_short_prose_passes(self):
+        self.assertEqual(ipboundary.scan_verbatim([self._dir_with("# H\n\nA short intro line.\n")]), [])
+
+    def test_committed_concept_inventories_pass(self):
+        # The real distilled inventories must clear the guard.
+        self.assertEqual(ipboundary.scan_verbatim([PROJECT_ROOT / "notes"]), [])
+
+
 if __name__ == "__main__":
     unittest.main()

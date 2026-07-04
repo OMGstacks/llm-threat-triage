@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "description": "Which 2025-10 CC objectives each source transcript materially covers, graded from an IP-safe keyword-frequency scan (signal-term counts, not transcript text). 'strong' = the transcript is a primary teaching source for the objective; 'partial' = touched; 'none' = not a source. Drives which objectives can seed fact cards from distilled transcript concepts (PR-6/7) versus which need blueprint/NIST grounding.",
+  "outline": "2025-10",
+  "grade_scale": ["strong", "partial", "none"],
+  "coverage": {
+    "1.1": {"title": "Understand the security concepts of information assurance", "sources": {"cc-overview": "strong", "how2study-recaps": "partial"}},
+    "1.2": {"title": "Understand the risk management process", "sources": {"cc-overview": "strong", "how2study-recaps": "strong"}},
+    "1.3": {"title": "Understand security controls", "sources": {"cc-overview": "strong", "how2study-recaps": "partial"}},
+    "1.4": {"title": "Understand the ISC2 Code of Ethics", "sources": {"cc-overview": "strong", "how2study-recaps": "partial"}},
+    "1.5": {"title": "Understand governance processes", "sources": {"cc-overview": "partial", "how2study-recaps": "partial"}},
+    "2.1": {"title": "Understand business continuity (BC)", "sources": {"cc-overview": "strong", "how2study-recaps": "strong"}},
+    "2.2": {"title": "Understand disaster recovery (DR)", "sources": {"cc-overview": "partial", "how2study-recaps": "partial"}},
+    "2.3": {"title": "Understand incident response", "sources": {"cc-overview": "partial", "how2study-recaps": "partial"}},
+    "3.1": {"title": "Understand physical access controls", "sources": {"cc-overview": "strong", "domain-4": "partial"}},
+    "3.2": {"title": "Understand logical access controls", "sources": {"cc-overview": "strong", "domain-4": "partial"}},
+    "4.1": {"title": "Understand computer networking", "sources": {"domain-4": "strong", "how2study-recaps": "partial"}},
+    "4.2": {"title": "Understand network threats and attacks", "sources": {"domain-4": "partial"}},
+    "4.3": {"title": "Understand network security infrastructure", "sources": {"domain-4": "strong"}},
+    "5.1": {"title": "Understand data security", "sources": {"domain-5": "strong", "how2study-recaps": "partial"}},
+    "5.2": {"title": "Understand system hardening", "sources": {"domain-4": "partial"}},
+    "5.3": {"title": "Understand best practice security policies", "sources": {"cc-overview": "partial"}},
+    "5.4": {"title": "Understand security awareness training", "sources": {"how2study-recaps": "partial"}}
+  },
+  "notable": {
+    "crypto_depth": "domain-5 is a dedicated cryptography + data-security source (symmetric/asymmetric/hybrid, hashing, digital signatures, sanitization: degauss/cross-cut shred/overwrite). Strong for 5.1.",
+    "d4_depth": "domain-4 is a comprehensive networking source (OSI, TCP/IP, ports, ARP/ICMP/DHCP, firewalls, VLAN/VPN/NAC/DMZ, wireless, IoT/ICS, cloud/virtualization).",
+    "study_layer": "how2study-recaps is the exam-strategy + cross-domain recap source (feeds the exam_strategy bank and remediation loop)."
+  }
+}

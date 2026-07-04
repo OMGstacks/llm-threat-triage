@@ -81,16 +81,29 @@ class ScaffoldValidationTest(unittest.TestCase):
 
     def test_pr3_activated_unsupported_claim_guard(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["unsupported_claim_guard"], "active")
-        # The remaining three are not delivered until later PRs (answer-key
-        # isolation names bank-output/holdout enforcement — PR-8; card-level
-        # quarantine already ships in the PR-3 factstore).
+
+    def test_manifest_rejects_raw_committed_true(self):
+        failures = []
+        scaffold_validate._check_manifest(
+            {"ip_policy": "distillation_only", "authorization": {"authorized_by": "x"},
+             "sources": [{"source_doc_id": "d", "raw_committed": True, "sha256": "a" * 64}]},
+            failures)
+        self.assertTrue(any("raw_committed must be false" in f for f in failures))
+
+    def test_manifest_rejects_bad_hash(self):
+        failures = []
+        scaffold_validate._check_manifest(
+            {"ip_policy": "distillation_only", "authorization": {"authorized_by": "x"},
+             "sources": [{"source_doc_id": "d", "raw_committed": False, "sha256": "nope"}]},
+            failures)
+        self.assertTrue(any("64-hex digest" in f for f in failures))
+
+    def test_pr5_activated_no_verbatim_guard(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["no_verbatim_bulk_reproduction"], "active")
+        # Only the two PR-8 guards remain reserved.
         self.assertEqual(
             set(scaffold_validate.RESERVED_GUARDS),
-            {
-                "no_verbatim_bulk_reproduction",
-                "holdout_leakage_guard",
-                "answer_key_isolation_guard",
-            },
+            {"holdout_leakage_guard", "answer_key_isolation_guard"},
         )
 
 

@@ -19,6 +19,10 @@ lifecycle (``notes_lifecycle``). PR-4 completes the 2026-09 outline + crosswalk
 in the objective matrix and adds the source-freshness ledger (``next_review``).
 PR-4.1 adds the two-lane verification evidence ledger, the official 19-objective
 2026 set, and the attestation guard (``sources`` + scaffold evidence check).
+PR-5 ingests the transcripts by semantic distillation: a source manifest
+(raw_committed:false), an IP-safe correction audit, objective coverage/gap maps,
+compact original concept inventories, and the no_verbatim_bulk_reproduction
+guard (``ipboundary.scan_verbatim``).
 """
 
-__version__ = "0.0.5"
+__version__ = "0.0.6"

@@ -1,10 +1,16 @@
-# Cleaned Domain Notes — Contract
+# Domain Notes — Contract
 
-This directory holds **cleaned, reviewed domain notes** (`D1.md` … `D5.md`, plus optional
-`global.md` for exam strategy). It is empty in PR-1 by design: transcripts are not checked
-into this repository and are not authorized for repo ingestion in PR-1. Real transcript
-extraction occurs in a later PR (PR-5) after the user explicitly supplies/approves source
-files for repository processing.
+This directory holds **original, distilled learning objects** — not transcript bodies.
+
+**Semantic distillation, not paraphrase (PR-5 decision).** Raw transcripts are processed
+privately as source ore and never committed (`raw_committed: false`). What lives here are
+compact, original **concept inventories** (`d4-concept-inventory.md`, `d5-…`,
+`study-strategy-…`): concept + objective + claim-type candidate + a short original gloss,
+written from domain knowledge rather than transcript wording. These are the fact-card seeds for
+PR-6/7. The `no_verbatim_bulk_reproduction` guard rejects any committed markdown that is
+transcript-shaped bulk prose; full cleaned drafts stay private/local. Coverage and gap maps live
+in [`../reference/transcript-coverage-map.json`](../reference/transcript-coverage-map.json) and
+[`../reference/transcript-gap-report.md`](../reference/transcript-gap-report.md).
 
 ## Front-matter contract
 

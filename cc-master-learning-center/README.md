@@ -47,7 +47,8 @@ else in this directory is the scaffold that spec governs.
 | PR-2 — ingestion engine + freshness/IP guards + CI | done |
 | PR-3 — factstore + registry + notes lifecycle + retrieval-stability gates | done |
 | PR-4 — 2026-09 outline + crosswalk + source-freshness ledger | done |
-| PR-4.1 — official 2026 verification: two-lane evidence + 19 objectives + attestation guard | **this PR** |
+| PR-4.1 — official 2026 verification: two-lane evidence + 19 objectives + attestation guard | done |
+| PR-5 — transcript ingestion (distillation): manifest + audit + coverage/gap + concept inventories | **this PR** |
 | PR-3 — copy-adapt factstore + validators | planned |
 | PR-4 — verified outline + 2026-09 crosswalk | planned |
 | PR-5 — transcript ingestion (after explicit authorization) | planned |
