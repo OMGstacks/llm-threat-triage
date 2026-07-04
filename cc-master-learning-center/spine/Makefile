@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -17,6 +17,11 @@ check-ip:
 factstore-validate:
 	python3 -m cc_spine.cli factstore validate
 
+# PR-8a quiz-engine gate: gold-item grounding, answer-key isolation, hash-drift,
+# near-duplicate stems.
+quiz-validate:
+	python3 -m cc_spine.cli quiz validate
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -30,4 +35,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate test ingest-check

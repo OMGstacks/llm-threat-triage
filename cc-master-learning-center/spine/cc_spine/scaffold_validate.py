@@ -42,11 +42,11 @@ GUARD_STATUS = {
     "source_freshness_guard": "active",       # PR-2: cc_spine.sources
     "ip_boundary_guard": "active",            # PR-2: cc_spine.ipboundary
     "no_verbatim_bulk_reproduction": "active",   # PR-5: cc_spine.ipboundary.scan_verbatim
-    "holdout_leakage_guard": "reserved",
-    # Card-level answer-key quarantine shipped in PR-3 (factstore validate_card +
-    # ground()/for_bank filters); the guard itself names bank-output/holdout
-    # isolation, which activates with the quiz engine in PR-8.
-    "answer_key_isolation_guard": "reserved",
+    "holdout_leakage_guard": "reserved",   # activates when holdout items land (PR-8b+)
+    # PR-8a: the quiz engine isolates answer keys into a separate grader store. The
+    # scaffold enforces the structural half here (no answer-bearing field in a learner
+    # item file); cc_spine.cli quiz validate enforces the grounding + hash + near-dup half.
+    "answer_key_isolation_guard": "active",
     "unsupported_claim_guard": "active",      # PR-3: cc_spine.factstore validate_item
 }
 
@@ -327,19 +327,41 @@ def _check_correction_dictionary(dictionary, failures: list[str]) -> None:
             failures.append(f"{label}: bad status {entry.get('status')!r}")
 
 
+# answer_key_isolation_guard (structural half): a learner-facing item file must never
+# carry any field that reveals the correct answer. Kept in sync with
+# cc_spine.quiz.FORBIDDEN_LEARNER_KEYS; inlined here so scaffold stays import-free of the
+# quiz engine (and thus of the factstore).
+_GOLDSET_FORBIDDEN_KEYS = (
+    "correct_index", "correct", "answer", "rationale_refs", "rationales",
+    "distractor_misconceptions", "answer_key_hash",
+)
+
+
 def _check_goldset(goldset, failures: list[str]) -> None:
     if goldset is None:
         failures.append("goldset.json missing or unparseable")
         return
-    if goldset.get("items") != []:
-        failures.append("goldset.json: items must be empty in PR-1")
+    items = goldset.get("items")
+    if not isinstance(items, list):
+        failures.append("goldset.json: items must be a JSON array")
+        return
+    for item in items:
+        if not isinstance(item, dict):
+            failures.append("goldset.json: each item must be an object")
+            continue
+        iid = item.get("id", "<no-id>")
+        for bad in _GOLDSET_FORBIDDEN_KEYS:
+            if bad in item:
+                failures.append(
+                    f"goldset.json: item {iid} carries answer-bearing field {bad!r} "
+                    "(answer_key_isolation_guard)")
 
 
 def _check_schema_headers(parsed: dict[Path, object], failures: list[str]) -> None:
     schema_dir = PROJECT_ROOT / "spine" / "schemas"
     schema_files = sorted(schema_dir.glob("*.schema.json"))
-    if len(schema_files) != 4:
-        failures.append(f"spine/schemas: expected 4 schema files, found {len(schema_files)}")
+    if len(schema_files) != 5:
+        failures.append(f"spine/schemas: expected 5 schema files, found {len(schema_files)}")
     for path in schema_files:
         data = parsed.get(path)
         if not isinstance(data, dict):
@@ -485,7 +507,7 @@ def main() -> int:
             print(f"  - {failure}")
     else:
         print("OK: JSON well-formed; matrix, registry joins, banks, correction dictionary,")
-        print("    facts/goldset emptiness, schema headers, markdown links, no-transcript rule all pass.")
+        print("    facts/goldset arrays, answer-key isolation, schema headers, markdown links, no-transcript rule all pass.")
     print("Guard status (active guards run via cc_spine.cli; reserved activate in later PRs):")
     for guard, status in GUARD_STATUS.items():
         print(f"  {guard}: {status}")

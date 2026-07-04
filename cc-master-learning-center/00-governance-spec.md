@@ -253,8 +253,8 @@ Validators (fail-closed; a check that cannot run is a failure, not a skip):
 | `unsupported_claim_guard` (`cc_spine.factstore` validate_item: item asserts nothing beyond cited cards) | **active** | 3 |
 | fingerprint drift + tombstone lifecycle (`factstore validate`) | **active** | 3 |
 | retrieval-stability proof (adding cards never changes existing groundings) | **active** | 3 |
-| `holdout_leakage_guard` | reserved | 8 |
-| `answer_key_isolation_guard` (card-level quarantine shipped PR-3; bank-output/holdout isolation) | reserved | 8 |
+| `holdout_leakage_guard` | reserved | 8b (when holdout items land) |
+| `answer_key_isolation_guard` (card-level quarantine shipped PR-3; learner/grader split + quiz-engine isolation) | **active** | 8a |
 
 ## 9. Bank Design & Allocation Policy
 
@@ -414,7 +414,8 @@ note status (`cc_spine.notes_lifecycle`).
 | 6 | D4/D5 fact-card seeds (slices ≤ 75) | source coverage; no near-dup; no unsupported claims |
 | 7 | D1–D3 fact-card seeds | same + domain distribution ledger |
 | 7.1 | fact-card seed acceptance report (distribution + adversarial review, no new cards) | persisted evidence in `reports/`; slice-size + review-order rules recorded (§16) |
-| 8 | quiz engine + first gold items (40–75; first set 40) | **ship gate activates**: answer-key isolation, holdout/leakage, near-dup stem scan, pass rate |
+| 8a | quiz engine + isolation guard + first gold items (machinery proof, 6) | **answer_key_isolation_guard active**: learner/grader split, hash-drift, near-dup stem scan, gold grounding |
+| 8b | full first gold set (toward 40) + holdout lane | holdout_leakage_guard; pass-rate ship gate |
 | 9+ | growth slices toward bank targets | 40–75 slices; rollback on gate failure |
 | n | mock-exam assembler + readiness dashboard + journal + cram sheets | readiness gates; learner-state isolation |
 

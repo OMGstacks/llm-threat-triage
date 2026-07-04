@@ -5,6 +5,7 @@
     python -m cc_spine.cli check-ip            # IP-boundary support-span guard
     python -m cc_spine.cli ingest --source t.txt --source-doc-id demo [--out note.md]
     python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
+    python -m cc_spine.cli quiz [validate|learner-view]           # PR-8a quiz engine
 
 Stdlib-only; no third-party dependencies.
 """
@@ -19,7 +20,7 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import ipboundary, registry, scaffold_validate, sources
+from . import ipboundary, quiz, registry, scaffold_validate, sources
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -92,6 +93,32 @@ def cmd_factstore(args) -> int:
     return 0 if ok else 1
 
 
+def cmd_quiz(args) -> int:
+    """PR-8a quiz-engine gate: validate the gold item set against its isolated
+    answer-key store. Proves grounding, key resolution + hash integrity, answer-key
+    isolation, and the near-duplicate stem gate in one pass."""
+    fs = factstore_mod.FactStore()
+    goldset_path = Path(args.goldset) if args.goldset else quiz.GOLDSET_PATH
+    keys_path = Path(args.answer_keys) if args.answer_keys else quiz.ANSWER_KEYS_PATH
+    items = json.loads(goldset_path.read_text(encoding="utf-8")).get("items", [])
+    keys = quiz.load_answer_keys(keys_path)
+
+    if args.action == "learner-view":
+        # Prove by construction what a learner receives — never an answer.
+        print(json.dumps([quiz.learner_view(it) for it in items], indent=2))
+        return 0
+
+    rep = quiz.validate_gold(fs, items, keys)
+    if args.json:
+        print(json.dumps(rep, indent=2))
+        return 0 if rep["ok"] else 1
+    print(f"gold set: {len(items)} item(s), {len(keys)} isolated key(s)")
+    return _report(
+        "gold items validate (grounding, key isolation, hash drift, near-duplicate stems)",
+        rep["errors"],
+    )
+
+
 def cmd_ingest(args) -> int:
     dictionary = json.loads(Path(args.dictionary).read_text(encoding="utf-8"))
     domains = set(args.domains.split(",")) if args.domains else None
@@ -135,6 +162,16 @@ def build_parser() -> argparse.ArgumentParser:
     p_fs.add_argument("--goldset", default=None, help="override goldset path (testing)")
     p_fs.add_argument("--json", action="store_true", help="emit the full JSON report")
     p_fs.set_defaults(func=cmd_factstore)
+
+    p_quiz = sub.add_parser(
+        "quiz",
+        help="quiz-engine gate (PR-8a): validate gold items + answer-key isolation")
+    p_quiz.add_argument("action", nargs="?", default="validate",
+                        choices=["validate", "learner-view"])
+    p_quiz.add_argument("--goldset", default=None, help="override goldset path (testing)")
+    p_quiz.add_argument("--answer-keys", default=None, help="override answer-key store path (testing)")
+    p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")
+    p_quiz.set_defaults(func=cmd_quiz)
 
     p_ing = sub.add_parser("ingest", help="extract + suggest corrections + build a note")
     p_ing.add_argument("--source", required=True, help="path to a .docx or .txt source")

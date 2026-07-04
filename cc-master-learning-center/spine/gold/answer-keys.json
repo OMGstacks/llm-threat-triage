@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Grader-only answer key store (PR-8a). Never read by the learner view; resolved only inside grader/validator context. answer_key_isolation_guard proves no learner-facing export contains these values.",
+  "keys": [
+    {
+      "answer_key_ref": "D1.1.1.definition.0001.key",
+      "item_id": "D1.1.1.definition.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D1.11-confidentiality"
+      ],
+      "distractor_misconceptions": {
+        "1": "definition_confusion",
+        "2": "definition_confusion",
+        "3": "definition_confusion"
+      },
+      "answer_key_hash": "sha256:577ef7216aeaf9c2483f14e2f176dcfcbaaaae63de13f5dd1dca08e20bc95ff8"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0001.key",
+      "item_id": "D5.5.1.definition.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D5.51-symmetric-encryption"
+      ],
+      "distractor_misconceptions": {
+        "1": "crypto_property_confusion",
+        "2": "crypto_property_confusion",
+        "3": "crypto_property_confusion"
+      },
+      "answer_key_hash": "sha256:d1c1770756b69f3f7af2ded0b76360196563883343d36b004815d014a7b24c94"
+    },
+    {
+      "answer_key_ref": "D5.5.1.discrimination.0001.key",
+      "item_id": "D5.5.1.discrimination.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D5.51-hashing"
+      ],
+      "distractor_misconceptions": {
+        "1": "crypto_property_confusion",
+        "2": "crypto_property_confusion",
+        "3": "crypto_property_confusion"
+      },
+      "answer_key_hash": "sha256:4385198c307d2e141c5cafedd0b9710667aa1cdd94a3e16a35ea563dd3b1531f"
+    },
+    {
+      "answer_key_ref": "D2.2.1.discrimination.0001.key",
+      "item_id": "D2.2.1.discrimination.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D2.21-rto",
+        "D2.21-mtd"
+      ],
+      "distractor_misconceptions": {
+        "1": "definition_confusion",
+        "2": "definition_confusion",
+        "3": "definition_confusion"
+      },
+      "answer_key_hash": "sha256:bda2f6920b031cb52786ec8457f1cdefeedd310e5843b05be002e650a50d2a5e"
+    },
+    {
+      "answer_key_ref": "D3.3.2.scenario.0001.key",
+      "item_id": "D3.3.2.scenario.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D3.32-dac-vs-mac"
+      ],
+      "distractor_misconceptions": {
+        "1": "control_category_confusion",
+        "2": "control_category_confusion",
+        "3": "control_category_confusion"
+      },
+      "answer_key_hash": "sha256:48d5365b38949f0244d1adaf4dae1a8fdfa437a4d16c0681817766ffd2f2e3c2"
+    },
+    {
+      "answer_key_ref": "D4.4.1.scenario.0001.key",
+      "item_id": "D4.4.1.scenario.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D4.41-tcp-vs-udp"
+      ],
+      "distractor_misconceptions": {
+        "1": "network_device_confusion",
+        "2": "network_device_confusion",
+        "3": "network_device_confusion"
+      },
+      "answer_key_hash": "sha256:a4cc321c12acc365e57ea570deb74b3672be910fe6f8c867b49771475eae33cd"
+    }
+  ]
+}

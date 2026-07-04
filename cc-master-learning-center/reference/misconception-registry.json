@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "description": "Registry of specific, catalogued exam misconceptions that CC distractors target. Each entry maps a concrete wrong belief to (a) a category from the controlled misconception taxonomy in bank-item.schema.json, and (b) the objective where it bites. Seeded PR-8a from the PR-7 adversarial review (reports/pr7-adversarial-review.md §6): a confirmed accuracy defect in a fact card is, by definition, a misconception a real candidate can hold. Gold-item distractors and wrong-answer rationales reference these so a wrong answer teaches the correction, not just 'incorrect'.",
+  "taxonomy_source": "spine/schemas/bank-item.schema.json#/properties/misconception_tags",
+  "entries": [
+    {
+      "id": "ir-six-phase",
+      "misconception": "The incident-response lifecycle has six phases.",
+      "correct": "Four phases; Containment, Eradication & Recovery is one combined phase.",
+      "category": "process_order_confusion",
+      "objective": "2.3",
+      "origin": "pr7-adversarial-review 3.1"
+    },
+    {
+      "id": "threat-external-only",
+      "misconception": "A threat is always external; insiders are not threats.",
+      "correct": "Threats may be internal or external; insider threat is a tested concept.",
+      "category": "definition_confusion",
+      "objective": "1.2",
+      "origin": "pr7-adversarial-review 3.2"
+    },
+    {
+      "id": "hashing-is-encryption",
+      "misconception": "Hashing is a form of encryption and can be reversed.",
+      "correct": "Hashing is one-way; it provides integrity, not confidentiality, and cannot be reversed.",
+      "category": "crypto_property_confusion",
+      "objective": "5.1",
+      "origin": "exam_trap card family D5.51"
+    },
+    {
+      "id": "rto-exceeds-mtd",
+      "misconception": "RTO can be longer than MTD.",
+      "correct": "RTO must be equal to or less than MTD.",
+      "category": "definition_confusion",
+      "objective": "2.1",
+      "origin": "exam_trap card family D2.21"
+    },
+    {
+      "id": "dac-mac-swap",
+      "misconception": "In MAC the owner grants access; in DAC the system enforces labels.",
+      "correct": "DAC is owner-controlled; MAC is system-enforced by classification labels.",
+      "category": "control_category_confusion",
+      "objective": "3.2",
+      "origin": "comparison card D3.32-dac-vs-mac"
+    },
+    {
+      "id": "udp-reliable",
+      "misconception": "UDP guarantees ordered, reliable delivery like TCP.",
+      "correct": "TCP is connection-oriented and reliable; UDP is connectionless and best-effort.",
+      "category": "network_device_confusion",
+      "objective": "4.1",
+      "origin": "comparison card D4.41-tcp-vs-udp"
+    }
+  ]
+}

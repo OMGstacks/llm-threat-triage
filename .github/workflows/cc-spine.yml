@@ -35,6 +35,8 @@ jobs:
         run: python -m cc_spine.cli check-ip
       - name: Fact-store validator (drift, tombstones, eligibility — unsupported_claim_guard)
         run: python -m cc_spine.cli factstore validate
+      - name: Quiz-engine gate (gold grounding, answer-key isolation, near-duplicate stems)
+        run: python -m cc_spine.cli quiz validate
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

@@ -101,10 +101,13 @@ class ScaffoldValidationTest(unittest.TestCase):
 
     def test_pr5_activated_no_verbatim_guard(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["no_verbatim_bulk_reproduction"], "active")
-        # Only the two PR-8 guards remain reserved.
+
+    def test_pr8_activated_answer_key_isolation_guard(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["answer_key_isolation_guard"], "active")
+        # Only the holdout guard remains reserved (activates when holdout items land).
         self.assertEqual(
             set(scaffold_validate.RESERVED_GUARDS),
-            {"holdout_leakage_guard", "answer_key_isolation_guard"},
+            {"holdout_leakage_guard"},
         )
 
     def test_raw_docx_anywhere_in_repo_scope_fails(self):

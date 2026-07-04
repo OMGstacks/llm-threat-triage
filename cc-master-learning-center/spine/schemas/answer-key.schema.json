@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC grader answer key",
+  "description": "The isolated answer key for one bank item. Lives in a grader-only store (spine/gold/answer-keys.json), never in a learner-facing item file. The quiz engine's learner view resolves an item WITHOUT touching this store; only the grader/validator context reads it. Added PR-8a with the quiz engine and the answer_key_isolation_guard flip to active.",
+  "type": "object",
+  "required": ["answer_key_ref", "item_id", "correct_index", "rationale_refs", "answer_key_hash"],
+  "additionalProperties": false,
+  "properties": {
+    "answer_key_ref": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}\\.key$",
+      "description": "Matches the referencing item's answer_key_ref. Convention: <item_id>.key"
+    },
+    "item_id": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}$",
+      "description": "The item this key grades. answer_key_ref must equal item_id + '.key'."
+    },
+    "correct_index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Zero-based index into the item's choices array identifying the correct option."
+    },
+    "rationale_refs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1,
+      "description": "fact_ids that justify why the correct option is correct. Must be a subset of the item's fact_ids (checked by validate_gold)."
+    },
+    "distractor_misconceptions": {
+      "type": "object",
+      "description": "Maps a choice index (as a string) to the misconception taxonomy tag its distractor targets. Feeds the wrong-answer journal; enum mirrors bank-item.schema.json misconception_tags.",
+      "additionalProperties": {
+        "enum": [
+          "definition_confusion", "process_order_confusion", "best_vs_first_qualifier_miss",
+          "control_category_confusion", "overly_technical_answer", "overly_expensive_answer",
+          "ignored_business_or_data_owner", "current_vs_2026_outline_confusion",
+          "crypto_property_confusion", "network_device_confusion"
+        ]
+      }
+    },
+    "answer_key_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "sha256 of item_id + unit-separator + correct-choice text. Recomputed by validate_gold from the live item; a mismatch means the item's choices drifted out from under the key."
+    }
+  }
+}

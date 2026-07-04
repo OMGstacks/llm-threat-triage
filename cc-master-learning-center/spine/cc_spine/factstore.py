@@ -461,7 +461,10 @@ def validate_store(store, registry, root: Path = _REPO_ROOT) -> dict:
 # --- bank-item grounding checks (verbatim logic from OSAI) ------------------ #
 
 def is_fact_grounded(item: dict) -> bool:
-    return item.get("grounding") == "factstore"
+    # CC bank items declare grounding via source_policy ("factstore|required"); the
+    # OSAI-native field is "grounding". Accept both so the frozen validate_item logic
+    # applies unchanged to CC items — an additive recognition, not a weakening. (PR-8a.)
+    return item.get("grounding") == "factstore" or item.get("source_policy") == "factstore|required"
 
 
 def validate_item(store, item: dict) -> list:

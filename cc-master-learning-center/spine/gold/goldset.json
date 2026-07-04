@@ -1,5 +1,176 @@
 {
-  "version": "0.0.1",
-  "note": "Seeded empty. First gold items land in PR-8 with the ship gate.",
-  "items": []
+  "version": "0.2.0",
+  "note": "PR-8a first gold items (machinery proof). Learner-facing: no correct answers or rationales here; those live only in gold/answer-keys.json. Banks proven: definition_recall, concept_discrimination, scenario_application. exam_strategy deferred (no fact card yet carries it in allowed_banks).",
+  "items": [
+    {
+      "id": "D1.1.1.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "CIA triad",
+      "stem": "Which security property is defined as preventing the unauthorized disclosure of information?",
+      "choices": [
+        "Confidentiality",
+        "Integrity",
+        "Availability",
+        "Non-repudiation"
+      ],
+      "answer_key_ref": "D1.1.1.definition.0001.key",
+      "fact_ids": [
+        "D1.11-confidentiality"
+      ],
+      "expected_keywords": [
+        "unauthorized disclosure"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0001",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "Symmetric encryption",
+      "stem": "Which statement correctly describes symmetric encryption?",
+      "choices": [
+        "It uses a single shared key for both encryption and decryption",
+        "It uses a public key to encrypt and a private key to decrypt",
+        "It is a one-way function whose output cannot be reversed",
+        "It requires a certificate authority to issue key pairs"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0001.key",
+      "fact_ids": [
+        "D5.51-symmetric-encryption"
+      ],
+      "expected_keywords": [
+        "single shared key"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "Hashing vs encryption",
+      "stem": "An application must store user passwords so that the stored value cannot be reversed back to the original password. Which technique meets this requirement?",
+      "choices": [
+        "Hashing",
+        "Symmetric encryption",
+        "Asymmetric encryption",
+        "Base64 encoding"
+      ],
+      "answer_key_ref": "D5.5.1.discrimination.0001.key",
+      "fact_ids": [
+        "D5.51-hashing",
+        "D5.51-symmetric-encryption"
+      ],
+      "expected_keywords": [
+        "one-way"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.1.discrimination.0001",
+      "bank": "concept_discrimination",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "RTO vs MTD",
+      "stem": "Which relationship between Recovery Time Objective (RTO) and Maximum Tolerable Downtime (MTD) is correct?",
+      "choices": [
+        "RTO must be equal to or less than MTD",
+        "RTO must always be greater than MTD",
+        "RTO and MTD are always identical",
+        "RTO and MTD are unrelated values"
+      ],
+      "answer_key_ref": "D2.2.1.discrimination.0001.key",
+      "fact_ids": [
+        "D2.21-rto",
+        "D2.21-mtd"
+      ],
+      "expected_keywords": [
+        "equal to or less than"
+      ],
+      "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.scenario.0001",
+      "bank": "scenario_application",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "Access control models",
+      "stem": "In a system, the operating system decides access by comparing each user's clearance to a resource's classification label, and resource owners cannot grant access on their own. Which access-control model is in use?",
+      "choices": [
+        "Mandatory Access Control (MAC)",
+        "Discretionary Access Control (DAC)",
+        "Role-Based Access Control (RBAC)",
+        "Attribute-Based Access Control (ABAC)"
+      ],
+      "answer_key_ref": "D3.3.2.scenario.0001.key",
+      "fact_ids": [
+        "D3.32-dac-vs-mac"
+      ],
+      "expected_keywords": [
+        "classification labels"
+      ],
+      "difficulty": "L4",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.scenario.0001",
+      "bank": "scenario_application",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "TCP vs UDP",
+      "stem": "A file-transfer application must guarantee that every byte arrives in order and without loss across the network. Which transport protocol should it use?",
+      "choices": [
+        "TCP",
+        "UDP",
+        "ICMP",
+        "ARP"
+      ],
+      "answer_key_ref": "D4.4.1.scenario.0001.key",
+      "fact_ids": [
+        "D4.41-tcp-vs-udp"
+      ],
+      "expected_keywords": [
+        "connection-oriented"
+      ],
+      "difficulty": "L4",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    }
+  ]
 }

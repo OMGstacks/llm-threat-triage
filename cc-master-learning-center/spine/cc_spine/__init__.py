@@ -43,6 +43,14 @@ PR-7.1 persists the slice acceptance evidence under ``reports/`` (a data-derived
 distribution report + the adversarial-review record) and records two content-slice
 rules in the governance spec: 40-75 items per growth slice, and no content commit
 until its adversarial review completes. No cards changed.
+PR-8a lands the quiz engine (``quiz``) and activates the ``answer_key_isolation_guard``:
+learner-facing gold items live in ``spine/gold/goldset.json`` with NO correct answer,
+while the grader answer keys live in a separate ``spine/gold/answer-keys.json`` store
+(new ``answer-key.schema.json``). The engine's learner view is an allowlist projection;
+``validate_gold`` enforces grounding + key resolution + hash-drift + near-duplicate stem
+gates; a red-team test suite proves no answer leaks into the learner lane. Ships 6 first
+gold items across the three core banks and a misconception registry seeded from the PR-7
+review. No holdout items yet (that guard stays reserved).
 """
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
