@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "sources": [
+    {
+      "id": "isc2.cc-outline.2025-10",
+      "tier": 0,
+      "type": "exam_outline",
+      "status": "current",
+      "topic": "cc_exam_outline",
+      "source_name": "ISC2 Certified in Cybersecurity Exam Outline (effective October 1, 2025)",
+      "source_url": "https://www.isc2.org/certifications/cc/cc-certification-exam-outline",
+      "retrieved_at": "2026-07-04",
+      "effective_date": "2025-10-01",
+      "superseded_by_notice": "A new CC exam outline becomes effective 2026-09-01 (see isc2.cc-outline.2026-09)",
+      "confidence": "official-current",
+      "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source"
+    },
+    {
+      "id": "isc2.cc-outline.2026-09",
+      "tier": 0,
+      "type": "exam_outline",
+      "status": "upcoming",
+      "topic": "cc_exam_outline",
+      "source_name": "ISC2 Certified in Cybersecurity Exam Outline (effective September 1, 2026)",
+      "source_url": "https://www.isc2.org/certifications/cc/cc-certification-exam-outline",
+      "retrieved_at": "2026-07-04",
+      "effective_date": "2026-09-01",
+      "superseded_by_notice": null,
+      "confidence": "official-upcoming",
+      "copyright_note": "ISC2 site contents are ISC2 property; minimal summary only — see official source"
+    },
+    {
+      "id": "nist.sp800-88r2",
+      "tier": 1,
+      "type": "reference",
+      "status": "current",
+      "topic": "media_sanitization",
+      "source_name": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/88/r2/final",
+      "retrieved_at": "2026-07-04",
+      "effective_date": null,
+      "superseded_by_notice": null,
+      "confidence": "official-current",
+      "copyright_note": "US government work; cite and summarize"
+    },
+    {
+      "id": "nist.sp800-61r3",
+      "tier": 1,
+      "type": "reference",
+      "status": "current",
+      "topic": "incident_response",
+      "source_name": "NIST SP 800-61 Rev. 3, Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+      "retrieved_at": "2026-07-04",
+      "effective_date": null,
+      "superseded_by_notice": null,
+      "confidence": "official-current",
+      "copyright_note": "US government work; cite and summarize"
+    },
+    {
+      "id": "nist.pqc.fips-203-204-205",
+      "tier": 1,
+      "type": "reference",
+      "status": "current",
+      "topic": "post_quantum_crypto",
+      "source_name": "NIST FIPS 203 (ML-KEM), FIPS 204 (ML-DSA), FIPS 205 (SLH-DSA) — post-quantum cryptography standards",
+      "source_url": "https://csrc.nist.gov/news/2024/postquantum-cryptography-fips-approved",
+      "retrieved_at": "2026-07-04",
+      "effective_date": "2024-08-13",
+      "superseded_by_notice": null,
+      "confidence": "official-current",
+      "copyright_note": "US government work; cite and summarize"
+    },
+    {
+      "id": "nist.sp800-145",
+      "tier": 1,
+      "type": "reference",
+      "status": "current",
+      "topic": "cloud_computing",
+      "source_name": "NIST SP 800-145, The NIST Definition of Cloud Computing",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/145/final",
+      "retrieved_at": "2026-07-04",
+      "effective_date": null,
+      "superseded_by_notice": null,
+      "confidence": "official-current",
+      "copyright_note": "US government work; cite and summarize"
+    }
+  ]
+}

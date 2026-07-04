@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC transcript correction dictionary",
+  "description": "ASR-error corrections applied during transcript ingestion. Corrections are suggestions (a diff for human review), never silent replacements. The pipeline is deterministic: same transcript + same dictionary version = byte-identical output. Every applied correction is logged into the produced note's front-matter.",
+  "type": "object",
+  "required": ["schema_version", "outline_version", "policy", "entries"],
+  "properties": {
+    "policy": {
+      "type": "object",
+      "required": ["default_mode", "auto_requires_guard"],
+      "properties": {
+        "default_mode": {"const": "suggest_only"},
+        "auto_requires_guard": {"const": true, "description": "Any future 'auto' mode requires a context_regex guard; blind substitution is forbidden (e.g. 'pen' also appears in 'pen test')."}
+      }
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["wrong", "right", "match", "case_sensitive", "confidence", "mode", "status", "added"],
+        "properties": {
+          "wrong": {"type": "string", "description": "Misheard/mistranscribed form. Unique key (case-insensitive) across entries."},
+          "right": {"type": "string", "description": "Correct cybersecurity term."},
+          "match": {"enum": ["word", "phrase"]},
+          "case_sensitive": {"type": "boolean"},
+          "confidence": {
+            "enum": ["high", "medium", "low", "never_auto"],
+            "description": "high = strong auto-suggestion; medium = suggest with context; low = mark [VERIFY]; never_auto = human review required."
+          },
+          "context_regex": {"type": "string", "description": "Correction is suggested only when nearby text matches. Required for any non-suggest mode."},
+          "never_before": {"type": "string", "description": "Regex: never suggest when the wrong form is immediately followed by this (e.g. pen + 'test')."},
+          "never_after": {"type": "string"},
+          "false_positive_notes": {"type": "string"},
+          "domains": {"type": "array", "items": {"enum": ["D1", "D2", "D3", "D4", "D5", "global"]}},
+          "mode": {"enum": ["suggest_only"], "description": "PR-1 permits suggest_only exclusively."},
+          "status": {"enum": ["seed", "verified", "retired"]},
+          "example": {"type": "string"},
+          "added": {"type": "string", "format": "date"}
+        }
+      }
+    }
+  }
+}

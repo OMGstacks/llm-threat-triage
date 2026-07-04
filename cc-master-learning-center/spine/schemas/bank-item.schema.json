@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC bank item",
+  "description": "One assessable item in a question bank. Defined in PR-1 so later PRs cannot invent incompatible formats; first items land in PR-8.",
+  "type": "object",
+  "required": [
+    "id", "bank", "domain", "objective", "topic", "stem", "choices",
+    "answer_key_ref", "fact_ids", "difficulty", "holdout", "status", "source_policy"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}$",
+      "description": "Example: D4.4.1.scenario.0001"
+    },
+    "bank": {"enum": ["definition_recall", "concept_discrimination", "scenario_application", "exam_strategy"]},
+    "domain": {"enum": ["D1", "D2", "D3", "D4", "D5", "global"]},
+    "objective": {"type": "string", "description": "Registry-validated against reference/objective-matrix.json."},
+    "topic": {"type": "string"},
+    "stem": {"type": "string", "minLength": 1},
+    "choices": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 6},
+    "answer_key_ref": {
+      "type": "string",
+      "description": "Isolated answer-key id. Resolves only inside grader/validator context. Learner-facing bank files must not expose active/holdout answer keys; holdout keys are never emitted by tutor, flashcard generator, remediation engine, or reports."
+    },
+    "rationales": {
+      "type": "object",
+      "description": "Why the correct answer is correct and why each distractor is wrong. Draft items may include rationales during authoring; active exam-mode items separate stem/choices from answer keys.",
+      "required": ["correct"],
+      "properties": {"correct": {"type": "string"}},
+      "additionalProperties": {"type": "string"}
+    },
+    "fact_ids": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Grounding fact cards. source_policy=factstore requires at least one active fact_id; the item fails validation if it asserts anything not supported by its cited cards."
+    },
+    "difficulty": {
+      "enum": ["L1", "L2", "L3", "L4", "L5"],
+      "description": "Difficulty ladder: L1 recall, L2 comprehension, L3 discrimination, L4 scenario application, L5 exam-trap synthesis."
+    },
+    "holdout": {
+      "type": "boolean",
+      "description": "Holdout items are reserved for the mock exam. Stratified by domain, objective, topic, difficulty, question type, source tier. No-derived-leakage invariant: no flashcard from a holdout stem; no remediation example reusing a holdout scenario with renamed entities; no tutor explanation revealing a holdout reasoning path; similarity checks compare generated content against holdout stems and rationales."
+    },
+    "status": {"enum": ["draft", "active", "deprecated"]},
+    "source_policy": {"enum": ["factstore|required"], "description": "All growth items must be fact-grounded."},
+    "misconception_tags": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "definition_confusion", "process_order_confusion", "best_vs_first_qualifier_miss",
+          "control_category_confusion", "overly_technical_answer", "overly_expensive_answer",
+          "ignored_business_or_data_owner", "current_vs_2026_outline_confusion",
+          "crypto_property_confusion", "network_device_confusion"
+        ]
+      },
+      "description": "Controlled misconception taxonomy targeted by this item's distractors; feeds the wrong-answer journal."
+    }
+  }
+}

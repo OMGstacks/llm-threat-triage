@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC objective matrix",
+  "description": "Registry of official exam domains/objectives. Workflow state (coverage_status), verification (verification_status), and confidence are three separate fields — the combined value 'seeded-verify' is forbidden.",
+  "type": "object",
+  "required": ["schema_version", "migration_policy", "source_metadata", "exam", "outlines", "extensions"],
+  "properties": {
+    "source_metadata": {
+      "type": "object",
+      "required": ["source_name", "source_url", "retrieved_at", "effective_date", "superseded_by_notice", "confidence", "copyright_note"]
+    },
+    "exam": {
+      "type": "object",
+      "required": ["certification", "delivery", "duration_minutes", "item_count_min", "item_count_max", "item_formats", "passing_score_scaled", "score_scale_max", "source_id"]
+    },
+    "outlines": {
+      "type": "object",
+      "description": "Keyed by outline version (e.g. '2025-10' current, '2026-09' upcoming stub). The 2026-09 crosswalk lives only here (crosswalk_map), never on individual fact cards.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["status", "source_id", "domains"]
+      }
+    },
+    "extensions": {"type": "array", "description": "Cross-domain objective extensions such as global.ai-security."}
+  },
+  "definitions": {
+    "domain": {
+      "type": "object",
+      "required": ["domain_id", "domain_title", "source_id", "source_ref"],
+      "properties": {
+        "domain_id": {"enum": ["D1", "D2", "D3", "D4", "D5"]},
+        "domain_title": {"type": "string"},
+        "weight": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1, "description": "Current-outline weights must sum to exactly 1.0. Stub outlines may use weight_approx with tolerance ±0.02 and weights_confidence: approximate-needs-verification."},
+        "source_id": {"type": "string", "description": "Must resolve into reference/source-registry.json."},
+        "source_ref": {"type": "string"},
+        "objectives": {"type": "array", "items": {"$ref": "#/definitions/objective"}}
+      }
+    },
+    "objective": {
+      "type": "object",
+      "required": [
+        "objective_id", "objective_title", "official_outline", "source_id", "source_ref",
+        "coverage_status", "verification_status", "confidence", "volatility",
+        "ai_security_extension", "content_status", "crosswalk_2026"
+      ],
+      "properties": {
+        "objective_id": {"type": "string", "pattern": "^[1-5]\\.[0-9]+$", "description": "Stable ID; never renumbered silently."},
+        "objective_title": {"type": "string"},
+        "official_outline": {"enum": ["2025-10", "2026-09"]},
+        "source_id": {"type": "string", "description": "Validator-enforced join: must exist in reference/source-registry.json."},
+        "source_ref": {"type": "string"},
+        "coverage_status": {"enum": ["empty", "seeded", "covered", "validated", "deprecated"], "description": "Workflow state: does content exist for this objective?"},
+        "verification_status": {"enum": ["needs_official_source_review", "official_source_reviewed"], "description": "Has the objective row been checked against the official outline?"},
+        "confidence": {"enum": ["low", "medium", "high", "official-current"], "description": "How much to trust this row's accuracy."},
+        "volatility": {"enum": ["stable", "transitioning", "emerging"], "description": "Recheck cadence hint: stable (CIA triad), transitioning (current-vs-2026 outline mapping), emerging (AI service accounts, post-quantum crypto)."},
+        "ai_security_extension": {"type": "boolean"},
+        "content_status": {
+          "type": "object",
+          "required": ["notes", "facts", "definition_cards", "scenario_items", "holdout_items"],
+          "additionalProperties": {"type": "boolean"},
+          "description": "Coverage is not mastery: content_status tracks existence only; validation_status tracks provenance; learning_status (learner performance) lives in the learner-state layer."
+        },
+        "crosswalk_2026": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}

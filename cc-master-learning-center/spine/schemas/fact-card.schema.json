@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC fact card",
+  "description": "One provenance-backed, reviewed claim. Cards are immutable reviewed content: learner scheduling state (confidence, missed count, next review date) never lives here. Enforced from PR-3 by the copy-adapted cc_spine factstore validator.",
+  "type": "object",
+  "required": [
+    "schema_version", "fact_id", "scope", "claim_type", "status", "claim",
+    "source", "source_id", "source_tier", "source_fingerprint", "support",
+    "tags", "learner_visible", "answer_key_sensitive", "allowed_banks", "reviewed_by"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "fact_id": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[a-z0-9][a-z0-9-]*$",
+      "description": "Globally unique; never silently reused for a different claim. Deprecation requires a tombstone with deprecated_by/deprecation_reason and an explicit replacement fact_id."
+    },
+    "scope": {"enum": ["D1", "D2", "D3", "D4", "D5", "global"]},
+    "claim_type": {"enum": ["definition", "concept", "comparison", "procedure", "numeric_fact", "exam_trap", "mnemonic"]},
+    "status": {"enum": ["active", "draft", "deprecated"], "description": "Only active cards may ground live bank items."},
+    "claim": {"type": "string", "minLength": 1},
+    "source": {
+      "type": "string",
+      "description": "Repo-root-relative path plus '#json.path' (structured) or '#heading-slug' (markdown)."
+    },
+    "source_id": {"type": "string", "description": "Must resolve into reference/source-registry.json."},
+    "source_tier": {"type": "integer", "minimum": 0, "maximum": 4},
+    "source_fingerprint": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$", "description": "Drift detection: validation fails if the live source no longer matches."},
+    "support": {
+      "type": "string",
+      "description": "Support-span limits (source-policy.md): structured JSON = exact field value only; markdown ≤ one heading excerpt or 50 words; transcript ≤ 25 words unless explicitly authorized. Never a full practice question, answer key, or long lecture passage."
+    },
+    "tags": {
+      "type": "object",
+      "required": ["domain", "objective", "topic"],
+      "properties": {
+        "domain": {"type": "array", "items": {"enum": ["D1", "D2", "D3", "D4", "D5"]}},
+        "objective": {"type": "array", "items": {"type": "string"}, "description": "Registry-validated against reference/objective-matrix.json objective ids (or 'global.ai-security')."},
+        "topic": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "learner_visible": {"type": "boolean"},
+    "answer_key_sensitive": {"type": "boolean"},
+    "allowed_banks": {
+      "type": "array",
+      "items": {"enum": ["definition_recall", "concept_discrimination", "scenario_application", "exam_strategy"]},
+      "minItems": 1
+    },
+    "difficulty": {"enum": ["easy", "medium", "hard"]},
+    "volatility": {"enum": ["stable", "transitioning", "emerging"]},
+    "outline_version": {"enum": ["2025-10", "2026-09"]},
+    "last_reviewed": {"type": "string", "format": "date"},
+    "reviewed_by": {"type": "string"},
+    "deprecated_by": {"type": ["string", "null"]},
+    "deprecation_reason": {"type": ["string", "null"]}
+  },
+  "notes": {
+    "bank_eligibility": "mnemonic -> definition_recall only; exam_trap -> concept_discrimination; numeric_fact -> definition_recall, exam_strategy. Full matrix lives in spine/banks/banks.json.",
+    "mnemonic_rule": "mnemonic cards are study aids and are never assessable."
+  }
+}

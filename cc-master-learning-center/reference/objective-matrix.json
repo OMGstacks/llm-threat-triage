@@ -1,0 +1,351 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "source_metadata": {
+    "source_name": "ISC2 Certified in Cybersecurity Exam Outline",
+    "source_url": "https://www.isc2.org/certifications/cc/cc-certification-exam-outline",
+    "retrieved_at": "2026-07-04",
+    "effective_date": "2025-10-01",
+    "superseded_by_notice": "A new CC exam outline becomes effective 2026-09-01",
+    "confidence": "official-current",
+    "copyright_note": "Minimal summary of the official outline; see official source. ISC2 site contents are ISC2 property."
+  },
+  "exam": {
+    "certification": "ISC2 Certified in Cybersecurity (CC)",
+    "delivery": "CAT (computerized adaptive testing)",
+    "duration_minutes": 120,
+    "item_count_min": 100,
+    "item_count_max": 125,
+    "item_formats": ["multiple-choice", "advanced innovative items"],
+    "passing_score_scaled": 700,
+    "score_scale_max": 1000,
+    "source_id": "isc2.cc-outline.2025-10"
+  },
+  "outlines": {
+    "2025-10": {
+      "status": "current",
+      "source_id": "isc2.cc-outline.2025-10",
+      "domains": [
+        {
+          "domain_id": "D1",
+          "domain_title": "Security Principles",
+          "weight": 0.26,
+          "source_id": "isc2.cc-outline.2025-10",
+          "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-1-security-principles",
+          "objectives": [
+            {
+              "objective_id": "1.1",
+              "objective_title": "Understand the security concepts of information assurance",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-1-security-principles",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "1.2",
+              "objective_title": "Understand the risk management process",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-1-security-principles",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "1.3",
+              "objective_title": "Understand security controls",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-1-security-principles",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "1.4",
+              "objective_title": "Understand the ISC2 Code of Ethics",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-1-security-principles",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "1.5",
+              "objective_title": "Understand governance processes",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-1-security-principles",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            }
+          ]
+        },
+        {
+          "domain_id": "D2",
+          "domain_title": "Business Continuity (BC), Disaster Recovery (DR) & Incident Response Concepts",
+          "weight": 0.10,
+          "source_id": "isc2.cc-outline.2025-10",
+          "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-2-business-continuity-disaster-recovery-and-incident-response-concepts",
+          "objectives": [
+            {
+              "objective_id": "2.1",
+              "objective_title": "Understand business continuity (BC)",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-2-business-continuity-disaster-recovery-and-incident-response-concepts",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "2.2",
+              "objective_title": "Understand disaster recovery (DR)",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-2-business-continuity-disaster-recovery-and-incident-response-concepts",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "2.3",
+              "objective_title": "Understand incident response",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-2-business-continuity-disaster-recovery-and-incident-response-concepts",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            }
+          ]
+        },
+        {
+          "domain_id": "D3",
+          "domain_title": "Access Controls Concepts",
+          "weight": 0.22,
+          "source_id": "isc2.cc-outline.2025-10",
+          "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-3-access-controls-concepts",
+          "objectives": [
+            {
+              "objective_id": "3.1",
+              "objective_title": "Understand physical access controls",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-3-access-controls-concepts",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "3.2",
+              "objective_title": "Understand logical access controls",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-3-access-controls-concepts",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            }
+          ]
+        },
+        {
+          "domain_id": "D4",
+          "domain_title": "Network Security",
+          "weight": 0.24,
+          "source_id": "isc2.cc-outline.2025-10",
+          "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+          "objectives": [
+            {
+              "objective_id": "4.1",
+              "objective_title": "Understand computer networking",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "4.2",
+              "objective_title": "Understand network threats and attacks",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "4.3",
+              "objective_title": "Understand network security infrastructure",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "transitioning",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            }
+          ]
+        },
+        {
+          "domain_id": "D5",
+          "domain_title": "Security Operations",
+          "weight": 0.18,
+          "source_id": "isc2.cc-outline.2025-10",
+          "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+          "objectives": [
+            {
+              "objective_id": "5.1",
+              "objective_title": "Understand data security",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "5.2",
+              "objective_title": "Understand system hardening",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "5.3",
+              "objective_title": "Understand best practice security policies",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": false,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            },
+            {
+              "objective_id": "5.4",
+              "objective_title": "Understand security awareness training",
+              "official_outline": "2025-10",
+              "source_id": "isc2.cc-outline.2025-10",
+              "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+              "coverage_status": "seeded",
+              "verification_status": "needs_official_source_review",
+              "confidence": "medium",
+              "volatility": "stable",
+              "ai_security_extension": true,
+              "content_status": {"notes": false, "facts": false, "definition_cards": false, "scenario_items": false, "holdout_items": false},
+              "crosswalk_2026": []
+            }
+          ]
+        }
+      ]
+    },
+    "2026-09": {
+      "status": "upcoming-stub",
+      "source_id": "isc2.cc-outline.2026-09",
+      "weights_confidence": "approximate-needs-verification",
+      "note": "Stub only. Crosswalk map is populated in PR-4 after official-source review. Weights below are approximate and pending verification against the official outline.",
+      "domains": [
+        {"domain_id": "D1", "domain_title": "Security Principles", "weight_approx": 0.24},
+        {"domain_id": "D2", "domain_title": "Security Governance", "weight_approx": 0.173},
+        {"domain_id": "D3", "domain_title": "Identity and Access Management (IAM) Concepts", "weight_approx": 0.20},
+        {"domain_id": "D4", "domain_title": "Networking and Cloud Security Concepts", "weight_approx": 0.213},
+        {"domain_id": "D5", "domain_title": "Security Operations and Incident Response", "weight_approx": 0.173}
+      ],
+      "crosswalk_map": {}
+    }
+  },
+  "extensions": [
+    {
+      "id": "global.ai-security",
+      "status": "official-current-integrated",
+      "source_id": "isc2.cc-outline.2025-10",
+      "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#ai-security-integration-current-outline",
+      "applies_to": ["D1", "D2", "D3", "D4", "D5"],
+      "volatility": "emerging",
+      "coverage_status": "seeded",
+      "verification_status": "needs_official_source_review",
+      "confidence": "medium",
+      "topics": [
+        "AI and CIA",
+        "model poisoning",
+        "model drift",
+        "AI service accounts",
+        "AI-assisted SIEM/IDS",
+        "AI data leakage",
+        "AI governance and risk"
+      ]
+    }
+  ]
+}

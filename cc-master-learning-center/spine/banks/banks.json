@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "outline_version": "2025-10",
+  "banks": {
+    "definition_recall": {
+      "purpose": "Single-competence bank: 'what is X' recall. Feeds the flashcard engine.",
+      "eligible_claim_types": ["definition", "concept", "numeric_fact", "procedure", "mnemonic"],
+      "holdout_fraction": 0.0,
+      "excluded_from_readiness": false,
+      "targets": {
+        "D1": {"floor": 80, "cap": 125},
+        "D2": {"floor": 80, "cap": 125},
+        "D3": {"floor": 80, "cap": 125},
+        "D4": {"floor": 130, "cap": 200},
+        "D5": {"floor": 130, "cap": 200}
+      }
+    },
+    "concept_discrimination": {
+      "purpose": "Single-competence bank: X-vs-Y discrimination and exam-trap resistance (MAC/DAC/RBAC, RTO/RPO/MTD, IDS/IPS).",
+      "eligible_claim_types": ["comparison", "exam_trap", "definition"],
+      "holdout_fraction": 0.1,
+      "excluded_from_readiness": false,
+      "targets": {
+        "D1": {"floor": 0, "cap": 56},
+        "D2": {"floor": 0, "cap": 51},
+        "D3": {"floor": 0, "cap": 54},
+        "D4": {"floor": 0, "cap": 80},
+        "D5": {"floor": 0, "cap": 78}
+      }
+    },
+    "scenario_application": {
+      "purpose": "Single-competence bank: situational judgment ('what should the analyst do FIRST').",
+      "eligible_claim_types": ["procedure", "concept", "comparison", "definition"],
+      "holdout_fraction": 0.2,
+      "excluded_from_readiness": false,
+      "targets": {
+        "D1": {"floor": 60, "cap": 100},
+        "D2": {"floor": 48, "cap": 80},
+        "D3": {"floor": 54, "cap": 90},
+        "D4": {"floor": 72, "cap": 120},
+        "D5": {"floor": 66, "cap": 110}
+      }
+    },
+    "exam_strategy": {
+      "purpose": "Exam logistics and time management. Helps the learner; must not inflate cybersecurity mastery.",
+      "eligible_claim_types": ["numeric_fact", "concept"],
+      "holdout_fraction": 0.0,
+      "excluded_from_readiness": true,
+      "targets": {
+        "global": {"floor": 10, "cap": 30}
+      }
+    }
+  },
+  "claim_type_eligibility": {
+    "definition": ["definition_recall", "concept_discrimination", "scenario_application"],
+    "concept": ["definition_recall", "scenario_application", "exam_strategy"],
+    "comparison": ["concept_discrimination", "scenario_application"],
+    "procedure": ["definition_recall", "scenario_application"],
+    "numeric_fact": ["definition_recall", "exam_strategy"],
+    "exam_trap": ["concept_discrimination"],
+    "mnemonic": ["definition_recall"]
+  },
+  "difficulty_ladder": {
+    "L1": "recall",
+    "L2": "comprehension",
+    "L3": "discrimination",
+    "L4": "scenario application",
+    "L5": "exam-trap synthesis"
+  },
+  "holdout_policy": {
+    "stratify_by": ["domain", "objective", "topic", "difficulty", "question_type", "source_tier"],
+    "rules": [
+      "No holdout item may be used for flashcard generation, remediation examples, or tutor demos.",
+      "No flashcard may be generated from a holdout stem.",
+      "No remediation example may reuse a holdout scenario with renamed entities.",
+      "No tutor explanation may reveal the reasoning path of a holdout item.",
+      "Similarity checks must compare candidate generated content against holdout stems and rationales."
+    ]
+  },
+  "mock_exam": {
+    "description": "The mock exam is a draw policy, not a bank.",
+    "item_count_min": 100,
+    "item_count_max": 125,
+    "duration_minutes": 120,
+    "domain_weights": {"D1": 0.26, "D2": 0.10, "D3": 0.22, "D4": 0.24, "D5": 0.18},
+    "draw_from": ["definition_recall", "concept_discrimination", "scenario_application"],
+    "scenario_draw": "holdout_only"
+  },
+  "readiness": {
+    "domain_formula": {
+      "fresh_scenario_accuracy": 0.35,
+      "concept_discrimination_accuracy": 0.25,
+      "mature_flashcard_accuracy": 0.20,
+      "wrong_answer_closure_rate": 0.10,
+      "time_management_performance": 0.10
+    },
+    "global_weighting": {"D1": 0.26, "D2": 0.10, "D3": 0.22, "D4": 0.24, "D5": 0.18},
+    "gates": {
+      "mature_flashcard_accuracy": [0.85, 0.90],
+      "unseen_scenario_accuracy": [0.80, 0.85],
+      "domain_floor": [0.75, 0.80]
+    },
+    "hard_blockers": [
+      "Not ready if any domain < 75%.",
+      "Not ready if holdout scenario accuracy < 80%.",
+      "Not ready if any source, IP, holdout, or answer-key leakage gate fails."
+    ]
+  }
+}
