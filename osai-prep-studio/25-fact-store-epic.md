@@ -51,7 +51,7 @@ One JSON file per lab (`L03.json`, …) plus `_global.json`; each is a list of c
 | `schema_version` | card schema version (currently `1`) |
 | `fact_id` | stable, globally-unique, human-readable id (`L03.detector`, `global.two-signal-definition`) |
 | `scope` | `L{nn}` or `"global"` |
-| `claim_type` | `detector` \| `framework_mapping` \| `evidence_path` \| `architecture` \| `defense` \| `module` \| `concept` |
+| `claim_type` | `detector` \| `framework_mapping` \| `evidence_path` \| `architecture` \| `defense` \| `module` \| `concept` \| `scope` \| `reference` \| `detector_property` \| `decision` |
 | `tags` | `{owasp, atlas, agentic, topic}` — validated framework ids |
 | `claim` | the human-readable fact (what the learner answer asserts) |
 | `source` | **repo-root-relative** provenance path: `…/labs/L03.json#two_signal_grading.detector_required` (structured) or `reference/…md#anchor` (markdown) |
@@ -75,6 +75,7 @@ Every card is **derived from an authoritative record already in the repo** and v
 |---|---|
 | **structured** (`labs/L{nn}.json#json.path`) | resolve the JSON path; assert `support == value` (equality); registry membership for `detector` (∈ `detector_catalog()`) and `framework_mapping` (valid OWASP/ATLAS/Agentic id); the `claim` must literally contain the asserted value |
 | **markdown** (`reference/…md#anchor`) | the anchor section must exist; the `support` quote must be a substring of the current section; fingerprint over the normalised span |
+| **catalog** (`catalog:detectors#{name}.{property}`, PR24) | resolve the property off `engine.detector_catalog()` by detector name; assert `support == value` (equality) exactly like a structured source; a non-empty string for `detector_property`; the `claim` must literally contain the asserted value. An unknown detector name resolves to a provenance failure. |
 
 On top of that, a **`source_fingerprint`** is recomputed from the live source at validate
 time; if the underlying manifest field or reference section changes, the fingerprint no
@@ -238,6 +239,61 @@ retrieval-stability green; suite 251. Every new item cites a **distinct** `fact_
 the fact-grounded items are near-dup clean in every bank. (Four *pre-existing*, tutor-grounded
 `framework_recall` near-dup pairs are a legacy artifact left untouched — rewording them would
 destabilise TF-IDF retrieval.)
+
+## 6e. PR24 — final card expansion for the 750 path (cards only, 183 → 220)
+
+The last card-expansion PR before the 671 → 750 growth slices (26-completion-plan-750.md).
+**+37 provenance-backed fact cards, 0 gold items**, targeting the two banks the completion
+plan grows next — `lab_grounded` and `tool_use_judgment`:
+
+- **18 `complements` cards** (new **`reference`** claim_type) → `lab_grounded` — one per lab
+  that names the public resource it complements (`#complements`, JSON-path equality;
+  **L13 excluded**; L20 declares no complement, so it has none).
+- **12 detector-severity cards** (new **`detector_property`** claim_type, new **`catalog`**
+  source kind) → `lab_grounded` — each asserts a detector's `severity` resolved live off
+  `engine.detector_catalog()` (`catalog:detectors#{name}.severity`), validated by equality
+  exactly like a structured source. This makes the reused detector taxonomy's severities
+  first-class, drift-checked fact cards.
+- **7 tool-use decision cards** (new **`decision`** claim_type) → `tool_use_judgment` — the
+  seven allow/block/require-approval rules in `reference/agentic-tool-use-decisions.md`
+  (untrusted tool output, human approval for irreversible actions, least privilege,
+  injection-vs-benign, direct-vs-indirect, identity verification, rate/budget caps), each an
+  **anchor + verbatim span**. This is the first time `tool_use_judgment` gets fact-grounded,
+  retrieval-stable cards (its 33 existing items are authored/keyword-graded).
+
+**New wiring (all four extensions carried through the whole stack):** `reference`,
+`detector_property`, `decision` added to `CLAIM_TYPES` and `BANK_ELIGIBILITY`
+(`decision → {tool_use_judgment, architecture_reasoning}`; the other two → `{lab_grounded,
+architecture_reasoning}`); the `catalog` source kind added to `_source_kind`,
+`_read_source_value` (resolves off `engine.detector_catalog()`), the equality/claim-mention
+checks, and a `detector_property` registry check; the coverage ledger now reports
+`tool_use_judgment`; **7 new tests** cover the claim-type/eligibility wiring, complements
+cards, catalog-source validity + equality-drift + unknown-detector failure, decision-card
+grounding, and the honest capacity verdict.
+
+**Two honest reconciliations with the plan's estimates:**
+- **`readiness_gate` deferred (deliberate).** Doc 26 listed it as *one of three* candidate
+  `lab_grounded` sources to reach "~25–30 cards"; `complements` (18) + detector-severity (12)
+  already hit **30**, and `lab_grounded` has ample unused headroom (below), so carding a
+  low-distinctiveness uniform field (only `R3`/`R4`/`R5` across 19 labs, marginal exam
+  relevance) — against the standing "skip uniform fields" guidance — would add a new
+  claim_type for no needed capacity. Left for a later PR only if a distinct question shape
+  emerges.
+- **7 decision sections, not 8.** The plan estimated "8 sections → 10–12 decision cards";
+  the reference doc has exactly **7** sections, all carded (no padding). So
+  `tool_use_judgment` fact-grounded headroom is **+7 at reuse = 1** (not +10–14). PR25's
+  `tool_use_judgment` growth is therefore capped at **+7** from fact cards; the rest of its
+  climb toward the 50–75 bank target comes from **authored** items — consistent with how that
+  bank already works. The coverage ledger reports this honestly (`tool_use_judgment`:
+  7 cards → 7–14 items, **short** of the 50–75 target even at 2×).
+
+**Capacity ledger — PR25 headroom (the gate).** Store **183 → 220 cards** (0 sensitive,
+all active, 0 duplicate ids). Unused groundable cards at reuse = 1: **`lab_grounded` 44**
+(155 eligible − 111 consumed) **+ `tool_use_judgment` 7** = **51 distinct cards**, comfortably
+covering the plan's PR25 target of **+35 to +42** fact-grounded items (`lab_grounded` +24–28 &
+`tool_use_judgment` +7). Ship gate **PASS**, gold set **unchanged at 671**; `factstore validate`
+OK; retrieval-stability green; suite **258**. No L13 / transcript / provider / auth / Ollama
+changes.
 
 ## 7. Answer-key safety
 

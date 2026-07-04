@@ -243,5 +243,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M2"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:f79824e19c3aa7b7297f54fdf0e250f0eb3a900a9366e500ba42c2c6358b430e",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L08.complements",
+    "scope": "L08",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L08 complements the public resource: AI Goat — recon-first.",
+    "source": "osai-prep-studio/spine/labs/L08.json#complements",
+    "support": "AI Goat — recon-first",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M2"
   }
 ]

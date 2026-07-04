@@ -179,5 +179,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:4da33e5e81943c274e50ebab64e7da4afcd2679c96311e8290fe169438a4b469",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L07.complements",
+    "scope": "L07",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L07 complements the public resource: Damn Vulnerable LLM.",
+    "source": "osai-prep-studio/spine/labs/L07.json#complements",
+    "support": "Damn Vulnerable LLM",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
   }
 ]

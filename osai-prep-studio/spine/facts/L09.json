@@ -240,5 +240,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:a109ea3299b35ec8fc018d82741dccaeb4fb0330e9ad5c1b7f22e1f85a739537",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L09.complements",
+    "scope": "L09",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM04:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L09 complements the public resource: AI Goat RAG poisoning.",
+    "source": "osai-prep-studio/spine/labs/L09.json#complements",
+    "support": "AI Goat RAG poisoning",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
   }
 ]

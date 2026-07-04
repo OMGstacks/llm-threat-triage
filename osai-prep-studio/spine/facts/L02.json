@@ -240,5 +240,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:559094cb4230f27575e37f2ad453461376db67927d1906bf54f0c84a2a9ec5b1",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L02.complements",
+    "scope": "L02",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L02 complements the public resource: PortSwigger indirect prompt injection.",
+    "source": "osai-prep-studio/spine/labs/L02.json#complements",
+    "support": "PortSwigger indirect prompt injection",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
   }
 ]

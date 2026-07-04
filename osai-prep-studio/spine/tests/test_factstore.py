@@ -315,3 +315,75 @@ def test_ground_is_deterministic_and_cited():
     r1, r2 = factstore.ground(fs, item), factstore.ground(fs, item)
     assert r1 == r2 and r1["citations"] and not r1["refused"] and not r1["abstained"]
     assert all(c["tier"] == factstore.FACT_TIER for c in r1["citations"])
+
+
+# --- PR24: reference / detector_property / decision claim types + catalog source -- #
+
+def test_pr24_claim_types_and_eligibility_wired():
+    from osai_spine.factstore import BANK_ELIGIBILITY, CLAIM_TYPES
+    for ct in ("reference", "detector_property", "decision"):
+        assert ct in CLAIM_TYPES, ct
+    assert BANK_ELIGIBILITY["reference"] == {"lab_grounded", "architecture_reasoning"}
+    assert BANK_ELIGIBILITY["detector_property"] == {"lab_grounded", "architecture_reasoning"}
+    assert BANK_ELIGIBILITY["decision"] == {"tool_use_judgment", "architecture_reasoning"}
+
+
+def test_complements_reference_cards_present_and_valid():
+    fs = FactStore()
+    ref = [c for c in fs.cards.values()
+           if c["claim_type"] == "reference" and c["fact_id"].endswith(".complements")]
+    # one per lab that declares a public complement (L13 excluded; L20 declares none)
+    assert len(ref) >= 18, f"expected complements reference cards, got {len(ref)}"
+    assert "L13.complements" not in fs.cards, "L13 must stay excluded"
+    for c in ref:
+        assert validate_card(c, REG) == [], c["fact_id"]
+        assert set(c["allowed_banks"]) <= {"lab_grounded", "architecture_reasoning"}
+
+
+def test_detector_property_cards_catalog_source_valid():
+    fs = FactStore()
+    dp = [c for c in fs.cards.values() if c["claim_type"] == "detector_property"]
+    assert len(dp) >= 12, f"expected detector-property cards, got {len(dp)}"
+    for c in dp:
+        assert c["source"].startswith("catalog:detectors#"), c["source"]
+        assert validate_card(c, REG) == [], c["fact_id"]
+
+
+def test_catalog_source_equality_drift_is_detected():
+    # a detector_property whose asserted severity disagrees with detector_catalog() must FAIL
+    fs = FactStore()
+    card = copy.deepcopy(fs.get("det.direct_prompt_injection.severity"))  # real value: high
+    card["support"] = "low"
+    card["claim"] = "The direct_prompt_injection detector carries low severity in the reused detector catalog."
+    assert any("!= source value" in e for e in validate_card(card, REG))
+
+
+def test_catalog_source_unknown_detector_unresolved():
+    fs = FactStore()
+    card = copy.deepcopy(fs.get("det.direct_prompt_injection.severity"))
+    card["source"] = "catalog:detectors#no_such_detector.severity"
+    assert any("unresolved" in e for e in validate_card(card, REG))
+
+
+def test_tool_use_decision_cards_wired_and_ground():
+    fs = FactStore()
+    dec = [c for c in fs.cards.values() if c["claim_type"] == "decision"]
+    assert len(dec) == 7, f"expected the 7 tool-use decision cards, got {len(dec)}"
+    for c in dec:
+        assert "tool_use_judgment" in c["allowed_banks"]
+        assert validate_card(c, REG) == [], c["fact_id"]
+    # a decision card can ground a tool_use_judgment item (retrieval-stable, cited)
+    item = {"id": "TUJ-X", "bank": "tool_use_judgment", "grounding": "factstore",
+            "fact_ids": ["tooluse.untrusted-output"], "expected_keywords": ["block"]}
+    res = factstore.ground(fs, item)
+    assert res["citations"] and not res["refused"] and not res["abstained"]
+    assert factstore.validate_items(fs, [item])["ok"]
+
+
+def test_tool_use_judgment_capacity_reported():
+    cov = factstore.coverage_report(FactStore())
+    cap = cov["estimated_item_capacity"]
+    assert "tool_use_judgment" in cap, "capacity ledger must report tool_use_judgment"
+    assert cap["tool_use_judgment"]["target"] == [50, 75]
+    # honest: the 7 decision cards alone do NOT reach the 50-75 bank target (needs authored items)
+    assert not cap["tool_use_judgment"]["reachable_target"]

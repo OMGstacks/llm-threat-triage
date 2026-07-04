@@ -180,5 +180,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1fc32f9e1176553f21b5b55dcfc70e1c68e90eb1b6cb02d79a764aa5d2d24c97",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L01.complements",
+    "scope": "L01",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L01 complements the public resource: Lakera Gandalf.",
+    "source": "osai-prep-studio/spine/labs/L01.json#complements",
+    "support": "Lakera Gandalf",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
   }
 ]

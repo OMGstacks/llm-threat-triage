@@ -240,5 +240,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:e8aface4da70ef66b5b571c2825ca637caa6ce163c8b0a1cc7e7cff6fadac0b5",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L06.complements",
+    "scope": "L06",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L06 complements the public resource: PortSwigger insecure output handling.",
+    "source": "osai-prep-studio/spine/labs/L06.json#complements",
+    "support": "PortSwigger insecure output handling",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
   }
 ]

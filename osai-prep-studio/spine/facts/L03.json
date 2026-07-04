@@ -243,5 +243,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M3"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:f12c8387502e18e43afa333656e236282cd96c2798db545dc1f0ab6733371bc2",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L03.complements",
+    "scope": "L03",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L03 complements the public resource: garak encoding probes.",
+    "source": "osai-prep-studio/spine/labs/L03.json#complements",
+    "support": "garak encoding probes",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M3"
   }
 ]
