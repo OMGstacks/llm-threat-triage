@@ -387,3 +387,19 @@ def test_tool_use_judgment_capacity_reported():
     assert cap["tool_use_judgment"]["target"] == [50, 75]
     # honest: the 7 decision cards alone do NOT reach the 50-75 bank target (needs authored items)
     assert not cap["tool_use_judgment"]["reachable_target"]
+
+
+# --- PR27: distribution freeze (the 671 -> 750 completion is frozen here) --------- #
+
+def test_goldset_frozen_in_750_756_band():
+    """PR27 froze the gold set at 752 in the 750-756 target band. A change to the total is
+    now deliberate: update this band (and 26-completion-plan-750.md) when growing again."""
+    n = len(load_goldset()["items"])
+    assert 750 <= n <= 756, f"gold set size {n} is outside the frozen [750, 756] band"
+
+
+def test_pr27_trimmed_redundancies_stay_removed():
+    """The 7 redundant legacy authored duplicates trimmed in PR27 must not silently return."""
+    ids = {i["id"] for i in load_goldset()["items"]}
+    for gone in ("AB-B01", "AB-C02", "LK-B-L01", "RF-C04", "RF-C09", "RF-D09", "RF-D10"):
+        assert gone not in ids, f"{gone} was trimmed in PR27 and must stay removed"

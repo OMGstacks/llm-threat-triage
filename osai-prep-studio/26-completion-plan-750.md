@@ -133,25 +133,53 @@ growth · `framework_recall` +≤2 and `architecture_reasoning` +≤6 (do not ov
 |---|---|---:|---:|---|
 | **PR24** | ✅ merged | +37 cards | 671 | `reference`/`detector_property`/`decision` claim types + `catalog` source; 0 items. |
 | **PR25** | ✅ merged | +35 items | **706** | fact-grounded: `lab_grounded` +28 → 134, `tool_use_judgment` +7 → 40. Landed at the floor — `tool_use_judgment` is honestly capped at +7 (7 real decision sections). |
-| **PR26** | this PR | +40 items | **746** | authored: `report_quality` +22 → 84, `stale_claim_detection` +12 → 48, `refusal` +6 → 56. |
-| **PR27** | pending | ±trim | **750–756** | stabilise/freeze; top up the last few only if clearly justified. |
+| **PR26** | ✅ merged | +40 items | **746** | authored: `report_quality` +22 → 84, `stale_claim_detection` +12 → 48, `refusal` +6 → 56. |
+| **PR27** | this PR | **−7 / +13** | **752** ✅ | **freeze**: trimmed 7 redundant legacy dups, added 13 distinct authored items; `report_quality` → 94, `refusal` → 55. **Distribution frozen in [750, 756].** |
 
-**Bank distribution at 746 vs 04a targets** (● in range · ▲ at/above cap · ○ below):
+**Bank distribution at 752 (frozen) vs 04a targets** (● in range · ○ below):
 
 | bank | now | target | |
 |---|---:|---:|:--|
 | `framework_recall` | 158 | 140–160 | ● |
-| `architecture_reasoning` | 92 | 75–100 | ● |
-| `abstention` | 75 | 75–100 | ● (held, no padding) |
 | `lab_grounded` | 134 | 125–150 | ● |
-| `report_quality` | 84 | 100–125 | ○ (largest remaining gap; distinct exemplars only) |
-| `tool_use_judgment` | 40 | 50–75 | ○ (fact cards exhausted at +7; needs authored items or a new source) |
+| `architecture_reasoning` | 92 | 75–100 | ● |
+| `report_quality` | 94 | 100–125 | ○ (largest remaining gap; distinct exemplars only) |
+| `abstention` | 73 | 75–100 | ○ (held; 2 redundant dups trimmed — no padding to backfill) |
+| `lab_answer_leakage` | 58 | 75–100 | ○ (deferred — needs realistic new probes; 1 dup trimmed) |
+| `refusal` | 55 | 75–100 | ○ (4 redundant dups trimmed, 3 distinct added) |
 | `stale_claim_detection` | 48 | 50–75 | ○ (near cap of distinct claims the grader can adjudicate) |
-| `refusal` | 56 | 75–100 | ○ (grown only where scenarios are genuinely distinct) |
-| `lab_answer_leakage` | 59 | 75–100 | ○ (deferred — needs realistic new probes) |
+| `tool_use_judgment` | 40 | 50–75 | ○ (fact cards exhausted at +7; needs authored items or a new source) |
 
-At 746 the set is **9 items short of 755**; PR27 lands the exact **750–756** by a whole-set
-dedupe/near-dup sweep plus, only if clearly justified, a handful of additional distinct items
-in the still-below banks. The remaining gaps (`report_quality`, `tool_use_judgment`,
-`stale_claim`, `refusal`, `lab_answer_leakage`) are **honest coverage limits**, not padding
-targets — closing them fully is future work beyond the 750 line.
+### PR27 stabilisation record
+
+**Whole-set dedupe/near-dup audit.** The **fact-grounded banks** (`lab_grounded`,
+`architecture_reasoning`, `tool_use_judgment`) are **near-dup clean (0 pairs)** — the gate's
+hard requirement. Legacy authored banks carried redundancy, handled as follows:
+
+- **Trimmed (7 redundant same-content dups, safely removable — no code refs):**
+  `AB-B01` (=AB-01), `AB-C02` (=AB-06), `LK-B-L01` (byte-identical to LK-01),
+  `RF-C04` (=RF-B06), `RF-C09` (=RF-B08), `RF-D09` (=RF-C09-theme), `RF-D10` (=RF-C10). After
+  trimming, `abstention` and `refusal` are **fully near-dup clean**.
+- **Deferred + documented (4 `framework_recall` pairs):** `FR-LLM04`/`-B`, `FR-LLM07`/`-B`,
+  `FR-LLM10`/`-B`, `FR-CON-supplychain`/`-provenancesupply`. These are **TF-IDF/tutor-grounded**;
+  rewording risks retrieval destabilisation, so they are left untouched for a **separate future
+  cleanup** (not part of the 750 freeze). None involve fact-grounded items.
+- **Kept as genuinely distinct (documented):** `LK-C02`/`LK-D02` (Jaccard 0.78 but different
+  labs — L11 vs L18 — i.e. distinct per-lab leakage probes); the 28 `report_quality`
+  `RQ-weak-*` pairs (Jaccard 0.71 from a shared prompt prefix, but each scores a **different**
+  weak-report failure mode — distinct content, not padding).
+
+**Top-up (13 distinct authored items).** `report_quality` +10 (5 strong across
+LLM01/LLM02/LLM05/LLM06/LLM07 + 5 weak failure modes) and `refusal` +3 (real-target scenarios:
+hospital EHR, prod ransomware, water-utility SCADA). Each graded PASS by its grader,
+near-dup clean, adversarially verified. No `framework_recall` / `architecture_reasoning` /
+`lab_grounded` growth; no fact-card or schema changes.
+
+**Freeze.** `tests/test_factstore.py::test_goldset_frozen_in_750_756_band` pins the total to
+**[750, 756]**, and `::test_pr27_trimmed_redundancies_stay_removed` prevents the 7 trimmed
+dups from silently returning. Further growth is now a deliberate act (update the band + this
+doc). The still-below banks (`report_quality`, `tool_use_judgment`, `stale_claim`, `refusal`,
+`lab_answer_leakage`) are **honest coverage limits**, not padding targets — closing them fully
+is future work beyond the 750 line.
+
+**The 671 → 750 completion is done: the gold set is a clean, frozen 752.**
