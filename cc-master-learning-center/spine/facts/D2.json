@@ -1,1 +1,832 @@
-[]
+[
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-bc",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Business Continuity (BC) is keeping the organization operational during and after a disruption. BC encompasses people, processes, and technology — not just IT systems.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Keeping the organization operational during and after a disruption",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "business-continuity"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-dr",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Disaster Recovery (DR) is restoring IT systems and data after a disaster. DR is the technology-focused subset of Business Continuity that addresses how to bring systems back online.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Restoring IT systems and data after a disaster",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "disaster-recovery"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-bia",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A Business Impact Analysis (BIA) is identifying critical functions and quantifying the effect of their disruption. The BIA drives the MTD, RTO, and RPO values for each function.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Identifying critical functions and quantifying the effect of their disruption",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "bia"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-mtd",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Maximum Tolerable Downtime (MTD) is the maximum time a business function can be offline before unacceptable harm occurs. MTD is the hard ceiling; RTO must be set shorter than MTD.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Maximum time a business function can be offline before unacceptable harm",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "mtd"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-rto",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Recovery Time Objective (RTO) is the target time to restore a function after a disruption. RTO is a goal set by the organization; it must be equal to or less than the MTD.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Target time to restore a function after a disruption",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "rto"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-rpo",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Recovery Point Objective (RPO) is the maximum acceptable data loss measured in time. If RPO is 4 hours, the organization can tolerate losing up to 4 hours of transactions; backups must run at least every 4 hours.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Maximum acceptable data loss measured in time",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "rpo"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-bc-vs-dr",
+    "scope": "D2",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "BC (Business Continuity) addresses keeping all business operations running during a disruption — including people and processes. DR (Disaster Recovery) is the IT-focused subset that restores systems and data. DR is a component of BC.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Keeping the organization operational during and after a disruption",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "bc-vs-dr"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-rto-vs-rpo",
+    "scope": "D2",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "RTO measures time to restore a function (how long the system can be down); RPO measures acceptable data loss in time (how old the recovered data can be). RTO is about system uptime; RPO is about data currency.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Target time to restore a function after a disruption",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "rto-vs-rpo"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-mtd-vs-rto",
+    "scope": "D2",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "MTD is the business-defined limit on how long a function can be down before unacceptable harm; RTO is the IT-defined target for how quickly to restore it. RTO must be less than or equal to MTD — violating this means the recovery plan cannot protect the business.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Maximum time a business function can be offline before unacceptable harm",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "mtd-vs-rto"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.21-rto-rpo-trap",
+    "scope": "D2",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "RPO governs DATA loss, not system downtime. Candidates frequently confuse RTO (time to restore the system) with RPO (time window of acceptable data loss). A short RPO requires frequent backups; a short RTO requires fast failover — these are independent constraints.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Maximum acceptable data loss measured in time",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.1"
+      ],
+      "topic": [
+        "rto-rpo"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-hot-site",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A hot site is a fully operational backup site with immediate failover capability. It mirrors the primary site in real time and is the most expensive DR site option.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Fully operational backup site; immediate failover capability",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "hot-site"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-warm-site",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A warm site is a partially configured backup site; activation takes hours to days. It has hardware and connectivity in place but requires data restoration and final configuration before use.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Partially configured backup site; activation takes hours to days",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "warm-site"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-cold-site",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A cold site provides space and power only; no pre-configured equipment; lowest cost, longest activation time. All hardware must be procured and configured from scratch before use.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Space and power only; no pre-configured equipment; lowest cost, longest activation",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "cold-site"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-full-backup",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A full backup is a complete copy of all data; slowest to create, fastest to restore. It is the baseline from which incremental and differential backups are taken.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Complete copy of all data; slowest to create, fastest to restore",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "full-backup"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-incremental-backup",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "An incremental backup copies data changed since the last backup of any type; fastest to create, slowest restore. Restoration requires the last full backup plus every incremental backup since.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Copies data changed since the last backup of any type; fastest to create, slowest restore",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "incremental-backup"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-differential-backup",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A differential backup copies all data changed since the last full backup; middle cost and restore time. Restoration requires only the last full backup plus the most recent differential.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Copies all data changed since the last full backup; middle cost and restore time",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "differential-backup"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-site-comparison",
+    "scope": "D2",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "DR site cost and recovery speed trade off: Hot site (highest cost, instant failover) > Warm site (moderate cost, hours to days) > Cold site (lowest cost, longest activation). Higher cost buys shorter RTO.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Fully operational backup site; immediate failover capability",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "dr-site-comparison"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.22-backup-comparison",
+    "scope": "D2",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Backup strategy trade-offs: Full (slow to create, fast to restore, most storage); Incremental (fast to create, slow to restore — needs full + all incrementals); Differential (moderate create, moderate restore — needs full + latest differential only).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#business-continuity-and-disaster-recovery",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:7628056bb65f3c9f0e9ad7bab7f9a6e2a81285091c291b20864a0aa6d6b5c405",
+    "support": "Complete copy of all data; slowest to create, fastest to restore",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.2"
+      ],
+      "topic": [
+        "backup-comparison"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-preparation",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "The Preparation phase of the NIST IR lifecycle is to establish IR capability: policy, team, tools, training, communication plan. This phase occurs before any incident and enables all subsequent phases.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Establish IR capability: policy, team, tools, training, communication plan",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-preparation"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-detection",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "The Detection and Analysis phase of the NIST IR lifecycle is to identify and validate incidents; classify severity; notify stakeholders. Analysts triage events to confirm whether a security incident has occurred.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Identify and validate incidents; classify severity; notify stakeholders",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-detection"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-containment",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "The Containment phase of the NIST IR lifecycle is to limit damage; short-term and long-term containment strategies. Short-term containment stops the spread immediately; long-term prepares for eradication.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Limit damage; short-term and long-term containment strategies",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-containment"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-eradication",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "The Eradication phase of the NIST IR lifecycle is to remove root cause (malware, unauthorized accounts, vulnerabilities). Eradication follows containment and precedes recovery.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Remove root cause (malware, unauthorized accounts, vulnerabilities)",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-eradication"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-recovery",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "The Recovery phase of the NIST IR lifecycle is to restore and validate affected systems; return to normal operations. Systems are brought back only after confirming the threat has been eradicated.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Restore and validate affected systems; return to normal operations",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-recovery"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-post-incident",
+    "scope": "D2",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "The Post-Incident Activity phase of the NIST IR lifecycle includes lessons-learned review; evidence retention; metrics collection. It closes the loop by improving the organization's IR capability for next time.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Lessons-learned review; evidence retention; metrics collection",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-post-incident"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-lifecycle",
+    "scope": "D2",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "The NIST SP 800-61r3 IR lifecycle has six phases in order: Preparation → Detection and Analysis → Containment → Eradication → Recovery → Post-Incident Activity. Preparation is the only pre-incident phase; all others respond to a confirmed or suspected event.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Establish IR capability: policy, team, tools, training, communication plan",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-lifecycle"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D2.23-ir-order-trap",
+    "scope": "D2",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "Containment MUST occur before Eradication. Candidates sometimes skip containment to 'fix the problem' immediately. Without containment, the threat spreads while you remove it elsewhere. The correct sequence is always: contain first, eradicate second, recover third.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#incident-response-lifecycle-nist-sp-800-61r3",
+    "source_id": "nist.sp800-61r3",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:366a39341016852ea9658598597b10dc4aa8d96df7bfe3a80c746653a83d50a8",
+    "support": "Limit damage; short-term and long-term containment strategies",
+    "tags": {
+      "domain": [
+        "D2"
+      ],
+      "objective": [
+        "2.3"
+      ],
+      "topic": [
+        "ir-phase-order"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  }
+]

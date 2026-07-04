@@ -33,6 +33,10 @@ objective 5.1, grounded on tier-0 blueprint anchors (isc2.cc-outline.2025-10) an
 tier-1 NIST anchors (nist.sp800-145, nist.sp800-88r2, nist.pqc.fips-203-204-205).
 No bank items, no holdout, no mnemonic cards. Scaffold validator updated to allow
 non-empty fact arrays.
+PR-7 completes fact-card seeding across the remaining domains: 92 cards over D1
+(1.1-1.4), D2 (2.1-2.3), and D3 (3.1-3.2), grounded on new tier-0 blueprint anchors
+plus the tier-1 nist.sp800-61r3 incident-response anchor. Fact store now holds 151
+validated cards; all five domains have seed coverage.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

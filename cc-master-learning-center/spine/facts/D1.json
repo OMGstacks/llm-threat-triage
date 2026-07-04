@@ -1,1 +1,1374 @@
-[]
+[
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-confidentiality",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Confidentiality is the security property of preventing unauthorized disclosure of information. Controls such as encryption, access control, and classification labels enforce it.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Preventing unauthorized disclosure of information",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "confidentiality"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-integrity",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Integrity is the security property of ensuring information is accurate, complete, and unaltered. Hashing, digital signatures, and checksums are common integrity controls.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Ensuring information is accurate, complete, and unaltered",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "integrity"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-availability",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Availability is the security property of ensuring information and systems are accessible when needed by authorized users. Redundancy, backups, and failover systems support availability.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Ensuring information and systems are accessible when needed",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "availability"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-non-repudiation",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Non-repudiation is the inability to deny having taken an action; supported by digital signatures and audit logs. It provides proof of origin and proof of delivery.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Inability to deny having taken an action; supported by digital signatures and audit logs",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "non-repudiation"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-authentication",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Authentication is verifying the identity of a user, process, or device. Factors: something you know (password), something you have (token), something you are (biometric).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Verifying the identity of a user, process, or device",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "authentication"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-authorization",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Authorization is granting or denying permissions to authenticated subjects. It determines what an authenticated identity is allowed to do, not who they are.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Granting or denying permissions to authenticated subjects",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "authorization"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-accounting",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Accounting (audit) is recording and tracking subject activity for accountability and forensic review. Audit logs capture who did what, when, and from where.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Recording and tracking subject activity for accountability and forensic review",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "accounting"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-privacy",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Privacy is protecting personally identifiable information from unauthorized collection or use. It is a legal and ethical obligation distinct from, but related to, confidentiality.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Protecting personally identifiable information from unauthorized collection or use",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "privacy"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-cia-triad",
+    "scope": "D1",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "The CIA triad — Confidentiality, Integrity, and Availability — is the foundational model of information security. Every security control and policy is designed to protect one or more of these three properties.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Preventing unauthorized disclosure of information",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "cia-triad"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-aaa",
+    "scope": "D1",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "AAA stands for Authentication, Authorization, and Accounting. Together they form the access-control framework: verify identity, grant appropriate permissions, and log activity for accountability.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Verifying the identity of a user, process, or device",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "aaa"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-authn-vs-authz",
+    "scope": "D1",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Authentication answers 'Who are you?' by verifying identity; authorization answers 'What are you allowed to do?' by granting or denying permissions. Authentication must succeed before authorization is applied.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Verifying the identity of a user, process, or device",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "authn-vs-authz"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.11-nonrepudiation-trap",
+    "scope": "D1",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "Non-repudiation is NOT the same as authentication. Authentication proves who you are in the moment; non-repudiation creates lasting evidence that a specific party took an action and cannot later deny it. Digital signatures provide both.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cia-triad-and-information-assurance",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:d356066daf9ba7f3f40323434f888cc428a18e0809817fd41781349d50b9fd5b",
+    "support": "Inability to deny having taken an action; supported by digital signatures and audit logs",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.1"
+      ],
+      "topic": [
+        "non-repudiation"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-threat",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A threat is any circumstance or event with the potential to adversely impact organizational operations, assets, or individuals. Threats can be natural, human, or environmental.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Any circumstance or event with the potential to adversely impact organizational operations",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "threat"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-vulnerability",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A vulnerability is a weakness in a system, process, or control that could be exploited by a threat. Vulnerabilities enable threats to cause harm.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "A weakness in a system, process, or control that could be exploited by a threat",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "vulnerability"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-likelihood",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Likelihood is the probability that a threat will exploit a vulnerability. It is one of the two inputs — along with impact — used to calculate risk.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Probability that a threat will exploit a vulnerability",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "likelihood"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-impact",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Impact is the magnitude of harm that would result from a threat exploiting a vulnerability. It is measured in terms of financial loss, operational disruption, or reputational damage.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Magnitude of harm that would result from a threat exploiting a vulnerability",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "impact"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-risk",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Risk is the combination of the likelihood of a threat event and its impact. Residual risk is what remains after controls are applied.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "The combination of the likelihood of a threat event and its impact",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "risk"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-risk-treatment",
+    "scope": "D1",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "The four risk treatment options are: Accept (tolerate the risk), Avoid (eliminate the risk-creating activity), Transfer/Share (e.g., insurance), and Mitigate/Reduce (apply controls to lower likelihood or impact). The mnemonic is AATR.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Accept, avoid, transfer (share), mitigate (reduce)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "risk-treatment"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-due-care",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Due care means taking reasonable steps to protect assets; doing what a prudent person would do. It is the act of implementing appropriate safeguards.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Taking reasonable steps to protect assets; doing what a prudent person would do",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "due-care"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-due-diligence",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Due diligence is ongoing investigation and monitoring to ensure controls remain effective. It is the continuous verification that existing protections are working as intended.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Ongoing investigation and monitoring to ensure controls remain effective",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "due-diligence"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-due-care-vs-diligence",
+    "scope": "D1",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Due care is doing the right thing — implementing reasonable safeguards. Due diligence is verifying the right thing was done and remains effective through ongoing monitoring. Due care is action; due diligence is verification.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Taking reasonable steps to protect assets; doing what a prudent person would do",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "due-care-vs-diligence"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-threat-vs-vuln",
+    "scope": "D1",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "A threat is an external circumstance or actor that may cause harm; a vulnerability is an internal weakness that a threat can exploit. Neither alone constitutes risk — both must exist together.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "Any circumstance or event with the potential to adversely impact organizational operations",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "threat-vs-vuln"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.12-risk-trap",
+    "scope": "D1",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "Risk is NOT the same as a threat. Risk requires both a threat likelihood AND an impact. Candidates often use 'threat' and 'risk' as synonyms — they are not. A threat with zero impact or zero likelihood produces zero risk.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:b2d9e5001371ce4fcdc0f5836d53d10168b29ea25a145587121e1f5fb1a3969a",
+    "support": "The combination of the likelihood of a threat event and its impact",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.2"
+      ],
+      "topic": [
+        "risk"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-technical-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Technical controls (logical controls) are security measures implemented through technology. Examples include firewalls, encryption, access control lists, and antivirus software.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Firewalls, encryption, access control lists, antivirus",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "technical-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-administrative-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Administrative controls (managerial controls) are security measures implemented through policies and human processes. Examples include policies, procedures, training, and background checks.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Policies, procedures, training, background checks",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "administrative-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-physical-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Physical controls are security measures that protect the physical environment and assets. Examples include locks, guards, CCTV, fencing, and bollards.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Locks, guards, CCTV, fencing, bollards",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "physical-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-preventive-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Preventive controls block threats before they occur (e.g., firewall, lock). They reduce likelihood by stopping an attack or unauthorized action from succeeding.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Block threats before they occur (e.g., firewall, lock)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "preventive-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-detective-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Detective controls identify and record threat events (e.g., IDS, audit log, CCTV). They do not prevent an attack but generate the evidence needed to respond.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Identify and record threat events (e.g., IDS, audit log, CCTV)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "detective-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-corrective-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Corrective controls restore systems after an incident (e.g., backup restore, patch). They reduce impact by limiting damage and returning operations to normal.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Restore systems after an incident (e.g., backup restore, patch)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "corrective-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-deterrent-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Deterrent controls discourage attackers (e.g., warning signs, visible CCTV). They reduce likelihood by making an attack less attractive without directly blocking it.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Discourage attackers (e.g., warning signs, visible CCTV)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "deterrent-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-compensating-controls",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A compensating control is an alternative control when a primary control is not feasible. It provides equivalent risk reduction through a different mechanism when the preferred control cannot be implemented.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Alternative control when a primary control is not feasible",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "compensating-controls"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-control-categories",
+    "scope": "D1",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Security controls have two orthogonal classification dimensions: Category (what they are made of) — Technical, Administrative, or Physical; and Function (what they do) — Preventive, Detective, Corrective, Deterrent, or Compensating. A single control can belong to both (e.g., firewall = technical + preventive).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Firewalls, encryption, access control lists, antivirus",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "control-categories"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-preventive-vs-detective",
+    "scope": "D1",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Preventive controls stop an event before it happens (e.g., a firewall blocks traffic); detective controls identify that an event has occurred (e.g., an IDS alerts on intrusion). Preventive reduces likelihood; detective produces evidence for response.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Block threats before they occur (e.g., firewall, lock)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "preventive-vs-detective"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.13-cctv-type-trap",
+    "scope": "D1",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "CCTV is primarily a detective control (it records events for review), NOT a preventive one. Visible CCTV also has a deterrent effect, but cameras cannot stop an intruder. Candidates frequently misclassify CCTV as preventive — the primary function is recording.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#security-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:fdbcaa0ccdb9bd10f3556e392926eb96d1f481f4d3c3ad649242fcebf8a14175",
+    "support": "Identify and record threat events (e.g., IDS, audit log, CCTV)",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.3"
+      ],
+      "topic": [
+        "cctv-control-type"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-code-preamble",
+    "scope": "D1",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "The ISC2 Code of Ethics Preamble establishes the foundational obligations of certified members: safety of the commonwealth, duty to principals, and the profession. The preamble frames the four canons that follow.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Safety of the commonwealth, duty to principals, and the profession",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "code-of-ethics-preamble"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-canon-1",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "ISC2 Code of Ethics Canon 1: Protect society, common good, public trust and confidence, and the infrastructure. This is the highest-priority canon — duty to society supersedes all others.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Protect society, common good, public trust and confidence, and the infrastructure",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "canon-1"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-canon-2",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "ISC2 Code of Ethics Canon 2: Act honorably, honestly, justly, responsibly, and legally. Members must behave with personal integrity in all professional activities.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Act honorably, honestly, justly, responsibly, and legally",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "canon-2"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-canon-3",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "ISC2 Code of Ethics Canon 3: Provide diligent and competent service to principals. Members must perform their professional duties with skill and care to those who employ them.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Provide diligent and competent service to principals",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "canon-3"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-canon-4",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "ISC2 Code of Ethics Canon 4: Advance and protect the profession. Members must contribute to the growth and integrity of the information security discipline.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Advance and protect the profession",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "canon-4"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-due-care",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "In the ethics context, due care means taking reasonable protective steps; doing what a prudent professional would do. Failure to exercise due care can result in personal and organizational liability.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Taking reasonable protective steps; doing what a prudent professional would do",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "due-care"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-due-diligence",
+    "scope": "D1",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "In the ethics context, due diligence means ongoing investigation and monitoring to verify controls remain effective. It is the continuous professional obligation to confirm that protections are working.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Ongoing investigation and monitoring to verify controls remain effective",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "due-diligence"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-canon-priority",
+    "scope": "D1",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "The four ISC2 canons are ordered by priority. Canon 1 (protect society) takes precedence over Canon 2 (personal integrity), which takes precedence over Canon 3 (serve principals), which takes precedence over Canon 4 (advance the profession). When canons conflict, the lower-numbered canon wins.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Protect society, common good, public trust and confidence, and the infrastructure",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "canon-priority"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D1.14-ethics-trap",
+    "scope": "D1",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "When an employer's directive conflicts with public safety, Canon 1 (protect society) overrides Canon 3 (serve principals). A professional must NOT follow an employer's instruction that harms the public — society's safety is always the first obligation.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
+    "support": "Protect society, common good, public trust and confidence, and the infrastructure",
+    "tags": {
+      "domain": [
+        "D1"
+      ],
+      "objective": [
+        "1.4"
+      ],
+      "topic": [
+        "canon-conflict"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  }
+]

@@ -1,1 +1,736 @@
-[]
+[
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-badges",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Badges and access cards authenticate identity at controlled entry points. They are typically combined with a PIN or biometric (two-factor) for higher-security areas.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Authenticate identity at controlled entry points",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "badges-access-cards"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-guards",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Guards are human security personnel providing deterrence, presence, and response capability. They are the only physical control capable of judgment-based response to novel situations.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Human security personnel providing deterrence, presence, and response capability",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "guards"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-cctv",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "CCTV (closed-circuit television) consists of surveillance cameras and is the primary detective control for physical security. Recorded footage supports investigation and forensic review.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Surveillance cameras; primary detective control for physical security",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "cctv"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-locks",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Locks (mechanical or electronic) prevent unauthorized physical access to facilities and equipment. They are the most fundamental preventive physical control.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Prevent unauthorized physical access to facilities and equipment",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "locks"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-mantrap",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A mantrap (airlock) is a two-door entry with only one door open at a time; it prevents tailgating. The person must be authenticated before the inner door opens, ensuring only one authorized individual enters per cycle.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Two-door entry with only one door open at a time; prevents tailgating",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "mantrap"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-fencing",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Fencing and bollards are perimeter barriers against pedestrian and vehicle intrusion. Fencing delineates controlled areas; bollards protect against vehicle-ramming attacks.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Perimeter barriers against pedestrian and vehicle intrusion",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "fencing-bollards"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-lighting",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Lighting deters unauthorized activity and supports CCTV effectiveness. It is a deterrent control that makes covert intrusion harder and improves camera image quality.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Deters unauthorized activity; supports CCTV effectiveness",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "lighting"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-visitor-logs",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Visitor logs record visitor identity, purpose, escort, and entry/exit time. They create an accountability trail for all non-employee access to a facility.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Record visitor identity, purpose, escort, and entry/exit time",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "visitor-logs"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-layered-physical",
+    "scope": "D3",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Physical security uses concentric layers: perimeter (fencing, bollards) → exterior building (locks, guards) → interior zones (badges, mantrap) → assets (equipment locks, safes). Each layer forces an attacker to defeat another control, applying the defense-in-depth principle.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Perimeter barriers against pedestrian and vehicle intrusion",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "layered-physical-security"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-mantrap-vs-cctv",
+    "scope": "D3",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "A mantrap is a preventive control that stops tailgating by physically restricting passage; CCTV is a detective control that records what happened. The mantrap blocks the attack; the camera documents it if the attack succeeds.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Two-door entry with only one door open at a time; prevents tailgating",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "mantrap-vs-cctv"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.31-cctv-type-trap",
+    "scope": "D3",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "CCTV is the PRIMARY DETECTIVE physical control, not a preventive one. Visible cameras also have a deterrent effect, but when the exam asks which control DETECTS physical intrusions, CCTV is the answer. A lock prevents entry; CCTV records what happened.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#physical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:17d89b18d9bd78d87914ee0a2fb0a2d3708d350e6676e27f74365c386f2dc3ff",
+    "support": "Surveillance cameras; primary detective control for physical security",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.1"
+      ],
+      "topic": [
+        "cctv-control-type"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-dac",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "DAC (Discretionary Access Control) is an access model in which the resource owner controls who may access the resource. Owners can grant or revoke permissions at their discretion. Most consumer operating systems use DAC.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Resource owner controls who may access the resource",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "dac"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-mac",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "MAC (Mandatory Access Control) is an access model in which the system enforces access by comparing classification labels; owner cannot override. Used in high-security environments (e.g., military systems) where data sensitivity labels drive all access decisions.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "System enforces access by comparing classification labels; owner cannot override",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "mac"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-rbac",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "RBAC (Role-Based Access Control) is an access model in which permissions are tied to roles and users are assigned to roles. Simplifies administration because permission changes apply to all users in a role at once.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Permissions tied to roles; users assigned to roles",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "rbac"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-least-privilege",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Least privilege means granting only the minimum permissions needed to perform a function. It limits the damage that can result from errors, compromise, or misuse of any single account.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Grant only the minimum permissions needed to perform a function",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "least-privilege"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-need-to-know",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Need to know means access is granted only for information required for a specific task. Even a user with the appropriate clearance level is denied access if they have no operational need for the information.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Access granted only for information required for a specific task",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "need-to-know"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-separation-of-duties",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Separation of duties means no single person has end-to-end control of a sensitive process. It prevents fraud and errors by requiring collusion between at least two people to complete a critical action.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "No single person has end-to-end control of a sensitive process",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "separation-of-duties"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-pam",
+    "scope": "D3",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Privileged Access Management (PAM) controls, monitors, and audits accounts with elevated rights. PAM solutions enforce just-in-time access, session recording, and credential vaulting for administrator and service accounts.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Controls, monitors, and audits accounts with elevated rights",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "pam"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-account-lifecycle",
+    "scope": "D3",
+    "claim_type": "procedure",
+    "status": "active",
+    "claim": "Account lifecycle management covers: (1) Provisioning — create and grant access appropriate to the role; (2) Periodic review — verify access remains appropriate (access recertification); (3) Timely deprovision — revoke access promptly on role change or termination.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Provision, periodic review, and timely deprovision of access",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "account-lifecycle"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-dac-vs-mac",
+    "scope": "D3",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "In DAC, the resource owner decides who can access the resource and can grant access freely. In MAC, the system enforces access based on classification labels and clearance levels — the owner has no authority to override the policy.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Resource owner controls who may access the resource",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "dac-vs-mac"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-mac-vs-rbac",
+    "scope": "D3",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "MAC enforces access using mandatory classification labels that neither owners nor users can override; RBAC assigns permissions to roles and users inherit them by role membership. MAC is label-driven; RBAC is role-driven.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "System enforces access by comparing classification labels; owner cannot override",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "mac-vs-rbac"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-least-priv-vs-need-to-know",
+    "scope": "D3",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Least privilege limits the scope of ACTIONS a subject can perform (minimum permissions for the job); need to know limits access to specific INFORMATION items even within an authorized permission level. Both principles restrict access but address different dimensions.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "Grant only the minimum permissions needed to perform a function",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "least-priv-vs-need-to-know"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D3.32-access-control-trap",
+    "scope": "D3",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "In MAC, even the DATA OWNER cannot grant access that violates the classification policy — the system enforces labels absolutely. Candidates familiar with DAC (where owners control access) often assume MAC owners can override. They cannot; only the security policy administrator can change labels.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#logical-access-controls",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:4cb2614a7f66b388c5eaee7616ab08c793ae0d22ee0bfff967d37e147f9dbd0b",
+    "support": "System enforces access by comparing classification labels; owner cannot override",
+    "tags": {
+      "domain": [
+        "D3"
+      ],
+      "objective": [
+        "3.2"
+      ],
+      "topic": [
+        "mac-owner-override"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  }
+]
