@@ -31,14 +31,19 @@ CORRECTION_STATUSES = {"seed", "verified", "retired"}
 CONTENT_STATUS_KEYS = {"notes", "facts", "definition_cards", "scenario_items", "holdout_items"}
 FORBIDDEN_UPLOAD_SUFFIXES = {".docx", ".doc", ".pdf", ".pptx"}
 
-RESERVED_GUARDS = (
-    "source_freshness_guard",
-    "ip_boundary_guard",
-    "no_verbatim_bulk_reproduction",
-    "holdout_leakage_guard",
-    "answer_key_isolation_guard",
-    "unsupported_claim_guard",
-)
+# Guard activation status. Guards move from "reserved" to "active" as the PR
+# roadmap delivers them. PR-2 activated the freshness and IP-boundary guards.
+GUARD_STATUS = {
+    "source_freshness_guard": "active",       # PR-2: cc_spine.sources
+    "ip_boundary_guard": "active",            # PR-2: cc_spine.ipboundary
+    "no_verbatim_bulk_reproduction": "reserved",
+    "holdout_leakage_guard": "reserved",
+    "answer_key_isolation_guard": "reserved",
+    "unsupported_claim_guard": "reserved",
+}
+
+# Retained for callers that only need the still-reserved set.
+RESERVED_GUARDS = tuple(name for name, status in GUARD_STATUS.items() if status == "reserved")
 
 MD_LINK_RE = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 
@@ -350,9 +355,9 @@ def main() -> int:
     else:
         print("OK: JSON well-formed; matrix, registry joins, banks, correction dictionary,")
         print("    facts/goldset emptiness, schema headers, markdown links, no-transcript rule all pass.")
-    print("Reserved guards (activate in later PRs):")
-    for guard in RESERVED_GUARDS:
-        print(f"  {guard}: reserved")
+    print("Guard status (active guards run via cc_spine.cli; reserved activate in later PRs):")
+    for guard, status in GUARD_STATUS.items():
+        print(f"  {guard}: {status}")
     return 1 if failures else 0
 
 

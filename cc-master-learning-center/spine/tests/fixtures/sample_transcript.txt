@@ -1,0 +1,15 @@
+SYNTHETIC TEST FIXTURE - not a real course transcript. Planted ASR errors for pipeline tests.
+
+Networking Basics
+
+The art protocol maps an IP address to a mag address on the physical network interface.
+
+A pen connects wearables over bluetooth in a personal area network.
+
+Never run a pen test on the personal area network without written authorization.
+
+Hashing Concepts
+
+The hedging function produces a fixed-length message digest and is one way.
+
+IoT devices sometimes use Wi-Fi city for low power communication.

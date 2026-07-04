@@ -21,7 +21,7 @@ class ScaffoldValidationTest(unittest.TestCase):
         failures = scaffold_validate.run_checks()
         self.assertEqual(failures, [], "scaffold validation failed:\n" + "\n".join(failures))
 
-    def test_reserved_guards_are_named(self):
+    def test_all_guards_are_tracked(self):
         expected = {
             "source_freshness_guard",
             "ip_boundary_guard",
@@ -30,7 +30,21 @@ class ScaffoldValidationTest(unittest.TestCase):
             "answer_key_isolation_guard",
             "unsupported_claim_guard",
         }
-        self.assertEqual(set(scaffold_validate.RESERVED_GUARDS), expected)
+        self.assertEqual(set(scaffold_validate.GUARD_STATUS), expected)
+
+    def test_pr2_activated_freshness_and_ip_guards(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["source_freshness_guard"], "active")
+        self.assertEqual(scaffold_validate.GUARD_STATUS["ip_boundary_guard"], "active")
+        # The remaining four are not delivered until later PRs.
+        self.assertEqual(
+            set(scaffold_validate.RESERVED_GUARDS),
+            {
+                "no_verbatim_bulk_reproduction",
+                "holdout_leakage_guard",
+                "answer_key_isolation_guard",
+                "unsupported_claim_guard",
+            },
+        )
 
 
 if __name__ == "__main__":

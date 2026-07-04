@@ -139,13 +139,15 @@ its re-review date or its successor outline becomes effective.
 
 ## 6. Ingestion Pipeline & Correction Dictionary
 
-Contract only in PR-1; engine lands in PR-2; real transcripts in PR-5 after explicit
-authorization.
+Engine implemented in PR-2 (`cc_spine.ingest`), exercised on synthetic fixtures; real
+transcripts wait for PR-5 after explicit authorization.
 
-**Deterministic DOCX extraction:** stdlib `zipfile` + `xml.etree.ElementTree`; paragraphs
-extracted in document order; stable paragraph IDs
-(`source_doc_id + paragraph_index + normalized_hash`); heading hierarchy preserved where
-available; raw extraction never mutated in place.
+**Deterministic DOCX extraction** (`extract_docx`): stdlib `zipfile` +
+`xml.etree.ElementTree`; paragraphs extracted in document order; stable paragraph IDs
+(`source_doc_id + paragraph_index + normalized_hash`); heading hierarchy preserved via
+paragraph style; raw extraction never mutated in place. Plain-text transcripts use
+`extract_text`. Determinism is proven by an ingestion smoke test that ingests a fixture twice
+and asserts byte-identical output.
 
 **Correction dictionary**
 ([`spine/ingest/correction-dictionary.json`](spine/ingest/correction-dictionary.json),
@@ -215,8 +217,8 @@ Validators (fail-closed; a check that cannot run is a failure, not a skip):
 | Validator | Status | PR |
 |---|---|---|
 | `scaffold_validate` (JSON, matrix, joins, banks, dictionary, links, no-transcripts) | **active** | 1 |
-| `source_freshness_guard` | reserved | 2 |
-| `ip_boundary_guard` (support-span limits, no-verbatim checks) | reserved | 2/5 |
+| `source_freshness_guard` (`cc_spine.sources`; supersession + field checks) | **active** | 2 |
+| `ip_boundary_guard` (`cc_spine.ipboundary`; support-span limits, no-full-MCQ) | **active** | 2 |
 | `no_verbatim_bulk_reproduction` | reserved | 5 |
 | `unsupported_claim_guard` (item asserts nothing beyond cited cards) | reserved | 3 |
 | fingerprint drift + tombstone lifecycle (factstore validate) | reserved | 3 |
@@ -405,6 +407,17 @@ python3 -m unittest discover -s cc-master-learning-center/spine/tests \
 make -C cc-master-learning-center/spine validate
 make -C cc-master-learning-center/spine test
 python3 -m pytest osai-prep-studio/spine -q    # OSAI suite untouched and green
+```
+
+PR-2 verification (CI-enforced by `.github/workflows/cc-spine.yml`, path-filtered on
+`cc-master-learning-center/**`; also runnable locally as `make -C cc-master-learning-center/spine ci`):
+
+```bash
+python3 -m cc_spine.scaffold_validate          # scaffold gate
+python3 -m cc_spine.cli validate-sources       # source_freshness_guard
+python3 -m cc_spine.cli check-ip               # ip_boundary_guard
+python3 -m unittest discover -s tests          # 28 stdlib tests, no third-party deps
+python3 -m cc_spine.cli ingest ... (twice) && cmp  # ingestion determinism smoke
 ```
 
 Later PRs add: `cc_spine.cli factstore validate` (PR-3), ship gate + distribution report

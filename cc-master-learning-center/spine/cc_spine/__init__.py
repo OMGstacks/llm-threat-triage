@@ -10,7 +10,10 @@ and markdown-anchor resolvers, loader, freeze) verbatim. See
 ``00-governance-spec.md`` section 14 for the decision record and parity
 checklist.
 
-PR-1 ships only the scaffold validator; the factstore lands in PR-3.
+PR-1 ships only the scaffold validator. PR-2 adds the deterministic ingestion
+engine (``ingest``), the source-registry freshness guard (``sources``), the
+IP-boundary support-span guard (``ipboundary``), and the CLI (``cli``). The
+factstore lands in PR-3.
 """
 
-__version__ = "0.0.1"
+__version__ = "0.0.2"
