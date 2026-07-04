@@ -297,7 +297,7 @@
               "ai_security_extension": false,
               "content_status": {
                 "notes": false,
-                "facts": false,
+                "facts": true,
                 "definition_cards": false,
                 "scenario_items": false,
                 "holdout_items": false
@@ -342,7 +342,7 @@
               "ai_security_extension": false,
               "content_status": {
                 "notes": false,
-                "facts": false,
+                "facts": true,
                 "definition_cards": false,
                 "scenario_items": false,
                 "holdout_items": false
@@ -373,7 +373,7 @@
               "ai_security_extension": true,
               "content_status": {
                 "notes": false,
-                "facts": false,
+                "facts": true,
                 "definition_cards": false,
                 "scenario_items": false,
                 "holdout_items": false

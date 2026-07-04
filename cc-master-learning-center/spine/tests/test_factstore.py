@@ -104,7 +104,6 @@ class EmptyStoreTest(unittest.TestCase):
 
     def test_empty_shipped_store_validates(self):
         fs = factstore.FactStore()
-        self.assertEqual(fs.cards, {})
         rep = factstore.validate_store(fs, REG)
         self.assertTrue(rep["ok"], rep["errors"])
 

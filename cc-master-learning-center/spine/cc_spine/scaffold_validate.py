@@ -244,8 +244,8 @@ def _check_facts(parsed: dict[Path, object], failures: list[str]) -> None:
         failures.append(f"spine/facts: files {sorted(actual)} != {sorted(expected)}")
     for path in facts_dir.glob("*.json"):
         data = parsed.get(path)
-        if data != []:
-            failures.append(f"{path.relative_to(PROJECT_ROOT)}: must be an empty array in PR-1")
+        if not isinstance(data, list):
+            failures.append(f"{path.relative_to(PROJECT_ROOT)}: must be a JSON array")
 
 
 def _check_banks(banks, failures: list[str]) -> None:

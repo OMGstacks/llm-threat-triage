@@ -28,6 +28,11 @@ caps), expands the raw-file scan to repo root, anonymises the manifest's
 ``authorized_by`` field, adds ``grading_policy`` to the coverage map, documents
 concept inventories as authoring aids, and tracks flagged-but-unresolved
 corrections.
+PR-6 seeds the first real fact cards: 59 cards across D4 objectives 4.1/4.3 and D5
+objective 5.1, grounded on tier-0 blueprint anchors (isc2.cc-outline.2025-10) and
+tier-1 NIST anchors (nist.sp800-145, nist.sp800-88r2, nist.pqc.fips-203-204-205).
+No bank items, no holdout, no mnemonic cards. Scaffold validator updated to allow
+non-empty fact arrays.
 """
 
-__version__ = "0.0.7"
+__version__ = "0.1.0"

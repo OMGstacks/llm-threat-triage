@@ -96,6 +96,17 @@ fundamentals — service models (IaaS/PaaS/SaaS), deployment models, shared resp
 Tier 1 enrichment: NIST SP 800-145 defines cloud computing's essential characteristics,
 service models, and deployment models (`nist.sp800-145` in the source registry).
 
+### Cloud Computing (NIST SP 800-145)
+
+Confidence: `confirmed` (Tier 1). Source: `nist.sp800-145`.
+
+| Aspect | Detail |
+|---|---|
+| 5 essential characteristics | on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service |
+| Service models (3) | IaaS (infrastructure), PaaS (platform), SaaS (software as a service) |
+| Deployment models (4) | private cloud, community cloud, public cloud, hybrid cloud |
+| Shared responsibility | cloud provider secures underlying infrastructure; customer secures what they deploy and configure |
+
 ## Domain 5: Security Operations
 
 Weight: 18%. Confidence: `seeded-pending-review`.
@@ -109,6 +120,17 @@ Tier 1 enrichment: NIST SP 800-88 Rev. 2 defines sanitization as making access t
 infeasible for a given level of effort (`nist.sp800-88r2`); configuration management and
 patching; logging and monitoring fundamentals; security policies (AUP, BYOD, change
 management, privacy); social engineering awareness and password protection.
+
+### Sanitization Methods (NIST SP 800-88r2)
+
+Confidence: `confirmed` (Tier 1). Source: `nist.sp800-88r2`.
+
+| Method | Description |
+|---|---|
+| Definition | Making access to target data infeasible for a given level of effort |
+| Clear | Logical techniques (e.g., overwrite); effective against software-based recovery |
+| Purge | Physical or cryptographic techniques (e.g., degauss, cryptographic erase); effective against laboratory attacks |
+| Destroy | Physical destruction (incinerate, disintegrate, shred, pulverize, melt); highest assurance tier |
 
 ### Crypto-agility enrichment note
 

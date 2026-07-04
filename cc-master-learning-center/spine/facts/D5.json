@@ -1,1 +1,703 @@
-[]
+[
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-data-lifecycle",
+    "scope": "D5",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Data lifecycle: Create → Store → Use → Share → Archive → Destroy. Each phase requires controls; the Destroy phase requires secure sanitization to prevent recovery of sensitive data.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "data handling lifecycle (classification, labeling, retention, destruction)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "data-lifecycle"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-data-classification",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Data classification assigns sensitivity labels (e.g., Public, Internal, Confidential, Restricted) to data assets based on potential impact of disclosure; higher sensitivity mandates stronger controls.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "data handling lifecycle (classification, labeling, retention, destruction)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "data-classification"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-data-retention",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Data retention policy defines the minimum and maximum periods data must be kept; requirements are driven by regulatory (GDPR, HIPAA), legal, and business needs before authorized destruction.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "data handling lifecycle (classification, labeling, retention, destruction)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "data-retention"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-symmetric-encryption",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Symmetric encryption uses a single shared key for both encryption and decryption. It is computationally fast and suitable for bulk data. AES (Advanced Encryption Standard) is the current standard.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "symmetric-encryption"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-asymmetric-encryption",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Asymmetric encryption uses a mathematically linked key pair: the public key encrypts; the private key decrypts. It solves the key-distribution problem but is slower than symmetric encryption.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "asymmetric-encryption"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sym-vs-asym",
+    "scope": "D5",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Symmetric: fast, same key, key-distribution challenge. Asymmetric: slow, key pair, no distribution problem, enables digital signatures. Hybrid systems use asymmetric to exchange a session key, then symmetric for bulk data.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sym-vs-asym"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-hashing",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Hashing applies a one-way function producing a fixed-size digest (e.g., SHA-256 produces 256 bits). The original data cannot be recovered from the hash. Used for integrity verification and password storage.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "hashing"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-hashing-trap",
+    "scope": "D5",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "Hashing is NOT encryption. Hashing is irreversible and produces a fixed digest for integrity checking; encryption is reversible with a key for confidentiality. Selecting hashing when the goal is data recovery is always wrong.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "hashing-trap"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-digital-signature",
+    "scope": "D5",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "A digital signature proves authenticity and integrity: the sender hashes the message and encrypts the hash with their private key; the receiver decrypts with the sender's public key and compares hashes.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "digital-signature"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-hybrid-encryption",
+    "scope": "D5",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Hybrid encryption uses asymmetric to securely exchange a symmetric session key, then symmetric for bulk data encryption. TLS/HTTPS uses this pattern, combining the strengths of both approaches.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "hybrid-encryption"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-aes-standard",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "AES (Advanced Encryption Standard) is the NIST-approved symmetric block cipher; AES-128 and AES-256 are the primary variants. It replaced DES and 3DES as the dominant symmetric standard.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "aes-standard"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-integrity-vs-confidentiality-trap",
+    "scope": "D5",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "Integrity means the data was not altered (verified by hash); confidentiality means the data cannot be read (achieved by encryption). A hash achieves integrity, not confidentiality — the exam tests this distinction.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "integrity-vs-confidentiality"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sanitization-definition",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Sanitization is the process of making access to target data infeasible for a given level of effort (NIST SP 800-88r2). It renders data unrecoverable at a defined assurance level.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#sanitization-methods-nist-sp-800-88r2",
+    "source_id": "nist.sp800-88r2",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:5d2957759acab509d0cf85bc3e9247a75c09272c72f5fdcaee97381e556665cc",
+    "support": "Making access to target data infeasible for a given level of effort",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sanitization"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sanitization-clear",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Clear: sanitization using logical techniques (e.g., overwrite with known patterns) that protect against software-based data recovery. Leaves media usable. Appropriate for lower-sensitivity data or media being reused internally.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#sanitization-methods-nist-sp-800-88r2",
+    "source_id": "nist.sp800-88r2",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:5d2957759acab509d0cf85bc3e9247a75c09272c72f5fdcaee97381e556665cc",
+    "support": "Logical techniques (e.g., overwrite); effective against software-based recovery",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sanitization-clear"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sanitization-purge",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Purge: sanitization using physical or cryptographic techniques (degauss for magnetic media, cryptographic erase for SSDs/self-encrypting drives) that protect against laboratory-level recovery attacks. Media may still be reusable.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#sanitization-methods-nist-sp-800-88r2",
+    "source_id": "nist.sp800-88r2",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:5d2957759acab509d0cf85bc3e9247a75c09272c72f5fdcaee97381e556665cc",
+    "support": "Physical or cryptographic techniques (e.g., degauss, cryptographic erase); effective against laboratory attacks",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sanitization-purge"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sanitization-destroy",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Destroy: physical destruction of storage media (incinerate, disintegrate, shred, pulverize, melt) — the highest sanitization assurance tier. Media cannot be reused. Required for highest-sensitivity data disposal.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#sanitization-methods-nist-sp-800-88r2",
+    "source_id": "nist.sp800-88r2",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:5d2957759acab509d0cf85bc3e9247a75c09272c72f5fdcaee97381e556665cc",
+    "support": "Physical destruction (incinerate, disintegrate, shred, pulverize, melt); highest assurance tier",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sanitization-destroy"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sanitization-comparison",
+    "scope": "D5",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Clear < Purge < Destroy in sanitization assurance. Clear resists software tools; Purge resists lab-grade analysis; Destroy eliminates all recovery paths. Only Clear and Purge allow media reuse.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "media sanitization",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sanitization-comparison"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-sanitization-procedure",
+    "scope": "D5",
+    "claim_type": "procedure",
+    "status": "active",
+    "claim": "To select a sanitization method: (1) determine data classification; (2) determine if media will be reused; (3) for reuse with low-sensitivity, use Clear; for reuse with high-sensitivity, use Purge; if disposing high-sensitivity, use Destroy.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#sanitization-methods-nist-sp-800-88r2",
+    "source_id": "nist.sp800-88r2",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:5d2957759acab509d0cf85bc3e9247a75c09272c72f5fdcaee97381e556665cc",
+    "support": "Making access to target data infeasible for a given level of effort",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "sanitization-procedure"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-crypto-agility",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Crypto-agility is the ability to inventory, replace, test, and validate cryptographic algorithms as standards and threats change, enabling migration without requiring complete system redesign.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#crypto-agility-enrichment-note",
+    "source_id": "nist.pqc.fips-203-204-205",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:3b80330d6ce9334b215d59018f82e4af14ffd470c46542ddb2f6368de8d9a16e",
+    "support": "Crypto-agility is the ability to inventory, replace, test, and validate cryptographic algorithms",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "crypto-agility"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-pqc-standards",
+    "scope": "D5",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "NIST post-quantum standards: FIPS 203 (ML-KEM, key encapsulation), FIPS 204 (ML-DSA, digital signatures), FIPS 205 (SLH-DSA, digital signatures). These resist attacks from quantum computers running Shor's algorithm.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#crypto-agility-enrichment-note",
+    "source_id": "nist.pqc.fips-203-204-205",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:3b80330d6ce9334b215d59018f82e4af14ffd470c46542ddb2f6368de8d9a16e",
+    "support": "FIPS 203 (ML-KEM key encapsulation) and FIPS 204/205 (digital signatures) as quantum-resistant standards",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "pqc-standards"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-pqc-motivation",
+    "scope": "D5",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Post-quantum cryptography addresses the threat from Shor's algorithm: a sufficiently powerful quantum computer could break RSA and ECC. PQC standards are the practical bridge for post-quantum migration.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#crypto-agility-enrichment-note",
+    "source_id": "nist.pqc.fips-203-204-205",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:3b80330d6ce9334b215d59018f82e4af14ffd470c46542ddb2f6368de8d9a16e",
+    "support": "practical bridge between CC-level crypto basics and post-quantum migration",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "pqc-motivation"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D5.51-rsa-asymmetric",
+    "scope": "D5",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "RSA is a widely deployed asymmetric algorithm based on the difficulty of factoring large integers; typical key sizes are 2048 or 4096 bits. It is vulnerable to quantum computers and is being replaced by NIST PQC standards.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-5-security-operations",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:87b8bbfa65a7043dd7206e49c3b4c491d81187bd8bb9c9c62a0611dfd0fdbed8",
+    "support": "encryption basics (symmetric, asymmetric, hashing)",
+    "tags": {
+      "domain": [
+        "D5"
+      ],
+      "objective": [
+        "5.1"
+      ],
+      "topic": [
+        "rsa-asymmetric"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  }
+]

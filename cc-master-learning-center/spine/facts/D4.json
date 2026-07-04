@@ -1,1 +1,1178 @@
-[]
+[
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-osi-model",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "OSI model is a 7-layer reference framework: Physical(1), Data Link(2), Network(3), Transport(4), Session(5), Presentation(6), Application(7).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "OSI and TCP/IP models",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "osi-model"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-tcpip-model",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "TCP/IP model is the 4-layer internet protocol suite used in practice: Network Access, Internet, Transport, Application.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "OSI and TCP/IP models",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "tcpip-model"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-osi-vs-tcpip",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "OSI has 7 layers and is a theoretical reference model; TCP/IP has 4 layers and is the practical deployed internet model.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "OSI and TCP/IP models",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "osi-vs-tcpip"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-protocol-layers-trap",
+    "scope": "D4",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "HTTP, FTP, SMTP, and DNS operate at OSI Layer 7 (Application); TCP and UDP at Layer 4 (Transport); IP at Layer 3 (Network). Confusing layers is a frequent exam error.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "OSI and TCP/IP models",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "protocol-layers"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-ipv4-vs-ipv6",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "IPv4 uses 32-bit addresses (~4.3 billion); IPv6 uses 128-bit addresses, solving IPv4 address exhaustion. IPv6 also adds auto-configuration and improved routing.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "IPv4/IPv6 addressing",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "ipv4-vs-ipv6"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-ipv4-private-ranges",
+    "scope": "D4",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "IPv4 private (non-routable) ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. NAT maps these to a public address for internet communication.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "IPv4/IPv6 addressing",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "ipv4-private-ranges"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-tcp-vs-udp",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "TCP is connection-oriented (3-way handshake, guaranteed delivery, ordered); UDP is connectionless (no handshake, no retransmission, lower overhead).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "TCP vs UDP",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "tcp-vs-udp"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-tcp-handshake",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "TCP establishes a connection via 3-way handshake: SYN (client initiates) → SYN-ACK (server acknowledges) → ACK (client confirms). Data transfer begins only after this exchange.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "TCP vs UDP",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "tcp-handshake"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-tcp-reliability",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "TCP reliability mechanisms: sequence numbers ensure ordering; acknowledgments confirm receipt; retransmission handles loss; flow control (sliding window) prevents receiver overload.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "TCP vs UDP",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "tcp-reliability"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-ports-admin",
+    "scope": "D4",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "Remote access ports: SSH = TCP 22; Telnet = TCP 23 (insecure, avoid); RDP = TCP 3389.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "common ports and protocols",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "ports-admin"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-ports-web-dns",
+    "scope": "D4",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "Web and DNS ports: HTTP = TCP 80; HTTPS = TCP 443; DNS = UDP 53 (queries) / TCP 53 (zone transfers).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "common ports and protocols",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "ports-web-dns"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-ports-email-file",
+    "scope": "D4",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "Email and file transfer: SMTP = TCP 25; FTP data = TCP 20, control = TCP 21; DHCP server = UDP 67, client = UDP 68.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "common ports and protocols",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "ports-email-file"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-switch-definition",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A switch is a Layer 2 (Data Link) network device that forwards Ethernet frames within a network segment based on MAC address tables.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "switch"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-router-definition",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A router is a Layer 3 (Network) device that forwards IP packets between different networks based on routing tables and IP addresses.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "router"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-firewall-definition",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A firewall controls network traffic based on rules. Types: packet-filtering (stateless, examines headers); stateful inspection (tracks connection state); application-layer gateway (deep inspection at Layer 7).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "firewall"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-ids-vs-ips",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "IDS (Intrusion Detection System) monitors traffic and alerts on suspicious activity but does not block it. IPS (Intrusion Prevention System) actively blocks detected threats inline.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "ids-vs-ips"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-proxy-definition",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A proxy server forwards requests on behalf of clients to servers, providing access control, content filtering, caching, and anonymization. A reverse proxy protects servers by fronting them.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "proxy"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-layer2-vs-layer3-trap",
+    "scope": "D4",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "Switches use MAC addresses (Layer 2) and create collision-free segments; routers use IP addresses (Layer 3) and separate broadcast domains. Confusing switch and router functions is a common exam mistake.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "layer2-vs-layer3"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-dhcp-definition",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "DHCP (Dynamic Host Configuration Protocol) automatically assigns IP addresses, subnet masks, gateways, and DNS server addresses to network clients, eliminating manual IP configuration.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "common ports and protocols",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "dhcp"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.41-dns-definition",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "DNS (Domain Name System) resolves human-readable hostnames (e.g., example.com) to IP addresses. Operates on port 53 (UDP for queries, TCP for large responses and zone transfers).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "common ports and protocols",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.1"
+      ],
+      "topic": [
+        "dns"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-dmz",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A DMZ (Demilitarized Zone) is a network segment between the internet and the internal network that hosts public-facing services (web, mail, DNS), isolating them from internal systems.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "dmz"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-vlan",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A VLAN (Virtual LAN) logically segments a physical switched network into isolated broadcast domains without requiring separate physical hardware. Used for access control and traffic isolation.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "vlan"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-vpn",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "A VPN (Virtual Private Network) creates an encrypted tunnel over a public network (e.g., internet), enabling secure remote access to private network resources as if locally connected.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "vpn"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-nac",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "NAC (Network Access Control) enforces policy-based controls on devices attempting to connect: verifying identity, patch level, and AV status before granting access.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "nac"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-segmentation",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Network segmentation divides a network into zones (e.g., DMZ, internal, management) to limit lateral movement, reduce attack surface, and contain breaches to one segment.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "segmentation"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-defense-in-depth",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Defense in depth (DiD) applies multiple independent security controls in layers so that the failure of any single control does not expose the system. No single control is relied upon alone.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "defense-in-depth"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-zero-trust",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Zero Trust security assumes no implicit trust for any user, device, or network location. Every access request is verified, authenticated, and authorized before access is granted, regardless of network origin.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "zero-trust"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-dmz-vs-vlan",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "DMZ isolates public-facing servers at the network perimeter using firewall rules; VLAN isolates traffic within the internal network using logical boundaries on switches. Both reduce blast radius.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "dmz-vs-vlan"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-zero-trust-vs-perimeter",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "Traditional perimeter security trusts all traffic inside the network boundary; Zero Trust never grants implicit trust — it continuously verifies every user and device regardless of location or prior access.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "zero-trust-vs-perimeter"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-cloud-characteristics",
+    "scope": "D4",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "The 5 NIST essential cloud characteristics: on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service (NIST SP 800-145).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cloud-computing-nist-sp-800-145",
+    "source_id": "nist.sp800-145",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:355c4dd6129306e5bc22a1bdbbf6dde791b3e53145e716cc6b867150c64c5d20",
+    "support": "on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "cloud-characteristics"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-cloud-service-models",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Three cloud service models: IaaS (customer controls OS, apps, data; provider owns hardware), PaaS (customer controls apps/data), SaaS (provider controls all layers; customer uses the application).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cloud-computing-nist-sp-800-145",
+    "source_id": "nist.sp800-145",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:355c4dd6129306e5bc22a1bdbbf6dde791b3e53145e716cc6b867150c64c5d20",
+    "support": "IaaS (infrastructure), PaaS (platform), SaaS (software as a service)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "cloud-service-models"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-cloud-deployment-models",
+    "scope": "D4",
+    "claim_type": "definition",
+    "status": "active",
+    "claim": "Four cloud deployment models: private (single org), community (shared between orgs with common mission), public (general public via internet), hybrid (combination of two or more models).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cloud-computing-nist-sp-800-145",
+    "source_id": "nist.sp800-145",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:355c4dd6129306e5bc22a1bdbbf6dde791b3e53145e716cc6b867150c64c5d20",
+    "support": "private cloud, community cloud, public cloud, hybrid cloud",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "cloud-deployment-models"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-shared-responsibility",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "In cloud computing, the provider secures the underlying infrastructure (physical, network, virtualization); the customer secures what they deploy and configure. The exact split shifts with the service model.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cloud-computing-nist-sp-800-145",
+    "source_id": "nist.sp800-145",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:355c4dd6129306e5bc22a1bdbbf6dde791b3e53145e716cc6b867150c64c5d20",
+    "support": "cloud provider secures underlying infrastructure; customer secures what they deploy and configure",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "shared-responsibility"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-cloud-vs-on-prem",
+    "scope": "D4",
+    "claim_type": "comparison",
+    "status": "active",
+    "claim": "On-premises: customer owns and secures all layers. Cloud SaaS: provider secures most; customer configures users and data only. IaaS: customer secures OS, apps, and data; provider secures hardware.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "service models (IaaS/PaaS/SaaS), deployment models, shared responsibility",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "cloud-vs-on-prem"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-firewall-types",
+    "scope": "D4",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "Three main firewall types: (1) packet-filtering — stateless, checks headers only; (2) stateful inspection — tracks connection state, allows return traffic; (3) application-layer gateway — deep inspection at Layer 7.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "network device roles (switch, router, firewall, IDS/IPS, proxy)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "firewall-types"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-cloud-exam-trap",
+    "scope": "D4",
+    "claim_type": "exam_trap",
+    "status": "active",
+    "claim": "In IaaS, the customer is responsible for patching the OS and installed software; the provider patches only the hypervisor and hardware. In SaaS, the provider patches everything. Misremembering the responsibility split is a common exam error.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#cloud-computing-nist-sp-800-145",
+    "source_id": "nist.sp800-145",
+    "source_tier": 1,
+    "source_fingerprint": "sha256:355c4dd6129306e5bc22a1bdbbf6dde791b3e53145e716cc6b867150c64c5d20",
+    "support": "cloud provider secures underlying infrastructure; customer secures what they deploy and configure",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "cloud-exam-trap"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "concept_discrimination"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "D4.43-segmentation-procedure",
+    "scope": "D4",
+    "claim_type": "procedure",
+    "status": "active",
+    "claim": "Network segmentation steps: (1) identify trust zones (DMZ, internal, management); (2) place firewalls and ACLs between zones; (3) restrict cross-zone traffic to only required flows; (4) monitor inter-zone traffic for anomalies.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#domain-4-network-security",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:99671c6a06c91cfb4f0762dc3367a33fb375ce22368f15f202bdb18be2fdc7c8",
+    "support": "security architecture (DMZ, VLAN, segmentation, VPN, NAC, defense in depth, Zero Trust)",
+    "tags": {
+      "domain": [
+        "D4"
+      ],
+      "objective": [
+        "4.3"
+      ],
+      "topic": [
+        "segmentation-procedure"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "scenario_application"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  }
+]
