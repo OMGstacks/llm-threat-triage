@@ -96,6 +96,66 @@ def cmd_llm(args) -> int:
     return 0
 
 
+def cmd_narrate(args) -> int:
+    """Narration (TTS) seam — the plumbing for narrated lessons (27-narrated-lessons.md).
+    `status` prints the presence-only seam state; `plan` parses a lesson script and prints
+    the offline render plan (segments / duration / cost / cache keys) needing no provider;
+    `render` writes the timing manifest and renders audio when a provider is enabled."""
+    import json as _json
+    from . import narration as nar
+
+    if args.action == "status":
+        st = nar.status()
+        yn = lambda b: "yes" if b else "no"  # noqa: E731
+        print(f"provider:            {st['provider']} ({st['kind']})")
+        print(f"key ({st['key_env'] or 'none'}):  present={yn(st['key_present'])} source={st['key_source']}")
+        print(f"provider available:  {yn(st['available'])}")
+        print(f"OSAI_TTS render on:  {yn(st['render_enabled'])}")
+        print(f"cost (US$/1M chars): {st['rate_per_million_usd']}  [planning estimate]")
+        print(f"providers:           {', '.join(st['providers'])}")
+        return 0
+
+    if not args.script:
+        print("error: --script is required for this action")
+        return 2
+    src = Path(args.script).read_text(encoding="utf-8")
+    try:
+        script = _json.loads(src)          # structured script …
+    except _json.JSONDecodeError:
+        script = src                       # … or plain-text paragraphs
+
+    if args.action == "plan":
+        plan = nar.render_plan(script)
+        if args.json:
+            print(_json.dumps(plan, indent=2))
+        else:
+            print(f"lesson {plan['lesson_id']!r}: {plan['segment_count']} segments · "
+                  f"{plan['total_chars']} chars · ~{plan['est_duration']} · "
+                  f"provider={plan['provider']} · est ${plan['est_cost_usd']} one-time")
+            for s in plan["segments"]:
+                print(f"  {s['id']}  {s['chars']:>5}ch  ~{s['est_seconds']}s  -> {s['audio']}")
+        return 0
+
+    # action == "render": always writes the manifest; renders audio only when enabled.
+    out = args.out or "narration"
+    res = nar.write_manifest(script, out)
+    print(f"manifest: {res['manifest']}  ({res['plan']['segment_count']} segments)")
+    if not nar.render_enabled():
+        print(f"audio: not rendered — seam off (set OSAI_TTS=1 + configure provider "
+              f"'{nar.provider_name()}'). Manifest + captions are ready; drop audio in later.")
+        return 0
+    rendered = 0
+    for s in res["plan"]["segments"]:
+        seg = next(x for x in nar.parse_script(script)["segments"] if x["id"] == s["id"])
+        r = nar.render_segment(seg["text"], Path(out) / s["audio"], voice=res["plan"]["voice"])
+        if r.get("rendered"):
+            rendered += 1
+        else:
+            print(f"  {s['id']}: {r['reason']}")
+    print(f"audio: rendered {rendered}/{res['plan']['segment_count']} segments to {out}/")
+    return 0
+
+
 def cmd_transcripts(args) -> int:
     """Operate the transcript data-handling controls (consent + bounded retention).
     `status` needs no DB; `purge`/`purge-all`/`grant-consent`/`revoke-consent` require --db."""
@@ -350,6 +410,13 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--ping", action="store_true",
                     help="send a tiny live request to verify the key answers (surfaces errors)")
     sp.set_defaults(fn=cmd_llm)
+
+    sp = sub.add_parser("narrate", help="narration (TTS) seam for narrated lessons — status / plan / render")
+    sp.add_argument("action", choices=["status", "plan", "render"])
+    sp.add_argument("--script", help="path to a lesson narration script (JSON or plain text)")
+    sp.add_argument("--out", help="output dir for the render manifest + audio (default: narration/)")
+    sp.add_argument("--json", action="store_true", help="emit the full plan JSON")
+    sp.set_defaults(fn=cmd_narrate)
 
     sp = sub.add_parser("transcripts", help="transcript data-handling controls (consent, retention, purge)")
     sp.add_argument("action", choices=["status", "purge", "purge-all", "grant-consent", "revoke-consent"])
