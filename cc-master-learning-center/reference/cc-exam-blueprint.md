@@ -149,18 +149,23 @@ Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
 | Incremental backup | Copies data changed since the last backup of any type; fastest to create, slowest restore |
 | Differential backup | Copies all data changed since the last full backup; middle cost and restore time |
 
-### Incident Response Lifecycle (NIST SP 800-61r3)
+### Incident Response Lifecycle
 
-Confidence: `confirmed` (Tier 1). Source: `nist.sp800-61r3`.
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+The ISC2 CC incident response lifecycle has four phases: Preparation, Detection and Analysis,
+Containment/Eradication/Recovery, and Post-Incident Activity. Containment, eradication, and
+recovery form one combined phase, not three separate ones.
 
 | Phase | Key Activities |
 |---|---|
-| Preparation | Establish IR capability: policy, team, tools, training, communication plan |
-| Detection and Analysis | Identify and validate incidents; classify severity; notify stakeholders |
-| Containment | Limit damage; short-term and long-term containment strategies |
-| Eradication | Remove root cause (malware, unauthorized accounts, vulnerabilities) |
-| Recovery | Restore and validate affected systems; return to normal operations |
-| Post-Incident Activity | Lessons-learned review; evidence retention; metrics collection |
+| 1. Preparation | Establish IR capability: policy, team, tools, training, communication plan |
+| 2. Detection and Analysis | Identify and validate incidents; classify severity; notify stakeholders |
+| 3. Containment, Eradication & Recovery | Limit damage; short-term and long-term containment strategies. Remove root cause (malware, unauthorized accounts, vulnerabilities). Restore and validate affected systems; return to normal operations |
+| 4. Post-Incident Activity | Lessons-learned review; evidence retention; metrics collection |
+
+Tier 1 note: NIST SP 800-61r3 reframes incident response around the CSF 2.0 functions (Govern,
+Identify, Protect, Detect, Respond, Recover) rather than a phase lifecycle (`nist.sp800-61r3`).
 
 ## Domain 3: Access Controls Concepts
 

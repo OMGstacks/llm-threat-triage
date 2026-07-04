@@ -45,4 +45,4 @@ Compact, original fact-card candidates distilled from the CC Overview transcript
 | Eradication phase | definition | Remove root cause: malware, unauthorized accounts, exploited vulnerabilities. |
 | Recovery phase | definition | Restore and validate systems; monitor for re-infection before returning to production. |
 | Post-Incident Activity | definition | Lessons-learned meeting; update policies/controls; retain evidence; measure metrics. |
-| IR lifecycle order | exam_trap | Preparation → Detection/Analysis → Containment → Eradication → Recovery → Post-Incident. |
+| IR lifecycle phases | exam_trap | Four phases: Preparation → Detection/Analysis → Containment/Eradication/Recovery (one combined phase) → Post-Incident. |

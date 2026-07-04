@@ -676,7 +676,7 @@
     "scope": "D1",
     "claim_type": "comparison",
     "status": "active",
-    "claim": "A threat is an external circumstance or actor that may cause harm; a vulnerability is an internal weakness that a threat can exploit. Neither alone constitutes risk — both must exist together.",
+    "claim": "A threat is any circumstance or actor (internal or external) that may cause harm; a vulnerability is a weakness that a threat can exploit. Neither alone constitutes risk — both must exist together.",
     "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#risk-management-fundamentals",
     "source_id": "isc2.cc-outline.2025-10",
     "source_tier": 0,
@@ -1233,70 +1233,6 @@
       ],
       "topic": [
         "canon-4"
-      ]
-    },
-    "learner_visible": true,
-    "answer_key_sensitive": false,
-    "allowed_banks": [
-      "definition_recall",
-      "concept_discrimination"
-    ],
-    "reviewed_by": "cc-learning:initial",
-    "outline_version": "2025-10"
-  },
-  {
-    "schema_version": 1,
-    "fact_id": "D1.14-due-care",
-    "scope": "D1",
-    "claim_type": "definition",
-    "status": "active",
-    "claim": "In the ethics context, due care means taking reasonable protective steps; doing what a prudent professional would do. Failure to exercise due care can result in personal and organizational liability.",
-    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
-    "source_id": "isc2.cc-outline.2025-10",
-    "source_tier": 0,
-    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
-    "support": "Taking reasonable protective steps; doing what a prudent professional would do",
-    "tags": {
-      "domain": [
-        "D1"
-      ],
-      "objective": [
-        "1.4"
-      ],
-      "topic": [
-        "due-care"
-      ]
-    },
-    "learner_visible": true,
-    "answer_key_sensitive": false,
-    "allowed_banks": [
-      "definition_recall",
-      "concept_discrimination"
-    ],
-    "reviewed_by": "cc-learning:initial",
-    "outline_version": "2025-10"
-  },
-  {
-    "schema_version": 1,
-    "fact_id": "D1.14-due-diligence",
-    "scope": "D1",
-    "claim_type": "definition",
-    "status": "active",
-    "claim": "In the ethics context, due diligence means ongoing investigation and monitoring to verify controls remain effective. It is the continuous professional obligation to confirm that protections are working.",
-    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#isc2-code-of-ethics",
-    "source_id": "isc2.cc-outline.2025-10",
-    "source_tier": 0,
-    "source_fingerprint": "sha256:87b511913f91b44f9b1926f3b9855129291c086f3e46382b7eab5993c425ae7d",
-    "support": "Ongoing investigation and monitoring to verify controls remain effective",
-    "tags": {
-      "domain": [
-        "D1"
-      ],
-      "objective": [
-        "1.4"
-      ],
-      "topic": [
-        "due-diligence"
       ]
     },
     "learner_visible": true,

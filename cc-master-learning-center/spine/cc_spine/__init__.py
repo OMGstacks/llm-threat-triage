@@ -33,10 +33,12 @@ objective 5.1, grounded on tier-0 blueprint anchors (isc2.cc-outline.2025-10) an
 tier-1 NIST anchors (nist.sp800-145, nist.sp800-88r2, nist.pqc.fips-203-204-205).
 No bank items, no holdout, no mnemonic cards. Scaffold validator updated to allow
 non-empty fact arrays.
-PR-7 completes fact-card seeding across the remaining domains: 92 cards over D1
+PR-7 completes fact-card seeding across the remaining domains: 90 cards over D1
 (1.1-1.4), D2 (2.1-2.3), and D3 (3.1-3.2), grounded on new tier-0 blueprint anchors
-plus the tier-1 nist.sp800-61r3 incident-response anchor. Fact store now holds 151
-validated cards; all five domains have seed coverage.
+(the incident-response lifecycle is taught as the ISC2 CC four-phase model, with
+NIST SP 800-61r3's CSF-2.0 reframing kept as a tier-1 note). An adversarial content
+review flagged a six-vs-four phase error and two near-duplicate cards, both fixed.
+Fact store now holds 149 validated cards; all five domains have seed coverage.
 """
 
 __version__ = "0.2.0"
