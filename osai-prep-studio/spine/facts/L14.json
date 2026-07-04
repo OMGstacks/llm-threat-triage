@@ -300,5 +300,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:b21e81947873282bea612bed6a7bb6a61f32824f4aed51c52c0f5ce3cf0608ab",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L14.complements",
+    "scope": "L14",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L14 complements the public resource: fills a gap — few public multi-agent labs.",
+    "source": "osai-prep-studio/spine/labs/L14.json#complements",
+    "support": "fills a gap — few public multi-agent labs",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M4"
   }
 ]

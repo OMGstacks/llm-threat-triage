@@ -33,6 +33,7 @@ import json
 import re
 from pathlib import Path
 
+from . import engine
 from . import llm
 
 SCHEMA_VERSION = 1
@@ -42,6 +43,7 @@ _REPO_ROOT = Path(__file__).resolve().parents[3]
 CLAIM_TYPES = {
     "detector", "framework_mapping", "evidence_path",
     "architecture", "defense", "module", "concept", "scope",
+    "reference", "detector_property", "decision",
 }
 STATUSES = {"active", "deprecated", "draft"}
 
@@ -66,6 +68,9 @@ BANK_ELIGIBILITY = {
     "architecture": {"architecture_reasoning"},
     "concept": {"architecture_reasoning", "framework_recall"},
     "scope": {"lab_grounded", "architecture_reasoning"},
+    "reference": {"lab_grounded", "architecture_reasoning"},
+    "detector_property": {"lab_grounded", "architecture_reasoning"},
+    "decision": {"tool_use_judgment", "architecture_reasoning"},
 }
 
 REQUIRED_FIELDS = (
@@ -92,6 +97,8 @@ def _sha(text: str) -> str:
 
 
 def _source_kind(source: str) -> str:
+    if source.startswith("catalog:"):
+        return "catalog"      # an authoritative in-code table (the detector catalog)
     path = source.split("#", 1)[0]
     if path.endswith(".json"):
         return "structured"
@@ -158,6 +165,13 @@ def _read_source_value(card: dict, root: Path):
     value at the JSON path, or the markdown section text. Raises on any provenance miss."""
     source = card["source"]
     kind = _source_kind(source)
+    if kind == "catalog":
+        # catalog:detectors#<detector_name>.<property> — the reused detector catalog is the
+        # taxonomy spine's single source of truth (09b-reuse-map.md); resolve it in-code.
+        locator = source.split("#", 1)[1]
+        name, _, prop = locator.rpartition(".")
+        cat = {d["name"]: d for d in engine.detector_catalog()}
+        return kind, cat[name][prop]   # KeyError -> caught as a provenance failure
     file_part, _, locator = source.partition("#")
     path = root / file_part
     text = path.read_text(encoding="utf-8")   # raises FileNotFoundError if missing
@@ -241,7 +255,7 @@ def validate_card(card: dict, registry, root: Path = _REPO_ROOT) -> list:
         errs.append(f"{fid}: markdown anchor not found in source")
         return errs
     support = card["support"]
-    if kind == "structured":
+    if kind in ("structured", "catalog"):
         if resolved != support:
             errs.append(f"{fid}: support {support!r} != source value {resolved!r} (drift/mismatch)")
         errs += _registry_checks(fid, ctype, resolved, card, registry)
@@ -275,6 +289,9 @@ def _registry_checks(fid, ctype, resolved, card, registry) -> list:
         blob = _canonical(resolved)
         if _FLAG.search(blob):
             errs.append(f"{fid}: evidence source exposes a flag value — path-only facts allowed")
+    elif ctype == "detector_property":
+        if not isinstance(resolved, str) or resolved.strip() == "":
+            errs.append(f"{fid}: detector_property must resolve to a non-empty value")
     return errs
 
 
@@ -282,7 +299,7 @@ def _claim_mentions_support(fid, kind, card) -> list:
     """The human-readable claim must contain the concrete value(s) it asserts, so a card
     can't say the wrong thing while citing a right source."""
     claim = card["claim"]
-    if kind == "structured":
+    if kind in ("structured", "catalog"):
         support = card["support"]
         tokens = support if isinstance(support, list) else [support]
         for t in tokens:
@@ -407,7 +424,8 @@ def coverage_report(store) -> dict:
             sensitive += 1
     # Estimated item capacity vs the bank-expansion targets (04a-bank-expansion-epic.md):
     # a card is a conservative floor of >=1 distinct gold item; ~2 phrasings is a ceiling.
-    targets = {"lab_grounded": [125, 150], "architecture_reasoning": [75, 100]}
+    targets = {"lab_grounded": [125, 150], "architecture_reasoning": [75, 100],
+               "tool_use_judgment": [50, 75]}
     capacity = {}
     for b, t in targets.items():
         n = per_bank.get(b, 0)

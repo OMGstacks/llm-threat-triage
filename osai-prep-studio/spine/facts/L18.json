@@ -239,5 +239,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M8"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:8baba69424d93628db0d31f7113ccb12fbc0ac5349727b4fec6b26589d918315",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L18.complements",
+    "scope": "L18",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L18 complements the public resource: fills a gap (HTB AI touches infra).",
+    "source": "osai-prep-studio/spine/labs/L18.json#complements",
+    "support": "fills a gap (HTB AI touches infra)",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M8"
   }
 ]

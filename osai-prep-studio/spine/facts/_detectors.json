@@ -1,0 +1,350 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.direct_prompt_injection.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The direct_prompt_injection detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#direct_prompt_injection.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfba7033571d606f3c2ff0415b3a26ddbfbf1f1884e5c391333a5470efbfe4a3",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.indirect_prompt_injection.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The indirect_prompt_injection detector carries critical severity in the reused detector catalog.",
+    "source": "catalog:detectors#indirect_prompt_injection.severity",
+    "support": "critical",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.jailbreak_persona_override.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The jailbreak_persona_override detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#jailbreak_persona_override.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c082456a7766e23a18db084cd34b6ff510baef506548b897cc80e9b7d3e121c8",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.system_prompt_extraction.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM07:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The system_prompt_extraction detector carries medium severity in the reused detector catalog.",
+    "source": "catalog:detectors#system_prompt_extraction.severity",
+    "support": "medium",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.excessive_agency_probe.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The excessive_agency_probe detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#excessive_agency_probe.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfba7033571d606f3c2ff0415b3a26ddbfbf1f1884e5c391333a5470efbfe4a3",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.encoded_injection_payload.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM01:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The encoded_injection_payload detector carries critical severity in the reused detector catalog.",
+    "source": "catalog:detectors#encoded_injection_payload.severity",
+    "support": "critical",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.sensitive_information_disclosure.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The sensitive_information_disclosure detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#sensitive_information_disclosure.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.sensitive_information_inbound.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM02:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The sensitive_information_inbound detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#sensitive_information_inbound.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.improper_output_handling.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM05:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The improper_output_handling detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#improper_output_handling.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:bfba7033571d606f3c2ff0415b3a26ddbfbf1f1884e5c391333a5470efbfe4a3",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.supply_chain_trigger.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The supply_chain_trigger detector carries critical severity in the reused detector catalog.",
+    "source": "catalog:detectors#supply_chain_trigger.severity",
+    "support": "critical",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c082456a7766e23a18db084cd34b6ff510baef506548b897cc80e9b7d3e121c8",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.vector_store_probe.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The vector_store_probe detector carries medium severity in the reused detector catalog.",
+    "source": "catalog:detectors#vector_store_probe.severity",
+    "support": "medium",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6ef7c9b15ecdd69083724b84cfdc2100351963488b51b4ea2fcbddf493fbec94",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "det.unbounded_consumption_probe.severity",
+    "scope": "global",
+    "claim_type": "detector_property",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "detector-severity"
+      ]
+    },
+    "claim": "The unbounded_consumption_probe detector carries high severity in the reused detector catalog.",
+    "source": "catalog:detectors#unbounded_consumption_probe.severity",
+    "support": "high",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M1"
+  }
+]

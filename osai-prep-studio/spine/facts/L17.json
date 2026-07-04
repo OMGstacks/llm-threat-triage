@@ -239,5 +239,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M7"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:10325ce0bad940134fff732dbc9b03fad0f68c1e26dae908a6774fe5099476e0",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L17.complements",
+    "scope": "L17",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM03:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L17 complements the public resource: AI Goat supply chain — real trigger + SBOM check.",
+    "source": "osai-prep-studio/spine/labs/L17.json#complements",
+    "support": "AI Goat supply chain — real trigger + SBOM check",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M7"
   }
 ]

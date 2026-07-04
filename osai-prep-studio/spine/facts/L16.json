@@ -272,5 +272,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M4"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:5a102e6260140ca2b0320f980af1668a28598e77e3232cc2a1f18b961e6b5076",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L16.complements",
+    "scope": "L16",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L16 complements the public resource: PortSwigger excessive agency.",
+    "source": "osai-prep-studio/spine/labs/L16.json#complements",
+    "support": "PortSwigger excessive agency",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M4"
   }
 ]

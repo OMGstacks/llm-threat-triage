@@ -239,5 +239,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M9"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c6adc1c8068e719bb9a52d79d3f479f1ca1ac77dc6c73b3fea5a0a943ad9ba8b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L19.complements",
+    "scope": "L19",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM10:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L19 complements the public resource: HTB AI — plus the consumption-anomaly detection side.",
+    "source": "osai-prep-studio/spine/labs/L19.json#complements",
+    "support": "HTB AI — plus the consumption-anomaly detection side",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M9"
   }
 ]

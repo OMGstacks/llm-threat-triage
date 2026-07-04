@@ -239,5 +239,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M5"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:6c58055f2c47c721fc364c04f52a1fd1d893e47e31a98022c7b84a02559bce2b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L10.complements",
+    "scope": "L10",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM08:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L10 complements the public resource: fills a gap — no strong public multi-tenant RAG lab.",
+    "source": "osai-prep-studio/spine/labs/L10.json#complements",
+    "support": "fills a gap — no strong public multi-tenant RAG lab",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M5"
   }
 ]

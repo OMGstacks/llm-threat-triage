@@ -1,0 +1,184 @@
+[
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:c2da7eec079d36dfe53fc434e6549c3d0e99325ce6f62d502bfa1f50af38207a",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.untrusted-output",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "Tool output and retrieved content are untrusted data, not instructions; if such content directs an action the agent must block it (indirect prompt injection, OWASP LLM01).",
+    "source": "reference/agentic-tool-use-decisions.md#treat-tool-output-and-retrieved-content-as-untrusted-data-not-instructions",
+    "support": "Text that comes back from a tool, a retrieved document, an email, or a web page is\n**untrusted data** — never instructions.",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:26d7ede1e9d8944d530b959ba43816924e098d5e0beee280ef2f2c528ce74e5b",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.human-approval",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "Destructive, irreversible, or high-privilege tool actions should require human approval; auto-executing them is excessive agency (OWASP LLM06).",
+    "source": "reference/agentic-tool-use-decisions.md#require-human-approval-for-high-impact-or-irreversible-actions",
+    "support": "Destructive, irreversible, or high-privilege actions",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:8ff075f79c2b9a4949cd81e4209f16e575d5824d1df8e465ef5e80d252eb75d9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.least-privilege",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "An agent should hold least privilege — only the tools and permissions its task needs; a call requiring authority it should not have is blocked (privilege compromise, agentic T3).",
+    "source": "reference/agentic-tool-use-decisions.md#least-privilege-the-agent-should-hold-the-minimum-scope",
+    "support": "An agent should be granted only the tools and permissions its task needs.",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:3ebdd2de73b8127e1b3724212a248f478f58e6b701fc67f06421cb4827266438",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.injection-vs-benign",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "If a tool action is driven by the user's own direct, in-scope, low-impact request it is benign automation and may be allowed; if it originates from injected or retrieved content it is an injection attempt and must be blocked.",
+    "source": "reference/agentic-tool-use-decisions.md#is-it-injection-or-benign-automation",
+    "support": "If the action is driven by the *user's own direct,\nin-scope request* and is low-impact, it is **benign automation** — **allow** it.",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:d5c172eedd9fc53d2e9222ce66ac259c01e748e7aa9e32f01aca1a55d8384c69",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.direct-vs-indirect",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "Both direct and indirect prompt injection in tool use should be blocked; indirect injection (arriving via a tool result or retrieved document) is the more dangerous.",
+    "source": "reference/agentic-tool-use-decisions.md#direct-vs-indirect-injection-in-tool-use",
+    "support": "Both should be **blocked**; indirect injection is\nthe more dangerous",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:1fc473d2c935ba459291195eca4acbe5d3bd6e80bd3a3ea610fd39411a6fc19f",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.verify-identity",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "Verify the caller's identity before a privileged tool call; if identity cannot be verified, block or require approval (identity spoofing, agentic T9).",
+    "source": "reference/agentic-tool-use-decisions.md#verify-the-callers-identity-before-a-privileged-tool-call",
+    "support": "Before honoring a request to use a sensitive tool, confirm the request comes from an\nauthenticated, authorized identity",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:10c96b8de326483b0279e7ca49b039234136cc2b96e0fd3bfe79c6f037311ea7",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "tooluse.rate-limit",
+    "scope": "global",
+    "claim_type": "decision",
+    "tags": {
+      "topic": [
+        "tool-use-decision"
+      ]
+    },
+    "claim": "A flood of tool or model calls (an attack or a runaway loop) should be throttled via quotas, budget caps, and loop guards (resource overload / denial-of-wallet, agentic T4 / OWASP LLM10).",
+    "source": "reference/agentic-tool-use-decisions.md#rate-limit-and-budget-cap-tool-and-model-calls",
+    "support": "A flood of tool/model calls — whether an attack or a runaway loop — should be **throttled**.",
+    "allowed_banks": [
+      "tool_use_judgment",
+      "architecture_reasoning"
+    ],
+    "difficulty": "medium",
+    "exam_relevance": "M6"
+  }
+]

@@ -273,5 +273,34 @@
     ],
     "difficulty": "medium",
     "exam_relevance": "M6"
+  },
+  {
+    "schema_version": 1,
+    "source_fingerprint": "sha256:88644d8487d642d91a761dab6c672ed8581cf035f498b5e37662e2aca0d964d9",
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "status": "active",
+    "last_reviewed": "2026-07-04",
+    "reviewed_by": "OMGstacks",
+    "fact_id": "L12.complements",
+    "scope": "L12",
+    "claim_type": "reference",
+    "tags": {
+      "owasp": [
+        "LLM06:2025"
+      ],
+      "topic": [
+        "complements"
+      ]
+    },
+    "claim": "Lab L12 complements the public resource: Damn Vulnerable MCP ch.4-7.",
+    "source": "osai-prep-studio/spine/labs/L12.json#complements",
+    "support": "Damn Vulnerable MCP ch.4-7",
+    "allowed_banks": [
+      "lab_grounded",
+      "architecture_reasoning"
+    ],
+    "difficulty": "easy",
+    "exam_relevance": "M6"
   }
 ]
