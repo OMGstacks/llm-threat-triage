@@ -57,6 +57,65 @@ terminology (threat, vulnerability, likelihood, impact) and risk treatment; cont
 deterrent, compensating); policies, standards, procedures, and regulations; professional
 ethics, due care, and due diligence.
 
+### CIA Triad and Information Assurance
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Concept | Definition |
+|---|---|
+| Confidentiality | Preventing unauthorized disclosure of information |
+| Integrity | Ensuring information is accurate, complete, and unaltered |
+| Availability | Ensuring information and systems are accessible when needed |
+| Non-repudiation | Inability to deny having taken an action; supported by digital signatures and audit logs |
+| Authentication | Verifying the identity of a user, process, or device |
+| Authorization | Granting or denying permissions to authenticated subjects |
+| Accounting (audit) | Recording and tracking subject activity for accountability and forensic review |
+| Privacy | Protecting personally identifiable information from unauthorized collection or use |
+
+### Risk Management Fundamentals
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Term | Definition |
+|---|---|
+| Threat | Any circumstance or event with the potential to adversely impact organizational operations |
+| Vulnerability | A weakness in a system, process, or control that could be exploited by a threat |
+| Likelihood | Probability that a threat will exploit a vulnerability |
+| Impact | Magnitude of harm that would result from a threat exploiting a vulnerability |
+| Risk | The combination of the likelihood of a threat event and its impact |
+| Risk treatment options | Accept, avoid, transfer (share), mitigate (reduce) |
+| Due care | Taking reasonable steps to protect assets; doing what a prudent person would do |
+| Due diligence | Ongoing investigation and monitoring to ensure controls remain effective |
+
+### Security Controls
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Category / Function | Examples |
+|---|---|
+| Technical controls | Firewalls, encryption, access control lists, antivirus |
+| Administrative controls | Policies, procedures, training, background checks |
+| Physical controls | Locks, guards, CCTV, fencing, bollards |
+| Preventive controls | Block threats before they occur (e.g., firewall, lock) |
+| Detective controls | Identify and record threat events (e.g., IDS, audit log, CCTV) |
+| Corrective controls | Restore systems after an incident (e.g., backup restore, patch) |
+| Deterrent controls | Discourage attackers (e.g., warning signs, visible CCTV) |
+| Compensating controls | Alternative control when a primary control is not feasible |
+
+### ISC2 Code of Ethics
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Principle | Summary |
+|---|---|
+| Code of Ethics Preamble | Safety of the commonwealth, duty to principals, and the profession |
+| Canon 1 | Protect society, common good, public trust and confidence, and the infrastructure |
+| Canon 2 | Act honorably, honestly, justly, responsibly, and legally |
+| Canon 3 | Provide diligent and competent service to principals |
+| Canon 4 | Advance and protect the profession |
+| Due care | Taking reasonable protective steps; doing what a prudent professional would do |
+| Due diligence | Ongoing investigation and monitoring to verify controls remain effective |
+
 ## Domain 2: Business Continuity, Disaster Recovery and Incident Response Concepts
 
 Weight: 10%. Confidence: `seeded-pending-review`.
@@ -71,6 +130,38 @@ analysis, containment, eradication, recovery, and lessons learned. Tier 1 enrich
 NIST SP 800-61 Rev. 3 aligns incident response with cybersecurity risk management and the
 CSF 2.0 functions (`nist.sp800-61r3` in the source registry).
 
+### Business Continuity and Disaster Recovery
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Term | Definition |
+|---|---|
+| Business Continuity (BC) | Keeping the organization operational during and after a disruption |
+| Disaster Recovery (DR) | Restoring IT systems and data after a disaster |
+| Business Impact Analysis (BIA) | Identifying critical functions and quantifying the effect of their disruption |
+| Maximum Tolerable Downtime (MTD) | Maximum time a business function can be offline before unacceptable harm |
+| Recovery Time Objective (RTO) | Target time to restore a function after a disruption |
+| Recovery Point Objective (RPO) | Maximum acceptable data loss measured in time |
+| Hot site | Fully operational backup site; immediate failover capability |
+| Warm site | Partially configured backup site; activation takes hours to days |
+| Cold site | Space and power only; no pre-configured equipment; lowest cost, longest activation |
+| Full backup | Complete copy of all data; slowest to create, fastest to restore |
+| Incremental backup | Copies data changed since the last backup of any type; fastest to create, slowest restore |
+| Differential backup | Copies all data changed since the last full backup; middle cost and restore time |
+
+### Incident Response Lifecycle (NIST SP 800-61r3)
+
+Confidence: `confirmed` (Tier 1). Source: `nist.sp800-61r3`.
+
+| Phase | Key Activities |
+|---|---|
+| Preparation | Establish IR capability: policy, team, tools, training, communication plan |
+| Detection and Analysis | Identify and validate incidents; classify severity; notify stakeholders |
+| Containment | Limit damage; short-term and long-term containment strategies |
+| Eradication | Remove root cause (malware, unauthorized accounts, vulnerabilities) |
+| Recovery | Restore and validate affected systems; return to normal operations |
+| Post-Incident Activity | Lessons-learned review; evidence retention; metrics collection |
+
 ## Domain 3: Access Controls Concepts
 
 Weight: 22%. Confidence: `seeded-pending-review`.
@@ -80,6 +171,36 @@ Objectives: 3.1 physical access controls; 3.2 logical access controls.
 High-yield scope (paraphrased): physical controls (badges, guards, CCTV, locks, mantraps);
 logical access models (DAC, MAC, RBAC); least privilege; need to know; separation of duties;
 privileged access management; account lifecycle basics (provision, review, deprovision).
+
+### Physical Access Controls
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Control | Description |
+|---|---|
+| Badges / access cards | Authenticate identity at controlled entry points |
+| Guards | Human security personnel providing deterrence, presence, and response capability |
+| CCTV | Surveillance cameras; primary detective control for physical security |
+| Locks (mechanical / electronic) | Prevent unauthorized physical access to facilities and equipment |
+| Mantrap (airlock) | Two-door entry with only one door open at a time; prevents tailgating |
+| Fencing and bollards | Perimeter barriers against pedestrian and vehicle intrusion |
+| Lighting | Deters unauthorized activity; supports CCTV effectiveness |
+| Visitor logs | Record visitor identity, purpose, escort, and entry/exit time |
+
+### Logical Access Controls
+
+Confidence: `seeded-pending-review` (Tier 0). Source: `isc2.cc-outline.2025-10`.
+
+| Model / Concept | Description |
+|---|---|
+| DAC (Discretionary Access Control) | Resource owner controls who may access the resource |
+| MAC (Mandatory Access Control) | System enforces access by comparing classification labels; owner cannot override |
+| RBAC (Role-Based Access Control) | Permissions tied to roles; users assigned to roles |
+| Least privilege | Grant only the minimum permissions needed to perform a function |
+| Need to know | Access granted only for information required for a specific task |
+| Separation of duties | No single person has end-to-end control of a sensitive process |
+| Privileged Access Management (PAM) | Controls, monitors, and audits accounts with elevated rights |
+| Account lifecycle | Provision, periodic review, and timely deprovision of access |
 
 ## Domain 4: Network Security
 
