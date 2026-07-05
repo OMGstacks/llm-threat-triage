@@ -1,0 +1,150 @@
+#!/bin/bash
+# workspace-state-sync: SessionStart hook that surfaces cheap, fast,
+# READ-ONLY git/gh workspace facts so the agent doesn't have to remember to
+# check them manually.
+#
+# NEW hook (proposed by research; no direct Sauron predecessor). It
+# operationalizes the single-writer-discipline and stale-local-checkout
+# standing rules seen across Sauron's CLAUDE.md by automating the facts an
+# agent would otherwise need to re-derive by hand each session:
+#   - current branch + whether it's the default branch
+#   - working tree dirty? (short status count)
+#   - commits local HEAD is behind the remote default branch
+#   - count of local git worktrees
+#   - (if gh is available + authenticated) count of open PRs authored by
+#     the current user
+#
+# READ-ONLY: performs zero mutations (no fetch --prune side effects beyond
+# what `git fetch` itself does is even avoided — see note below; no git
+# writes of any kind).
+#
+# Fail-open contract: any single check that errors is skipped with a
+# one-line note; the hook never aborts and always exits 0.
+
+set +e   # never fail the session
+
+# Not inside a git repo at all -> nothing meaningful to report, clean no-op.
+if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    exit 0
+fi
+
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+NOTES=()
+
+# --- current branch + default-branch check --------------------------------
+BRANCH=""
+IS_DEFAULT="unknown"
+{
+    BRANCH=$(git symbolic-ref --short -q HEAD 2>/dev/null)
+    if [ -z "$BRANCH" ]; then
+        BRANCH="(detached HEAD)"
+        IS_DEFAULT="no"
+    else
+        DEFAULT_BRANCH=$(git symbolic-ref --short -q refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+        if [ -z "$DEFAULT_BRANCH" ]; then
+            # No origin/HEAD ref cached locally; fall back to common default names.
+            for candidate in main master; do
+                if git show-ref --verify --quiet "refs/remotes/origin/$candidate" 2>/dev/null; then
+                    DEFAULT_BRANCH="$candidate"
+                    break
+                fi
+            done
+        fi
+        if [ -n "$DEFAULT_BRANCH" ]; then
+            if [ "$BRANCH" = "$DEFAULT_BRANCH" ]; then
+                IS_DEFAULT="yes"
+            else
+                IS_DEFAULT="no (default: $DEFAULT_BRANCH)"
+            fi
+        fi
+    fi
+} 2>/dev/null
+if [ -z "$BRANCH" ]; then
+    BRANCH="(unknown)"
+    NOTES+=("branch detection failed, skipped")
+fi
+
+# --- working tree dirty? ---------------------------------------------------
+DIRTY_COUNT=""
+{
+    DIRTY_COUNT=$(git status --porcelain 2>/dev/null | wc -l | tr -d ' ')
+} 2>/dev/null
+if [ -z "$DIRTY_COUNT" ]; then
+    DIRTY_COUNT="?"
+    NOTES+=("dirty-tree check failed, skipped")
+fi
+
+# --- commits behind remote default branch ----------------------------------
+# Read-only: uses only refs already known locally (refs/remotes/origin/*).
+# Deliberately does NOT run `git fetch` here — that would make a
+# "read-only" hook perform a network write-adjacent side effect (updating
+# remote-tracking refs) on every session start, which is surprising and can
+# be slow/offline-unfriendly. This reports drift as of the last fetch,
+# which is enough to flag "you may be stale — run git fetch."
+BEHIND="skipped (no remote)"
+{
+    REMOTE_DEFAULT=$(git symbolic-ref --short -q refs/remotes/origin/HEAD 2>/dev/null | sed 's#^origin/##')
+    if [ -z "$REMOTE_DEFAULT" ]; then
+        for candidate in main master; do
+            if git show-ref --verify --quiet "refs/remotes/origin/$candidate" 2>/dev/null; then
+                REMOTE_DEFAULT="$candidate"
+                break
+            fi
+        done
+    fi
+    if [ -n "$REMOTE_DEFAULT" ] && git show-ref --verify --quiet "refs/remotes/origin/$REMOTE_DEFAULT" 2>/dev/null; then
+        BEHIND_COUNT=$(git rev-list --count "HEAD..origin/$REMOTE_DEFAULT" 2>/dev/null)
+        if [ -n "$BEHIND_COUNT" ]; then
+            BEHIND="${BEHIND_COUNT} commit(s) behind origin/${REMOTE_DEFAULT} (as of last fetch)"
+        else
+            BEHIND="skipped (rev-list failed)"
+            NOTES+=("behind-remote check failed, skipped")
+        fi
+    fi
+} 2>/dev/null
+
+# --- local worktree count ---------------------------------------------------
+WORKTREE_COUNT=""
+{
+    WORKTREE_COUNT=$(git worktree list 2>/dev/null | wc -l | tr -d ' ')
+} 2>/dev/null
+if [ -z "$WORKTREE_COUNT" ]; then
+    WORKTREE_COUNT="?"
+    NOTES+=("worktree count failed, skipped")
+fi
+
+# --- open PRs authored by current user (gh, optional) -----------------------
+PR_COUNT="skipped (gh not available/authenticated)"
+if command -v gh >/dev/null 2>&1; then
+    {
+        if gh auth status >/dev/null 2>&1; then
+            RAW_COUNT=$(gh pr list --author "@me" --state open --json number 2>/dev/null | jq 'length' 2>/dev/null)
+            if [ -n "$RAW_COUNT" ]; then
+                PR_COUNT="${RAW_COUNT} open PR(s) authored by you"
+            else
+                PR_COUNT="skipped (gh pr list failed)"
+                NOTES+=("gh pr list failed, skipped")
+            fi
+        fi
+    } 2>/dev/null
+fi
+
+# --- print digest ------------------------------------------------------------
+echo "╔═══════════════════════════════════════════════════════════════════╗"
+echo "║  WORKSPACE STATE  (read-only git/gh check)                        ║"
+echo "╠═══════════════════════════════════════════════════════════════════╣"
+printf "║  Branch:          %-48s║\n" "$BRANCH"
+printf "║  Default branch?  %-48s║\n" "$IS_DEFAULT"
+printf "║  Dirty files:      %-47s║\n" "$DIRTY_COUNT"
+printf "║  Behind remote:   %-48s║\n" "$BEHIND"
+printf "║  Local worktrees:  %-47s║\n" "$WORKTREE_COUNT"
+printf "║  Your open PRs:   %-48s║\n" "$PR_COUNT"
+if [ "${#NOTES[@]}" -gt 0 ]; then
+    echo "╠═══════════════════════════════════════════════════════════════════╣"
+    for note in "${NOTES[@]}"; do
+        printf "║  [note] %-59s║\n" "$note"
+    done
+fi
+echo "╚═══════════════════════════════════════════════════════════════════╝"
+
+exit 0

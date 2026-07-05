@@ -1,0 +1,4 @@
+{
+  "command": "python -m tools.business_calendar now",
+  "_comment": "The command's stdout should be forgiving 'key: value' or 'key:value' lines, e.g.:\n  last_business_day: 2026-07-03\n  current_session: closed\n  next_transition: opens @ 2026-07-07T13:30:00Z\nEach line is parsed and re-printed verbatim (unrecognized lines are passed through as-is) under the 'Project calendar (authoritative)' section. If the command is missing, non-zero-exits, or prints nothing, datetime-sync prints a one-line failure note and continues — it never blocks the session."
+}

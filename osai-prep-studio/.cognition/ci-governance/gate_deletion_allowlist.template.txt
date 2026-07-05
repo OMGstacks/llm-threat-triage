@@ -1,0 +1,29 @@
+# gate_deletion_allowlist.txt
+#
+# Records INTENTIONAL gate removals so check_gate_deletion.py does not
+# hard-fail a legitimate deletion. Every entry MUST carry an expiry — an
+# allowlist entry is a temporary permission slip, not a permanent exemption.
+# When the expiry passes, the guard hard-fails again until you either finish
+# removing every trace of the gate (then delete this line) or renew the
+# expiry (bump the date, ideally with a fresh justification for why more
+# time is needed).
+#
+# Format (one entry per line, pipe-delimited):
+#   <gate-name> | <justification> [| expires=YYYY-MM-DD] [| ref=#NNN]
+#
+# Fields:
+#   gate-name      exact `name` value that was removed from gates.yml
+#   justification  short human-readable reason for the removal
+#   expires        REQUIRED in practice (a missing expiry never auto-fails
+#                  today, but an entry with no expires= means "removal
+#                  allowed forever" — reserve that ONLY for a gate that has
+#                  been fully decommissioned across every surface referencing
+#                  it, e.g. a whole subsystem that was deleted)
+#   ref            optional PR/issue reference (#NNN). Missing ref is a soft
+#                  warning only, never a hard failure — but include it, it
+#                  makes the audit trail far more useful.
+#
+# Blank lines and lines starting with # are ignored.
+#
+# Example (commented out — replace with your own real entries):
+# legacy-flake8-gate | superseded by ruff-lint, kept both during migration | expires=2026-08-01 | ref=#412

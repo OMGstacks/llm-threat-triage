@@ -1,0 +1,60 @@
+#!/bin/bash
+# preferred-tool-reminder: SessionStart banner listing configured preferred
+# tools and their hint messages. Generalized from Sauron's
+# cbm-session-reminder.
+#
+# Reads the same config as preferred-tool-gate:
+#   .claude/hooks-config/preferred-tools.json (resolved relative to repo root)
+#
+# No-op cleanly (exit 0, no output) if the config file is absent, unreadable,
+# not a JSON array, or empty. Fires on startup/resume/clear/compact via a
+# SessionStart hook.
+#
+# Dependency: jq. If jq is missing, this hook no-ops (fail-open) with a
+# one-line stderr note rather than erroring.
+
+set +e   # never fail the session
+
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -z "$REPO_ROOT" ]; then
+    REPO_ROOT="$PWD"
+fi
+
+CONFIG="$REPO_ROOT/.claude/hooks-config/preferred-tools.json"
+
+# No config -> clean no-op.
+[ -f "$CONFIG" ] || exit 0
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "preferred-tool-reminder: jq not found, skipping (no-op)" >&2
+    exit 0
+fi
+
+if ! jq -e 'type == "array" and length > 0' "$CONFIG" >/dev/null 2>&1; then
+    exit 0
+fi
+
+RULE_COUNT=$(jq -r 'length' "$CONFIG" 2>/dev/null || echo 0)
+[ "$RULE_COUNT" -gt 0 ] 2>/dev/null || exit 0
+
+echo "Preferred-Tool Protocol (configured in .claude/hooks-config/preferred-tools.json):"
+
+i=0
+while [ "$i" -lt "$RULE_COUNT" ]; do
+    MATCHER=$(jq -r ".[$i].trigger_matcher // empty" "$CONFIG" 2>/dev/null)
+    HINT=$(jq -r ".[$i].hint_message // empty" "$CONFIG" 2>/dev/null)
+    PREFERRED=$(jq -r ".[$i].preferred_tools // [] | join(\", \")" "$CONFIG" 2>/dev/null)
+
+    NUM=$((i + 1))
+    if [ -n "$PREFERRED" ]; then
+        echo "  ${NUM}. Before using [${MATCHER:-any tool}]: prefer ${PREFERRED}."
+    else
+        echo "  ${NUM}. Trigger: [${MATCHER:-any tool}]"
+    fi
+    if [ -n "$HINT" ]; then
+        echo "     ${HINT}"
+    fi
+    i=$((i + 1))
+done
+
+exit 0

@@ -1,0 +1,207 @@
+#!/bin/bash
+# friction-diary-signal: config-driven status-diary summarizer for
+# SessionStart. Generalized from Sauron's diary-cognition-signal.
+#
+# Reads .claude/hooks-config/diaries.json (resolved relative to repo root),
+# a list of diary entries:
+# [
+#   {
+#     "path": "docs/reviews/FRICTION_DIARY.md",
+#     "status_field": "verdict",
+#     "values": ["CANDIDATE", "QUALIFYING", "BUILT", "DISQUALIFIED"],
+#     "headline_value": "BUILD_TRIGGER_MET",
+#     "id_regex": "^\\[20[0-9]{2}-[0-9]{2}-[0-9]{2}\\] GAP-[0-9]+",
+#     "label": "Friction Diary",
+#     "format": "markdown"
+#   },
+#   {
+#     "path": "docs/reviews/friction.jsonl",
+#     "status_field": "verdict",
+#     "values": ["open", "closed"],
+#     "label": "JSONL Friction Log",
+#     "format": "jsonl"
+#   }
+# ]
+#
+# For each configured diary that exists on disk:
+#   markdown mode: grep anchored "status_field:" lines, count per value,
+#     detect duplicate IDs via id_regex, extract N most recent dated
+#     entries, print a summary box.
+#   jsonl mode: parse each line as JSON, read status_field as a top-level
+#     JSON key, count per value, print a summary box.
+#
+# No-op cleanly if the config is absent. Skips (does not error) any diary
+# entry whose path doesn't exist or whose format is unrecognized.
+# Non-blocking: always exits 0.
+#
+# Dependency: jq (for config parsing, always; for jsonl-mode diaries, to
+# parse each line). If jq is missing entirely, this hook no-ops with a
+# one-line stderr note.
+
+set +e   # never fail the session
+
+RECENT_N=5
+
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -z "$REPO_ROOT" ]; then
+    REPO_ROOT="$PWD"
+fi
+
+CONFIG="$REPO_ROOT/.claude/hooks-config/diaries.json"
+
+# No config -> clean no-op.
+[ -f "$CONFIG" ] || exit 0
+
+if ! command -v jq >/dev/null 2>&1; then
+    echo "friction-diary-signal: jq not found, skipping (no-op)" >&2
+    exit 0
+fi
+
+if ! jq -e 'type == "array" and length > 0' "$CONFIG" >/dev/null 2>&1; then
+    exit 0
+fi
+
+DEFAULT_ID_REGEX='^\[20[0-9]{2}-[0-9]{2}-[0-9]{2}\] [A-Za-z0-9_-]+'
+
+DIARY_COUNT=$(jq -r 'length' "$CONFIG" 2>/dev/null || echo 0)
+
+# --- helpers -------------------------------------------------------------
+
+summarize_markdown() {
+    # args: path status_field values_json headline_value id_regex label
+    local path="$1" field="$2" values_json="$3" headline="$4" id_regex="$5" label="$6"
+
+    local anchor="^${field}: "
+
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "${label} (markdown: ${path})"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    if [ -n "$headline" ]; then
+        local headline_count
+        headline_count=$(grep -c "^${field}: ${headline}\$" "$path" 2>/dev/null)
+        headline_count=${headline_count:-0}
+        if [ "$headline_count" -gt 0 ] 2>/dev/null; then
+            echo "  [HEADLINE] ${field}=${headline}: ${headline_count} entr$([ "$headline_count" -eq 1 ] && echo y || echo ies)"
+        fi
+    fi
+
+    local summary_line="  Counts:"
+    local val_count
+    while IFS= read -r val; do
+        [ -n "$val" ] || continue
+        val_count=$(grep -c "^${field}: ${val}\$" "$path" 2>/dev/null)
+        val_count=${val_count:-0}
+        summary_line="${summary_line} ${val}=${val_count}"
+    done < <(printf '%s' "$values_json" | jq -r '.[]' 2>/dev/null)
+    echo "$summary_line"
+
+    # Duplicate ID detection
+    local eff_id_regex="${id_regex:-$DEFAULT_ID_REGEX}"
+    local dups
+    dups=$(grep -oE "$eff_id_regex" "$path" 2>/dev/null \
+        | grep -oE '[A-Za-z]+-[0-9]+' \
+        | sort | uniq -d | tr '\n' ' ')
+    if [ -n "${dups// /}" ]; then
+        echo "  [WARN] Duplicate IDs: ${dups}— resolve before appending new entries"
+    fi
+
+    # Most recent N dated entries
+    local recent
+    recent=$(grep -oE "$eff_id_regex" "$path" 2>/dev/null | sort | tail -"$RECENT_N")
+    if [ -n "$recent" ]; then
+        echo "  Most recent entries (oldest-of-the-recent first):"
+        while IFS= read -r line; do
+            [ -n "$line" ] || continue
+            echo "    $line"
+        done <<< "$recent"
+    fi
+
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
+
+summarize_jsonl() {
+    # args: path status_field values_json headline_value label
+    local path="$1" field="$2" values_json="$3" headline="$4" label="$5"
+
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "${label} (jsonl: ${path})"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # Extract the status_field value from each line, tolerating malformed
+    # JSON lines by skipping them (jq -R with try/catch-style '?').
+    local all_values
+    all_values=$(jq -R -r --arg f "$field" '
+        try (fromjson | .[$f] // empty) catch empty
+    ' "$path" 2>/dev/null)
+
+    if [ -n "$headline" ]; then
+        local headline_count
+        headline_count=$(printf '%s\n' "$all_values" | grep -cFx "$headline")
+        headline_count=${headline_count:-0}
+        if [ "$headline_count" -gt 0 ] 2>/dev/null; then
+            echo "  [HEADLINE] ${field}=${headline}: ${headline_count} entr$([ "$headline_count" -eq 1 ] && echo y || echo ies)"
+        fi
+    fi
+
+    local summary_line="  Counts:"
+    local val_count
+    while IFS= read -r val; do
+        [ -n "$val" ] || continue
+        val_count=$(printf '%s\n' "$all_values" | grep -cFx "$val")
+        val_count=${val_count:-0}
+        summary_line="${summary_line} ${val}=${val_count}"
+    done < <(printf '%s' "$values_json" | jq -r '.[]' 2>/dev/null)
+    echo "$summary_line"
+
+    local total_lines
+    total_lines=$(wc -l < "$path" 2>/dev/null | tr -d ' ')
+    echo "  Total lines parsed: ${total_lines:-0}"
+
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+}
+
+# --- main loop over configured diaries -----------------------------------
+
+i=0
+while [ "$i" -lt "$DIARY_COUNT" ]; do
+    ENTRY=$(jq -c ".[$i]" "$CONFIG" 2>/dev/null)
+    i=$((i + 1))
+    [ -n "$ENTRY" ] || continue
+
+    REL_PATH=$(printf '%s' "$ENTRY" | jq -r '.path // empty' 2>/dev/null)
+    [ -n "$REL_PATH" ] || continue
+
+    # Resolve path relative to repo root unless already absolute.
+    case "$REL_PATH" in
+        /*) DIARY_PATH="$REL_PATH" ;;
+        *)  DIARY_PATH="$REPO_ROOT/$REL_PATH" ;;
+    esac
+
+    # Skip (don't error) if this diary's path doesn't exist.
+    [ -f "$DIARY_PATH" ] || continue
+
+    FIELD=$(printf '%s' "$ENTRY" | jq -r '.status_field // "status"' 2>/dev/null)
+    VALUES_JSON=$(printf '%s' "$ENTRY" | jq -c '.values // []' 2>/dev/null)
+    HEADLINE=$(printf '%s' "$ENTRY" | jq -r '.headline_value // empty' 2>/dev/null)
+    ID_REGEX=$(printf '%s' "$ENTRY" | jq -r '.id_regex // empty' 2>/dev/null)
+    LABEL=$(printf '%s' "$ENTRY" | jq -r '.label // empty' 2>/dev/null)
+    FORMAT=$(printf '%s' "$ENTRY" | jq -r '.format // "markdown"' 2>/dev/null)
+
+    [ -n "$LABEL" ] || LABEL="Diary"
+
+    case "$FORMAT" in
+        markdown)
+            summarize_markdown "$DIARY_PATH" "$FIELD" "$VALUES_JSON" "$HEADLINE" "$ID_REGEX" "$LABEL"
+            ;;
+        jsonl)
+            summarize_jsonl "$DIARY_PATH" "$FIELD" "$VALUES_JSON" "$HEADLINE" "$LABEL"
+            ;;
+        *)
+            # Unrecognized format -> skip this diary, don't error the hook.
+            continue
+            ;;
+    esac
+done
+
+exit 0
