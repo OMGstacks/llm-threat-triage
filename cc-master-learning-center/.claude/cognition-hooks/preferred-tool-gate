@@ -1,0 +1,125 @@
+#!/bin/bash
+# preferred-tool-gate: generic PreToolUse gate that nudges Claude toward a
+# project's preferred tools (e.g. an MCP indexer) before it falls back to
+# raw text tools like Grep/Glob/Read.
+#
+# Generalized from Sauron's cbm-code-discovery-gate. Same mechanism:
+#   - Config-driven: reads .claude/hooks-config/preferred-tools.json
+#     (resolved relative to repo root; falls back to a no-op if absent).
+#   - PID-keyed sentinel file blocks exactly the FIRST matching tool call
+#     per session (exit 2 + stderr message), then allows every subsequent
+#     call silently (exit 0).
+#   - Self-cleans sentinel files older than 1 day on every invocation.
+#
+# No config = zero behavior change (always exit 0, no output).
+#
+# Config shape (list of rules):
+# [
+#   {
+#     "trigger_matcher": "Grep|Glob|Read",
+#     "preferred_tools": ["search_graph", "get_code_snippet"],
+#     "hint_message": "Use search_graph() first, then get_code_snippet()."
+#   }
+# ]
+#
+# Registered as a PreToolUse hook with a matcher covering the union of all
+# trigger_matcher regexes you configure (e.g. "Grep|Glob|Read"). This script
+# receives the tool name to check on stdin as Claude Code's PreToolUse JSON
+# payload (".tool_name"), or via the CLAUDE_TOOL_NAME env var if the harness
+# sets one; if neither is available it falls back to matching on all rules
+# (safe: at most one extra sentinel-gated block on the very first call).
+#
+# Dependency: jq. If jq is missing, this hook no-ops (fail-open) with a
+# one-line stderr note rather than erroring.
+
+set +e   # never let an internal error abort the session/tool call
+
+# --- resolve repo root -------------------------------------------------
+# Prefer git's own idea of the repo root; fall back to CWD if not a repo
+# (a non-repo project simply won't have the config file either, so this
+# degrades to the same no-op path).
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -z "$REPO_ROOT" ]; then
+    REPO_ROOT="$PWD"
+fi
+
+CONFIG="$REPO_ROOT/.claude/hooks-config/preferred-tools.json"
+
+# No config -> no-op, zero behavior change.
+[ -f "$CONFIG" ] || exit 0
+
+# jq is required to parse the config. If absent, fail open with a note.
+if ! command -v jq >/dev/null 2>&1; then
+    echo "preferred-tool-gate: jq not found, skipping (no-op)" >&2
+    exit 0
+fi
+
+# Config must be valid JSON and a non-empty array; otherwise no-op quietly.
+if ! jq -e 'type == "array" and length > 0' "$CONFIG" >/dev/null 2>&1; then
+    exit 0
+fi
+
+# --- determine which tool is about to run ------------------------------
+# Claude Code delivers the PreToolUse payload as JSON on stdin. Read it if
+# present; otherwise fall back to CLAUDE_TOOL_NAME env var if set.
+STDIN_PAYLOAD=""
+if [ ! -t 0 ]; then
+    STDIN_PAYLOAD=$(cat 2>/dev/null)
+fi
+
+TOOL_NAME=""
+if [ -n "$STDIN_PAYLOAD" ] && command -v jq >/dev/null 2>&1; then
+    TOOL_NAME=$(printf '%s' "$STDIN_PAYLOAD" | jq -r '.tool_name // .tool // empty' 2>/dev/null)
+fi
+if [ -z "$TOOL_NAME" ] && [ -n "$CLAUDE_TOOL_NAME" ]; then
+    TOOL_NAME="$CLAUDE_TOOL_NAME"
+fi
+
+# --- sentinel: PID-keyed, one block per session -------------------------
+# PPID = Claude Code process PID, unique per session (same convention as
+# the original cbm-code-discovery-gate).
+SENTINEL_DIR="${TMPDIR:-/tmp}"
+GATE="$SENTINEL_DIR/preferred-tool-gate-$PPID"
+
+# Self-clean sentinel files older than 1 day, every invocation.
+find "$SENTINEL_DIR" -maxdepth 1 -name 'preferred-tool-gate-*' -mtime +1 -delete 2>/dev/null
+
+if [ -f "$GATE" ]; then
+    exit 0
+fi
+
+# --- find the first matching rule for this tool -------------------------
+RULE_COUNT=$(jq -r 'length' "$CONFIG" 2>/dev/null || echo 0)
+MATCHED_HINT=""
+i=0
+while [ "$i" -lt "$RULE_COUNT" ]; do
+    MATCHER=$(jq -r ".[$i].trigger_matcher // empty" "$CONFIG" 2>/dev/null)
+    HINT=$(jq -r ".[$i].hint_message // empty" "$CONFIG" 2>/dev/null)
+    PREFERRED=$(jq -r ".[$i].preferred_tools // [] | join(\", \")" "$CONFIG" 2>/dev/null)
+
+    if [ -n "$MATCHER" ]; then
+        MATCH_INPUT="$TOOL_NAME"
+        # If we couldn't determine a tool name at all, be conservative and
+        # treat this as a match so the reminder still fires once per
+        # session rather than silently never firing.
+        if [ -z "$MATCH_INPUT" ]; then
+            MATCHED_HINT="$HINT"
+            [ -n "$PREFERRED" ] && MATCHED_HINT="$MATCHED_HINT Preferred tools: $PREFERRED."
+            break
+        fi
+        if printf '%s' "$MATCH_INPUT" | grep -qE "^($MATCHER)$"; then
+            MATCHED_HINT="$HINT"
+            [ -n "$PREFERRED" ] && MATCHED_HINT="$MATCHED_HINT Preferred tools: $PREFERRED."
+            break
+        fi
+    fi
+    i=$((i + 1))
+done
+
+# No rule matched this tool -> allow silently, do not consume the sentinel.
+[ -n "$MATCHED_HINT" ] || exit 0
+
+# First matching call this session -> block once, write sentinel, explain.
+touch "$GATE" 2>/dev/null
+echo "BLOCKED: $MATCHED_HINT" >&2
+exit 2
