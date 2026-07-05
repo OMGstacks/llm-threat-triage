@@ -5,7 +5,7 @@
     python -m cc_spine.cli check-ip            # IP-boundary support-span guard
     python -m cc_spine.cli ingest --source t.txt --source-doc-id demo [--out note.md]
     python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
-    python -m cc_spine.cli quiz [validate|export-learner|validate-holdout]  # PR-8 quiz engine
+    python -m cc_spine.cli quiz [validate|export-learner|validate-holdout|render]  # PR-8/10.3 quiz
     python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
     python -m cc_spine.cli mock [assemble|validate|render] --draw-key K      # PR-10 mock assembler
 
@@ -22,7 +22,7 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import ipboundary, learner_state, mock_exam, quiz, registry, scaffold_validate, sources
+from . import ipboundary, learner_state, mock_exam, presentation, quiz, registry, scaffold_validate, sources
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -109,6 +109,19 @@ def cmd_quiz(args) -> int:
         # The ONLY learner-facing representation. Reads the PRACTICE goldset only —
         # never the holdout lane. CI scans this output for answer-bearing fields.
         print(json.dumps([quiz.learner_view(it) for it in items], indent=2))
+        return 0
+
+    if args.action == "render":
+        # PR-10.3: a per-ATTEMPT presented quiz — choices shuffled by (attempt_seed, item_id),
+        # canonical goldset untouched. Learner-safe (no answers); CI scans this output too.
+        # The seed is REQUIRED and must be fresh per attempt (review F2): a fixed default would
+        # reproduce the same order every attempt and defeat the anti-memorization intent.
+        if not args.attempt_seed:
+            print("FAIL quiz render requires --attempt-seed (a fresh per-attempt value); "
+                  "reusing a seed reproduces the same choice order", file=sys.stderr)
+            return 2
+        subset = [it for it in items if it["id"] == args.item_id] if args.item_id else items
+        print(json.dumps(presentation.render_quiz(subset, args.attempt_seed), indent=2))
         return 0
 
     if args.action == "validate-holdout":
@@ -253,10 +266,15 @@ def build_parser() -> argparse.ArgumentParser:
         "quiz",
         help="quiz-engine gate (PR-8a): validate gold items + answer-key isolation")
     p_quiz.add_argument("action", nargs="?", default="validate",
-                        choices=["validate", "export-learner", "validate-holdout"])
+                        choices=["validate", "export-learner", "validate-holdout", "render"])
     p_quiz.add_argument("--goldset", default=None, help="override goldset path (testing)")
     p_quiz.add_argument("--answer-keys", default=None, help="override answer-key store path (testing)")
     p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")
+    p_quiz.add_argument("--attempt-seed", default=None,
+                        help="PR-10.3 render: REQUIRED per-attempt seed for the choice shuffle. "
+                             "Supply a fresh, distinct value per attempt (a counter/uuid) — reusing "
+                             "one reproduces the same order and defeats the anti-memorization intent")
+    p_quiz.add_argument("--item-id", default=None, help="PR-10.3 render: render a single item")
     p_quiz.set_defaults(func=cmd_quiz)
 
     p_mock = sub.add_parser("mock",

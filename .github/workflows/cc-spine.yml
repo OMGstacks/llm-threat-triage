@@ -46,6 +46,13 @@ jobs:
             echo "FAIL: learner export contains an answer-bearing field"; exit 1
           fi
           echo "OK: learner export carries no answer-bearing field"
+      - name: Presented-quiz leakage scan (PR-10.3: shuffled render carries no answer/order secret)
+        run: |
+          python -m cc_spine.cli quiz render --attempt-seed ci-attempt > "$RUNNER_TEMP/render.json"
+          if grep -qE '"(correct_index|correct|answer|answer_key_ref|answer_key_hash|item_hash|rationale_refs|rationales|distractor_misconceptions|fact_ids|expected_keywords|source_policy|status|holdout|misconception_tags|choice_order)"[[:space:]]*:' "$RUNNER_TEMP/render.json"; then
+            echo "FAIL: presented quiz contains an answer-bearing field"; exit 1
+          fi
+          echo "OK: presented (shuffled) quiz carries no answer-bearing field"
       - name: Learner-state demo (PR-9: replay a synthetic stream; writes no learner data)
         run: python -m cc_spine.cli learner replay --attempts tests/fixtures/synthetic_attempt_stream.json --now 5
       - name: Mock-exam assembler gate (PR-10: policy-conformant draw; scenarios holdout-only)

@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate mock-render ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -33,6 +33,12 @@ quiz-export-scan:
 	! grep -qE '"(correct_index|correct|answer|answer_key_ref|answer_key_hash|item_hash|rationale_refs|rationales|distractor_misconceptions|fact_ids|expected_keywords|source_policy|status|holdout|misconception_tags)"[[:space:]]*:' /tmp/cc_learner_export.json
 	@echo "OK   learner export carries no answer-bearing field"
 
+# PR-10.3 render scan: the per-attempt shuffled quiz must also carry no answer/order secret.
+quiz-render-scan:
+	python3 -m cc_spine.cli quiz render --attempt-seed ci-attempt > /tmp/cc_render.json
+	! grep -qE '"(correct_index|correct|answer|answer_key_ref|answer_key_hash|item_hash|rationale_refs|rationales|distractor_misconceptions|fact_ids|expected_keywords|source_policy|status|holdout|misconception_tags|choice_order)"[[:space:]]*:' /tmp/cc_render.json
+	@echo "OK   presented (shuffled) quiz carries no answer-bearing field"
+
 # PR-9 learner-state demo: replay the synthetic attempt stream (no learner data written).
 learner-demo:
 	python3 -m cc_spine.cli learner replay --attempts tests/fixtures/synthetic_attempt_stream.json --now 5
@@ -62,4 +68,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate mock-render test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render test ingest-check

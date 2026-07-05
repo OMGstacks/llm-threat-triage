@@ -125,6 +125,19 @@ receipt carries no stems/choices/answers. CLI ``mock render`` prints the receipt
 when burn is required; a ``mock-render`` CI gate scans its output for content and answer-bearing
 fields. Independent review (accept-with-fixes) drove this scoping down from an overstated
 "enforced/no code path" claim (review F1) plus test/gate strengthening (F2-F5).
+PR-10.3 adds render-time answer-choice shuffling (``presentation``) so a repeated item isn't
+memorisable by letter — provided the caller supplies a fresh per-attempt seed (the contract is
+load-bearing; ``quiz render`` requires ``--attempt-seed``, no default). The canonical goldset/holdout
+never change; presentation order is a pure function of ``(attempt_seed, item_id)`` via SHA-256 rank
+(no random, no clock), so the grader RECOMPUTES the order to map a displayed choice back to its
+canonical index — no choice-order secret is stored or shown. ``render_item``/``render_quiz`` reuse the
+learner-view allowlist (choices only reordered, ``presentation_id`` + ``choice_count`` added, no
+answer field); ``grade_presented`` maps displayed→canonical, rejects a non-int/bool/out-of-range
+index, and fails closed on an ``expected_presentation_id`` mismatch (a render/grade seed mix-up);
+``item_hash``/``answer_key_hash`` still pin the canonical item. A ``quiz-render-scan`` CI gate scans
+the shuffled render for answer/order fields; holdout items use the same machinery. Independent review
+(accept-with-fixes) hardened the bool guard, the required seed, the anti-memorization gate, and the
+presentation_id integrity check before commit (F1-F5).
 """
 
-__version__ = "0.8.2"
+__version__ = "0.8.3"

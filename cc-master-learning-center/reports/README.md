@@ -42,3 +42,5 @@ slice starts. At minimum:
 | [`pr10-mock-assembler-review.json`](pr10-mock-assembler-review.json) | PR-10 | engine review — self-audit (1 fix) + independent review (F1 confirmed, F2 major burn-on-exposure fixed in follow-up) |
 | [`pr10-2-exposure-receipt.md`](pr10-2-exposure-receipt.md) | PR-10.2 | mock exposure receipt + `render_mock` coupling; burn-on-exposure made operational before the dashboard |
 | [`pr10-2-exposure-receipt-review.json`](pr10-2-exposure-receipt-review.json) | PR-10.2 | independent review accept-with-fixes; F1 (major, overstated enforcement) + F2–F5 all fixed before commit |
+| [`pr10-3-presentation-randomization.md`](pr10-3-presentation-randomization.md) | PR-10.3 | render-time choice shuffling (deterministic recomputation); canonical items stable; grader maps displayed→canonical |
+| [`pr10-3-presentation-randomization-review.json`](pr10-3-presentation-randomization-review.json) | PR-10.3 | independent review accept-with-fixes; F1–F5 (bool guard, required seed, stronger anti-memo gate, precondition, pid integrity check) all fixed before commit |
