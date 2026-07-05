@@ -1,1 +1,212 @@
-[]
+[
+  {
+    "schema_version": 1,
+    "fact_id": "global.exam-duration",
+    "scope": "global",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "The CC exam is 2 hours (120 minutes) long.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "2 hours (120 minutes)",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "exam-duration"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.exam-item-count",
+    "scope": "global",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "The CC exam contains 100–125 items.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "100–125",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "exam-item-count"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.exam-passing-score",
+    "scope": "global",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "A passing CC result is 700 out of 1000 (scaled).",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "700 out of 1000 (scaled)",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "exam-passing-score"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.exam-delivery",
+    "scope": "global",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "The CC exam is delivered as CAT (computerized adaptive testing), which adapts item difficulty to the candidate's responses.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "CAT (computerized adaptive testing)",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "exam-delivery"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.exam-item-formats",
+    "scope": "global",
+    "claim_type": "concept",
+    "status": "active",
+    "claim": "CC items are multiple-choice and advanced innovative items.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "Multiple-choice and advanced innovative items",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "exam-item-formats"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.outline-current",
+    "scope": "global",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "The current CC exam outline took effect 2025-10-01.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "2025-10-01",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "outline-current"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  },
+  {
+    "schema_version": 1,
+    "fact_id": "global.outline-next",
+    "scope": "global",
+    "claim_type": "numeric_fact",
+    "status": "active",
+    "claim": "The next CC exam outline takes effect 2026-09-01.",
+    "source": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+    "source_id": "isc2.cc-outline.2025-10",
+    "source_tier": 0,
+    "source_fingerprint": "sha256:9832d2b7a881343e02073defcff817e1f658d52cca571270368fc4a07e4b2c1a",
+    "support": "2026-09-01",
+    "tags": {
+      "domain": [],
+      "objective": [
+        "global.exam-strategy"
+      ],
+      "topic": [
+        "outline-next"
+      ]
+    },
+    "learner_visible": true,
+    "answer_key_sensitive": false,
+    "allowed_banks": [
+      "definition_recall",
+      "exam_strategy"
+    ],
+    "reviewed_by": "cc-learning:initial",
+    "outline_version": "2025-10"
+  }
+]

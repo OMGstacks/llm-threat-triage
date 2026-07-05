@@ -969,6 +969,126 @@
       },
       "answer_key_hash": "sha256:6bf341c49851b8676cf3805299c1cb6d3aabf09595b72dbb1c704766720f0f38",
       "item_hash": "sha256:a0ea2e6424012989c0d49e6f3d38c0adc2507691614be2d2e4c7a941beb595b5"
+    },
+    {
+      "answer_key_ref": "global.0.0.strategy.0001.key",
+      "item_id": "global.0.0.strategy.0001",
+      "correct_index": 0,
+      "rationale_refs": [
+        "global.exam-duration"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:37beda3481c6d35882b8b59bc115621d1eefbc0cdf00ea7b3a645468cd603f85",
+      "item_hash": "sha256:636066ae392d6fd4c95168ac221eebd1a11513d540701aa3f46fab1326d9bdb0"
+    },
+    {
+      "answer_key_ref": "global.0.0.strategy.0002.key",
+      "item_id": "global.0.0.strategy.0002",
+      "correct_index": 1,
+      "rationale_refs": [
+        "global.exam-passing-score"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:3816df8d01733cf595e24094260b125a074e812dff65c986be13c72d219cadb1",
+      "item_hash": "sha256:a0996a472224a2ef30a47535ddfa6c69494fe3681c87fee94732fc548398b6af"
+    },
+    {
+      "answer_key_ref": "global.0.0.strategy.0003.key",
+      "item_id": "global.0.0.strategy.0003",
+      "correct_index": 2,
+      "rationale_refs": [
+        "global.exam-item-count"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:f9cef0aaf0dafe49e5654e49ca5a60ce9c319ba21cee37ed8f61180adbacda86",
+      "item_hash": "sha256:046c7a1fffc2c748b4e9828fa33413d62375412d355d4e8cfb10dd47bf23bdf5"
+    },
+    {
+      "answer_key_ref": "global.0.0.strategy.0004.key",
+      "item_id": "global.0.0.strategy.0004",
+      "correct_index": 3,
+      "rationale_refs": [
+        "global.exam-delivery"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:515f65acc897a608a86350d9ae458690f70e29fac9301d05a943370ba2a06ceb",
+      "item_hash": "sha256:35a20714ae2cd098c57f8e8ac9b96bdf74af3de1026fc41a78dbcc7c1ae8133e"
+    },
+    {
+      "answer_key_ref": "global.0.0.strategy.0005.key",
+      "item_id": "global.0.0.strategy.0005",
+      "correct_index": 0,
+      "rationale_refs": [
+        "global.exam-item-formats"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "exam-logistics-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:7a7a9fb3f36c237a5ec96ad14b86e2528220b61aefc3f0cad877e9c9cf171c2e",
+      "item_hash": "sha256:83a54f4265bffe50f29270413ce25e2d6e59f9e03162407b1fdda19055debe7c"
     }
   ]
 }

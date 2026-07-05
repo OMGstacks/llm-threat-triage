@@ -339,6 +339,14 @@
       "category": "crypto_property_confusion",
       "objective": "5.1",
       "origin": "pr8c holdout authoring"
+    },
+    {
+      "id": "exam-logistics-confusion",
+      "misconception": "Misremembering CC exam logistics (duration, item count, passing score, delivery, or item formats).",
+      "correct": "The CC exam: 2 hours, 100–125 items, pass at 700/1000 scaled, CAT delivery, multiple-choice plus advanced innovative items.",
+      "category": "definition_confusion",
+      "objective": "global.exam-strategy",
+      "origin": "pr8d exam_strategy authoring"
     }
   ]
 }

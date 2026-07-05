@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "description": "Machine-readable PR-8d exam_strategy review (companion to pr8d-exam-strategy.md).",
+  "method": "one independent adversarial reviewer verifying exam-logistics facts; completed before commit per governance spec section 16.0",
+  "summary": {
+    "cards": 7,
+    "items": 5,
+    "factual_errors": 0,
+    "multiple_correct_blockers": 0,
+    "findings": 0
+  },
+  "cards_reviewed": [
+    "global.exam-delivery",
+    "global.exam-duration",
+    "global.exam-item-count",
+    "global.exam-item-formats",
+    "global.exam-passing-score",
+    "global.outline-current",
+    "global.outline-next"
+  ],
+  "items_reviewed": [
+    {
+      "item_id": "global.0.0.strategy.0001",
+      "review_status": "clean",
+      "findings": []
+    },
+    {
+      "item_id": "global.0.0.strategy.0002",
+      "review_status": "clean",
+      "findings": []
+    },
+    {
+      "item_id": "global.0.0.strategy.0003",
+      "review_status": "clean",
+      "findings": []
+    },
+    {
+      "item_id": "global.0.0.strategy.0004",
+      "review_status": "clean",
+      "findings": []
+    },
+    {
+      "item_id": "global.0.0.strategy.0005",
+      "review_status": "clean",
+      "findings": []
+    }
+  ]
+}

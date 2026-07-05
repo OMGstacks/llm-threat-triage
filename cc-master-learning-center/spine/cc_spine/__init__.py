@@ -80,6 +80,11 @@ enforces the same item gates plus lane partition and a no-leak-into-practice che
 holdout stem, verbatim or near-duplicate, reaches the learner export). Ships 8 unseen
 holdout items on concepts distinct from the 40 practice items; all tracked guards are now
 active. Evidence in reports/pr8c-*.
+PR-8d fills the last empty learner-facing bank (exam_strategy): 7 global exam-logistics
+fact cards in _global.json (scope global, grounded on the blueprint #exam-facts anchor via
+a new global.exam-strategy matrix extension) and 5 exam_strategy practice items. The gold
+set is now 45 items across all four banks; the fact store holds 156 cards. Independent
+review before commit: 0 findings. Evidence in reports/pr8d-*.
 """
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"

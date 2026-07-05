@@ -1,6 +1,6 @@
 {
-  "version": "0.4.0",
-  "note": "PR-8b gold set: 40 non-holdout items across D1-D5 (three core banks 18/14/8). AUTHORING/VALIDATION SOURCE - not the learner export; the only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions varied per-objective (anti-pattern-learning). No exam_strategy items yet (deferred to PR-8d); no holdout items (deferred to PR-8c).",
+  "version": "0.6.0",
+  "note": "PR-8b gold set: 40 non-holdout items across D1-D5 (three core banks 18/14/8). AUTHORING/VALIDATION SOURCE - not the learner export; the only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions varied per-objective (anti-pattern-learning). no holdout items (deferred to PR-8c).",
   "items": [
     {
       "id": "D1.1.1.definition.0001",
@@ -1129,6 +1129,146 @@
       "source_policy": "factstore|required",
       "misconception_tags": [
         "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "global.0.0.strategy.0001",
+      "bank": "exam_strategy",
+      "domain": "global",
+      "objective": "global.exam-strategy",
+      "topic": "exam duration",
+      "stem": "How long is the ISC2 CC certification exam?",
+      "choices": [
+        "2 hours (120 minutes)",
+        "3 hours (180 minutes)",
+        "90 minutes total",
+        "4 hours (240 minutes)"
+      ],
+      "answer_key_ref": "global.0.0.strategy.0001.key",
+      "fact_ids": [
+        "global.exam-duration"
+      ],
+      "expected_keywords": [
+        "2 hours"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "global.0.0.strategy.0002",
+      "bank": "exam_strategy",
+      "domain": "global",
+      "objective": "global.exam-strategy",
+      "topic": "passing score",
+      "stem": "What scaled score is required to pass the CC exam?",
+      "choices": [
+        "600 out of 1000",
+        "700 out of 1000",
+        "800 out of 1000",
+        "70% of 1000 raw points"
+      ],
+      "answer_key_ref": "global.0.0.strategy.0002.key",
+      "fact_ids": [
+        "global.exam-passing-score"
+      ],
+      "expected_keywords": [
+        "700 out of 1000"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "global.0.0.strategy.0003",
+      "bank": "exam_strategy",
+      "domain": "global",
+      "objective": "global.exam-strategy",
+      "topic": "item count",
+      "stem": "How many items does the CC exam contain?",
+      "choices": [
+        "50–75 items",
+        "150–200 items",
+        "100–125 items",
+        "exactly 100 items each time"
+      ],
+      "answer_key_ref": "global.0.0.strategy.0003.key",
+      "fact_ids": [
+        "global.exam-item-count"
+      ],
+      "expected_keywords": [
+        "100–125"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "global.0.0.strategy.0004",
+      "bank": "exam_strategy",
+      "domain": "global",
+      "objective": "global.exam-strategy",
+      "topic": "delivery",
+      "stem": "How is the CC exam delivered to candidates?",
+      "choices": [
+        "As a proctored fixed-form paper-and-pencil examination",
+        "As an open-book take-home online assessment",
+        "As a live oral examination before a panel",
+        "As a computerized adaptive test (CAT)"
+      ],
+      "answer_key_ref": "global.0.0.strategy.0004.key",
+      "fact_ids": [
+        "global.exam-delivery"
+      ],
+      "expected_keywords": [
+        "computerized adaptive testing"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "global.0.0.strategy.0005",
+      "bank": "exam_strategy",
+      "domain": "global",
+      "objective": "global.exam-strategy",
+      "topic": "item formats",
+      "stem": "Which item formats appear on the CC exam?",
+      "choices": [
+        "Multiple-choice and advanced innovative items",
+        "Essay questions and long-form written responses only",
+        "Hands-on lab simulations exclusively for every item",
+        "Spoken interview questions scored by a proctor"
+      ],
+      "answer_key_ref": "global.0.0.strategy.0005.key",
+      "fact_ids": [
+        "global.exam-item-formats"
+      ],
+      "expected_keywords": [
+        "advanced innovative items"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
       ]
     }
   ]

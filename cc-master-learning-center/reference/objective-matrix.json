@@ -657,6 +657,26 @@
         "AI data leakage",
         "AI governance and risk"
       ]
+    },
+    {
+      "id": "global.exam-strategy",
+      "status": "official-current-integrated",
+      "source_id": "isc2.cc-outline.2025-10",
+      "source_ref": "cc-master-learning-center/reference/cc-exam-blueprint.md#exam-facts",
+      "applies_to": [],
+      "volatility": "stable",
+      "coverage_status": "seeded",
+      "verification_status": "needs_official_source_review",
+      "confidence": "high",
+      "topics": [
+        "exam logistics",
+        "CAT delivery",
+        "item count",
+        "duration",
+        "passing score",
+        "item formats",
+        "outline dates"
+      ]
     }
   ]
 }

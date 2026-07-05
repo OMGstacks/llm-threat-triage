@@ -32,3 +32,5 @@ slice starts. At minimum:
 | [`pr8b-adversarial-item-review.json`](pr8b-adversarial-item-review.json) | PR-8b | machine-readable per-item review outcome (companion to the .md) |
 | [`pr8c-holdout-lane.md`](pr8c-holdout-lane.md) | PR-8c | 8 holdout items in a physically separate lane; holdout_leakage_guard active |
 | [`pr8c-holdout-adversarial-review.json`](pr8c-holdout-adversarial-review.json) | PR-8c | holdout review outcome — 0 findings |
+| [`pr8d-exam-strategy.md`](pr8d-exam-strategy.md) | PR-8d | fills the exam_strategy bank: 7 global cards + 5 items; all 4 banks live |
+| [`pr8d-exam-strategy-review.json`](pr8d-exam-strategy-review.json) | PR-8d | exam-strategy review outcome — 0 findings |
