@@ -1,13 +1,14 @@
 {
   "schema_version": "1.0.0",
   "description": "PR-9 learner-state engine logic review (companion to pr9-learner-state.md).",
-  "method": "adversarial audit of cc_spine/learner_state.py against four invariants (determinism, fail-closed holdout rejection, no content leak, scheduling/closure/confidence correctness), backed by 15 executable tests in test_learner_state.py that encode each invariant.",
-  "invariants_checked": [
-    {"invariant": "determinism", "result": "pass", "note": "attempts sorted (submitted_at,item_id); per_domain sorted; fully-keyed review_queue sort; no wall clock or random; order-independence proven by test"},
-    {"invariant": "holdout_fail_closed", "result": "pass", "note": "raises before any state mutation on holdout and unknown ids; missing holdout file still rejects via the unknown-item path"},
-    {"invariant": "no_content_leak", "result": "pass", "note": "state stores selected_index + misconception_id + registry teaching text; no stem, full choice text, or answer key"},
-    {"invariant": "scheduling_closure_confidence", "result": "pass", "note": "Leitner promote/demote, due math, closure-after-2, and confidence rules verified; dividers guarded (c/n if n; empty-missed -> 1.0); empty stream yields a valid empty state"}
+  "method": "adversarial audit of cc_spine/learner_state.py by (a) an operator self-review, then (b) an INDEPENDENT agent reviewer (author != reviewer) that ran the engine end-to-end and cross-referenced the quiz/holdout/registry stores.",
+  "process_note": "The independent review completed AFTER the initial PR-9 commit (8a49deb) — a repeat of the PR-7 commit-before-review gap. Its four minor findings were fixed in PR-9.1; no blockers or majors. Lesson reinforced: wait for the independent review before committing.",
+  "findings": [
+    {"id": "F1", "severity": "minor", "location": "replay sort key", "problem": "non-total sort key let same-item/same-time attempts depend on input order (determinism hole)", "fix": "total content-derived _attempt_sort_key", "status": "fixed"},
+    {"id": "F2", "severity": "minor", "location": "replay grade handling", "problem": "graded['graded'] unchecked — an ungradable attempt was silently scored wrong instead of failing closed", "fix": "raise LearnerStateError when graded['graded'] is false", "status": "fixed"},
+    {"id": "F3", "severity": "minor", "location": "misconception attribution", "problem": "journal recorded the first distractor's misconception, not the selected choice's (latent: all items currently single-misconception)", "fix": "use the selected distractor's misconception from quiz.grade; progress all item misconceptions on a correct answer", "status": "fixed"},
+    {"id": "F4", "severity": "minor", "location": "holdout rejection", "problem": "rejection relied only on holdout.json membership; a holdout-flagged item leaked into practice would pass", "fix": "also raise when the resolved item's holdout flag is true (defense in depth)", "status": "fixed"}
   ],
-  "findings": [],
-  "note": "An independent agent review was also dispatched; this operator audit plus the test suite is the committed record."
+  "verified_invariants": ["determinism (post-fix)", "holdout fail-closed (post-fix, dual check)", "no content leak", "Leitner/closure/confidence correctness", "division-by-zero guarded"],
+  "regression_tests_added": ["test_same_item_same_time_is_order_independent", "test_ungradable_attempt_raises", "test_journal_records_the_selected_misconception", "test_holdout_flagged_item_in_practice_is_rejected"]
 }

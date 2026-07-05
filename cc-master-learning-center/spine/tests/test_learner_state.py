@@ -167,6 +167,52 @@ class ReadinessExclusionTest(unittest.TestCase):
         self.assertIsInstance(state["readiness"]["wrong_answer_closure_rate"], float)
 
 
+class HardeningTest(unittest.TestCase):
+    """PR-9.1: fixes from the independent engine review."""
+
+    def _item_key(self, iid="D1.1.1.definition.0001", ref=None, mids=("m1", "m2", "m3")):
+        ref = ref or (iid + ".key")
+        item = {"id": iid, "bank": "definition_recall", "domain": "D1", "objective": "1.1",
+                "choices": ["a", "b", "c", "d"], "answer_key_ref": ref, "holdout": False}
+        key = {"answer_key_ref": ref, "item_id": iid, "correct_index": 0,
+               "distractor_misconceptions": {
+                   str(i + 1): {"misconception_id": m, "category": "definition_confusion"}
+                   for i, m in enumerate(mids)}}
+        return item, key
+
+    def test_same_item_same_time_is_order_independent(self):
+        # Two attempts on the same item at the same time unit, different selections.
+        item, key = self._item_key()
+        reg = {"m1": {"misconception": "x", "correct": "y"}, "m2": {"misconception": "x", "correct": "y"}}
+        a = [{"item_id": item["id"], "selected_index": 1, "submitted_at": 0},
+             {"item_id": item["id"], "selected_index": 2, "submitted_at": 0}]
+        s1 = ls.replay(a, now=0, practice=[item], keys=[key], registry=reg, holdout_ids=set())
+        s2 = ls.replay(list(reversed(a)), now=0, practice=[item], keys=[key], registry=reg, holdout_ids=set())
+        self.assertEqual(json.dumps(s1, sort_keys=True), json.dumps(s2, sort_keys=True))
+
+    def test_ungradable_attempt_raises(self):
+        item, key = self._item_key(ref="A.key")
+        key["answer_key_ref"] = "B.key"  # mismatch → grade cannot resolve
+        with self.assertRaises(ls.LearnerStateError):
+            ls.replay([{"item_id": item["id"], "selected_index": 1, "submitted_at": 0}],
+                      now=0, practice=[item], keys=[key], registry={}, holdout_ids=set())
+
+    def test_journal_records_the_selected_misconception(self):
+        item, key = self._item_key(mids=("m1", "m2", "m3"))
+        reg = {m: {"misconception": f"trap-{m}", "correct": f"fix-{m}"} for m in ("m1", "m2", "m3")}
+        # select index 2 → the misconception of the SECOND distractor (m2)
+        state = ls.replay([{"item_id": item["id"], "selected_index": 2, "submitted_at": 0}],
+                          now=0, practice=[item], keys=[key], registry=reg, holdout_ids=set())
+        self.assertEqual(state["journal"][0]["misconception_id"], "m2")
+
+    def test_holdout_flagged_item_in_practice_is_rejected(self):
+        item, key = self._item_key()
+        item["holdout"] = True  # leaked into the practice lane
+        with self.assertRaises(ls.LearnerStateError):
+            ls.replay([{"item_id": item["id"], "selected_index": 0, "submitted_at": 0}],
+                      now=0, practice=[item], keys=[key], registry={}, holdout_ids=set())
+
+
 class SchemaShapeTest(unittest.TestCase):
     def test_state_and_attempt_schemas_are_anonymous(self):
         from cc_spine import scaffold_validate

@@ -46,11 +46,28 @@ def _practice_index(practice=None, keys=None):
     return {it["id"]: (it, key_by_id.get(it["id"])) for it in practice}
 
 
-def _item_misconception(key) -> str | None:
-    """The single misconception an item's distractors target (all wrong choices share it)."""
+def _item_misconceptions(key) -> list:
+    """The distinct misconceptions an item's distractors target, in choice order."""
+    seen, out = set(), []
     for entry in (key.get("distractor_misconceptions") or {}).values():
-        return entry.get("misconception_id")
-    return None
+        mid = entry.get("misconception_id")
+        if mid and mid not in seen:
+            seen.add(mid)
+            out.append(mid)
+    return out
+
+
+def _attempt_sort_key(a: dict):
+    """A TOTAL ordering key over an attempt's content, so replay output is a pure function of
+    the attempt SET (not the input-list order) even when two attempts share item + time."""
+    return (
+        a.get("submitted_at", 0),
+        a.get("item_id", ""),
+        a.get("selected_index", -1),
+        a.get("confidence_before_submit", -1),
+        1 if a.get("marked_uncertain") else 0,
+        a.get("time_seconds", -1),
+    )
 
 
 def _one_sentence_rule(correction: str) -> str:
@@ -73,8 +90,10 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
     misconceptions: dict = {}
     domain_stats: dict = {}   # domain -> [correct, total], excluding exam_strategy
 
-    # Deterministic order: by (submitted_at, item_id) — same set → same state, any file order.
-    ordered = sorted(attempts, key=lambda a: (a.get("submitted_at", 0), a.get("item_id", "")))
+    # Deterministic order: a TOTAL key over the attempt's content, so the output is a pure
+    # function of the attempt SET — two attempts on the same item at the same time no longer
+    # depend on input-list order (PR-9.1 fix).
+    ordered = sorted(attempts, key=_attempt_sort_key)
 
     for a in ordered:
         iid = a.get("item_id")
@@ -86,9 +105,17 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
         item, key = index[iid]
         if key is None:
             raise LearnerStateError(f"attempt for {iid!r} has no grader key")
+        # Defense-in-depth: a holdout-flagged item that leaked into the practice lane is
+        # rejected even if it is absent from holdout.json (PR-9.1 fix).
+        if item.get("holdout"):
+            raise LearnerStateError(f"attempt for {iid!r} is flagged holdout — rejected from learner state")
 
         sel = a.get("selected_index")
         graded = quiz.grade(item, [key], sel)
+        # Fail closed on an ungradable attempt (e.g. answer_key_ref drift) rather than
+        # silently recording it as a miss (PR-9.1 fix).
+        if not graded.get("graded"):
+            raise LearnerStateError(f"attempt for {iid!r} could not be graded (grader key unresolved)")
         correct = bool(graded.get("correct"))
         conf = a.get("confidence_before_submit")
         unsure = bool(a.get("marked_uncertain")) or (isinstance(conf, int) and conf <= LOW_CONFIDENCE)
@@ -113,16 +140,33 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
                 st["priority"] = True
         st["due"] = t + BOX_INTERVAL[st["box"]]
 
-        mid = _item_misconception(key)
-        if mid:
-            mc = misconceptions.setdefault(mid, {"seen": 0, "missed": 0, "correct_streak": 0, "closed": False})
-            mc["seen"] += 1
-            if correct:
+        def _mc(mid):
+            return misconceptions.setdefault(mid, {"seen": 0, "missed": 0, "correct_streak": 0, "closed": False})
+
+        def _close_check(mc):
+            mc["closed"] = mc["missed"] > 0 and mc["correct_streak"] >= CLOSED_AFTER_CORRECT_STREAK
+
+        if correct:
+            # A correct answer avoids every trap the item's distractors set — progress each.
+            for mid in _item_misconceptions(key):
+                mc = _mc(mid)
+                mc["seen"] += 1
                 mc["correct_streak"] += 1
-            else:
+                _close_check(mc)
+        else:
+            # The learner demonstrated the misconception of the choice they ACTUALLY selected
+            # (not merely the first distractor) (PR-9.1 fix).
+            sel_entry = graded.get("misconception")
+            missed_mid = (sel_entry or {}).get("misconception_id") if isinstance(sel_entry, dict) else None
+            if missed_mid is None:
+                item_mids = _item_misconceptions(key)
+                missed_mid = item_mids[0] if item_mids else None
+            if missed_mid:
+                mc = _mc(missed_mid)
+                mc["seen"] += 1
                 mc["missed"] += 1
                 mc["correct_streak"] = 0
-            mc["closed"] = mc["missed"] > 0 and mc["correct_streak"] >= CLOSED_AFTER_CORRECT_STREAK
+                _close_check(mc)
 
         # readiness accuracy excludes the exam_strategy bank (excluded_from_readiness).
         if item.get("bank") != "exam_strategy":
@@ -133,16 +177,16 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
                 ds[0] += 1
 
         # wrong answers become journal entries (with the registry correction, not the stem).
-        if not correct and mid:
-            reg = registry.get(mid, {})
+        if not correct and missed_mid:
+            reg = registry.get(missed_mid, {})
             correction = reg.get("correct", "")
             journal.append({
                 "item_id": iid, "objective": item.get("objective"), "bank": item.get("bank"),
-                "selected_index": sel, "misconception_id": mid,
+                "selected_index": sel, "misconception_id": missed_mid,
                 "trap": reg.get("misconception", ""), "correction": correction,
                 "one_sentence_rule": _one_sentence_rule(correction),
                 "recorded_at": t,
-                "closed": bool(misconceptions.get(mid, {}).get("closed")),
+                "closed": bool(misconceptions.get(missed_mid, {}).get("closed")),
             })
 
     # Reconcile each journal entry's closed flag to the FINAL misconception status (a miss

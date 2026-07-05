@@ -93,6 +93,11 @@ fails the build on any committed state file and rejects PII field names in the t
 schemas (learner-attempt, learner-state), and the engine rejects holdout attempts fail-closed.
 Deterministic (injected time, no wall clock). CLI ``learner replay`` demos it. Evidence in
 reports/pr9-*.
+PR-9.1 applies the independent engine review's four minor fixes: a total attempt sort key
+(determinism for same-item/same-time attempts), fail-closed on an ungradable attempt, the
+journal records the SELECTED distractor's misconception (not the first), and holdout rejection
+also checks the resolved item's holdout flag. Four regression tests added. The review had
+completed after the initial commit — the PR-7 commit-before-review lesson reinforced.
 """
 
-__version__ = "0.7.0"
+__version__ = "0.7.1"

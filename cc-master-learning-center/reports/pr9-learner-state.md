@@ -50,10 +50,15 @@ The committed synthetic stream misses the *hashing-is-encryption* trap once (hig
 recovers it with two correct answers (→ closed), logs an open *udp-reliable* miss, tracks a
 correct-but-unsure item without promoting it, and excludes an exam-strategy attempt from readiness.
 
-## 5. Adversarial review (before commit, §16.0)
+## 5. Adversarial review
 
-An independent code reviewer audited the engine for nondeterminism, holdout-rejection gaps,
-content leaks, and Leitner/closure/confidence logic bugs. Result in `pr9-learner-state-review.json`.
+An independent agent reviewer (author ≠ reviewer) audited the engine end-to-end. **Process note:**
+that review completed *after* the initial PR-9 commit — a repeat of the PR-7 commit-before-review
+gap. It found **4 minor defects** (no blockers): a non-total sort key (determinism), an unchecked
+`graded` flag (should fail closed), first-vs-selected misconception attribution, and holdout
+rejection that relied only on `holdout.json` membership. **All four were fixed in PR-9.1** with
+regression tests. Full record in `pr9-learner-state-review.json`. The lesson from PR-7 stands
+reinforced: wait for the independent review before committing.
 
 ## 6. Deferred (keeps PR-9 small)
 

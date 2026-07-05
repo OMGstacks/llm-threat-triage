@@ -35,4 +35,4 @@ slice starts. At minimum:
 | [`pr8d-exam-strategy.md`](pr8d-exam-strategy.md) | PR-8d | fills the exam_strategy bank: 7 global cards + 5 items; all 4 banks live |
 | [`pr8d-exam-strategy-review.json`](pr8d-exam-strategy-review.json) | PR-8d | exam-strategy review outcome — 0 findings |
 | [`pr9-learner-state.md`](pr9-learner-state.md) | PR-9 | wrong-answer journal + Leitner engine; learner_state_isolation_guard active |
-| [`pr9-learner-state-review.json`](pr9-learner-state-review.json) | PR-9 | engine logic review — 0 findings |
+| [`pr9-learner-state-review.json`](pr9-learner-state-review.json) | PR-9 / 9.1 | independent engine review — 4 minors, all fixed in PR-9.1 |
