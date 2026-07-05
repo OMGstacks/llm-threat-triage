@@ -56,8 +56,12 @@ python3 -m cc_spine.cli learner replay --attempts tests/fixtures/synthetic_attem
 ## 6. Review before commit (§16.0)
 
 An independent code reviewer audited the assembler + readiness for determinism, holdout isolation,
-allocation correctness, and readiness math — **awaited before commit** (the PR-9 lesson applied).
-Result in `pr10-mock-assembler-review.json`.
+allocation correctness, and readiness math — **awaited before commit** (the PR-9 lesson applied). It
+returned two findings: **F1** (minor) confirmed the operator's already-applied time-management fix;
+**F2** (major) — a holdout scenario *exposed* in a mock but left unsubmitted was never burned, so it
+could re-draw and re-count as "fresh". The follow-up fixes F2: burn now tracks **exposure**, not
+submission (new `exposed_holdout_ids`, made the single source of truth for `grade_mock`'s burn set),
+with three regression tests. Full record in `pr10-mock-assembler-review.json`.
 
 ## 7. Deferred → PR-11
 

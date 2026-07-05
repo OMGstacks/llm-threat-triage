@@ -108,6 +108,12 @@ ids; ``grade_mock`` yields fresh-scenario accuracy without leaking holdout conte
 ``learner_state.readiness_report`` computes the full weighted formula plus the hard blockers
 (domain < 75%, holdout-scenario < 80%, leakage gate). Engine proof at ~15-item scale (real
 exam length is content-blocked). CLI ``mock assemble|validate``. Evidence reports/pr10-*.
+PR-10 follow-up applies the independent review's F2 (major): the holdout "burn" now tracks
+EXPOSURE, not submission. A holdout scenario assembled into a mock is revealed by the learner
+view whether or not it is answered, so a new ``mock_exam.exposed_holdout_ids`` returns every
+assembled holdout id and is the single source of truth for ``grade_mock``'s burned set — an
+exposed-but-unsubmitted scenario can no longer be re-drawn and re-counted as "fresh". Fresh-
+scenario accuracy still counts only submitted scenarios. F1 (minor) was confirmed already fixed.
 """
 
-__version__ = "0.8.0"
+__version__ = "0.8.1"

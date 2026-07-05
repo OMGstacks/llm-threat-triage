@@ -64,6 +64,36 @@ class BurnTest(unittest.TestCase):
         again = mx.assemble("k", count=15, seen={burned})
         self.assertNotIn(burned, [e["item_id"] for e in again["items"]])
 
+    def test_exposed_holdout_ids_are_all_assembled_holdout(self):
+        mock = mx.assemble("k", count=15)
+        expected = sorted(e["item_id"] for e in mock["items"] if e["lane"] == "holdout")
+        self.assertEqual(mx.exposed_holdout_ids(mock), expected)
+
+    def test_unsubmitted_holdout_scenario_is_still_burned(self):
+        # PR-10 review F2: a holdout scenario assembled (and thus revealed by the learner view)
+        # but never answered must STILL burn — otherwise it re-draws and re-counts as 'fresh'.
+        mock = mx.assemble("k", count=15)
+        holdout_ids = [e["item_id"] for e in mock["items"] if e["lane"] == "holdout"]
+        self.assertTrue(holdout_ids, "fixture should assemble at least one holdout scenario")
+        # Submit NOTHING — the learner opened the exam but answered no holdout item.
+        g = mx.grade_mock(mock, submissions={})
+        self.assertEqual(g["burned_holdout_ids"], sorted(holdout_ids))
+        self.assertEqual(g["fresh_scenario_count"], 0)      # none submitted → no fresh accuracy
+        self.assertIsNone(g["fresh_scenario_accuracy"])
+        # The burned ids must feed a follow-up draw and exclude every exposed scenario.
+        again = mx.assemble("k", count=15, seen=set(g["burned_holdout_ids"]))
+        self.assertEqual(set(e["item_id"] for e in again["items"]) & set(holdout_ids), set())
+
+    def test_burn_set_equals_exposure_even_on_partial_submission(self):
+        mock = mx.assemble("k", count=15)
+        holdout_ids = sorted(e["item_id"] for e in mock["items"] if e["lane"] == "holdout")
+        # Answer only the FIRST holdout item; the rest stay unsubmitted but exposed.
+        first = holdout_ids[0]
+        subs = {first: HKEYS[first]["correct_index"]}
+        g = mx.grade_mock(mock, subs)
+        self.assertEqual(g["burned_holdout_ids"], holdout_ids)   # all exposed, not just answered
+        self.assertEqual(g["fresh_scenario_count"], 1)
+
 
 class IsolationTest(unittest.TestCase):
     def test_learner_view_carries_no_answer(self):

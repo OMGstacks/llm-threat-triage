@@ -102,6 +102,14 @@ def assemble(draw_key: str, count: int = 15, seen=frozenset()) -> dict:
             "items": picked, "notes": notes}
 
 
+def exposed_holdout_ids(mock: dict) -> list:
+    """Every holdout id assembled into this mock — 'seen' the moment the mock is built, because
+    ``mock_learner_view`` reveals all of them. This is the authoritative burn set: pass it into a
+    future ``assemble(seen=…)`` regardless of what the learner actually submitted, so an exposed
+    scenario is never re-drawn and re-counted as 'fresh' (PR-10 review F2)."""
+    return sorted({e["item_id"] for e in mock["items"] if e["lane"] == "holdout"})
+
+
 def mock_learner_view(mock: dict) -> list:
     """The learner-facing mock — each item projected through quiz.learner_view (no answers).
     Practice and holdout items are shown uniformly; the learner cannot tell the lanes apart."""
@@ -130,7 +138,12 @@ def grade_mock(mock: dict, submissions: dict) -> dict:
     correct = Counter()
     total = Counter()
     fresh_correct = fresh_total = 0
-    burned = []
+
+    # Burn on EXPOSURE, not submission: every holdout scenario ASSEMBLED into this mock was shown
+    # to the learner (mock_learner_view reveals all of them) and is now 'seen' whether or not they
+    # answered it — otherwise a skipped item could be re-drawn and re-counted 'fresh' (review F2).
+    # exposed_holdout_ids is the single source of truth so the burn set can't drift from grading.
+    burned = exposed_holdout_ids(mock)
 
     for entry in mock["items"]:
         iid = entry["item_id"]
@@ -145,9 +158,8 @@ def grade_mock(mock: dict, submissions: dict) -> dict:
         if ok:
             correct[entry["bank"]] += 1
         if holdout and entry["bank"] == _SCENARIO_BANK:
-            fresh_total += 1
+            fresh_total += 1   # accuracy counts only SUBMITTED holdout scenarios
             fresh_correct += int(ok)
-            burned.append(iid)   # this holdout scenario is now seen
 
     graded = sum(total.values())
     return {
@@ -158,7 +170,7 @@ def grade_mock(mock: dict, submissions: dict) -> dict:
                      for b in total},
         "fresh_scenario_accuracy": (fresh_correct / fresh_total) if fresh_total else None,
         "fresh_scenario_count": fresh_total,
-        "burned_holdout_ids": sorted(burned),
+        "burned_holdout_ids": burned,
     }
 
 
