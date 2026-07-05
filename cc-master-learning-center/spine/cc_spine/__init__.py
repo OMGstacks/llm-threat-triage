@@ -101,6 +101,13 @@ completed after the initial commit — the PR-7 commit-before-review lesson rein
 PR-10.1 grows the holdout scenario supply from 1 to 5 items (one per domain) so PR-10 mock
 exams can draw a scenario per domain (mock_exam.scenario_draw is holdout_only). Same holdout
 gates; independent review awaited before commit — 0 findings. Holdout lane now 12 items.
+PR-10 adds the mock-exam assembler (``mock_exam``) and completes the readiness formula.
+``assemble`` draws a deterministic mock per the banks.json policy (domain-weighted,
+non-scenario from practice, scenario from the holdout lane only), excluding burned holdout
+ids; ``grade_mock`` yields fresh-scenario accuracy without leaking holdout content; and
+``learner_state.readiness_report`` computes the full weighted formula plus the hard blockers
+(domain < 75%, holdout-scenario < 80%, leakage gate). Engine proof at ~15-item scale (real
+exam length is content-blocked). CLI ``mock assemble|validate``. Evidence reports/pr10-*.
 """
 
-__version__ = "0.7.2"
+__version__ = "0.8.0"

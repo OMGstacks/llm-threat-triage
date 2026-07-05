@@ -38,3 +38,5 @@ slice starts. At minimum:
 | [`pr9-learner-state-review.json`](pr9-learner-state-review.json) | PR-9 / 9.1 | independent engine review — 4 minors, all fixed in PR-9.1 |
 | [`pr10-1-holdout-scenarios.md`](pr10-1-holdout-scenarios.md) | PR-10.1 | +4 holdout scenarios (5 total, one per domain); mock scenario supply |
 | [`pr10-1-holdout-scenarios-review.json`](pr10-1-holdout-scenarios-review.json) | PR-10.1 | holdout scenario review — 0 findings |
+| [`pr10-mock-assembler.md`](pr10-mock-assembler.md) | PR-10 | mock-exam assembler + full readiness formula (engine, proof-scale) |
+| [`pr10-mock-assembler-review.json`](pr10-mock-assembler-review.json) | PR-10 | engine review — self-audit done (1 fix); independent review pending |

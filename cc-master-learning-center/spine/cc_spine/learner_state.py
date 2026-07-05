@@ -21,7 +21,13 @@ Stdlib only. Imports ``quiz`` (practice loaders + grading) — never the reverse
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 from . import quiz
+
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
+_BANKS_PATH = _PROJECT_ROOT / "spine" / "banks" / "banks.json"
 
 # Leitner: box -> time units until the item is due again after a review in that box.
 BOX_INTERVAL = {1: 0, 2: 1, 3: 3, 4: 7, 5: 16}
@@ -29,6 +35,8 @@ MAX_BOX = 5
 CLOSED_AFTER_CORRECT_STREAK = 2   # a misconception is "closed" after 2 later correct answers
 LOW_CONFIDENCE = 2                 # correct-but-unsure (<=) is not fully promoted
 HIGH_CONFIDENCE = 4               # wrong-but-sure (>=) is a priority misconception
+MATURE_BOX = 3                    # a flashcard is "mature" once it reaches this Leitner box
+TIME_BUDGET_SECONDS = 90         # per-item time budget for the time-management signal
 
 STATE_SCHEMA_VERSION = "1.0.0"
 
@@ -89,6 +97,8 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
     journal: list = []
     misconceptions: dict = {}
     domain_stats: dict = {}   # domain -> [correct, total], excluding exam_strategy
+    bank_stats: dict = {}     # bank -> [correct, total], excluding exam_strategy
+    time_within = time_total = 0   # time-management: attempts answered within budget
 
     # Deterministic order: a TOTAL key over the attempt's content, so the output is a pure
     # function of the attempt SET — two attempts on the same item at the same time no longer
@@ -122,11 +132,12 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
         overconfident = isinstance(conf, int) and conf >= HIGH_CONFIDENCE
         t = a.get("submitted_at", 0)
 
-        st = items.setdefault(iid, {"box": 1, "attempts": 0, "correct_streak": 0,
+        st = items.setdefault(iid, {"box": 1, "attempts": 0, "correct": 0, "correct_streak": 0,
                                     "last_seen": t, "due": t, "priority": False})
         st["attempts"] += 1
         st["last_seen"] = t
         if correct:
+            st["correct"] += 1
             # correct-but-unsure is not promoted (stays due sooner); confident-correct promotes.
             if not unsure:
                 st["box"] = min(st["box"] + 1, MAX_BOX)
@@ -173,8 +184,16 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
             dom = item.get("domain", "?")
             ds = domain_stats.setdefault(dom, [0, 0])
             ds[1] += 1
+            bs = bank_stats.setdefault(item.get("bank", "?"), [0, 0])
+            bs[1] += 1
             if correct:
                 ds[0] += 1
+                bs[0] += 1
+            ts = a.get("time_seconds")
+            if isinstance(ts, (int, float)):
+                time_total += 1
+                if ts <= TIME_BUDGET_SECONDS:
+                    time_within += 1
 
         # wrong answers become journal entries (with the registry correction, not the stem).
         if not correct and missed_mid:
@@ -210,8 +229,12 @@ def replay(attempts, now: int, practice=None, keys=None, registry=None, holdout_
         "misconceptions": misconceptions,
         "readiness": {
             "partial": True,
-            "note": "practice-only: excludes exam_strategy, holdout, fresh-scenario and mock components (PR-10)",
+            "note": "practice-only: excludes exam_strategy and holdout; fresh-scenario needs a mock (readiness_report)",
             "per_domain": per_domain,
+            "per_bank": {b: {"correct": c, "total": n, "accuracy": (c / n if n else 0.0)}
+                         for b, (c, n) in sorted(bank_stats.items())},
+            "time_management": {"within_budget": time_within, "total": time_total,
+                                "performance": (time_within / time_total if time_total else 0.0)},
             "wrong_answer_closure_rate": closure_rate,
         },
     }
@@ -230,3 +253,65 @@ def review_queue(state: dict, now: int) -> list:
 def open_journal(state: dict) -> list:
     """Journal entries for misconceptions not yet closed — the active study list."""
     return [j for j in state.get("journal", []) if not j.get("closed")]
+
+
+# --- full readiness (PR-10: completes the banks.json formula with a graded mock) ---------- #
+
+def _readiness_policy() -> dict:
+    return json.loads(_BANKS_PATH.read_text(encoding="utf-8"))["readiness"]
+
+
+def _mature_accuracy(state: dict):
+    c = t = 0
+    for st in state.get("items", {}).values():
+        if st.get("box", 1) >= MATURE_BOX:
+            c += st.get("correct", 0)
+            t += st.get("attempts", 0)
+    return (c / t) if t else None
+
+
+def readiness_report(state: dict, mock_result: dict = None, leakage_ok: bool = True) -> dict:
+    """Compute the full banks.json readiness formula. Practice attempts supply concept-
+    discrimination, mature-flashcard, closure, and time components; a graded mock supplies
+    ``fresh_scenario_accuracy`` (holdout scenarios). Applies the hard blockers (any domain
+    < 75%; holdout-scenario accuracy < 80%; any leakage gate red). Weights over the
+    components that have data, so a mock-less report is still informative but flagged
+    incomplete."""
+    weights = _readiness_policy()["domain_formula"]
+    r = state.get("readiness", {})
+    per_bank = r.get("per_bank", {})
+    fresh = (mock_result or {}).get("fresh_scenario_accuracy")
+
+    tm = r.get("time_management", {})
+    components = {
+        "fresh_scenario_accuracy": fresh,
+        "concept_discrimination_accuracy": per_bank.get("concept_discrimination", {}).get("accuracy"),
+        "mature_flashcard_accuracy": _mature_accuracy(state),
+        "wrong_answer_closure_rate": r.get("wrong_answer_closure_rate"),
+        # No timing data → excluded (None), not a 0% penalty.
+        "time_management_performance": tm.get("performance") if tm.get("total") else None,
+    }
+    avail = {k: v for k, v in components.items() if v is not None}
+    wsum = sum(weights[k] for k in avail) or 1.0
+    score = sum(weights[k] * avail[k] for k in avail) / wsum
+
+    blockers = []
+    for dom, s in r.get("per_domain", {}).items():
+        if s.get("attempts") and s["accuracy"] < 0.75:
+            blockers.append(f"domain {dom} accuracy {s['accuracy']:.0%} < 75%")
+    if fresh is not None and fresh < 0.80:
+        blockers.append(f"holdout scenario accuracy {fresh:.0%} < 80%")
+    if not leakage_ok:
+        blockers.append("a leakage/isolation gate is failing")
+
+    complete = fresh is not None
+    ready = complete and not blockers and score >= 0.80
+    return {
+        "score": round(score, 4),
+        "components": components,
+        "weighted_over": sorted(avail),
+        "hard_blockers": blockers,
+        "complete": complete,
+        "verdict": "ready" if ready else "not-ready",
+        "note": None if complete else "incomplete: needs a graded mock for fresh_scenario_accuracy",
+    }

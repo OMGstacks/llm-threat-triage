@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0.0",
+  "description": "PR-10 mock-exam assembler + readiness engine review (companion to pr10-mock-assembler.md).",
+  "method": "operator adversarial self-audit of mock_exam.py + readiness_report against determinism, holdout isolation, allocation correctness, and readiness math; plus a comprehensive test suite (14 mock/readiness tests). An INDEPENDENT agent review was dispatched.",
+  "review_status": "operator_self_review_complete; independent_review_dispatched_and_pending",
+  "operator_findings": [
+    {"id": "S1", "severity": "minor", "location": "readiness_report time_management", "problem": "time_management_performance reported 0.0 when no timing data existed, unfairly penalizing readiness", "fix": "exclude the component (None) when time_management.total is 0", "status": "fixed"}
+  ],
+  "verified_invariants": ["determinism (sha256 rank, sorted domains, allocation sums to count)", "scenarios drawn holdout-only; practice scenarios never used as mock scenarios", "grade_mock returns ids/accuracy only, no holdout stems/choices", "burn: seen holdout ids excluded", "readiness weights renormalized over available components; div-by-zero guarded; hard blockers fire"],
+  "note": "Per the PR-9 lesson, findings from the pending independent review will be applied in a PR-10 follow-up if any; this record is updated at that time. This JSON does NOT claim a clean independent review before it has reported."
+}

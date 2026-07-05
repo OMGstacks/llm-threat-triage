@@ -7,6 +7,7 @@
     python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
     python -m cc_spine.cli quiz [validate|export-learner|validate-holdout]  # PR-8 quiz engine
     python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
+    python -m cc_spine.cli mock [assemble|validate] --draw-key K --count 15 # PR-10 mock assembler
 
 Stdlib-only; no third-party dependencies.
 """
@@ -21,7 +22,7 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import ipboundary, learner_state, quiz, registry, scaffold_validate, sources
+from . import ipboundary, learner_state, mock_exam, quiz, registry, scaffold_validate, sources
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -151,17 +152,37 @@ def cmd_learner(args) -> int:
         print(f"FAIL learner replay rejected an attempt: {exc}")
         return 1
     queue = learner_state.review_queue(state, now=args.now)
+    readiness = learner_state.readiness_report(state)
     if args.json:
-        print(json.dumps({"state": state, "review_next": queue}, indent=2))
+        print(json.dumps({"state": state, "review_next": queue, "readiness": readiness}, indent=2))
         return 0
     r = state["readiness"]
     print(f"learner replay: {state['attempts_replayed']} attempt(s) → "
           f"{len(state['journal'])} journal entry(ies), {len(state['items'])} item(s) tracked")
-    print(f"  wrong-answer closure rate: {r['wrong_answer_closure_rate']:.0%}  (partial readiness)")
+    print(f"  wrong-answer closure rate: {r['wrong_answer_closure_rate']:.0%}")
+    print(f"  readiness: {readiness['verdict']} (score {readiness['score']:.0%}"
+          f"{'' if readiness['complete'] else ', incomplete — no mock yet'})")
+    for b in readiness["hard_blockers"]:
+        print(f"    BLOCKER {b}")
     for j in learner_state.open_journal(state):
         print(f"  OPEN  {j['item_id']} [{j['objective']}] trap={j['misconception_id']} — {j['one_sentence_rule']}")
     print(f"  review next ({len(queue)}): {', '.join(queue[:8])}{' …' if len(queue) > 8 else ''}")
     return 0
+
+
+def cmd_mock(args) -> int:
+    """PR-10 mock-exam assembler: draw a mock per the banks.json policy (domain-weighted,
+    scenarios holdout-only) and validate its policy conformance. Deterministic in draw_key."""
+    mock = mock_exam.assemble(args.draw_key, count=args.count)
+    if args.action == "assemble":
+        print(json.dumps(mock, indent=2))
+        return 0
+    print(f"mock '{args.draw_key}': {mock['assembled']}/{mock['requested']} items"
+          + (f"; notes: {mock['notes']}" if mock["notes"] else ""))
+    return _report(
+        "mock exam draw (holdout-only scenarios, banks in draw_from, no duplicates)",
+        mock_exam.validate_mock(mock),
+    )
 
 
 def cmd_ingest(args) -> int:
@@ -217,6 +238,12 @@ def build_parser() -> argparse.ArgumentParser:
     p_quiz.add_argument("--answer-keys", default=None, help="override answer-key store path (testing)")
     p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")
     p_quiz.set_defaults(func=cmd_quiz)
+
+    p_mock = sub.add_parser("mock", help="mock-exam assembler (PR-10): draw + validate a mock")
+    p_mock.add_argument("action", nargs="?", default="validate", choices=["assemble", "validate"])
+    p_mock.add_argument("--draw-key", required=True, help="deterministic seed for the draw")
+    p_mock.add_argument("--count", type=int, default=15, help="target item count")
+    p_mock.set_defaults(func=cmd_mock)
 
     p_learn = sub.add_parser(
         "learner", help="learner-state demo (PR-9): replay a synthetic attempt stream")

@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -37,6 +37,10 @@ quiz-export-scan:
 learner-demo:
 	python3 -m cc_spine.cli learner replay --attempts tests/fixtures/synthetic_attempt_stream.json --now 5
 
+# PR-10 mock-exam assembler gate: draw a mock and check policy conformance.
+mock-validate:
+	python3 -m cc_spine.cli mock validate --draw-key ci-mock --count 15
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -50,4 +54,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate test ingest-check
