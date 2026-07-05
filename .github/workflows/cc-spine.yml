@@ -50,6 +50,14 @@ jobs:
         run: python -m cc_spine.cli learner replay --attempts tests/fixtures/synthetic_attempt_stream.json --now 5
       - name: Mock-exam assembler gate (PR-10: policy-conformant draw; scenarios holdout-only)
         run: python -m cc_spine.cli mock validate --draw-key ci-mock --count 15
+      - name: Mock exposure-receipt gate (PR-10.2: render path emits the burn receipt and leaks no content)
+        run: |
+          python -m cc_spine.cli mock render --draw-key ci-mock --count 15 > "$RUNNER_TEMP/mock_receipt.json"
+          grep -q '"exposed_holdout_ids"' "$RUNNER_TEMP/mock_receipt.json" || { echo "FAIL: no exposure receipt"; exit 1; }
+          if grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|rationale_refs|item_hash|distractor_misconceptions)"[[:space:]]*:' "$RUNNER_TEMP/mock_receipt.json"; then
+            echo "FAIL: mock render leaked a content/answer-bearing field"; exit 1
+          fi
+          echo "OK: mock render emits the burn receipt and carries no content"
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

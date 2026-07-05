@@ -5,6 +5,8 @@ that a burned holdout id is excluded, that the learner view carries no answers, 
 graded mock produces fresh-scenario accuracy without leaking holdout content into practice.
 """
 
+import contextlib
+import io
 import json
 import sys
 import unittest
@@ -12,6 +14,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from cc_spine import cli
 from cc_spine import mock_exam as mx
 from cc_spine import quiz
 from cc_spine import learner_state as ls
@@ -97,7 +100,7 @@ class BurnTest(unittest.TestCase):
 
 class IsolationTest(unittest.TestCase):
     def test_learner_view_carries_no_answer(self):
-        views = mx.mock_learner_view(mx.assemble("k", count=15))
+        views = mx.render_mock(mx.assemble("k", count=15))["items"]
         blob = json.dumps(views)
         for forbidden in ("correct_index", "answer_key_ref", "rationale_refs", "item_hash"):
             self.assertNotIn(f'"{forbidden}":', blob)
@@ -122,6 +125,79 @@ class GradingTest(unittest.TestCase):
         blob = json.dumps(g)
         for hid, item in HOLDOUT.items():
             self.assertNotIn(item["stem"], blob)
+
+
+class ExposureReceiptTest(unittest.TestCase):
+    """PR-10.2: the SANCTIONED public render path emits a content-free exposure receipt so
+    burn-on-exposure is surfaced, not silently skipped, by a future UI/dashboard."""
+
+    def test_render_mock_bundles_items_and_receipt(self):
+        bundle = mx.render_mock(mx.assemble("k", count=15))
+        # render_mock is the sanctioned public render: it always returns items AND their receipt.
+        self.assertEqual(set(bundle), {"items", "exposure_receipt"})
+        self.assertTrue(bundle["items"])
+        self.assertEqual(bundle["exposure_receipt"]["burn_required"], True)
+
+    def test_raw_projection_is_private_no_public_unguarded_render(self):
+        # review F1/F2: the only public way to render mock items must carry the receipt. The raw
+        # projection that renders items WITHOUT a receipt is private (underscore), so a caller
+        # reaching for the module's public surface cannot get items without the burn obligation.
+        self.assertFalse(hasattr(mx, "mock_learner_view"),
+                          "the receipt-less render must not be a public entry point")
+        self.assertTrue(hasattr(mx, "render_mock"))
+        # every public path that yields items carries a receipt.
+        self.assertIn("exposure_receipt", mx.render_mock(mx.assemble("k", count=15)))
+
+    def test_mock_render_items_match_exposure_receipt(self):
+        mock = mx.assemble("k", count=15)
+        bundle = mx.render_mock(mock)
+        receipt = bundle["exposure_receipt"]
+        rendered_ids = {v["id"] for v in bundle["items"]}
+        # every exposed holdout id in the receipt is actually rendered to the learner...
+        self.assertTrue(set(receipt["exposed_holdout_ids"]) <= rendered_ids)
+        # ...and the exposed set is exactly the mock's holdout-lane ids (independent oracle).
+        holdout_ids = sorted(e["item_id"] for e in mock["items"] if e["lane"] == "holdout")
+        self.assertEqual(receipt["exposed_holdout_ids"], holdout_ids)
+        self.assertEqual(receipt["holdout_exposure_count"], len(holdout_ids))
+        self.assertEqual(receipt["item_count"], len(mock["items"]))
+        self.assertEqual(receipt["draw_key"], "k")
+
+    def test_receipt_burn_set_equals_exposed_holdout_ids(self):
+        mock = mx.assemble("k", count=15)
+        # independent oracle: recompute the expected burn set straight from the mock items,
+        # NOT by calling exposed_holdout_ids again (review F3 — avoid a tautological assertion).
+        expected = sorted(e["item_id"] for e in mock["items"] if e["lane"] == "holdout")
+        receipt = mx.mock_exposure_receipt(mock)
+        self.assertEqual(receipt["exposed_holdout_ids"], expected)
+        self.assertEqual(mx.exposed_holdout_ids(mock), expected)
+        # and the burn set grade_mock records, regardless of submissions, is the same oracle.
+        g = mx.grade_mock(mock, submissions={})
+        self.assertEqual(g["burned_holdout_ids"], expected)
+        self.assertEqual(receipt["burn_required"], bool(expected))
+
+    def test_receipt_contains_no_holdout_stems_or_answers(self):
+        mock = mx.assemble("k", count=15)
+        blob = json.dumps(mx.mock_exposure_receipt(mock))
+        for hid, item in HOLDOUT.items():
+            self.assertNotIn(item["stem"], blob, hid)
+            for choice in item["choices"]:
+                self.assertNotIn(choice, blob, hid)
+        for forbidden in ("correct_index", "answer_key_ref", "rationale_refs",
+                          "item_hash", "stem", "choices"):
+            self.assertNotIn(f'"{forbidden}"', blob)
+
+    def test_cli_mock_assemble_or_export_prints_receipt_or_warns(self):
+        out, err = io.StringIO(), io.StringIO()
+        with contextlib.redirect_stdout(out), contextlib.redirect_stderr(err):
+            rc = cli.main(["mock", "render", "--draw-key", "k", "--count", "15"])
+        self.assertEqual(rc, 0)
+        receipt = json.loads(out.getvalue())          # stdout is the content-free receipt
+        self.assertIn("exposed_holdout_ids", receipt)
+        self.assertTrue(receipt["burn_required"])
+        self.assertIn("burn-on-exposure", err.getvalue())   # stderr carries the burn obligation
+        # the CLI receipt itself must leak no holdout content
+        for item in HOLDOUT.values():
+            self.assertNotIn(item["stem"], out.getvalue())
 
 
 class ReadinessTest(unittest.TestCase):

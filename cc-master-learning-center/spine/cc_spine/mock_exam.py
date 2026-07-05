@@ -103,16 +103,40 @@ def assemble(draw_key: str, count: int = 15, seen=frozenset()) -> dict:
 
 
 def exposed_holdout_ids(mock: dict) -> list:
-    """Every holdout id assembled into this mock — 'seen' the moment the mock is built, because
-    ``mock_learner_view`` reveals all of them. This is the authoritative burn set: pass it into a
-    future ``assemble(seen=…)`` regardless of what the learner actually submitted, so an exposed
-    scenario is never re-drawn and re-counted as 'fresh' (PR-10 review F2)."""
+    """Every holdout id ASSEMBLED into this mock — 'seen' the moment the mock is built, because the
+    learner render (``render_mock``) reveals all of them. This is the authoritative burn set: pass it
+    into a future ``assemble(seen=…)`` regardless of what the learner actually submitted, so an
+    exposed scenario is never re-drawn and re-counted as 'fresh' (PR-10 review F2). It counts
+    ASSEMBLED exposure, which is conservative: if a rare id failed to resolve at render time it is
+    still burned, so the accounting can over-burn but never under-burn (never leaks; review F5)."""
     return sorted({e["item_id"] for e in mock["items"] if e["lane"] == "holdout"})
 
 
-def mock_learner_view(mock: dict) -> list:
-    """The learner-facing mock — each item projected through quiz.learner_view (no answers).
-    Practice and holdout items are shown uniformly; the learner cannot tell the lanes apart."""
+def mock_exposure_receipt(mock: dict) -> dict:
+    """A content-free record of what a mock EXPOSES, meant to travel with every learner render.
+    It names the holdout ids the learner will see — so the caller can persist the burn — but carries
+    NO stems, choices, rationales, or answers, so it is safe to log, store, or ship in a receipt
+    trail. ``burn_required`` is the operational flag: when true the caller MUST record
+    ``exposed_holdout_ids`` as burned before discarding the mock, or an exposed scenario re-draws and
+    re-counts as an unseen 'fresh' item (PR-10 review F2; PR-10.2 surfaces the obligation).
+    ``item_count`` / ``holdout_exposure_count`` are ASSEMBLED counts (conservative — see
+    ``exposed_holdout_ids``), not counts of what finally rendered."""
+    exposed = exposed_holdout_ids(mock)
+    return {
+        "draw_key": mock["draw_key"],
+        "item_count": len(mock["items"]),
+        "exposed_holdout_ids": exposed,
+        "holdout_exposure_count": len(exposed),
+        "burn_required": bool(exposed),
+    }
+
+
+def _mock_learner_view(mock: dict) -> list:
+    """The raw learner projection — each item through quiz.learner_view (no answers). PRIVATE on
+    purpose (PR-10.2 / review F1): it renders holdout scenarios with no burn obligation attached, so
+    it is not a sanctioned public entry point. Public callers use ``render_mock``, which returns this
+    projection bundled with the exposure receipt. Practice and holdout items are shown uniformly; the
+    learner cannot tell the lanes apart."""
     prac = {i["id"]: i for i in quiz.load_goldset()}
     hold = {i["id"]: i for i in quiz.load_holdout()}
     views = []
@@ -122,6 +146,20 @@ def mock_learner_view(mock: dict) -> list:
         if item is not None:
             views.append(quiz.learner_view(item))
     return views
+
+
+def render_mock(mock: dict) -> dict:
+    """The SANCTIONED public learner render: the answer-free learner items bundled WITH their
+    exposure receipt. The raw projection (``_mock_learner_view``) is private, so the only public way
+    to obtain rendered mock items also hands the caller the burn obligation. Python cannot hard-
+    enforce this — a determined caller can still reach the private helper — but by keeping
+    ``render_mock`` the sole public render surface, the default path a UI/dashboard reaches for
+    carries the receipt (PR-10.2 / review F1). A UI renders ``bundle["items"]`` and MUST persist
+    ``bundle["exposure_receipt"]``. The receipt carries no holdout content."""
+    return {
+        "items": _mock_learner_view(mock),
+        "exposure_receipt": mock_exposure_receipt(mock),
+    }
 
 
 def grade_mock(mock: dict, submissions: dict) -> dict:
@@ -140,7 +178,7 @@ def grade_mock(mock: dict, submissions: dict) -> dict:
     fresh_correct = fresh_total = 0
 
     # Burn on EXPOSURE, not submission: every holdout scenario ASSEMBLED into this mock was shown
-    # to the learner (mock_learner_view reveals all of them) and is now 'seen' whether or not they
+    # to the learner (the render reveals all of them) and is now 'seen' whether or not they
     # answered it — otherwise a skipped item could be re-drawn and re-counted 'fresh' (review F2).
     # exposed_holdout_ids is the single source of truth so the burn set can't drift from grading.
     burned = exposed_holdout_ids(mock)

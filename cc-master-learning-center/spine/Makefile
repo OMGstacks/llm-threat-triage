@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate mock-render ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -41,6 +41,14 @@ learner-demo:
 mock-validate:
 	python3 -m cc_spine.cli mock validate --draw-key ci-mock --count 15
 
+# PR-10.2 exposure-receipt gate: the render path must emit the burn receipt AND leak no content.
+# grep returns 0 on a match, so a match (a content/answer-bearing field) makes this target fail.
+mock-render:
+	python3 -m cc_spine.cli mock render --draw-key ci-mock --count 15 > /tmp/cc_mock_receipt.json
+	grep -q '"exposed_holdout_ids"' /tmp/cc_mock_receipt.json
+	! grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|rationale_refs|item_hash|distractor_misconceptions)"[[:space:]]*:' /tmp/cc_mock_receipt.json
+	@echo "OK   mock render emits the burn receipt and carries no content"
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -54,4 +62,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan learner-demo mock-validate mock-render test ingest-check

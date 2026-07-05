@@ -7,7 +7,7 @@
     python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
     python -m cc_spine.cli quiz [validate|export-learner|validate-holdout]  # PR-8 quiz engine
     python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
-    python -m cc_spine.cli mock [assemble|validate] --draw-key K --count 15 # PR-10 mock assembler
+    python -m cc_spine.cli mock [assemble|validate|render] --draw-key K      # PR-10 mock assembler
 
 Stdlib-only; no third-party dependencies.
 """
@@ -172,17 +172,37 @@ def cmd_learner(args) -> int:
 
 def cmd_mock(args) -> int:
     """PR-10 mock-exam assembler: draw a mock per the banks.json policy (domain-weighted,
-    scenarios holdout-only) and validate its policy conformance. Deterministic in draw_key."""
+    scenarios holdout-only) and validate its policy conformance. Deterministic in draw_key.
+    ``render`` (PR-10.2) emits the exposure receipt + burn warning any render path must honour."""
     mock = mock_exam.assemble(args.draw_key, count=args.count)
     if args.action == "assemble":
         print(json.dumps(mock, indent=2))
         return 0
+    if args.action == "render":
+        return _mock_render(mock)
     print(f"mock '{args.draw_key}': {mock['assembled']}/{mock['requested']} items"
           + (f"; notes: {mock['notes']}" if mock["notes"] else ""))
     return _report(
         "mock exam draw (holdout-only scenarios, banks in draw_from, no duplicates)",
         mock_exam.validate_mock(mock),
     )
+
+
+def _mock_render(mock) -> int:
+    """PR-10.2 exposure-receipt proof: emit the content-free receipt to stdout and, if the mock
+    exposes any holdout scenario, the burn obligation to stderr — so this render path surfaces
+    'these ids must be burned' rather than hiding it. The learner items themselves are NOT printed
+    here: the receipt (ids + counts, no content) is the operational artifact; a real UI renders items
+    via mock_exam.render_mock, the sanctioned public render that carries this same receipt."""
+    receipt = mock_exam.mock_exposure_receipt(mock)
+    print(json.dumps(receipt, indent=2))
+    if receipt["burn_required"]:
+        print(f"WARNING burn-on-exposure: this mock exposes {receipt['holdout_exposure_count']} "
+              f"holdout scenario(s) {receipt['exposed_holdout_ids']}; the caller MUST persist these "
+              f"as burned before discarding the mock (PR-10 F2 / PR-10.2).", file=sys.stderr)
+    else:
+        print("note: no holdout scenarios exposed in this mock; nothing to burn.", file=sys.stderr)
+    return 0
 
 
 def cmd_ingest(args) -> int:
@@ -239,8 +259,10 @@ def build_parser() -> argparse.ArgumentParser:
     p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")
     p_quiz.set_defaults(func=cmd_quiz)
 
-    p_mock = sub.add_parser("mock", help="mock-exam assembler (PR-10): draw + validate a mock")
-    p_mock.add_argument("action", nargs="?", default="validate", choices=["assemble", "validate"])
+    p_mock = sub.add_parser("mock",
+        help="mock-exam assembler (PR-10): assemble/validate/render (render prints the burn receipt)")
+    p_mock.add_argument("action", nargs="?", default="validate",
+                        choices=["assemble", "validate", "render"])
     p_mock.add_argument("--draw-key", required=True, help="deterministic seed for the draw")
     p_mock.add_argument("--count", type=int, default=15, help="target item count")
     p_mock.set_defaults(func=cmd_mock)

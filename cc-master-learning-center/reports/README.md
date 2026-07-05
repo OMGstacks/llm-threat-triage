@@ -40,3 +40,5 @@ slice starts. At minimum:
 | [`pr10-1-holdout-scenarios-review.json`](pr10-1-holdout-scenarios-review.json) | PR-10.1 | holdout scenario review — 0 findings |
 | [`pr10-mock-assembler.md`](pr10-mock-assembler.md) | PR-10 | mock-exam assembler + full readiness formula (engine, proof-scale) |
 | [`pr10-mock-assembler-review.json`](pr10-mock-assembler-review.json) | PR-10 | engine review — self-audit (1 fix) + independent review (F1 confirmed, F2 major burn-on-exposure fixed in follow-up) |
+| [`pr10-2-exposure-receipt.md`](pr10-2-exposure-receipt.md) | PR-10.2 | mock exposure receipt + `render_mock` coupling; burn-on-exposure made operational before the dashboard |
+| [`pr10-2-exposure-receipt-review.json`](pr10-2-exposure-receipt-review.json) | PR-10.2 | independent review accept-with-fixes; F1 (major, overstated enforcement) + F2–F5 all fixed before commit |

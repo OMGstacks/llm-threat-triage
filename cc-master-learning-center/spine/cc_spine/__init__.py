@@ -114,6 +114,17 @@ view whether or not it is answered, so a new ``mock_exam.exposed_holdout_ids`` r
 assembled holdout id and is the single source of truth for ``grade_mock``'s burned set — an
 exposed-but-unsubmitted scenario can no longer be re-drawn and re-counted as "fresh". Fresh-
 scenario accuracy still counts only submitted scenarios. F1 (minor) was confirmed already fixed.
+PR-10.2 surfaces burn-on-exposure before any dashboard renders a mock: a new
+``mock_exam.mock_exposure_receipt`` returns a content-free record (draw_key, item_count,
+``exposed_holdout_ids``, ``burn_required``), and ``mock_exam.render_mock`` — the SOLE public render
+path — bundles the learner items WITH that receipt. The raw receipt-less projection is made private
+(``_mock_learner_view``), so the default public path a UI/dashboard reaches for carries the burn
+obligation (Python can't hard-enforce it — a caller can still reach the private helper — so the
+guarantee is "the sanctioned public render surface always carries the receipt," not absolute). The
+receipt carries no stems/choices/answers. CLI ``mock render`` prints the receipt and warns on stderr
+when burn is required; a ``mock-render`` CI gate scans its output for content and answer-bearing
+fields. Independent review (accept-with-fixes) drove this scoping down from an overstated
+"enforced/no code path" claim (review F1) plus test/gate strengthening (F2-F5).
 """
 
-__version__ = "0.8.1"
+__version__ = "0.8.2"
