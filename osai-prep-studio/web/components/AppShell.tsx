@@ -44,7 +44,7 @@ function ConsentToggle({ retentionDays }: { retentionDays?: number }) {
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/labs", label: "Labs" },
-  { href: "/lessons/L03", label: "Lesson" },
+  { href: "/lessons", label: "Lessons" },
   { href: "/tutor", label: "Tutor" },
   { href: "/progress", label: "Progress" },
   { href: "/analytics", label: "Analytics" },

@@ -360,6 +360,23 @@ def cmd_progress(args) -> int:
     return 0
 
 
+def cmd_lessons(args) -> int:
+    """Course-side lesson builder — regenerate the web player's committed artifacts.
+    `catalog` prints the deterministic lessons index; `build` renders every lesson's
+    manifest + VTT into web/public/lessons and writes index.json. Offline, no audio."""
+    from . import lessons as les
+
+    if args.action == "catalog":
+        print(json.dumps(les.catalog(), indent=2))
+        return 0
+    res = les.build_all()
+    print(f"built {res['count']} lessons -> {res['web_dir']}")
+    for lid in res["lessons"]:
+        print(f"  {lid}: {lid}.manifest.json + {lid}.vtt")
+    print(f"index: {res['index']}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="osai_spine")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -417,6 +434,10 @@ def build_parser() -> argparse.ArgumentParser:
     sp.add_argument("--out", help="output dir for the render manifest + audio (default: narration/)")
     sp.add_argument("--json", action="store_true", help="emit the full plan JSON")
     sp.set_defaults(fn=cmd_narrate)
+
+    sp = sub.add_parser("lessons", help="build the narrated-lesson web artifacts (manifests + VTT + index.json)")
+    sp.add_argument("action", nargs="?", default="build", choices=["build", "catalog"])
+    sp.set_defaults(fn=cmd_lessons)
 
     sp = sub.add_parser("transcripts", help="transcript data-handling controls (consent, retention, purge)")
     sp.add_argument("action", choices=["status", "purge", "purge-all", "grant-consent", "revoke-consent"])

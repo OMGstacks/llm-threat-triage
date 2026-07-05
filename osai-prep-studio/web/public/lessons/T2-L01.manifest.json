@@ -1,0 +1,115 @@
+{
+  "lesson_id": "T2-L01",
+  "title": "Three maps for AI red teaming",
+  "voice": "en-GB",
+  "provider": "cmd",
+  "kind": "local",
+  "segments": [
+    {
+      "id": "001-welcome-to-track-2-lesson-one-three-ma",
+      "text": "Welcome to Track 2, lesson one: three maps for AI red teaming. Before we attack anything, you need a shared vocabulary \u2014 a way to name what you found and where it sits. This lesson gives you the three reference frameworks the rest of the course, and your exam report, will lean on.",
+      "chars": 281,
+      "start": 0.0,
+      "end": 19.38,
+      "est_seconds": 19.4,
+      "audio": "T2-L01/001-welcome-to-track-2-lesson-one-three-ma.cd5057f72726e791.mp3",
+      "slide": "title"
+    },
+    {
+      "id": "002-why-frameworks-at-all-because-a-finding",
+      "text": "Why frameworks at all? Because a finding that isn't named is hard to triage, hard to compare, and hard to defend in a report. When you can say 'this is prompt injection, OWASP LLM01, ATLAS technique T0051', a reviewer instantly knows the class, the impact, and the likely fix. Naming is half the job.",
+      "chars": 300,
+      "start": 19.38,
+      "end": 40.07,
+      "est_seconds": 20.7,
+      "audio": "T2-L01/002-why-frameworks-at-all-because-a-finding.cd5967d0a7d96b89.mp3",
+      "slide": "why-frameworks"
+    },
+    {
+      "id": "003-the-first-map-is-the-owasp-llm-top-10-fo",
+      "text": "The first map is the OWASP LLM Top 10 for 2025. It lists the ten most important risk categories for LLM applications \u2014 from prompt injection at LLM01, through sensitive information disclosure, supply chain, and improper output handling, to unbounded consumption at LLM10. It's your everyday classification scheme.",
+      "chars": 313,
+      "start": 40.07,
+      "end": 61.66,
+      "est_seconds": 21.6,
+      "audio": "T2-L01/003-the-first-map-is-the-owasp-llm-top-10-fo.4012b9ed99093e8a.mp3",
+      "slide": "map-1-owasp"
+    },
+    {
+      "id": "004-a-few-you-ll-meet-often-llm01-is-prompt",
+      "text": "A few you'll meet often. LLM01 is prompt injection. LLM02 is sensitive information disclosure \u2014 the model leaking data it shouldn't. LLM06 is excessive agency \u2014 an agent doing more than it should. And LLM10 is unbounded consumption \u2014 draining cost or availability. Each finding you write will carry one of these ids.",
+      "chars": 316,
+      "start": 61.66,
+      "end": 83.45,
+      "est_seconds": 21.8,
+      "audio": "T2-L01/004-a-few-you-ll-meet-often-llm01-is-prompt.2127412aaa8f2ec0.mp3",
+      "slide": "owasp-examples"
+    },
+    {
+      "id": "005-the-second-map-is-mitre-atlas-where-owa",
+      "text": "The second map is MITRE ATLAS. Where OWASP names the risk, ATLAS names the adversary's move. It's a matrix of tactics \u2014 the attacker's goal, like reconnaissance \u2014 and techniques \u2014 the specific method. Prompt injection, for instance, is technique T0051, split into direct and indirect sub-techniques.",
+      "chars": 299,
+      "start": 83.45,
+      "end": 104.07,
+      "est_seconds": 20.6,
+      "audio": "T2-L01/005-the-second-map-is-mitre-atlas-where-owa.5c0560e086a3c582.mp3",
+      "slide": "map-2-atlas"
+    },
+    {
+      "id": "006-atlas-matters-because-it-describes-the-w",
+      "text": "ATLAS matters because it describes the whole engagement, not just one bug. Reconnaissance, then initial access, then persistence and impact \u2014 the same shape a traditional red team uses, adapted for machine-learning systems. It lets you tell a story: how the attacker got in, and what they did next.",
+      "chars": 298,
+      "start": 104.07,
+      "end": 124.62,
+      "est_seconds": 20.6,
+      "audio": "T2-L01/006-atlas-matters-because-it-describes-the-w.208a25ac9cdf252a.mp3",
+      "slide": "atlas-why"
+    },
+    {
+      "id": "007-the-third-map-is-the-nvidia-ai-kill-chai",
+      "text": "The third map is the NVIDIA AI Kill Chain, built for attacks on AI-powered applications. Its stages are recon, then poison, hijack, persist, and impact \u2014 with a pivot loop back to recon as you learn the system. Think of it as the timeline your ATLAS techniques hang on, and roughly the order an engagement against an AI system tends to unfold.",
+      "chars": 343,
+      "start": 124.62,
+      "end": 148.28,
+      "est_seconds": 23.7,
+      "audio": "T2-L01/007-the-third-map-is-the-nvidia-ai-kill-chai.16add4fd25caa420.mp3",
+      "slide": "map-3-killchain"
+    },
+    {
+      "id": "008-the-three-fit-together-they-don-t-compe",
+      "text": "The three fit together, they don't compete. The kill chain gives you the phase you're in. ATLAS gives you the technique you're using in that phase. OWASP gives you the risk category you'll cite in the finding. One attack, three lenses: sequence, method, and classification.",
+      "chars": 273,
+      "start": 148.28,
+      "end": 167.1,
+      "est_seconds": 18.8,
+      "audio": "T2-L01/008-the-three-fit-together-they-don-t-compe.ba7992707f44874a.mp3",
+      "slide": "how-they-fit"
+    },
+    {
+      "id": "009-one-discipline-to-build-now-never-inven",
+      "text": "One discipline to build now: never invent an id. Every OWASP LLM number and every ATLAS technique either exists or it doesn't. A made-up id in a report destroys credibility faster than a missed finding. In this range the tutor and the grader both reject ids that aren't real \u2014 hold yourself to the same bar.",
+      "chars": 307,
+      "start": 167.1,
+      "end": 188.28,
+      "est_seconds": 21.2,
+      "audio": "T2-L01/009-one-discipline-to-build-now-never-inven.c01c7ad46dba9f26.mp3",
+      "slide": "anti-hallucination"
+    },
+    {
+      "id": "010-the-takeaway-these-three-maps-are-the-c",
+      "text": "The takeaway: these three maps are the coordinate system for everything ahead. As you work each lab, practise saying where you are \u2014 which kill-chain phase, which ATLAS technique, which OWASP category. Do that habitually and your findings, and your exam report, will almost write themselves.",
+      "chars": 291,
+      "start": 188.28,
+      "end": 208.34,
+      "est_seconds": 20.1,
+      "audio": "T2-L01/010-the-takeaway-these-three-maps-are-the-c.bf508889ad9ba53e.mp3",
+      "slide": "takeaway"
+    }
+  ],
+  "segment_count": 10,
+  "total_chars": 3021,
+  "est_duration": "3:28",
+  "est_seconds": 208.3,
+  "est_cost_usd": 0.0,
+  "rate_per_million_usd": 0.0
+}

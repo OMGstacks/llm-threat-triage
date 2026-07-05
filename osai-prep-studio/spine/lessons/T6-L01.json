@@ -1,0 +1,31 @@
+{
+  "lesson_id": "T6-L01",
+  "title": "Writing the finding: impact, root cause, reproduction, retest",
+  "track": 6,
+  "module": "M10",
+  "frameworks": ["LLM01:2025"],
+  "report_skills": ["impact", "root_cause", "reproduction", "retest"],
+  "voice": "en-GB",
+  "segments": [
+    { "slide": "title",
+      "text": "Welcome to Track 6, lesson one: writing the finding. In the OSAI exam the report is weighted as heavily as the technical work — a brilliant exploit with a weak write-up can still fail you. This lesson turns a fired exploit into a finding a reader can act on." },
+    { "slide": "what-is-a-finding",
+      "text": "A finding is not a screenshot of a flag. It's a small, self-contained argument: here is a problem, here is why it matters, here is how to see it for yourself, and here is how you'll know it's fixed. Four moves — impact, root cause, reproduction, retest. Get those four right and the rest is polish." },
+    { "slide": "classification",
+      "text": "Start by classifying. Give the finding a title and a category from the shared taxonomy — for our worked example, a prompt-injection issue, OWASP LLM01. The id lets a reader instantly place the risk. And cite only real ids: an invented LLM number or ATLAS technique is an immediate credibility hit." },
+    { "slide": "impact",
+      "text": "Impact answers 'so what?'. Not 'the model printed a flag' — but what that flag stands in for. Could an attacker read another user's data, run an unintended action, or drain the budget? State the business consequence in one or two concrete sentences. Impact is what gets a finding prioritised." },
+    { "slide": "root-cause",
+      "text": "Root cause answers 'why does this happen?'. Push past the symptom to the underlying weakness. Not 'the model followed my instruction' but 'retrieved content is passed to the model without a trust boundary, so data is treated as instructions'. The fix follows from the root cause, not the symptom." },
+    { "slide": "reproduction",
+      "text": "Reproduction lets the reader see it themselves. Number the steps, give the exact input you sent, and show the actual response. Someone with no context should be able to follow your steps and get the same result. If they can't reproduce it, they can't fix it — and they may not believe it." },
+    { "slide": "evidence",
+      "text": "Evidence is what makes reproduction credible. In this range every real finding rests on a produced token — the flag, a changed database record, a callback hit — not just the model emitting a sentence. Attach that evidence, and label it, so the impact you claimed is visibly grounded in something that happened." },
+    { "slide": "retest",
+      "text": "Retest closes the loop. State how a defender confirms the fix worked: rerun these exact steps against the patched system and the injection should now be refused or the data withheld. A finding without a retest path leaves everyone guessing whether the remediation actually landed." },
+    { "slide": "remediation",
+      "text": "Then recommend the fix, tied to the root cause. For our injection example: treat retrieved content as untrusted, enforce a trust boundary between data and instructions, and screen inputs at ingestion. Concrete and actionable beats generic advice like 'add more validation' every time." },
+    { "slide": "takeaway",
+      "text": "The takeaway: a finding is a persuasive, reproducible argument, not a trophy. Impact, root cause, reproduction, retest — with real evidence and real taxonomy ids. Practise this structure on every lab you solve, and by exam day the report writes itself while the clock is still your friend." }
+  ]
+}
