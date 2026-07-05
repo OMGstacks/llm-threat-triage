@@ -478,6 +478,11 @@ def _check_schema_headers(parsed: dict[Path, object], failures: list[str]) -> No
 
 def _check_markdown_links(failures: list[str]) -> None:
     for md_path in sorted(PROJECT_ROOT.rglob("*.md")):
+        # Skip dot-directories (installed tooling such as .claude/ and .cognition/): the scaffold
+        # validates the governed learning-center content, not third-party toolkit templates, whose
+        # docs legitimately carry placeholder links (e.g. 'path/to/file.py').
+        if any(part.startswith(".") for part in md_path.relative_to(PROJECT_ROOT).parts[:-1]):
+            continue
         in_fence = False
         for line_number, line in enumerate(md_path.read_text(encoding="utf-8").splitlines(), 1):
             if line.strip().startswith("```"):
