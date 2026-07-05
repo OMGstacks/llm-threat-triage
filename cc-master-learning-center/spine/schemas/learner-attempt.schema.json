@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC learner attempt event",
+  "description": "One quiz submission. The engine re-grades selected_index against the committed practice keys, so the event never carries the correct answer, any stem, or any choice text. submitted_at is an injected integer time unit (the engine never reads the wall clock). Anonymous by construction — no PII fields are permitted.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["item_id", "selected_index", "submitted_at"],
+  "properties": {
+    "item_id": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}$",
+      "description": "Must resolve in the practice lane; holdout/unknown ids are rejected by the engine."
+    },
+    "selected_index": {"type": "integer", "minimum": 0, "maximum": 5},
+    "submitted_at": {"type": "integer", "description": "Injected monotonic time unit (e.g. day index). Interval math uses these units."},
+    "confidence_before_submit": {"type": "integer", "minimum": 1, "maximum": 5},
+    "marked_uncertain": {"type": "boolean"},
+    "time_seconds": {"type": "number", "minimum": 0}
+  }
+}

@@ -1,0 +1,8 @@
+# Learner state is PERSONAL, MUTABLE runtime data — never committed (PR-9).
+# The engine (cc_spine/learner_state.py) and schemas are committed; the state is not.
+# Synthetic fixtures under spine/tests/fixtures/ are the ONLY learner-state-shaped data
+# allowed in the repo (they carry no real study history and no PII).
+.local/
+spine/learner-state/
+learner_state.json
+*.learner-state.json

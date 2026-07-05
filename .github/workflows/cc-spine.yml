@@ -46,6 +46,8 @@ jobs:
             echo "FAIL: learner export contains an answer-bearing field"; exit 1
           fi
           echo "OK: learner export carries no answer-bearing field"
+      - name: Learner-state demo (PR-9: replay a synthetic stream; writes no learner data)
+        run: python -m cc_spine.cli learner replay --attempts tests/fixtures/synthetic_attempt_stream.json --now 5
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

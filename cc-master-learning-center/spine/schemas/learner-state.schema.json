@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC learner state snapshot",
+  "description": "Accumulated result of replaying an attempt stream: per-item Leitner mastery, a wrong-answer journal keyed to the misconception registry, and a partial readiness readout. NEVER committed — a local, gitignored runtime artifact. Anonymous by construction: fail-closed objects (additionalProperties:false) and no PII fields. Stores selected_index + misconception_id, never a stem, full choice text, or answer key.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "attempts_replayed", "items", "journal", "misconceptions", "readiness"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "attempts_replayed": {"type": "integer", "minimum": 0},
+    "items": {
+      "type": "object",
+      "propertyNames": {"pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}$"},
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["box", "attempts", "correct_streak", "last_seen", "due"],
+        "properties": {
+          "box": {"type": "integer", "minimum": 1, "maximum": 5},
+          "attempts": {"type": "integer", "minimum": 0},
+          "correct_streak": {"type": "integer", "minimum": 0},
+          "last_seen": {"type": "integer"},
+          "due": {"type": "integer"},
+          "priority": {"type": "boolean"}
+        }
+      }
+    },
+    "journal": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["item_id", "objective", "bank", "selected_index", "misconception_id", "correction", "one_sentence_rule", "recorded_at", "closed"],
+        "properties": {
+          "item_id": {"type": "string"},
+          "objective": {"type": "string"},
+          "bank": {"type": "string"},
+          "selected_index": {"type": "integer", "minimum": 0},
+          "misconception_id": {"type": "string"},
+          "trap": {"type": "string"},
+          "correction": {"type": "string"},
+          "one_sentence_rule": {"type": "string"},
+          "recorded_at": {"type": "integer"},
+          "closed": {"type": "boolean"}
+        }
+      }
+    },
+    "misconceptions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["seen", "missed", "correct_streak", "closed"],
+        "properties": {
+          "seen": {"type": "integer", "minimum": 0},
+          "missed": {"type": "integer", "minimum": 0},
+          "correct_streak": {"type": "integer", "minimum": 0},
+          "closed": {"type": "boolean"}
+        }
+      }
+    },
+    "readiness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["partial", "per_domain", "wrong_answer_closure_rate"],
+      "properties": {
+        "partial": {"type": "boolean"},
+        "note": {"type": "string"},
+        "per_domain": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["correct", "attempts", "accuracy"],
+            "properties": {
+              "correct": {"type": "integer", "minimum": 0},
+              "attempts": {"type": "integer", "minimum": 0},
+              "accuracy": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        },
+        "wrong_answer_closure_rate": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    }
+  }
+}

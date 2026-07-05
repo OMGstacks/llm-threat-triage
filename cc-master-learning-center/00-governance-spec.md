@@ -253,8 +253,9 @@ Validators (fail-closed; a check that cannot run is a failure, not a skip):
 | `unsupported_claim_guard` (`cc_spine.factstore` validate_item: item asserts nothing beyond cited cards) | **active** | 3 |
 | fingerprint drift + tombstone lifecycle (`factstore validate`) | **active** | 3 |
 | retrieval-stability proof (adding cards never changes existing groundings) | **active** | 3 |
-| `holdout_leakage_guard` | reserved | 8b (when holdout items land) |
+| `holdout_leakage_guard` (physically separate holdout lane; no leak into practice) | **active** | 8c |
 | `answer_key_isolation_guard` (card-level quarantine shipped PR-3; learner/grader split + quiz-engine isolation) | **active** | 8a |
+| `learner_state_isolation_guard` (no committed learner data; anonymous schemas; holdout attempts rejected) | **active** | 9 |
 
 ## 9. Bank Design & Allocation Policy
 

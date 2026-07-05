@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "description": "PR-9 learner-state engine logic review (companion to pr9-learner-state.md).",
+  "method": "adversarial audit of cc_spine/learner_state.py against four invariants (determinism, fail-closed holdout rejection, no content leak, scheduling/closure/confidence correctness), backed by 15 executable tests in test_learner_state.py that encode each invariant.",
+  "invariants_checked": [
+    {"invariant": "determinism", "result": "pass", "note": "attempts sorted (submitted_at,item_id); per_domain sorted; fully-keyed review_queue sort; no wall clock or random; order-independence proven by test"},
+    {"invariant": "holdout_fail_closed", "result": "pass", "note": "raises before any state mutation on holdout and unknown ids; missing holdout file still rejects via the unknown-item path"},
+    {"invariant": "no_content_leak", "result": "pass", "note": "state stores selected_index + misconception_id + registry teaching text; no stem, full choice text, or answer key"},
+    {"invariant": "scheduling_closure_confidence", "result": "pass", "note": "Leitner promote/demote, due math, closure-after-2, and confidence rules verified; dividers guarded (c/n if n; empty-missed -> 1.0); empty stream yields a valid empty state"}
+  ],
+  "findings": [],
+  "note": "An independent agent review was also dispatched; this operator audit plus the test suite is the committed record."
+}

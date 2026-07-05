@@ -85,6 +85,14 @@ fact cards in _global.json (scope global, grounded on the blueprint #exam-facts 
 a new global.exam-strategy matrix extension) and 5 exam_strategy practice items. The gold
 set is now 45 items across all four banks; the fact store holds 156 cards. Independent
 review before commit: 0 findings. Evidence in reports/pr8d-*.
+PR-9 adds the learner-state layer (``learner_state``): a Leitner spaced-repetition engine
+and a misconception-tagged wrong-answer journal that replays an attempt stream into a study
+state. It fulfils the PR-1 reserved contract in learner-state/README.md. The engine ships;
+learner data never does — the new ``learner_state_isolation_guard`` (7th and final guard)
+fails the build on any committed state file and rejects PII field names in the two new
+schemas (learner-attempt, learner-state), and the engine rejects holdout attempts fail-closed.
+Deterministic (injected time, no wall clock). CLI ``learner replay`` demos it. Evidence in
+reports/pr9-*.
 """
 
-__version__ = "0.6.0"
+__version__ = "0.7.0"

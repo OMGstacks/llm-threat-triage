@@ -5,7 +5,8 @@
     python -m cc_spine.cli check-ip            # IP-boundary support-span guard
     python -m cc_spine.cli ingest --source t.txt --source-doc-id demo [--out note.md]
     python -m cc_spine.cli factstore [validate|coverage|freeze]   # PR-3 fact store
-    python -m cc_spine.cli quiz [validate|export-learner]         # PR-8a quiz engine
+    python -m cc_spine.cli quiz [validate|export-learner|validate-holdout]  # PR-8 quiz engine
+    python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
 
 Stdlib-only; no third-party dependencies.
 """
@@ -20,7 +21,7 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import ipboundary, quiz, registry, scaffold_validate, sources
+from . import ipboundary, learner_state, quiz, registry, scaffold_validate, sources
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -139,6 +140,30 @@ def cmd_quiz(args) -> int:
     )
 
 
+def cmd_learner(args) -> int:
+    """PR-9 learner-state demo: replay a synthetic attempt stream and print the wrong-answer
+    journal, the spaced-repetition review queue, and the partial readiness readout. Operates
+    only on committed practice content + the injected stream — it writes no learner data."""
+    attempts = json.loads(Path(args.attempts).read_text(encoding="utf-8"))
+    try:
+        state = learner_state.replay(attempts, now=args.now)
+    except learner_state.LearnerStateError as exc:
+        print(f"FAIL learner replay rejected an attempt: {exc}")
+        return 1
+    queue = learner_state.review_queue(state, now=args.now)
+    if args.json:
+        print(json.dumps({"state": state, "review_next": queue}, indent=2))
+        return 0
+    r = state["readiness"]
+    print(f"learner replay: {state['attempts_replayed']} attempt(s) → "
+          f"{len(state['journal'])} journal entry(ies), {len(state['items'])} item(s) tracked")
+    print(f"  wrong-answer closure rate: {r['wrong_answer_closure_rate']:.0%}  (partial readiness)")
+    for j in learner_state.open_journal(state):
+        print(f"  OPEN  {j['item_id']} [{j['objective']}] trap={j['misconception_id']} — {j['one_sentence_rule']}")
+    print(f"  review next ({len(queue)}): {', '.join(queue[:8])}{' …' if len(queue) > 8 else ''}")
+    return 0
+
+
 def cmd_ingest(args) -> int:
     dictionary = json.loads(Path(args.dictionary).read_text(encoding="utf-8"))
     domains = set(args.domains.split(",")) if args.domains else None
@@ -192,6 +217,14 @@ def build_parser() -> argparse.ArgumentParser:
     p_quiz.add_argument("--answer-keys", default=None, help="override answer-key store path (testing)")
     p_quiz.add_argument("--json", action="store_true", help="emit the full JSON report")
     p_quiz.set_defaults(func=cmd_quiz)
+
+    p_learn = sub.add_parser(
+        "learner", help="learner-state demo (PR-9): replay a synthetic attempt stream")
+    p_learn.add_argument("action", nargs="?", default="replay", choices=["replay"])
+    p_learn.add_argument("--attempts", required=True, help="path to a JSON attempt stream")
+    p_learn.add_argument("--now", type=int, default=0, help="injected current time unit")
+    p_learn.add_argument("--json", action="store_true", help="emit the full state as JSON")
+    p_learn.set_defaults(func=cmd_learner)
 
     p_ing = sub.add_parser("ingest", help="extract + suggest corrections + build a note")
     p_ing.add_argument("--source", required=True, help="path to a .docx or .txt source")

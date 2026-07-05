@@ -1,0 +1,52 @@
+[
+  {
+    "item_id": "D5.5.1.discrimination.0001",
+    "selected_index": 0,
+    "submitted_at": 0,
+    "confidence_before_submit": 5,
+    "time_seconds": 40
+  },
+  {
+    "item_id": "D5.5.1.discrimination.0001",
+    "selected_index": 2,
+    "submitted_at": 1,
+    "confidence_before_submit": 3,
+    "time_seconds": 30
+  },
+  {
+    "item_id": "D5.5.1.discrimination.0001",
+    "selected_index": 2,
+    "submitted_at": 3,
+    "confidence_before_submit": 4,
+    "time_seconds": 22
+  },
+  {
+    "item_id": "D1.1.1.definition.0001",
+    "selected_index": 0,
+    "submitted_at": 1,
+    "confidence_before_submit": 1,
+    "marked_uncertain": true,
+    "time_seconds": 18
+  },
+  {
+    "item_id": "D4.4.1.scenario.0001",
+    "selected_index": 1,
+    "submitted_at": 2,
+    "confidence_before_submit": 2,
+    "time_seconds": 55
+  },
+  {
+    "item_id": "D3.3.2.scenario.0001",
+    "selected_index": 3,
+    "submitted_at": 2,
+    "confidence_before_submit": 4,
+    "time_seconds": 33
+  },
+  {
+    "item_id": "global.0.0.strategy.0001",
+    "selected_index": 0,
+    "submitted_at": 0,
+    "confidence_before_submit": 5,
+    "time_seconds": 10
+  }
+]

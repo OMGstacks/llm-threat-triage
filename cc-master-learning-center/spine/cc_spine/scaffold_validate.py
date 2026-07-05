@@ -51,6 +51,10 @@ GUARD_STATUS = {
     # item file); cc_spine.cli quiz validate enforces the grounding + hash + near-dup half.
     "answer_key_isolation_guard": "active",
     "unsupported_claim_guard": "active",      # PR-3: cc_spine.factstore validate_item
+    # PR-9: learner state is personal/mutable runtime data. The scaffold fails if a real
+    # state file is committed and if the learner schemas carry a PII field; the engine
+    # (cc_spine.learner_state) rejects holdout attempts at runtime.
+    "learner_state_isolation_guard": "active",
 }
 
 # Retained for callers that only need the still-reserved set.
@@ -385,11 +389,84 @@ def _check_holdout(holdout, failures: list[str]) -> None:
                     "(holdout_leakage_guard)")
 
 
+# learner_state_isolation_guard (PR-9). Real learner state is never committed; only synthetic
+# fixtures under tests/fixtures/ may carry learner-state-shaped data. And the learner schemas
+# must stay anonymous — no PII field names anywhere in them.
+_LEARNER_STATE_NAMES = {"learner_state.json"}
+_LEARNER_STATE_DIRS = {"learner-state", ".local"}
+_PII_FIELD_NAMES = {
+    "name", "email", "phone", "ip", "address", "user", "username", "account",
+    "device_id", "session_id", "cookie", "token", "location",
+}
+
+
+def _check_no_learner_state(failures: list[str]) -> None:
+    fixtures = PROJECT_ROOT / "spine" / "tests" / "fixtures"
+    for path in sorted(PROJECT_ROOT.rglob("*")):
+        if not path.is_file() or path.is_relative_to(fixtures):
+            continue
+        name = path.name.lower()
+        # Forbid learner-state DATA files only — documentation (.md) in learner-state/ is fine.
+        is_state = (name in _LEARNER_STATE_NAMES or name.endswith(".learner-state.json")
+                    or (path.suffix.lower() == ".json"
+                        and any(part in _LEARNER_STATE_DIRS for part in path.parts)))
+        if is_state:
+            failures.append(
+                f"{path.relative_to(PROJECT_ROOT)}: learner state must not be committed "
+                "(local/gitignored runtime only; synthetic fixtures go under tests/fixtures)")
+
+
+def _pii_field_names(obj) -> set:
+    found = set()
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if isinstance(k, str) and k.lower() in _PII_FIELD_NAMES:
+                found.add(k.lower())
+            found |= _pii_field_names(v)
+    elif isinstance(obj, list):
+        for v in obj:
+            found |= _pii_field_names(v)
+    return found
+
+
+def _check_learner_schemas_anonymous(failures: list[str]) -> None:
+    schema_dir = PROJECT_ROOT / "spine" / "schemas"
+    for name in ("learner-attempt.schema.json", "learner-state.schema.json"):
+        path = schema_dir / name
+        if not path.exists():
+            failures.append(f"spine/schemas/{name}: missing (PR-9)")
+            continue
+        schema = json.loads(path.read_text(encoding="utf-8"))
+        # Only inspect declared property NAMES, not descriptions/enums.
+        pii = _pii_field_names(_schema_property_names(schema))
+        if pii:
+            failures.append(f"spine/schemas/{name}: carries PII-like field name(s) {sorted(pii)}")
+
+
+def _schema_property_names(schema) -> dict:
+    """Collect the {propertyName: subschema} maps so the PII scan only sees field names."""
+    out = {}
+    if isinstance(schema, dict):
+        props = schema.get("properties")
+        if isinstance(props, dict):
+            for k, v in props.items():
+                out[k] = _schema_property_names(v)
+        for v in schema.values():
+            child = _schema_property_names(v)
+            if child:
+                out.setdefault("_nested", []).append(child)
+    elif isinstance(schema, list):
+        acc = [_schema_property_names(v) for v in schema]
+        if any(acc):
+            out["_nested"] = acc
+    return out
+
+
 def _check_schema_headers(parsed: dict[Path, object], failures: list[str]) -> None:
     schema_dir = PROJECT_ROOT / "spine" / "schemas"
     schema_files = sorted(schema_dir.glob("*.schema.json"))
-    if len(schema_files) != 5:
-        failures.append(f"spine/schemas: expected 5 schema files, found {len(schema_files)}")
+    if len(schema_files) != 7:
+        failures.append(f"spine/schemas: expected 7 schema files, found {len(schema_files)}")
     for path in schema_files:
         data = parsed.get(path)
         if not isinstance(data, dict):
@@ -509,6 +586,8 @@ def run_checks() -> list[str]:
     )
     _check_goldset(parsed.get(PROJECT_ROOT / "spine" / "gold" / "goldset.json"), failures)
     _check_holdout(parsed.get(PROJECT_ROOT / "spine" / "gold" / "holdout.json"), failures)
+    _check_no_learner_state(failures)
+    _check_learner_schemas_anonymous(failures)
     _check_evidence(
         parsed.get(PROJECT_ROOT / "reference" / "verification-evidence.json"), registry, failures)
     _check_manifest(

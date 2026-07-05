@@ -1,7 +1,13 @@
 # Learner State — Intentionally Separate From Content
 
-This directory documents the **learner-state layer**. It holds no data in PR-1; the schema
-below is the reserved contract for the progress engine (roadmap PR "n").
+This directory documents the **learner-state layer**. It holds no committed data — ever. PR-1
+reserved this contract; **PR-9 delivers the engine** (`../spine/cc_spine/learner_state.py`) plus
+the formal schemas (`../spine/schemas/learner-attempt.schema.json`,
+`../spine/schemas/learner-state.schema.json`). Real learner state is a local, gitignored runtime
+artifact: the `learner_state_isolation_guard` fails the build if any state `.json` is committed
+here, and only synthetic fixtures under `../spine/tests/fixtures/` may carry attempt-shaped data.
+The sketches below are the original contract; the schemas are the authoritative form (e.g.
+attempts store `selected_index`, and the engine re-grades rather than trusting a stored `correct`).
 
 ## Why learner state is excluded from fact cards
 

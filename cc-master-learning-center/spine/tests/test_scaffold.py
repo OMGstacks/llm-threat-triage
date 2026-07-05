@@ -36,6 +36,7 @@ class ScaffoldValidationTest(unittest.TestCase):
             "holdout_leakage_guard",
             "answer_key_isolation_guard",
             "unsupported_claim_guard",
+            "learner_state_isolation_guard",
         }
         self.assertEqual(set(scaffold_validate.GUARD_STATUS), expected)
 
@@ -107,7 +108,10 @@ class ScaffoldValidationTest(unittest.TestCase):
 
     def test_pr8c_activated_holdout_leakage_guard(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["holdout_leakage_guard"], "active")
-        # All tracked guards are now active — none reserved.
+
+    def test_pr9_activated_learner_state_isolation_guard(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["learner_state_isolation_guard"], "active")
+        # All tracked guards are active — none reserved.
         self.assertEqual(set(scaffold_validate.RESERVED_GUARDS), set())
 
     def test_raw_docx_anywhere_in_repo_scope_fails(self):
