@@ -1,0 +1,97 @@
+#!/bin/bash
+# datetime-sync: injects authoritative wall-clock time + day-of-week into
+# every session, plus an OPTIONAL pluggable project-calendar extension.
+#
+# Generalized from Sauron's session-datetime-sync. Split into:
+#   1. Domain-agnostic core (always runs) — UTC, local time, day-of-week,
+#      weekday-vs-weekend classification. Copied over essentially unchanged
+#      since it was already generic.
+#   2. Optional calendar-provider extension — if
+#      .claude/hooks-config/calendar-provider.json exists and declares a
+#      "command" field, exec that command and append its stdout verbatim
+#      under a "Project calendar (authoritative)" section, using the same
+#      forgiving key:value line-parsing as the original script.
+#
+# Fail-open contract: this hook NEVER aborts a session. Always exits 0, even
+# if the optional provider command fails (prints a one-line note and moves
+# on) or if jq / the config is missing/malformed.
+
+set +e   # never fail the session
+
+# ---------------------------------------------------------------------
+# 1. Domain-agnostic wall-clock core (always runs)
+# ---------------------------------------------------------------------
+LOCAL_TS=$(date "+%A, %B %-d %Y  %H:%M %Z" 2>/dev/null || date)
+UTC_TS=$(date -u "+%Y-%m-%dT%H:%M:%SZ" 2>/dev/null || date -u)
+DAY=$(date "+%A" 2>/dev/null || echo "?")
+WD=$(date "+%u" 2>/dev/null || echo "0")
+
+# Wall-clock day class (generic weekday/weekend; NOT a project business-day
+# calendar claim — that's what the optional provider extension is for).
+if [[ "$WD" -ge 6 ]]; then
+    DAY_CLASS="weekend"
+else
+    DAY_CLASS="weekday (not a business-day claim; verify project calendar if relevant)"
+fi
+
+echo "╔═══════════════════════════════════════════════════════════════════╗"
+echo "║  SESSION TIME CONTEXT  (wall-clock authoritative)                  ║"
+echo "╠═══════════════════════════════════════════════════════════════════╣"
+printf "║  Now (UTC):       %-48s║\n" "$UTC_TS"
+printf "║  Now (local):     %-48s║\n" "$LOCAL_TS"
+printf "║  Day of week:     %-48s║\n" "$DAY"
+printf "║  Wall-clock day:  %-48s║\n" "$DAY_CLASS"
+
+# ---------------------------------------------------------------------
+# 2. Optional pluggable calendar-provider extension
+# ---------------------------------------------------------------------
+REPO_ROOT=$(git rev-parse --show-toplevel 2>/dev/null)
+if [ -z "$REPO_ROOT" ]; then
+    REPO_ROOT="$PWD"
+fi
+
+CAL_CONFIG="$REPO_ROOT/.claude/hooks-config/calendar-provider.json"
+
+if [ -f "$CAL_CONFIG" ]; then
+    if ! command -v jq >/dev/null 2>&1; then
+        echo "╠═══════════════════════════════════════════════════════════════════╣"
+        echo "║  Project calendar: skipped (jq not found)                         ║"
+    else
+        CAL_CMD=$(jq -r '.command // empty' "$CAL_CONFIG" 2>/dev/null)
+        if [ -z "$CAL_CMD" ]; then
+            echo "╠═══════════════════════════════════════════════════════════════════╣"
+            echo "║  Project calendar: skipped (no 'command' field in config)         ║"
+        else
+            # Run the provider command. Never let its failure abort the hook.
+            CAL_OUT=$(eval "$CAL_CMD" 2>/dev/null)
+            CAL_STATUS=$?
+            if [ "$CAL_STATUS" -ne 0 ] || [ -z "$CAL_OUT" ]; then
+                echo "╠═══════════════════════════════════════════════════════════════════╣"
+                echo "║  Project calendar: provider command failed or returned no output  ║"
+            else
+                echo "╠═══════════════════════════════════════════════════════════════════╣"
+                echo "║  Project calendar (authoritative):                                 ║"
+                # Forgiving key:value line-parsing, same convention as the
+                # original script (handles "key:value" and "key: value").
+                while IFS= read -r line; do
+                    [ -n "$line" ] || continue
+                    KEY=$(printf '%s' "$line" | sed -n 's/^\([A-Za-z0-9_]*\):.*/\1/p')
+                    VAL=$(printf '%s' "$line" | sed -n 's/^[A-Za-z0-9_]*: *//p')
+                    if [ -n "$KEY" ] && [ -n "$VAL" ]; then
+                        printf "║    %-19s%-44s║\n" "${KEY}:" "$VAL"
+                    else
+                        # Line doesn't match key:value — print verbatim, truncated/padded.
+                        printf "║    %-65s║\n" "$line"
+                    fi
+                done <<< "$CAL_OUT"
+            fi
+        fi
+    fi
+fi
+
+echo "╠═══════════════════════════════════════════════════════════════════╣"
+echo "║  Verify day-of-week from this block, not from mental arithmetic   ║"
+echo "║  on the date string.                                               ║"
+echo "╚═══════════════════════════════════════════════════════════════════╝"
+
+exit 0

@@ -1,0 +1,12 @@
+[
+  {
+    "trigger_matcher": "Grep|Glob|Read",
+    "preferred_tools": ["search_graph", "trace_path", "get_code_snippet"],
+    "hint_message": "For code discovery, use project-search MCP tools first: search_graph(name_pattern) to find functions/classes, trace_path() for call chains, get_code_snippet(qualified_name) to read source. If the index is stale, call index_repository first. Fall back to Grep/Glob/Read only for non-code text search. If you need Grep, retry."
+  },
+  {
+    "trigger_matcher": "Bash",
+    "preferred_tools": ["run_tests_mcp"],
+    "hint_message": "For running the test suite, prefer the run_tests_mcp tool over a raw Bash invocation — it aggregates output and respects project-specific test filters."
+  }
+]
