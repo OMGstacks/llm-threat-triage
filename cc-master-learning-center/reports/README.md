@@ -44,3 +44,5 @@ slice starts. At minimum:
 | [`pr10-2-exposure-receipt-review.json`](pr10-2-exposure-receipt-review.json) | PR-10.2 | independent review accept-with-fixes; F1 (major, overstated enforcement) + F2–F5 all fixed before commit |
 | [`pr10-3-presentation-randomization.md`](pr10-3-presentation-randomization.md) | PR-10.3 | render-time choice shuffling (deterministic recomputation); canonical items stable; grader maps displayed→canonical |
 | [`pr10-3-presentation-randomization-review.json`](pr10-3-presentation-randomization-review.json) | PR-10.3 | independent review accept-with-fixes; F1–F5 (bool guard, required seed, stronger anti-memo gate, precondition, pid integrity check) all fixed before commit |
+| [`pr10-4a-semantic-variants.md`](pr10-4a-semantic-variants.md) | PR-10.4a | semantic variant model + `semantic_lock_guard` (synthetic-only, no live API); 13 gates + carry-forward |
+| [`pr10-4a-semantic-variants-review.json`](pr10-4a-semantic-variants-review.json) | PR-10.4a | independent review needs-work → all fixed: 3 major (wrong-choice-graded-correct, render leak, drift bypass) + F4–F9, redesigned around an isolated variant key |

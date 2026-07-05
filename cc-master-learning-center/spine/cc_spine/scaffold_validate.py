@@ -465,8 +465,8 @@ def _schema_property_names(schema) -> dict:
 def _check_schema_headers(parsed: dict[Path, object], failures: list[str]) -> None:
     schema_dir = PROJECT_ROOT / "spine" / "schemas"
     schema_files = sorted(schema_dir.glob("*.schema.json"))
-    if len(schema_files) != 7:
-        failures.append(f"spine/schemas: expected 7 schema files, found {len(schema_files)}")
+    if len(schema_files) != 8:
+        failures.append(f"spine/schemas: expected 8 schema files, found {len(schema_files)}")
     for path in schema_files:
         data = parsed.get(path)
         if not isinstance(data, dict):

@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC item variant",
+  "description": "A semantically-equivalent variant of a practice item, generated to re-test a MISSED concept without reusing the exact stem (PR-10.4a). The variant preserves what the source item tests (objective, bank, fact_ids, expected_keywords, misconception target) and changes only surface wording. It carries NO answer-key field: correctness lives in a SEPARATE, evaluator-context variant key (correct_index), exactly like answer-keys.json for gold items, so no correct index, display letter, or choice order is ever stored here. The semantic_lock does NOT define correctness on its own; it CORROBORATES the key — the keyed-correct choice must contain every must_include_keyword and no other choice may. Draft/api-generated variants are local-only and never enter readiness, holdout, or a mock draw until reviewed. additionalProperties:false (and the code's allowlist check) makes this a closed object so no answer-bearing field of any name can be smuggled in.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "variant_id", "source_item_id", "objective", "bank", "fact_ids", "expected_keywords",
+    "misconception_ids", "semantic_lock", "stem_variant", "choices_variant", "status", "source"
+  ],
+  "properties": {
+    "variant_id": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}\\.v[0-9]{3}$",
+      "description": "Convention: <source_item_id>.v<NNN>, e.g. D4.4.1.scenario.0001.v001"
+    },
+    "source_item_id": {
+      "type": "string",
+      "pattern": "^(D[1-5]|global)\\.[0-9]\\.[0-9]+\\.(definition|discrimination|scenario|strategy)\\.[0-9]{4}$",
+      "description": "The practice item this variant re-tests. Must resolve in the practice goldset and must NOT be a holdout item."
+    },
+    "objective": {"type": "string", "description": "Must equal the source item's objective (no drift)."},
+    "bank": {
+      "enum": ["definition_recall", "concept_discrimination", "scenario_application", "exam_strategy"],
+      "description": "Must equal the source item's bank (no drift)."
+    },
+    "fact_ids": {
+      "type": "array", "items": {"type": "string"}, "minItems": 1,
+      "description": "Grounding fact cards. Must equal or be a subset of the source item's fact_ids — a variant may not introduce a new claim."
+    },
+    "expected_keywords": {
+      "type": "array", "items": {"type": "string"}, "minItems": 1,
+      "description": "Keywords that must be supported by the cited fact cards (unsupported_claim_guard, reused from the item validator)."
+    },
+    "misconception_ids": {
+      "type": "array", "items": {"type": "string"}, "minItems": 1,
+      "description": "Registry misconception ids the distractors target. Each resolves in reference/misconception-registry.json and must be a subset of the source item's misconception targets (no target drift)."
+    },
+    "semantic_lock": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["must_test", "correct_concept", "must_include_keywords", "must_not_change"],
+      "description": "The invariant contract that CORROBORATES the isolated variant key (it does not replace it). The keyed-correct choice must contain every must_include_keyword and no other choice may, so the lock keywords uniquely discriminate the correct choice; there is no stored correct index here.",
+      "properties": {
+        "must_test": {"type": "string", "minLength": 1, "description": "The concept the item tests, in one sentence."},
+        "correct_concept": {"type": "string", "minLength": 1, "description": "The correct answer as a concept (e.g. 'TCP'), never a display letter — the validator rejects a bare A/B/C/D/index. Descriptive; correctness is keyed by the isolated variant key."},
+        "must_include_keywords": {
+          "type": "array", "items": {"type": "string"}, "minItems": 1,
+          "description": "Keywords that must appear in the correct choice (and only the correct choice). Must be a subset of expected_keywords so the identifying keywords are also grounded."
+        },
+        "must_not_change": {
+          "type": "array", "items": {"type": "string"},
+          "description": "The source properties that must not drift (objective, bank, fact_ids, misconception_ids)."
+        }
+      }
+    },
+    "stem_variant": {"type": "string", "minLength": 1, "description": "Reworded scenario/stem. Must differ meaningfully from the source stem (not a synonym swap) yet test the same concept."},
+    "choices_variant": {
+      "type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 6,
+      "description": "The reworded choices in canonical (authoring) order. Rendered to the learner via the PR-10.3 presentation layer, which shuffles per attempt — the variant never stores a display order."
+    },
+    "status": {
+      "enum": ["draft", "validated", "rejected", "reviewed"],
+      "description": "draft: unvetted (incl. api_generated_local). validated: passes validate_variant. reviewed: adversarially reviewed and practice-eligible. rejected: failed review. Only validated/reviewed with review metadata are practice-eligible; draft never enters readiness/holdout/mock."
+    },
+    "source": {
+      "enum": ["synthetic_test", "api_generated_local", "human_authored"],
+      "description": "Provenance. api_generated_local is always draft and local-only until reviewed (PR-10.4b)."
+    },
+    "reviewed_by": {"type": "string", "description": "Anonymised reviewer handle; required once status is reviewed."},
+    "last_reviewed": {"type": "string", "description": "ISO date of the review; required once status is reviewed."},
+    "readiness_weight": {
+      "const": 0,
+      "description": "Variants NEVER contribute to the governed readiness signal. If present it must be 0; the engine treats variants as practice-only."
+    }
+  }
+}

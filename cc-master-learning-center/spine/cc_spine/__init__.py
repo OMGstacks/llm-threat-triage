@@ -138,6 +138,23 @@ index, and fails closed on an ``expected_presentation_id`` mismatch (a render/gr
 the shuffled render for answer/order fields; holdout items use the same machinery. Independent review
 (accept-with-fixes) hardened the bool guard, the required seed, the anti-memorization gate, and the
 presentation_id integrity check before commit (F1-F5).
+PR-10.4a adds the semantic variant model + validators (``variants`` + ``item-variant.schema.json``)
+so a MISSED item can later be re-tested with reworded-but-equivalent variants. Synthetic variants
+only; NO live API (that is PR-10.4b). Correctness lives in a SEPARATE evaluator-context variant key
+(answer-key isolation, carried from the quiz engine); the variant OBJECT stores no correct index /
+display letter / choice order and is a CLOSED object (allowlist, so no field of any name smuggles an
+answer — gate 11). The ``semantic_lock`` CORROBORATES the key rather than defining correctness: the
+keyed-correct choice must carry every ``must_include_keyword`` and no other choice may (gate 7).
+``validate_variant`` enforces the gate set: source resolves and is NOT holdout (cross-checked against
+the holdout store, not just a caller flag); objective/bank/fact_ids/misconception target (derived
+from the SOURCE key — never a silent skip) may not drift (``semantic_lock_guard``); expected_keywords
+stay grounded (reuses ``factstore.validate_item``); misconception_ids resolve; the stem is reworded
+but not a synonym swap (Jaccard ≤ the goldset near-dup bound). Only ADVERSARIALLY-REVIEWED variants
+(reviewed + metadata) are practice-eligible; ``readiness_weight`` is pinned to 0. Variants render +
+grade through the PR-10.3 presentation layer, using the SOURCE's neutral topic so no answer-adjacent
+authoring text leaks. Independent review (needs-work → fixed) drove the isolated-key model, the render
+leak fix, the fail-closed drift check, and the closed-object allowlist before commit (F1-F9). 8th
+schema; scaffold count gate updated.
 """
 
-__version__ = "0.8.3"
+__version__ = "0.8.4"
