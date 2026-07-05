@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "description": "PR-10.1 adversarial review of 4 new holdout scenario items.",
+  "method": "independent adversarial reviewer (author != reviewer); completed BEFORE commit per governance spec section 16.0",
+  "summary": {"items": 4, "factual_errors": 0, "multiple_correct_blockers": 0, "findings": 0},
+  "review": [
+    {"item_id": "D1.1.2.scenario.9001", "review_status": "clean", "findings": []},
+    {"item_id": "D2.2.1.scenario.9001", "review_status": "clean", "findings": []},
+    {"item_id": "D3.3.1.scenario.9001", "review_status": "clean", "findings": []},
+    {"item_id": "D4.4.3.scenario.9001", "review_status": "clean", "findings": []}
+  ]
+}

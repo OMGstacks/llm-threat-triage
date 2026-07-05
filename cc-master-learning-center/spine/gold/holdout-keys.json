@@ -27,6 +27,54 @@
       "item_hash": "sha256:a48cccbc0a464e2ae6cc02c1564e9e6dc9ec5b3be97806bc3b6d0db3690a6acc"
     },
     {
+      "answer_key_ref": "D1.1.2.scenario.9001.key",
+      "item_id": "D1.1.2.scenario.9001",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D1.12-risk-treatment"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "risk-treatment-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "risk-treatment-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "risk-treatment-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:1c755bdf69c640e082ade1e353053d78f1f5a3be28ca03eb07cd3e9a4d63a6f6",
+      "item_hash": "sha256:2167af35ac6adf7599706a73a3dfa1b0d4cf53efa73430a45530f9b418ec4f27"
+    },
+    {
+      "answer_key_ref": "D2.2.1.scenario.9001.key",
+      "item_id": "D2.2.1.scenario.9001",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D2.21-bc-vs-dr"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "bc-vs-dr-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "bc-vs-dr-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "bc-vs-dr-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:a85725dddbb5d2240fe904457235abbda370ffd10a58a395e7bcc60c388116c5",
+      "item_hash": "sha256:ec63230c435c0a83401e1d046127eafde7633f19b33cf4b6c6d158d803bb35d0"
+    },
+    {
       "answer_key_ref": "D2.2.2.definition.9001.key",
       "item_id": "D2.2.2.definition.9001",
       "correct_index": 1,
@@ -49,6 +97,30 @@
       },
       "answer_key_hash": "sha256:2d27e74dff5b715a2756c9dd6a85eb96a665a5041de21dc517fd1c96d369ba3c",
       "item_hash": "sha256:5942ec5012759f416f5ca19d7d4ac175103376b31fd894d5548240d77b95a7ca"
+    },
+    {
+      "answer_key_ref": "D3.3.1.scenario.9001.key",
+      "item_id": "D3.3.1.scenario.9001",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D3.31-layered-physical"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "physical-layering-confusion",
+          "category": "control_category_confusion"
+        },
+        "1": {
+          "misconception_id": "physical-layering-confusion",
+          "category": "control_category_confusion"
+        },
+        "3": {
+          "misconception_id": "physical-layering-confusion",
+          "category": "control_category_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:9a2c9cbffe8ce819d45c58afde1a4fad768258eb8cdb6a2121e98a88b54bcdcb",
+      "item_hash": "sha256:a93e7f6dc782cec8b48c9c09e635b2235c76aa0f8c895ee9d7324b0d38325988"
     },
     {
       "answer_key_ref": "D3.3.2.definition.9001.key",
@@ -145,6 +217,30 @@
       },
       "answer_key_hash": "sha256:42fe252828e0800e83e9dbd1d9b725e5d0831a9e8fcd026500f5de5d568707fd",
       "item_hash": "sha256:547a02fda4af40abaf4df29fa4bc73c4c91f8f0ade46f4835b0036cd0b580e50"
+    },
+    {
+      "answer_key_ref": "D4.4.3.scenario.9001.key",
+      "item_id": "D4.4.3.scenario.9001",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D4.43-dmz-vs-vlan"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        },
+        "1": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:af2ea39a00e8cbe2129cde03dd17953b89fa27d2e57cd59c7cc47d40f2c44d0e",
+      "item_hash": "sha256:aef53585a6368f1ef31680ed804b43319dd5631fc243c2d07db6e2d47e5c4277"
     },
     {
       "answer_key_ref": "D5.5.1.definition.9001.key",

@@ -1,5 +1,5 @@
 {
-  "version": "0.5.0",
+  "version": "0.7.2",
   "note": "PR-8c holdout lane: 8 unseen items in a PHYSICALLY separate store. The learner practice path (goldset.json / export-learner) never opens this file. Read only by explicit evaluator commands (quiz validate-holdout) and, later, the mock-exam draw. Same isolation as goldset: no correct answer lives here; keys are in holdout-keys.json.",
   "items": [
     {
@@ -23,6 +23,62 @@
         "combination of the likelihood"
       ],
       "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.2.scenario.9001",
+      "bank": "scenario_application",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "risk treatment (transfer)",
+      "stem": "A company purchases cyber-insurance to offload the financial impact of a potential breach. Which risk treatment option is this?",
+      "choices": [
+        "Accept — tolerating the risk and taking no protective action.",
+        "Transfer/Share — shifting the risk to a third party such as an insurer.",
+        "Avoid — eliminating the activity that creates the risk entirely.",
+        "Mitigate/Reduce — applying controls to lower the likelihood or impact."
+      ],
+      "answer_key_ref": "D1.1.2.scenario.9001.key",
+      "fact_ids": [
+        "D1.12-risk-treatment"
+      ],
+      "expected_keywords": [
+        "Transfer/Share (e.g., insurance)"
+      ],
+      "difficulty": "L4",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.1.scenario.9001",
+      "bank": "scenario_application",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "BC vs DR",
+      "stem": "A fire destroys the primary data center and the team restores servers and data from backups at an alternate site. This activity is primarily an example of what?",
+      "choices": [
+        "Business Continuity — keeping all operations, people, and processes running.",
+        "Disaster Recovery — the IT-focused restoration of systems and data.",
+        "A business impact analysis of the disruption's effects.",
+        "The detection and analysis phase of incident response."
+      ],
+      "answer_key_ref": "D2.2.1.scenario.9001.key",
+      "fact_ids": [
+        "D2.21-bc-vs-dr"
+      ],
+      "expected_keywords": [
+        "restores systems and data"
+      ],
+      "difficulty": "L4",
       "holdout": true,
       "status": "active",
       "source_policy": "factstore|required",
@@ -56,6 +112,34 @@
       "source_policy": "factstore|required",
       "misconception_tags": [
         "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.scenario.9001",
+      "bank": "scenario_application",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "layered physical security",
+      "stem": "A facility protects its assets with perimeter fencing, then badge-controlled doors, then a locked cage around the servers. Which principle does this layering illustrate?",
+      "choices": [
+        "Separation of duties across independent staff members.",
+        "Least privilege granting only the minimum required access.",
+        "Defense in depth applied through concentric physical layers.",
+        "A single strong perimeter that removes the need for inner controls."
+      ],
+      "answer_key_ref": "D3.3.1.scenario.9001.key",
+      "fact_ids": [
+        "D3.31-layered-physical"
+      ],
+      "expected_keywords": [
+        "concentric layers"
+      ],
+      "difficulty": "L4",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
       ]
     },
     {
@@ -163,6 +247,34 @@
         "7 layers"
       ],
       "difficulty": "L3",
+      "holdout": true,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.scenario.9001",
+      "bank": "scenario_application",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "DMZ vs VLAN",
+      "stem": "A company must expose a public web server to the internet while shielding its internal network. Which design isolates the public server at the network perimeter?",
+      "choices": [
+        "A VLAN — logical traffic isolation within the internal network.",
+        "A VPN — an encrypted tunnel for remote user access.",
+        "NAC — posture and identity checks before network admission.",
+        "A DMZ — a screened subnet at the perimeter enforced by firewall rules."
+      ],
+      "answer_key_ref": "D4.4.3.scenario.9001.key",
+      "fact_ids": [
+        "D4.43-dmz-vs-vlan"
+      ],
+      "expected_keywords": [
+        "public-facing servers at the network perimeter"
+      ],
+      "difficulty": "L4",
       "holdout": true,
       "status": "active",
       "source_policy": "factstore|required",

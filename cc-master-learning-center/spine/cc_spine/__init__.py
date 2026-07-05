@@ -98,6 +98,9 @@ PR-9.1 applies the independent engine review's four minor fixes: a total attempt
 journal records the SELECTED distractor's misconception (not the first), and holdout rejection
 also checks the resolved item's holdout flag. Four regression tests added. The review had
 completed after the initial commit — the PR-7 commit-before-review lesson reinforced.
+PR-10.1 grows the holdout scenario supply from 1 to 5 items (one per domain) so PR-10 mock
+exams can draw a scenario per domain (mock_exam.scenario_draw is holdout_only). Same holdout
+gates; independent review awaited before commit — 0 findings. Holdout lane now 12 items.
 """
 
-__version__ = "0.7.1"
+__version__ = "0.7.2"

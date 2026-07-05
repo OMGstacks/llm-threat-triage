@@ -347,6 +347,38 @@
       "category": "definition_confusion",
       "objective": "global.exam-strategy",
       "origin": "pr8d exam_strategy authoring"
+    },
+    {
+      "id": "risk-treatment-confusion",
+      "misconception": "Confusing the four risk-treatment options (accept, avoid, transfer, mitigate).",
+      "correct": "Buying insurance is Transfer/Share — shifting risk to a third party, not accept, avoid, or mitigate.",
+      "category": "definition_confusion",
+      "objective": "1.2",
+      "origin": "pr10.1 holdout scenario authoring"
+    },
+    {
+      "id": "bc-vs-dr-confusion",
+      "misconception": "Treating BC and DR as the same thing, or swapping them.",
+      "correct": "DR is the IT-focused restoration of systems and data; BC is the broader effort to keep operations running. DR is a subset of BC.",
+      "category": "definition_confusion",
+      "objective": "2.1",
+      "origin": "pr10.1 holdout scenario authoring"
+    },
+    {
+      "id": "physical-layering-confusion",
+      "misconception": "Confusing layered physical defense in depth with access principles like least privilege or separation of duties.",
+      "correct": "Concentric physical layers (perimeter, building, interior, asset) apply defense in depth, not least privilege or separation of duties.",
+      "category": "control_category_confusion",
+      "objective": "3.1",
+      "origin": "pr10.1 holdout scenario authoring"
+    },
+    {
+      "id": "dmz-vs-vlan-confusion",
+      "misconception": "Confusing a DMZ (perimeter isolation of public servers) with a VLAN (internal logical isolation).",
+      "correct": "A DMZ isolates public-facing servers at the network perimeter via firewall rules; a VLAN isolates traffic within the internal network.",
+      "category": "network_device_confusion",
+      "objective": "4.3",
+      "origin": "pr10.1 holdout scenario authoring"
     }
   ]
 }
