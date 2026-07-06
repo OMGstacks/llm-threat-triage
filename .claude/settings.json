@@ -13,5 +13,25 @@
       "Read(**/*.key)",
       "Read(**/*.pem)"
     ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "C:/Users/izuuh/projects/llm-threat-triage/.claude/cognition-hooks/datetime-sync" },
+          { "type": "command", "command": "C:/Users/izuuh/projects/llm-threat-triage/.claude/cognition-hooks/preferred-tool-reminder" },
+          { "type": "command", "command": "C:/Users/izuuh/projects/llm-threat-triage/.claude/cognition-hooks/friction-diary-signal" },
+          { "type": "command", "command": "C:/Users/izuuh/projects/llm-threat-triage/.claude/cognition-hooks/workspace-state-sync" }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Grep|Glob|Read|Bash",
+        "hooks": [
+          { "type": "command", "command": "C:/Users/izuuh/projects/llm-threat-triage/.claude/cognition-hooks/preferred-tool-gate" }
+        ]
+      }
+    ]
   }
 }
