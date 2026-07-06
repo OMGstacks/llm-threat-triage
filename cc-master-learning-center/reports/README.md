@@ -46,3 +46,5 @@ slice starts. At minimum:
 | [`pr10-3-presentation-randomization-review.json`](pr10-3-presentation-randomization-review.json) | PR-10.3 | independent review accept-with-fixes; F1–F5 (bool guard, required seed, stronger anti-memo gate, precondition, pid integrity check) all fixed before commit |
 | [`pr10-4a-semantic-variants.md`](pr10-4a-semantic-variants.md) | PR-10.4a | semantic variant model + `semantic_lock_guard` (synthetic-only, no live API); 13 gates + carry-forward |
 | [`pr10-4a-semantic-variants-review.json`](pr10-4a-semantic-variants-review.json) | PR-10.4a | independent review needs-work → all fixed: 3 major (wrong-choice-graded-correct, render leak, drift bypass) + F4–F9, redesigned around an isolated variant key |
+| [`pr10-4b-variant-intake.md`](pr10-4b-variant-intake.md) | PR-10.4b | locked API-prompt scaffold + draft intake (no live API); gates I1–I10 + 8th guard; N3 residual documented |
+| [`pr10-4b-variant-intake-review.json`](pr10-4b-variant-intake-review.json) | PR-10.4b | independent review accept-with-fixes; F1–F8 (map-value typing, field-vs-information separation honesty, CLI guards, wrapper-shape scan, …) all fixed before commit |

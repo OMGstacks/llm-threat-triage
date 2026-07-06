@@ -6,3 +6,10 @@
 spine/learner-state/
 learner_state.json
 *.learner-state.json
+
+# API-generated variant DRAFTS are local runtime data (PR-10.4b) — never committed.
+# The sanctioned home is .local/variant-drafts/ (covered by .local/ above); these
+# belt-and-braces patterns catch a draft parked anywhere else.
+spine/variant-drafts/
+*.variant-draft.json
+*.draft.key.json

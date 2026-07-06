@@ -155,6 +155,25 @@ grade through the PR-10.3 presentation layer, using the SOURCE's neutral topic s
 authoring text leaks. Independent review (needs-work → fixed) drove the isolated-key model, the render
 leak fix, the fail-closed drift check, and the closed-object allowlist before commit (F1-F9). 8th
 schema; scaffold count gate updated.
+PR-10.4b adds the locked API-prompt scaffold + local draft-runtime intake (``variant_intake``) —
+still with NO live API provider (that is PR-12); the pipeline is pure, deterministic stdlib. The
+prompt builder derives everything the generator must preserve from GOVERNED stores (must_test from
+the cited fact card; the correct-answer CONCEPT from the misconception registry's ``correct`` field —
+never the keyed choice text) and contains no source stem/choices; one flagged deviation enriches the
+correct-concept slot VALUE with the exact must_include phrase(s) so gate 7 is satisfiable. Untrusted
+candidate JSON passes a closed 5-key parse (strict self_check, never trusted alone), the correct
+index is DERIVED as the single choice absent from the candidate's distractor map, and the result
+runs the full PR-10.4a 13-gate validator plus intake gates I1-I10 (target-subset, concept echo,
+choice-count parity, holdout contamination, length/parallelism tells). Accepted drafts are
+``status=draft``/``source=api_generated_local``/``readiness_weight=0``, written only to gitignored
+locations with the explicit answer FIELDS (incl. the distractor map — its absent index IS the
+answer) in a separate ``*.draft.key.json`` (field-level separation; the draft body stays
+answer-deducible via its lock, inherent to the gate-7 design — review F2). Drafts are never
+practice-eligible and cannot touch readiness (``replay`` raises on variant ids). The 8th guard (``api_draft_isolation_guard``,
+superseding PR-9's "7th and final" wording) fails the build on any committed variant data. Known
+residual (N3 class, documented): text gates cannot verify SEMANTIC correctness of the keyed choice;
+human adversarial review is the promotion backstop. CLI ``variant prompt|ingest|requests|validate``;
+a ``variant-check`` CI gate proves determinism + attack rejection. 9th schema (variant-candidate).
 """
 
-__version__ = "0.8.4"
+__version__ = "0.8.5"

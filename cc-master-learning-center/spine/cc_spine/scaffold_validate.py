@@ -55,6 +55,11 @@ GUARD_STATUS = {
     # state file is committed and if the learner schemas carry a PII field; the engine
     # (cc_spine.learner_state) rejects holdout attempts at runtime.
     "learner_state_isolation_guard": "active",
+    # PR-10.4b: api-generated variant DRAFTS are local runtime data (.local/variant-drafts/),
+    # never committed and never practice-eligible until adversarially reviewed. The scaffold
+    # fails on any committed json carrying the api_generated_local marker or a draft variant
+    # body; cc_spine.variant_intake enforces the intake gates + gitignored-out-dir at runtime.
+    "api_draft_isolation_guard": "active",
 }
 
 # Retained for callers that only need the still-reserved set.
@@ -402,18 +407,72 @@ _PII_FIELD_NAMES = {
 
 def _check_no_learner_state(failures: list[str]) -> None:
     fixtures = PROJECT_ROOT / "spine" / "tests" / "fixtures"
+    # PR-10.4b: .local/variant-drafts/ is the SANCTIONED local runtime home for api-variant
+    # drafts (gitignored). This check walks the WORKING TREE, so without the exemption a
+    # legitimate local draft would turn every local `make ci` red — training the operator to
+    # ignore the gate. The name-based rules still apply inside it; committed variant data
+    # anywhere else is policed by _check_no_api_variant_data.
+    draft_dir = PROJECT_ROOT / ".local" / "variant-drafts"
     for path in sorted(PROJECT_ROOT.rglob("*")):
         if not path.is_file() or path.is_relative_to(fixtures):
             continue
         name = path.name.lower()
         # Forbid learner-state DATA files only — documentation (.md) in learner-state/ is fine.
+        in_state_dir = (any(part in _LEARNER_STATE_DIRS for part in path.parts)
+                        and not path.is_relative_to(draft_dir))
         is_state = (name in _LEARNER_STATE_NAMES or name.endswith(".learner-state.json")
-                    or (path.suffix.lower() == ".json"
-                        and any(part in _LEARNER_STATE_DIRS for part in path.parts)))
+                    or (path.suffix.lower() == ".json" and in_state_dir))
         if is_state:
             failures.append(
                 f"{path.relative_to(PROJECT_ROOT)}: learner state must not be committed "
                 "(local/gitignored runtime only; synthetic fixtures go under tests/fixtures)")
+
+
+def _check_no_api_variant_data(failures: list[str], root: Path = None) -> None:
+    """The api_draft_isolation_guard (PR-10.4b): api-generated variant data is LOCAL runtime
+    only. Fail on any project .json — outside tests/fixtures/ and the gitignored .local/ —
+    that carries the api_generated_local marker, sits under a variant-drafts path, or is a
+    draft/validated variant body (a stem_variant with an unreviewed status)."""
+    root = root or PROJECT_ROOT
+    fixtures = root / "spine" / "tests" / "fixtures"
+    local = root / ".local"
+    for path in sorted(root.rglob("*.json")):
+        if not path.is_file() or path.is_relative_to(fixtures) or path.is_relative_to(local):
+            continue
+        rel = path.relative_to(root)
+        if "variant-drafts" in path.parts:
+            failures.append(f"{rel}: variant drafts must live under .local/ (gitignored), "
+                            "never in a committable location")
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        # the DATA marker is the source field set to api_generated_local — a schema enum or
+        # documentation mention is not data and must not trip the guard.
+        if re.search(r'"source"\s*:\s*"api_generated_local"', text):
+            failures.append(f"{rel}: carries source=api_generated_local — api-generated "
+                            "variants are local runtime data and must never be committed")
+            continue
+        if '"stem_variant"' in text:
+            try:
+                data = json.loads(text)
+            except (json.JSONDecodeError, ValueError):
+                # fail closed: an unparseable json that mentions stem_variant is suspicious,
+                # not ignorable (review F4).
+                failures.append(f"{rel}: unparseable json containing 'stem_variant' — inspect "
+                                "before committing")
+                continue
+            objs = data if isinstance(data, list) else [data]
+            # also look one level into dict values so the write_draft wrapper shape
+            # ({draw_key, variant: {...}}) cannot evade the body check (review F4).
+            nested = [v for o in objs if isinstance(o, dict) for v in o.values()
+                      if isinstance(v, dict)]
+            for obj in objs + nested:
+                if (isinstance(obj, dict) and "stem_variant" in obj
+                        and obj.get("status") in ("draft", "validated")):
+                    failures.append(f"{rel}: unreviewed variant body (status "
+                                    f"{obj.get('status')!r}) must not be committed")
 
 
 def _pii_field_names(obj) -> set:
@@ -465,8 +524,8 @@ def _schema_property_names(schema) -> dict:
 def _check_schema_headers(parsed: dict[Path, object], failures: list[str]) -> None:
     schema_dir = PROJECT_ROOT / "spine" / "schemas"
     schema_files = sorted(schema_dir.glob("*.schema.json"))
-    if len(schema_files) != 8:
-        failures.append(f"spine/schemas: expected 8 schema files, found {len(schema_files)}")
+    if len(schema_files) != 9:
+        failures.append(f"spine/schemas: expected 9 schema files, found {len(schema_files)}")
     for path in schema_files:
         data = parsed.get(path)
         if not isinstance(data, dict):
@@ -592,6 +651,7 @@ def run_checks() -> list[str]:
     _check_goldset(parsed.get(PROJECT_ROOT / "spine" / "gold" / "goldset.json"), failures)
     _check_holdout(parsed.get(PROJECT_ROOT / "spine" / "gold" / "holdout.json"), failures)
     _check_no_learner_state(failures)
+    _check_no_api_variant_data(failures)
     _check_learner_schemas_anonymous(failures)
     _check_evidence(
         parsed.get(PROJECT_ROOT / "reference" / "verification-evidence.json"), registry, failures)

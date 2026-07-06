@@ -1,0 +1,20 @@
+{
+  "stem_variant": "A cloud provider instructs its security engineer to keep silent about a breach that puts the public at risk. What does the ISC2 Code of Ethics require the engineer to do?",
+  "choices_variant": [
+    "Follow the instruction, since serving the employer faithfully is the engineer's highest duty.",
+    "Disclose and protect the public, since Canon 1 takes precedence over duty to the employer.",
+    "Wait for the canons to be re-ranked, since all four obligations carry equal weight.",
+    "Follow the instruction, since a lawful order from an employer always satisfies the Code."
+  ],
+  "correct_choice_concept": "Canon 1 (protect society) takes precedence over Canon 3 (serve principals) when they conflict.",
+  "distractor_misconceptions": {
+    "0": "canon-priority-principal-over-society",
+    "2": "canon-priority-principal-over-society",
+    "3": "canon-priority-principal-over-society"
+  },
+  "self_check": {
+    "same_tested_concept": true,
+    "single_best_answer": true,
+    "no_new_facts": true
+  }
+}

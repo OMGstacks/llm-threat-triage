@@ -37,8 +37,64 @@ class ScaffoldValidationTest(unittest.TestCase):
             "answer_key_isolation_guard",
             "unsupported_claim_guard",
             "learner_state_isolation_guard",
+            "api_draft_isolation_guard",
         }
         self.assertEqual(set(scaffold_validate.GUARD_STATUS), expected)
+
+    def test_pr10_4b_activated_api_draft_isolation_guard(self):
+        self.assertEqual(scaffold_validate.GUARD_STATUS["api_draft_isolation_guard"], "active")
+
+    def test_api_variant_scan_flags_committed_draft(self):
+        import tempfile
+        failures = []
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "spine").mkdir()
+            # a draft variant body parked in a committable location must fail...
+            (root / "spine" / "sneaky.json").write_text(json.dumps(
+                {"stem_variant": "x?", "status": "draft"}), encoding="utf-8")
+            # ...as must the api_generated_local source marker...
+            (root / "spine" / "marker.json").write_text(
+                '{"source": "api_generated_local"}', encoding="utf-8")
+            # ...and any variant-drafts path outside .local/...
+            (root / "variant-drafts").mkdir()
+            (root / "variant-drafts" / "d.json").write_text("{}", encoding="utf-8")
+            # ...and the write_draft WRAPPER shape with the source marker stripped (review F4)...
+            (root / "spine" / "wrapper.json").write_text(json.dumps(
+                {"draw_key": "k", "variant": {"stem_variant": "x?", "status": "draft"}}),
+                encoding="utf-8")
+            # ...and unparseable json that mentions stem_variant (review F4).
+            (root / "spine" / "broken.json").write_text('{"stem_variant": ', encoding="utf-8")
+            scaffold_validate._check_no_api_variant_data(failures, root=root)
+        self.assertEqual(len(failures), 5, failures)
+
+    def test_local_variant_drafts_dir_does_not_fail_scaffold(self):
+        import tempfile
+        failures = []
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            drafts = root / ".local" / "variant-drafts"
+            drafts.mkdir(parents=True)
+            (drafts / "D1.1.4.scenario.0001.v115.draft.json").write_text(
+                json.dumps({"draw_key": "demo",
+                            "variant": {"stem_variant": "x?", "status": "draft",
+                                        "source": "api_generated_local"}}), encoding="utf-8")
+            scaffold_validate._check_no_api_variant_data(failures, root=root)
+        self.assertEqual(failures, [])
+
+    def test_learner_state_check_exempts_local_variant_drafts(self):
+        # A legitimate local draft in the sanctioned gitignored dir must NOT turn the
+        # working-tree learner-state scan red (PR-10.4b; plan-time bug fix).
+        drafts = scaffold_validate.PROJECT_ROOT / ".local" / "variant-drafts"
+        drafts.mkdir(parents=True, exist_ok=True)
+        probe = drafts / "zz-test-probe.draft.json"
+        probe.write_text("{}", encoding="utf-8")
+        try:
+            failures = []
+            scaffold_validate._check_no_learner_state(failures)
+            self.assertEqual([f for f in failures if "zz-test-probe" in f], [])
+        finally:
+            probe.unlink()
 
     def test_pr2_activated_freshness_and_ip_guards(self):
         self.assertEqual(scaffold_validate.GUARD_STATUS["source_freshness_guard"], "active")

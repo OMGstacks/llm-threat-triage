@@ -65,6 +65,18 @@ jobs:
             echo "FAIL: mock render leaked a content/answer-bearing field"; exit 1
           fi
           echo "OK: mock render emits the burn receipt and carries no content"
+      - name: Variant-intake gate (PR-10.4b: deterministic locked prompt; good candidate drafts; attack rejected)
+        run: |
+          python -m cc_spine.cli variant prompt --item-id D1.1.4.scenario.0001 --draw-key ci-variant > "$RUNNER_TEMP/vprompt_a.txt"
+          python -m cc_spine.cli variant prompt --item-id D1.1.4.scenario.0001 --draw-key ci-variant > "$RUNNER_TEMP/vprompt_b.txt"
+          cmp "$RUNNER_TEMP/vprompt_a.txt" "$RUNNER_TEMP/vprompt_b.txt" || { echo "FAIL: prompt not deterministic"; exit 1; }
+          python -m cc_spine.cli variant ingest --item-id D1.1.4.scenario.0001 --draw-key ci-variant \
+            --candidate tests/fixtures/variant_candidate_good.json --out "$RUNNER_TEMP/variant-drafts"
+          if python -m cc_spine.cli variant ingest --item-id D1.1.4.scenario.0001 --draw-key ci-variant \
+            --candidate tests/fixtures/variant_candidate_keyed_wrong_choice.json --out "$RUNNER_TEMP/variant-drafts"; then
+            echo "FAIL: attack candidate was accepted"; exit 1
+          fi
+          echo "OK: variant intake gates hold"
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

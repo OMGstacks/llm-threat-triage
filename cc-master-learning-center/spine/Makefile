@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -55,6 +55,19 @@ mock-render:
 	! grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|rationale_refs|item_hash|distractor_misconceptions)"[[:space:]]*:' /tmp/cc_mock_receipt.json
 	@echo "OK   mock render emits the burn receipt and carries no content"
 
+# PR-10.4b variant-intake gate: the locked prompt is byte-deterministic; a good candidate
+# ingests to a NON-committable dir; the keyed-wrong-choice attack candidate is rejected.
+variant-check:
+	python3 -m cc_spine.cli variant prompt --item-id D1.1.4.scenario.0001 --draw-key ci-variant > /tmp/cc_vprompt_a.txt
+	python3 -m cc_spine.cli variant prompt --item-id D1.1.4.scenario.0001 --draw-key ci-variant > /tmp/cc_vprompt_b.txt
+	cmp /tmp/cc_vprompt_a.txt /tmp/cc_vprompt_b.txt
+	rm -rf /tmp/cc_variant_drafts
+	python3 -m cc_spine.cli variant ingest --item-id D1.1.4.scenario.0001 --draw-key ci-variant \
+		--candidate tests/fixtures/variant_candidate_good.json --out /tmp/cc_variant_drafts
+	! python3 -m cc_spine.cli variant ingest --item-id D1.1.4.scenario.0001 --draw-key ci-variant \
+		--candidate tests/fixtures/variant_candidate_keyed_wrong_choice.json --out /tmp/cc_variant_drafts
+	@echo "OK   variant intake: deterministic prompt, good candidate drafts, attack candidate rejected"
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -68,4 +81,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check test ingest-check

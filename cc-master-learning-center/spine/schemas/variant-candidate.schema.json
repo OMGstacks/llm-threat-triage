@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC variant candidate (untrusted API output)",
+  "description": "The UNTRUSTED intake contract for PR-10.4b: the raw JSON a generator returns from the locked variant prompt, BEFORE any validation. Exactly five keys — the candidate can never assert governance fields (status, source, fact_ids, objective, correct_index...); the intake derives those from governed stores. The correct choice is never named: it is DERIVED as the single choice index absent from distractor_misconceptions, then corroborated against the semantic lock and the full PR-10.4a gate set. self_check is verified strictly but never trusted alone (reviewer rule). Enforcement lives in cc_spine.variant_intake.parse_candidate; this schema is the contract document.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["stem_variant", "choices_variant", "correct_choice_concept", "distractor_misconceptions", "self_check"],
+  "properties": {
+    "stem_variant": {"type": "string", "minLength": 1, "description": "The reworded scenario/stem. Must not near-duplicate the source stem (gate 12) or any holdout stem (intake gate I8)."},
+    "choices_variant": {
+      "type": "array", "minItems": 2, "maxItems": 6,
+      "items": {"type": "string", "minLength": 1},
+      "description": "Reworded choices in authoring order (rendered via the PR-10.3 presentation shuffle). Must be pairwise distinct; count must equal the source item's (intake gate I7)."
+    },
+    "correct_choice_concept": {"type": "string", "minLength": 2, "description": "The correct answer as a CONCEPT (never a display letter/index). Must echo the request's correct_concept (intake gate I6) — a divergence signals the generator mislabeled which choice is correct."},
+    "distractor_misconceptions": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "propertyNames": {"pattern": "^(0|[1-9][0-9]*)$"},
+      "description": "Maps each WRONG choice index (canonical decimal string) to the misconception id it embodies. Exactly ONE in-range index must be absent — that index is the correct choice (intake gate I4). Ids must be within the request's targets (gate I5); this map is ANSWER-BEARING and is stored in the isolated draft key file, never the draft itself."
+    },
+    "self_check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["same_tested_concept", "single_best_answer", "no_new_facts"],
+      "properties": {
+        "same_tested_concept": {"const": true},
+        "single_best_answer": {"const": true},
+        "no_new_facts": {"const": true}
+      },
+      "description": "The generator's own attestation. Any value other than literal true rejects the candidate — and a passing self_check is still fully re-validated locally (never trusted alone)."
+    }
+  }
+}

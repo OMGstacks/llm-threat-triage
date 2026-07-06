@@ -8,6 +8,7 @@
     python -m cc_spine.cli quiz [validate|export-learner|validate-holdout|render]  # PR-8/10.3 quiz
     python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
     python -m cc_spine.cli mock [assemble|validate|render] --draw-key K      # PR-10 mock assembler
+    python -m cc_spine.cli variant [prompt|ingest|requests|validate] ...     # PR-10.4b intake
 
 Stdlib-only; no third-party dependencies.
 """
@@ -22,7 +23,8 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import ipboundary, learner_state, mock_exam, presentation, quiz, registry, scaffold_validate, sources
+from . import (ipboundary, learner_state, mock_exam, presentation, quiz, registry,
+               scaffold_validate, sources, variant_intake, variants)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -218,6 +220,86 @@ def _mock_render(mock) -> int:
     return 0
 
 
+def cmd_variant(args) -> int:
+    """PR-10.4b variant-intake pipeline (NO live API — that is PR-12): build the locked generation
+    prompt for a missed practice item, validate untrusted candidate JSON into a local gitignored
+    draft, list open-journal items eligible for variant generation, or re-validate a stored draft."""
+    store = factstore_mod.FactStore()
+    reg = quiz._load_registry()
+    gold = {i["id"]: i for i in quiz.load_goldset()}
+    keys = {k["item_id"]: k for k in quiz.load_answer_keys()}
+
+    # fail closed with a usage error, not a traceback, on missing per-action args (review F3)
+    required = {"prompt": ("item_id",), "ingest": ("item_id", "candidate"),
+                "requests": ("attempts",), "validate": ("draft", "key")}
+    missing = [f"--{name.replace('_', '-')}" for name in required[args.action]
+               if getattr(args, name) is None]
+    if missing:
+        print(f"FAIL variant {args.action} requires {' '.join(missing)}", file=sys.stderr)
+        return 2
+
+    if args.action == "requests":
+        attempts = json.loads(Path(args.attempts).read_text(encoding="utf-8"))
+        try:
+            reqs = variant_intake.open_journal_requests(attempts, now=args.now)
+        except learner_state.LearnerStateError as exc:
+            print(f"FAIL replay rejected an attempt: {exc}", file=sys.stderr)
+            return 1
+        print(json.dumps(reqs, indent=2))
+        return 0
+
+    if args.action == "validate":
+        draft = json.loads(Path(args.draft).read_text(encoding="utf-8"))
+        vkey = json.loads(Path(args.key).read_text(encoding="utf-8"))
+        variant = draft.get("variant", draft)
+        source_item = gold.get(variant.get("source_item_id"))
+        source_key = keys.get(variant.get("source_item_id"))
+        problems = variants.validate_variant(variant, vkey, source_item, source_key, store, reg)
+        return _report("stored variant draft (full PR-10.4a gate set)", problems)
+
+    # prompt / ingest need a resolved practice source
+    source_item = gold.get(args.item_id)
+    source_key = keys.get(args.item_id)
+    if source_item is None or source_key is None:
+        print(f"FAIL item {args.item_id!r} does not resolve to a practice item + key "
+              "(holdout items may never seed a variant)", file=sys.stderr)
+        return 2
+
+    if args.action == "prompt":
+        try:
+            request = variant_intake.build_variant_request(source_item, source_key, store, reg,
+                                                           args.draw_key)
+        except variant_intake.VariantIntakeError as exc:
+            print(f"FAIL {exc}", file=sys.stderr)
+            return 1
+        # stdout is the pure, byte-deterministic prompt; the caveat goes to stderr.
+        print(variant_intake.build_variant_prompt(request))
+        print("note: this prompt is evaluator context — never show it to a learner.", file=sys.stderr)
+        return 0
+
+    # ingest: validate an untrusted candidate and, if clean, write a local draft.
+    result = variant_intake.validate_candidate(
+        Path(args.candidate).read_text(encoding="utf-8"),
+        source_item, source_key, store, reg, args.draw_key)
+    if not result["ok"]:
+        print("FAIL candidate rejected:", file=sys.stderr)
+        for problem in result["problems"]:
+            print(f"  - {problem}", file=sys.stderr)
+        return 1
+    out_dir = Path(args.out) if args.out else variant_intake.DRAFT_DIR
+    try:
+        draft_path, key_path = variant_intake.write_draft(result["variant"], result["variant_key"],
+                                                          args.draw_key, out_dir=out_dir)
+    except variant_intake.VariantIntakeError as exc:
+        print(f"FAIL {exc}", file=sys.stderr)
+        return 1
+    print(f"wrote {draft_path}")
+    print(f"wrote {key_path} (isolated key)")
+    print("DRAFT — api_generated_local, readiness_weight 0, not practice-eligible until "
+          "adversarially reviewed.")
+    return 0
+
+
 def cmd_ingest(args) -> int:
     dictionary = json.loads(Path(args.dictionary).read_text(encoding="utf-8"))
     domains = set(args.domains.split(",")) if args.domains else None
@@ -276,6 +358,21 @@ def build_parser() -> argparse.ArgumentParser:
                              "one reproduces the same order and defeats the anti-memorization intent")
     p_quiz.add_argument("--item-id", default=None, help="PR-10.3 render: render a single item")
     p_quiz.set_defaults(func=cmd_quiz)
+
+    p_variant = sub.add_parser("variant",
+        help="variant-intake pipeline (PR-10.4b): prompt/ingest/requests/validate — no live API")
+    p_variant.add_argument("action", choices=["prompt", "ingest", "requests", "validate"])
+    p_variant.add_argument("--item-id", default=None, help="source PRACTICE item id (prompt/ingest)")
+    p_variant.add_argument("--draw-key", default="draw-0",
+                           help="deterministic seed for the variant id (prompt/ingest)")
+    p_variant.add_argument("--candidate", default=None, help="raw candidate JSON file (ingest)")
+    p_variant.add_argument("--out", default=None,
+                           help="draft dir (ingest); must be gitignored/.local or outside the repo")
+    p_variant.add_argument("--attempts", default=None, help="attempt-stream JSON (requests)")
+    p_variant.add_argument("--now", type=int, default=0, help="injected day counter (requests)")
+    p_variant.add_argument("--draft", default=None, help="stored draft file (validate)")
+    p_variant.add_argument("--key", default=None, help="stored isolated key file (validate)")
+    p_variant.set_defaults(func=cmd_variant)
 
     p_mock = sub.add_parser("mock",
         help="mock-exam assembler (PR-10): assemble/validate/render (render prints the burn receipt)")
