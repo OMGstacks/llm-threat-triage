@@ -174,6 +174,17 @@ superseding PR-9's "7th and final" wording) fails the build on any committed var
 residual (N3 class, documented): text gates cannot verify SEMANTIC correctness of the keyed choice;
 human adversarial review is the promotion backstop. CLI ``variant prompt|ingest|requests|validate``;
 a ``variant-check`` CI gate proves determinism + attack rejection. 9th schema (variant-candidate).
+PR-11a adds the readiness dashboard DATA MODEL (``dashboard``) — data-first, not the visual layer
+(that is PR-11b). ``build_dashboard(state, mock_result=None, leakage_ok=True, now=0)`` is a
+deterministic, content-free projection: it carries the readiness verdict/score/blockers verbatim
+from ``learner_state.readiness_report`` (the banks.json formula) composed with the spaced-repetition
+queue, the wrong-answer + misconception summaries, and the mock signals (fresh-scenario accuracy,
+burned-holdout count); the one judgment of its own is the display-only proof-scale content caveat
+(P1-3: a short mock is an engine proof, not exam readiness). It carries only
+ids/counts/accuracies/verdicts — never a stem, answer, key, correction text, or PII field. CLI ``dashboard``; a
+``dashboard-check`` CI gate proves determinism + no answer/PII leak; the committed
+reports/readiness-dashboard-sample.json is exactly what the code produces from the synthetic fixture
+(regenerable, drift-checked by a test). 10th schema (readiness-dashboard).
 """
 
-__version__ = "0.8.5"
+__version__ = "0.8.6"

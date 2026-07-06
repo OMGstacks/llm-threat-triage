@@ -48,3 +48,6 @@ slice starts. At minimum:
 | [`pr10-4a-semantic-variants-review.json`](pr10-4a-semantic-variants-review.json) | PR-10.4a | independent review needs-work → all fixed: 3 major (wrong-choice-graded-correct, render leak, drift bypass) + F4–F9, redesigned around an isolated variant key |
 | [`pr10-4b-variant-intake.md`](pr10-4b-variant-intake.md) | PR-10.4b | locked API-prompt scaffold + draft intake (no live API); gates I1–I10 + 8th guard; N3 residual documented |
 | [`pr10-4b-variant-intake-review.json`](pr10-4b-variant-intake-review.json) | PR-10.4b | independent review accept-with-fixes; F1–F8 (map-value typing, field-vs-information separation honesty, CLI guards, wrapper-shape scan, …) all fixed before commit |
+| [`pr11a-readiness-dashboard.md`](pr11a-readiness-dashboard.md) | PR-11a | readiness dashboard DATA MODEL (content-free, deterministic); composes readiness_report; P1-3 content-scale caveat |
+| [`pr11a-readiness-dashboard-review.json`](pr11a-readiness-dashboard-review.json) | PR-11a | independent review accept-with-fixes; F1 (non-dict mock crash) + F2/F3 nits fixed; value-leak guarantee made test-enforced |
+| [`readiness-dashboard-sample.json`](readiness-dashboard-sample.json) | PR-11a | the dashboard produced from the synthetic fixture (regenerable; drift-checked by a test) |

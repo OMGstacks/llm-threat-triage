@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -68,6 +68,14 @@ variant-check:
 		--candidate tests/fixtures/variant_candidate_keyed_wrong_choice.json --out /tmp/cc_variant_drafts
 	@echo "OK   variant intake: deterministic prompt, good candidate drafts, attack candidate rejected"
 
+# PR-11a dashboard gate: the readiness dashboard is byte-deterministic and carries no answer/PII.
+dashboard-check:
+	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 > /tmp/cc_dash_a.json
+	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 > /tmp/cc_dash_b.json
+	cmp /tmp/cc_dash_a.json /tmp/cc_dash_b.json
+	! grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|rationale_refs|correction|one_sentence_rule|trap|selected_index|name|email|user|username)"[[:space:]]*:' /tmp/cc_dash_a.json
+	@echo "OK   dashboard is deterministic and carries no answer/PII field"
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -81,4 +89,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check test ingest-check

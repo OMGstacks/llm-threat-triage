@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at_day": 5,
+  "readiness": {
+    "verdict": "not-ready",
+    "score": 0.6923,
+    "complete": false,
+    "weighted_over": [
+      "concept_discrimination_accuracy",
+      "mature_flashcard_accuracy",
+      "time_management_performance",
+      "wrong_answer_closure_rate"
+    ],
+    "hard_blockers": [
+      "domain D4 accuracy 0% < 75%",
+      "domain D5 accuracy 67% < 75%"
+    ],
+    "note": "incomplete: needs a graded mock for fresh_scenario_accuracy"
+  },
+  "domain_accuracy": {
+    "D1": {
+      "accuracy": 1.0,
+      "attempts": 1
+    },
+    "D3": {
+      "accuracy": 1.0,
+      "attempts": 1
+    },
+    "D4": {
+      "accuracy": 0.0,
+      "attempts": 1
+    },
+    "D5": {
+      "accuracy": 0.6667,
+      "attempts": 3
+    }
+  },
+  "bank_accuracy": {
+    "concept_discrimination": {
+      "accuracy": 0.6667,
+      "total": 3
+    },
+    "definition_recall": {
+      "accuracy": 1.0,
+      "total": 1
+    },
+    "scenario_application": {
+      "accuracy": 0.5,
+      "total": 2
+    }
+  },
+  "spaced_repetition": {
+    "total_items": 5,
+    "due_now": 4,
+    "mature_items": 1,
+    "next_review_items": [
+      "D1.1.1.definition.0001",
+      "D4.4.1.scenario.0001",
+      "global.0.0.strategy.0001",
+      "D3.3.2.scenario.0001"
+    ]
+  },
+  "wrong_answers": {
+    "open_count": 1,
+    "closure_rate": 0.5,
+    "open_misconceptions": [
+      "udp-reliable"
+    ]
+  },
+  "top_misconceptions": [
+    {
+      "misconception_id": "hashing-is-encryption",
+      "missed": 1,
+      "closed": true
+    },
+    {
+      "misconception_id": "udp-reliable",
+      "missed": 1,
+      "closed": false
+    }
+  ],
+  "mock": null,
+  "content_scale": {
+    "practice_items": 45,
+    "holdout_scenarios": 5,
+    "mock_target_min": 100,
+    "mock_target_max": 125,
+    "status": "proof_scale",
+    "caveat": "content is proof-scale: 45 practice + 5 holdout scenario(s) support a short mock, well under the 100-125 item exam target \u2014 a passing mock here is an engine proof, not exam readiness"
+  },
+  "next_recommended_review": [
+    "D1.1.1.definition.0001",
+    "D4.4.1.scenario.0001",
+    "global.0.0.strategy.0001",
+    "D3.3.2.scenario.0001"
+  ]
+}

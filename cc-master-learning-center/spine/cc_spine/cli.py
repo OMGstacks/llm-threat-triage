@@ -9,6 +9,7 @@
     python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
     python -m cc_spine.cli mock [assemble|validate|render] --draw-key K      # PR-10 mock assembler
     python -m cc_spine.cli variant [prompt|ingest|requests|validate] ...     # PR-10.4b intake
+    python -m cc_spine.cli dashboard --attempts stream.json --now 5          # PR-11a dashboard
 
 Stdlib-only; no third-party dependencies.
 """
@@ -23,8 +24,8 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import (ipboundary, learner_state, mock_exam, presentation, quiz, registry,
-               scaffold_validate, sources, variant_intake, variants)
+from . import (dashboard as dashboard_mod, ipboundary, learner_state, mock_exam, presentation,
+               quiz, registry, scaffold_validate, sources, variant_intake, variants)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -220,6 +221,27 @@ def _mock_render(mock) -> int:
     return 0
 
 
+def cmd_dashboard(args) -> int:
+    """PR-11a readiness dashboard (data model): replay an attempt stream into a learner state and
+    project the content-free readiness dashboard. Optionally fold in a graded mock. Deterministic in
+    the injected --now; the output carries only ids/counts/accuracies/verdicts, no answers or PII."""
+    attempts = json.loads(Path(args.attempts).read_text(encoding="utf-8"))
+    try:
+        state = learner_state.replay(attempts, now=args.now)
+    except learner_state.LearnerStateError as exc:
+        print(f"FAIL replay rejected an attempt: {exc}", file=sys.stderr)
+        return 1
+    mock_result = None
+    if args.mock:
+        mock_result = json.loads(Path(args.mock).read_text(encoding="utf-8"))
+        if not isinstance(mock_result, dict):
+            print("FAIL --mock must be a graded-mock JSON object (grade_mock output)", file=sys.stderr)
+            return 1
+    print(json.dumps(dashboard_mod.build_dashboard(state, mock_result=mock_result, now=args.now),
+                     indent=2))
+    return 0
+
+
 def cmd_variant(args) -> int:
     """PR-10.4b variant-intake pipeline (NO live API — that is PR-12): build the locked generation
     prompt for a missed practice item, validate untrusted candidate JSON into a local gitignored
@@ -358,6 +380,13 @@ def build_parser() -> argparse.ArgumentParser:
                              "one reproduces the same order and defeats the anti-memorization intent")
     p_quiz.add_argument("--item-id", default=None, help="PR-10.3 render: render a single item")
     p_quiz.set_defaults(func=cmd_quiz)
+
+    p_dash = sub.add_parser("dashboard",
+        help="readiness dashboard data model (PR-11a): project a learner state into render-ready JSON")
+    p_dash.add_argument("--attempts", required=True, help="attempt-stream JSON")
+    p_dash.add_argument("--now", type=int, default=0, help="injected day counter (determinism)")
+    p_dash.add_argument("--mock", default=None, help="optional graded-mock JSON (grade_mock output)")
+    p_dash.set_defaults(func=cmd_dashboard)
 
     p_variant = sub.add_parser("variant",
         help="variant-intake pipeline (PR-10.4b): prompt/ingest/requests/validate — no live API")

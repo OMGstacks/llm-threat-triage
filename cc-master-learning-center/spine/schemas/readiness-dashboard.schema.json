@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC readiness dashboard (data model)",
+  "description": "The content-free DATA MODEL a readiness view renders (PR-11a; the visual layer is PR-11b). A deterministic projection of a learner state (+ optional graded mock) built by cc_spine.dashboard.build_dashboard: only ids, counts, accuracies, and verdicts — never a stem, correct answer, answer key, or PII field. It composes learner_state.readiness_report (the banks.json formula + hard blockers) with the spaced-repetition queue, the wrong-answer journal summary, the misconception ranking, the mock signals, and a proof-scale content caveat, so a UI recomputes nothing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at_day", "readiness", "domain_accuracy", "bank_accuracy", "spaced_repetition", "wrong_answers", "top_misconceptions", "mock", "content_scale", "next_recommended_review"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "generated_at_day": {"type": "integer", "description": "The injected day counter the dashboard was built at — never a wall-clock timestamp (determinism)."},
+    "readiness": {
+      "type": "object", "additionalProperties": false,
+      "required": ["verdict", "score", "complete", "weighted_over", "hard_blockers", "note"],
+      "properties": {
+        "verdict": {"enum": ["ready", "not-ready"]},
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "complete": {"type": "boolean", "description": "False until a graded mock supplies fresh_scenario_accuracy."},
+        "weighted_over": {"type": "array", "items": {"type": "string"}, "description": "The readiness components that had data (weights renormalize over these)."},
+        "hard_blockers": {"type": "array", "items": {"type": "string"}, "description": "Reasons for not-ready: any domain < 75%, holdout-scenario < 80%, or a failing leakage gate."},
+        "note": {"type": ["string", "null"]}
+      }
+    },
+    "domain_accuracy": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["accuracy", "attempts"], "properties": {"accuracy": {"type": "number"}, "attempts": {"type": "integer"}}}},
+    "bank_accuracy": {"type": "object", "additionalProperties": {"type": "object", "additionalProperties": false, "required": ["accuracy", "total"], "properties": {"accuracy": {"type": "number"}, "total": {"type": "integer"}}}},
+    "spaced_repetition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["total_items", "due_now", "mature_items", "next_review_items"],
+      "properties": {
+        "total_items": {"type": "integer"},
+        "due_now": {"type": "integer", "description": "FULL count of due items; the id list below is capped at 10, so due_now > len(next_review_items) means the list was truncated."},
+        "mature_items": {"type": "integer", "description": "Items at Leitner box >= MATURE_BOX."},
+        "next_review_items": {"type": "array", "maxItems": 10, "items": {"type": "string"}, "description": "Due item ids (capped at 10, ordered by the review queue); learner-visible ids, no content. Identical to the top-level next_recommended_review today (both are the head of the same due queue); the two names exist so a future recommender can rank next_recommended_review by weakness without changing the raw due list."}
+      }
+    },
+    "wrong_answers": {
+      "type": "object", "additionalProperties": false,
+      "required": ["open_count", "closure_rate", "open_misconceptions"],
+      "properties": {
+        "open_count": {"type": "integer", "description": "FULL count of open (unclosed) wrong-answer journal entries; open_misconceptions is capped at 10."},
+        "closure_rate": {"type": "number", "minimum": 0, "maximum": 1},
+        "open_misconceptions": {"type": "array", "maxItems": 10, "items": {"type": "string"}, "description": "Registry misconception ids still open (capped at 10, sorted)."}
+      }
+    },
+    "top_misconceptions": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": false, "required": ["misconception_id", "missed", "closed"], "properties": {"misconception_id": {"type": "string"}, "missed": {"type": "integer"}, "closed": {"type": "boolean"}}},
+      "description": "Ever-missed misconceptions ranked by miss count (capped). Ids only — the correction text lives in the journal, not here."
+    },
+    "mock": {
+      "type": ["object", "null"], "additionalProperties": false,
+      "required": ["fresh_scenario_accuracy", "fresh_scenario_count", "overall_accuracy", "burned_holdout_count"],
+      "properties": {
+        "fresh_scenario_accuracy": {"type": ["number", "null"]},
+        "fresh_scenario_count": {"type": "integer"},
+        "overall_accuracy": {"type": ["number", "null"]},
+        "burned_holdout_count": {"type": "integer"}
+      },
+      "description": "null when no mock has been graded; the readiness score is then incomplete."
+    },
+    "content_scale": {
+      "type": "object", "additionalProperties": false,
+      "required": ["practice_items", "holdout_scenarios", "mock_target_min", "mock_target_max", "status", "caveat"],
+      "properties": {
+        "practice_items": {"type": "integer"},
+        "holdout_scenarios": {"type": "integer"},
+        "mock_target_min": {"type": "integer"},
+        "mock_target_max": {"type": "integer"},
+        "status": {"enum": ["proof_scale", "exam_scale"]},
+        "caveat": {"type": ["string", "null"], "description": "Present while proof-scale: a passing mock is an engine proof, not exam readiness."}
+      }
+    },
+    "next_recommended_review": {"type": "array", "maxItems": 10, "items": {"type": "string"}, "description": "Item ids to study next (capped at 10). Currently identical to spaced_repetition.next_review_items (the head of the due queue); a reserved slot for a weakness-ranked recommender in PR-11b+."}
+  }
+}
