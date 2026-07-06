@@ -113,6 +113,13 @@ def cmd_narrate(args) -> int:
         print(f"OSAI_TTS render on:  {yn(st['render_enabled'])}")
         print(f"cost (US$/1M chars): {st['rate_per_million_usd']}  [planning estimate]")
         print(f"providers:           {', '.join(st['providers'])}")
+        av = nar.avatar_status()
+        print("--- avatar (talking-head) seam — plumbing only, see 27-narrated-lessons.md §6 ---")
+        print(f"avatar provider:     {av['provider']} ({av['kind']})")
+        print(f"avatar key ({av['key_env'] or 'none'}): present={yn(av['key_present'])} source={av['key_source']}")
+        print(f"avatar available:    {yn(av['available'])}")
+        print(f"AVATAR render on:    {yn(av['avatar_enabled'])}")
+        print(f"avatar providers:    {', '.join(av['providers'])}")
         return 0
 
     if not args.script:

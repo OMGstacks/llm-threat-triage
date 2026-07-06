@@ -20,6 +20,14 @@ Env vars accept a course-neutral name **or** the legacy ``OSAI_TTS*`` alias, so 
 OSAI deployments keep working unchanged: ``NARRATE``/``OSAI_TTS`` (toggle),
 ``NARRATE_PROVIDER``/``OSAI_TTS_PROVIDER``, ``NARRATE_CMD``/``OSAI_TTS_CMD``,
 ``NARRATE_RATE_<P>``/``OSAI_TTS_RATE_<P>``.
+
+A second, independent seam covers the **premium "your voice + your face" path**
+(27-narrated-lessons.md §6): a cloned voice via a cloud TTS provider's ``voice`` id, and a
+talking-head **avatar** (script → video) via ``AVATAR_PROVIDER`` (``heygen`` / ``synthesia``
+/ ``tavus``). Both are **plumbing only** here — OFF by default, presence-only key checks,
+fail-closed on any redaction hit, and every provider is a documented extension point. No
+vendor SDK is imported, no key is ever used to make a real call, and no video/audio is
+produced by this package. See the avatar seam below and ``render_avatar_segment``.
 """
 
 from __future__ import annotations
@@ -37,6 +45,11 @@ __all__ = [
     "provider_name", "provider_kind", "key_present", "key_source", "provider_available",
     "render_enabled", "rate_per_million", "status",
     "parse_script", "cache_key", "render_plan", "to_vtt", "render_segment", "write_manifest",
+    # avatar (talking-head) seam — plumbing only, see the module docstring
+    "AVATAR_PROVIDERS", "DEFAULT_AVATAR_PROVIDER",
+    "avatar_provider_name", "avatar_provider_kind", "avatar_key_present", "avatar_key_source",
+    "avatar_id", "avatar_provider_available", "avatar_enabled", "avatar_status",
+    "video_cache_key", "render_avatar_segment",
 ]
 
 _TRUTHY = {"1", "true", "on", "yes"}
@@ -162,6 +175,139 @@ def status(provider: str | None = None) -> dict:
     }
 
 
+# --- avatar (talking-head video) seam ---------------------------------------------- #
+#
+# Mirrors the TTS seam exactly: OFF by default, presence-only key checks, fails closed on
+# any redaction hit, and every provider is a documented extension point — no SDK is wired
+# here. When enabled, each segment in a render plan gains a cache-keyed ``video`` target
+# next to its existing ``audio`` one; the plan is otherwise UNCHANGED, so a plan built with
+# the avatar seam off (the default, and the only mode any shipped lesson uses today) is
+# byte-identical to a plan built before this seam existed.
+
+# provider -> (kind, key_env). 'none' = no avatar (default); every real provider is 'cloud'
+# — HeyGen / Synthesia / Tavus render server-side; there is no local/offline avatar analogue
+# to a local TTS binary.
+AVATAR_PROVIDERS = {
+    "none":      ("none",  None),
+    "heygen":    ("cloud", "HEYGEN_API_KEY"),
+    "synthesia": ("cloud", "SYNTHESIA_API_KEY"),
+    "tavus":     ("cloud", "TAVUS_API_KEY"),
+}
+DEFAULT_AVATAR_PROVIDER = "none"
+
+
+def avatar_provider_name() -> str:
+    p = _env("AVATAR_PROVIDER", default=DEFAULT_AVATAR_PROVIDER).lower()
+    return p if p in AVATAR_PROVIDERS else DEFAULT_AVATAR_PROVIDER
+
+
+def avatar_provider_kind(provider: str | None = None) -> str:
+    return AVATAR_PROVIDERS[provider or avatar_provider_name()][0]
+
+
+def _avatar_key_env(provider: str) -> str | None:
+    return AVATAR_PROVIDERS.get(provider, (None, None))[1]
+
+
+def avatar_key_present(provider: str | None = None) -> bool:
+    """Presence-only check for a provider's key (env OR ``*_FILE`` secret). Never returns,
+    logs, or hashes the value."""
+    env = _avatar_key_env(provider or avatar_provider_name())
+    if not env:
+        return False
+    if os.environ.get(env, "").strip():
+        return True
+    kf = os.environ.get(env + "_FILE")
+    if kf:
+        try:
+            return bool(Path(kf).read_text(encoding="utf-8-sig").strip())
+        except OSError:
+            return False
+    return False
+
+
+def avatar_key_source(provider: str | None = None) -> str:
+    """'env', 'file', 'n/a' (no provider chosen), or 'none'. Never the value."""
+    env = _avatar_key_env(provider or avatar_provider_name())
+    if not env:
+        return "n/a"
+    if os.environ.get(env, "").strip():
+        return "env"
+    kf = os.environ.get(env + "_FILE")
+    if kf and Path(kf).is_file():
+        return "file"
+    return "none"
+
+
+def avatar_id() -> str:
+    """The configured avatar/persona id (e.g. a trained HeyGen avatar_id) — analogous to
+    ``voice`` for TTS. Empty string if unset; never required to compute an offline plan."""
+    return _env("AVATAR_ID")
+
+
+def avatar_provider_available(provider: str | None = None) -> bool:
+    """'none' → never available (nothing configured); a real provider → iff its key is
+    present. There is no 'local' avatar kind (no offline talking-head renderer is wired)."""
+    provider = provider or avatar_provider_name()
+    if provider == "none":
+        return False
+    return avatar_key_present(provider)
+
+
+def avatar_enabled(provider: str | None = None) -> bool:
+    """Avatar rendering is OFF unless opted in (``AVATAR=1``) AND a real provider is chosen
+    AND usable. Keeps every existing lesson manifest byte-identical by default — the
+    ``video`` field only appears in a render plan when this is true."""
+    provider = provider or avatar_provider_name()
+    return provider != "none" and _truthy_env("AVATAR") and avatar_provider_available(provider)
+
+
+def avatar_status(provider: str | None = None) -> dict:
+    """A safe, presence-only snapshot of the avatar seam — never the key value."""
+    provider = provider or avatar_provider_name()
+    return {
+        "provider": provider,
+        "kind": avatar_provider_kind(provider),
+        "key_env": _avatar_key_env(provider),
+        "key_present": avatar_key_present(provider),
+        "key_source": avatar_key_source(provider),
+        "available": avatar_provider_available(provider),
+        "avatar_enabled": avatar_enabled(provider),
+        "avatar_id": avatar_id(),
+        "providers": sorted(AVATAR_PROVIDERS),
+    }
+
+
+def video_cache_key(text: str, *, provider: str, avatar: str, voice: str) -> str:
+    """Deterministic content hash → the video filename. Re-render only fires when the text,
+    avatar persona, voice, or provider changes (idempotent, mirrors ``cache_key``)."""
+    h = hashlib.sha256(f"{provider}\x1f{avatar}\x1f{voice}\x1f{text}".encode("utf-8")).hexdigest()
+    return h[:16]
+
+
+def render_avatar_segment(text: str, out_path, *, provider: str | None = None,
+                           avatar: str | None = None, voice: str | None = None) -> dict:
+    """Render one segment's talking-head video to ``out_path`` — **gated and fail-closed**,
+    exactly like ``render_segment``. Every provider is a documented extension point: no
+    HeyGen / Synthesia / Tavus SDK call is made here. Writes nothing (no network) when the
+    seam is off, no provider is configured, or any flag/secret/PII survives redaction."""
+    provider = provider or avatar_provider_name()
+    avatar = avatar or avatar_id()
+    voice = voice or DEFAULT_VOICE
+    if provider == "none":
+        return {"rendered": False, "reason": "no avatar provider configured (set AVATAR_PROVIDER)"}
+    if not avatar_enabled(provider):
+        return {"rendered": False,
+                "reason": f"avatar render disabled — set AVATAR=1 and configure provider '{provider}'"}
+    leaks = redaction.residual_secrets(text)
+    if leaks:
+        return {"rendered": False, "reason": f"blocked: content still carries {leaks} after redaction"}
+    return {"rendered": False,
+            "reason": f"avatar provider '{provider}' render is an extension point — wire its SDK "
+                      "(script -> video from a trained avatar_id); no HeyGen/Synthesia/Tavus call "
+                      "is made here"}
+
+
 # --- narration script model ------------------------------------------------- #
 
 _SLUG = re.compile(r"[^a-z0-9]+")
@@ -214,30 +360,44 @@ def _fmt(seconds: float) -> str:
     return f"{m}:{s:02d}"
 
 
-def render_plan(script, *, provider: str | None = None, ext: str = "mp3") -> dict:
+def render_plan(script, *, provider: str | None = None, ext: str = "mp3",
+                 avatar: bool | None = None, avatar_ext: str = "mp4") -> dict:
     """Everything needed to render a lesson, computed with NO provider/key/network: per
     segment its caption text, ``start``/``end`` timings, estimated duration, and cache-keyed
     output path; plus totals and a one-time cost estimate. The player and a batch renderer
-    both consume this."""
+    both consume this.
+
+    ``avatar`` defaults to the avatar seam's own gate (``avatar_enabled()``, itself OFF
+    unless ``AVATAR=1``) — so calling this with no arguments, as every existing caller does,
+    reproduces the exact same plan as before the avatar seam existed. Only when the seam is
+    on does each segment additionally carry a cache-keyed ``video`` target, and the plan
+    carries ``avatar_provider``."""
     sc = parse_script(script)
     provider = provider or provider_name()
     voice = sc["voice"]
+    av_on = avatar_enabled() if avatar is None else bool(avatar)
+    av_provider = avatar_provider_name()
+    av_persona = avatar_id()
     segs, total_chars, cursor = [], 0, 0.0
     for seg in sc["segments"]:
         chars = len(seg["text"])
         secs = chars / _CHARS_PER_SEC
         key = cache_key(seg["text"], provider=provider, voice=voice)
-        segs.append({
+        entry = {
             "id": seg["id"], "text": seg["text"], "chars": chars,
             "start": round(cursor, 2), "end": round(cursor + secs, 2),
             "est_seconds": round(secs, 1),
             "audio": f"{sc['lesson_id']}/{seg['id']}.{key}.{ext}",
             **({"slide": seg["slide"]} if "slide" in seg else {}),
-        })
+        }
+        if av_on:
+            vkey = video_cache_key(seg["text"], provider=av_provider, avatar=av_persona, voice=voice)
+            entry["video"] = f"{sc['lesson_id']}/{seg['id']}.{vkey}.{avatar_ext}"
+        segs.append(entry)
         total_chars += chars
         cursor += secs
     rate = rate_per_million(provider)
-    return {
+    plan = {
         "lesson_id": sc["lesson_id"], "title": sc["title"], "voice": voice,
         "provider": provider, "kind": provider_kind(provider),
         "segments": segs, "segment_count": len(segs),
@@ -246,6 +406,9 @@ def render_plan(script, *, provider: str | None = None, ext: str = "mp3") -> dic
         "est_cost_usd": round(total_chars / 1_000_000 * rate, 4),
         "rate_per_million_usd": rate,
     }
+    if av_on:
+        plan["avatar_provider"] = av_provider
+    return plan
 
 
 def to_vtt(plan: dict) -> str:
@@ -272,6 +435,12 @@ def render_segment(text: str, out_path, *, provider: str | None = None, voice: s
     leaks = redaction.residual_secrets(text)
     if leaks:
         return {"rendered": False, "reason": f"blocked: content still carries {leaks} after redaction"}
+    if provider == "elevenlabs":
+        return {"rendered": False,
+                "reason": "elevenlabs render is an extension point for a cloned voice — train a "
+                          "Professional Voice Clone, set 'voice' to its ElevenLabs voice_id (the "
+                          "script's own `voice` field is that contract), wire the ElevenLabs SDK "
+                          "here; or use NARRATE_PROVIDER=cmd with a local TTS CLI"}
     if provider_kind(provider) == "cloud":
         return {"rendered": False,
                 "reason": f"cloud provider '{provider}' render is an extension point — wire its SDK, "

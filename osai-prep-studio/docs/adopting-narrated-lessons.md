@@ -222,16 +222,21 @@ Because both courses depend on the same package, the roadmap items land in **one
 - **Premium neural voice** (e.g. an ElevenLabs voice clone) — wire the `elevenlabs` provider's
   SDK at the documented extension point in `render_segment`. Both courses get it by bumping
   the package version; neither changes a line of course code.
-- **Talking-head avatar** (e.g. HeyGen/Synthesia) — add an avatar render stage that consumes
-  the same manifest (it already has per-segment text + timing). Ships to every course at once.
+- **Talking-head avatar** (e.g. HeyGen/Synthesia/Tavus) — the package now ships the **avatar
+  seam's plumbing**: `AVATAR_PROVIDER`, presence-only key checks, a gated + fail-closed
+  `render_avatar_segment`, and a cache-keyed `video` field that a render plan gains only when
+  the seam is opted into (every existing manifest is unaffected). Wiring one of those three
+  providers' real SDK call at that extension point ships the avatar to every dependent course
+  at once — the manifest already carries per-segment text + timing for it to consume.
 - **Better timing / caption model, new cache strategy, new output format** — same story.
 
 Fork the renderer into each course and you'd re-do every one of these per course, and they'd
 drift. That is the failure mode this package exists to prevent.
 
-> None of those premium providers are implemented yet, and this package pulls in **no**
-> provider SDKs, keys, avatar rendering, or cloud calls. They are documented extension points
-> behind the seam so the plumbing is ready when the work is greenlit.
+> The avatar seam is plumbing only — **no** HeyGen/Synthesia/Tavus SDK is wired, no key is
+> ever used to make a real call, and no video is produced. Same for the ElevenLabs voice
+> clone: the contract (`voice` = your cloned voice_id) is documented, but the SDK call itself
+> is still an extension point. Both are ready for the work to be wired in, once it's greenlit.
 
 ---
 

@@ -2,9 +2,12 @@
 
 // Narrated-lesson player. Pure presentation: it loads the offline-generated render
 // manifest (public/lessons/<id>.manifest.json), advances slides + captions in sync, and
-// plays per-segment audio when it's been rendered — otherwise it falls back gracefully to
-// timed captions (optionally read by the browser's built-in voice). It never grades and
-// never calls a cloud TTS. See 27-narrated-lessons.md.
+// plays a per-segment talking-head avatar video when one has been rendered, else
+// per-segment audio when it's been rendered — otherwise it falls back gracefully to
+// timed captions (optionally read by the browser's built-in voice). No manifest shipped
+// today carries a `video` (the avatar seam is plumbing, off by default — 27-narrated-
+// lessons.md §6), so this path is inert until a course opts in. It never grades and never
+// calls a cloud TTS/avatar provider.
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { LessonManifest, LessonSegment } from "@/lib/types";
@@ -23,14 +26,16 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
   const [idx, setIdx] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [hasAudio, setHasAudio] = useState(false);
+  const [hasVideo, setHasVideo] = useState(false);
   const [useVoice, setUseVoice] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const idxRef = useRef(0);
   idxRef.current = idx;
 
-  // load the manifest + probe whether rendered audio exists (graceful either way)
+  // load the manifest + probe whether rendered audio/avatar-video exists (graceful either way)
   useEffect(() => {
     let live = true;
     fetch(`/lessons/${lessonId}.manifest.json`)
@@ -39,6 +44,11 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
         if (!live) return;
         setManifest(m);
         const first = m.segments[0];
+        if (first?.video) {
+          fetch(`/lessons/${first.video}`, { method: "HEAD" })
+            .then((r) => live && setHasVideo(r.ok))
+            .catch(() => live && setHasVideo(false));
+        }
         if (first) {
           fetch(`/lessons/${first.audio}`, { method: "HEAD" })
             .then((r) => live && setHasAudio(r.ok))
@@ -56,9 +66,11 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
     timerRef.current = null;
     if (typeof window !== "undefined" && window.speechSynthesis) window.speechSynthesis.cancel();
     if (audioRef.current) audioRef.current.pause();
+    if (videoRef.current) videoRef.current.pause();
   }, []);
 
-  // advance driver — audio 'ended' when rendered, else browser voice or a timed fallback
+  // advance driver — avatar video 'ended' when rendered, else audio, else browser voice,
+  // else a timed fallback
   const runSegment = useCallback(
     (i: number, segs: LessonSegment[]) => {
       stopTimers();
@@ -72,6 +84,13 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
       const onDone = () => {
         if (idxRef.current === i) runSegment(i + 1, segs);
       };
+      if (hasVideo && seg.video && videoRef.current) {
+        const v = videoRef.current;
+        v.src = `/lessons/${seg.video}`;
+        v.onended = onDone;
+        v.play().catch(onDone); // if a file is missing, don't stall — move on
+        return;
+      }
       if (hasAudio && audioRef.current) {
         const a = audioRef.current;
         a.src = `/lessons/${seg.audio}`;
@@ -88,7 +107,7 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
       // pure captions/timing fallback: hold each slide for its estimated duration
       timerRef.current = setTimeout(onDone, Math.max(1200, seg.est_seconds * 1000));
     },
-    [hasAudio, useVoice, stopTimers],
+    [hasVideo, hasAudio, useVoice, stopTimers],
   );
 
   const play = useCallback(() => {
@@ -144,7 +163,7 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
 
   const seg = manifest.segments[idx];
   const pct = (seg.start / (manifest.est_seconds || 1)) * 100;
-  const mode = hasAudio ? "rendered audio" : useVoice ? "browser voice" : "timed captions";
+  const mode = hasVideo ? "avatar video" : hasAudio ? "rendered audio" : useVoice ? "browser voice" : "timed captions";
 
   return (
     <main style={{ display: "block", maxWidth: 860, margin: "0 auto" }}>
@@ -157,33 +176,61 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
           <span className="pill">{mode}</span>
         </div>
 
-        {/* stage / slide */}
-        <div
-          style={{
-            background: "#0d1117",
-            border: "1px solid var(--line)",
-            borderRadius: 10,
-            padding: "22px 24px",
-            minHeight: 220,
-            display: "flex",
-            flexDirection: "column",
-            gap: 14,
-          }}
-        >
-          <div className="row" style={{ margin: 0, justifyContent: "space-between" }}>
-            <span
-              className="sub"
-              style={{ letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--acc)" }}
-            >
-              {human(seg.slide || "slide")}
-            </span>
-            <span className="sub">
-              {idx + 1} / {manifest.segment_count}
-            </span>
+        {/* stage: avatar video when rendered, else the slide/caption card */}
+        {hasVideo ? (
+          <div
+            style={{
+              background: "#000",
+              border: "1px solid var(--line)",
+              borderRadius: 10,
+              overflow: "hidden",
+              display: "flex",
+              flexDirection: "column",
+              gap: 0,
+            }}
+          >
+            <div className="row" style={{ margin: 0, justifyContent: "space-between", padding: "10px 14px" }}>
+              <span
+                className="sub"
+                style={{ letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--acc)" }}
+              >
+                {human(seg.slide || "slide")}
+              </span>
+              <span className="sub">
+                {idx + 1} / {manifest.segment_count}
+              </span>
+            </div>
+            <video ref={videoRef} style={{ width: "100%", maxHeight: 420, background: "#000" }} playsInline />
+            <p style={{ margin: 0, padding: "10px 14px", fontSize: 15, color: "var(--ink)" }}>{seg.text}</p>
           </div>
-          <h3 style={{ margin: 0, fontSize: 26, lineHeight: 1.1 }}>{human(seg.slide || manifest.title)}</h3>
-          <p style={{ margin: 0, fontSize: 16, color: "var(--ink)" }}>{seg.text}</p>
-        </div>
+        ) : (
+          <div
+            style={{
+              background: "#0d1117",
+              border: "1px solid var(--line)",
+              borderRadius: 10,
+              padding: "22px 24px",
+              minHeight: 220,
+              display: "flex",
+              flexDirection: "column",
+              gap: 14,
+            }}
+          >
+            <div className="row" style={{ margin: 0, justifyContent: "space-between" }}>
+              <span
+                className="sub"
+                style={{ letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--acc)" }}
+              >
+                {human(seg.slide || "slide")}
+              </span>
+              <span className="sub">
+                {idx + 1} / {manifest.segment_count}
+              </span>
+            </div>
+            <h3 style={{ margin: 0, fontSize: 26, lineHeight: 1.1 }}>{human(seg.slide || manifest.title)}</h3>
+            <p style={{ margin: 0, fontSize: 16, color: "var(--ink)" }}>{seg.text}</p>
+          </div>
+        )}
 
         {/* controls */}
         <div className="row" style={{ marginTop: 12, alignItems: "center" }}>
@@ -212,7 +259,7 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
           >
             <div style={{ height: "100%", width: `${pct}%`, background: "var(--acc)" }} />
           </div>
-          {!hasAudio && (
+          {!hasVideo && !hasAudio && (
             <label className="sub row" style={{ margin: 0, gap: 6 }}>
               <input
                 type="checkbox"
@@ -224,7 +271,7 @@ export default function LessonPlayer({ lessonId }: { lessonId: string }) {
             </label>
           )}
         </div>
-        {!hasAudio && (
+        {!hasVideo && !hasAudio && (
           <div className="sub" style={{ marginTop: 6 }}>
             Narration audio isn&apos;t rendered in this build — showing timed captions and slides. Render it
             with a local voice (see <code>27-narrated-lessons.md</code>) to hear it, or tick “read aloud”.

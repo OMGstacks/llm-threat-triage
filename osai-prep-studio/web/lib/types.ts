@@ -303,6 +303,10 @@ export interface LessonSegment {
   est_seconds: number;
   audio: string;
   slide?: string;
+  // Talking-head avatar video (plumbing only — see 27-narrated-lessons.md §6). Present
+  // only when a course opts into the avatar seam (AVATAR=1 + a configured provider);
+  // absent from every manifest shipped today, since no provider is wired yet.
+  video?: string;
 }
 
 export interface LessonManifest {
@@ -318,6 +322,7 @@ export interface LessonManifest {
   est_seconds: number;
   est_cost_usd: number;
   rate_per_million_usd: number;
+  avatar_provider?: string;
 }
 
 // The lessons catalog, served statically from /public/lessons/index.json — built offline
