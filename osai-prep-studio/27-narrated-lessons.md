@@ -4,8 +4,11 @@
 > [08-reporting-and-canva.md](08-reporting-and-canva.md) (slide/visual pipeline) and
 > [12-content-authoring.md](12-content-authoring.md) (content schema). The **voice seam
 > plumbing is already built** (`spine/osai_spine/narration.py` + `narrate` CLI +
-> `tests/test_narration.py`); this doc is the design around it, plus the premium
-> "your voice + your face" path and a pricing model.
+> `tests/test_narration.py`), and now so is the **avatar (talking-head) seam** (§3.1) —
+> both live in the shared, installable `packages/osai-narrate` package so every course that
+> depends on it inherits the same upgrades. This doc is the design around them, plus the
+> premium "your voice + your face" path, its **consent/likeness/data-handling gate (§6.1)**,
+> and a pricing model.
 
 ## 1. The experience
 
@@ -58,6 +61,38 @@ Render is gated behind `OSAI_TTS=1` **and** provider availability, and **fails c
 any flag/secret/PII survives redaction (a cloud render is egress — it reuses the vetted
 `llm.residual_secrets` tripwire).
 
+## 3.1 The avatar (talking-head) seam — plumbing (built)
+
+A second, independent seam mirrors §3 exactly, for the premium "your face" path (§6):
+provider-agnostic, **off by default**, presence-only key checks, fail-closed. It is **pure
+plumbing** — no vendor SDK is wired, no key is ever used to make a real call, and no video
+is produced by this seam today.
+
+| provider | kind | key | notes |
+|---|---|---|---|
+| `none` (default) | — | — | no avatar; the manifest carries no `video` field at all |
+| `heygen` | cloud | `HEYGEN_API_KEY` | script→avatar video; "Instant Avatar" from a short clip |
+| `synthesia` | cloud | `SYNTHESIA_API_KEY` | custom avatars, strong for structured courses |
+| `tavus` | cloud | `TAVUS_API_KEY` | developer API, real-time/conversational avatars |
+
+There is no local/offline avatar analogue to a local TTS binary — every real provider here
+is cloud, and every one is a **documented extension point**: `render_avatar_segment()`
+always returns `{"rendered": False, "reason": "… extension point …"}` for `heygen` /
+`synthesia` / `tavus`. Wiring an actual SDK call is future, separately-greenlit work.
+
+```
+$ osai_spine narrate status                 # now also prints the avatar seam's state
+$ AVATAR_PROVIDER=heygen AVATAR_ID=<your-avatar-id> osai_spine narrate status
+```
+
+The one integration point with the render plan is **additive-only**: a segment gains a
+cache-keyed `video` target (`sha256(provider|avatar|voice|text)`, mirroring `cache_key`)
+**only** when the seam is opted into (`AVATAR=1` + a configured provider). With the seam off
+— the default, and the only mode any shipped lesson uses today — `render_plan()` is
+byte-for-byte identical to a plan built before this seam existed; every committed manifest
+(L03 and later lessons) is unaffected. The player (§5) plays a segment's avatar video when
+one is present, else falls back to its existing audio/timed-captions behaviour unchanged.
+
 ## 4. Script schema & render pipeline
 
 A lesson narration script is authored prose (reuses the doc-12 content model):
@@ -109,38 +144,47 @@ end-to-end offline in `tests/test_lesson_l03.py` with a mocked local voice.
 The `/lessons/[id]` route (`web/app/lessons/[id]/page.tsx` + `web/components/LessonPlayer.tsx`)
 loads the committed manifest (`web/public/lessons/<id>.manifest.json`) and plays the lesson:
 a slide panel (title + cue + caption) advances in sync with a highlighted transcript, with
-play/pause and per-segment seek. It plays **rendered per-segment audio when present**
-(`/lessons/<id>/…` — probed on load) and **degrades gracefully** when it isn't: timed captions
-by the manifest's segment durations, with an optional "read aloud" browser voice. It is **pure
-presentation** — no grading, no cloud calls. The committed manifest + VTT are kept in lockstep
-with the shipped script by a contract test (`test_lesson_l03.py`), so the page can never show
-stale data. Live at **`/lessons/L03`**.
+play/pause and per-segment seek. It plays a **rendered per-segment avatar video when present**
+(the §3.1 seam), else **rendered per-segment audio when present** (`/lessons/<id>/…` — both
+probed on load), and **degrades gracefully** when neither is: timed captions by the manifest's
+segment durations, with an optional "read aloud" browser voice. It is **pure presentation** —
+no grading, no cloud calls. No shipped lesson carries a `video` yet (the avatar seam is off
+by default), so this path is inert until a course opts in. The committed manifest + VTT are
+kept in lockstep with the shipped script by a contract test (`test_lesson_l03.py`), so the
+page can never show stale data. Live at **`/lessons/L03`**.
 
 ## 6. Premium path — **your voice and your face** ("my own course")
 
-The seam makes the baseline free; the premium path makes it unmistakably *yours*.
+The seam makes the baseline free; the premium path makes it unmistakably *yours*. The
+**plumbing for both halves is now built** (§3 for voice, §3.1 for avatar) — provider-agnostic,
+gated, fail-closed, no SDK wired. What remains is entirely **your** doing: recording the
+samples and wiring the two vendor SDKs behind the seam once you've trained them.
 
 **Your voice (ElevenLabs Professional Voice Clone).** Record ~30 minutes of clean,
 consistent audio → ElevenLabs trains a high-fidelity clone of *your* voice. Then set
-`OSAI_TTS_PROVIDER=elevenlabs` (+ your voice id) and every lesson renders in your voice.
+`NARRATE_PROVIDER=elevenlabs` + `voice` to your cloned voice_id (the script's own `voice`
+field is exactly that contract) and every lesson renders in your voice, once the ElevenLabs
+SDK call is wired at `render_segment`'s documented extension point.
 (An Instant Clone from ~1–3 min exists but pro-grade needs the longer sample + a paid tier.)
 It's your own voice, so you own it — these tools verify consent to clone a real person, which
 is exactly right for yourself.
 
 **Your face (AI talking-head avatar).** Record a few minutes to camera once, then generate
-every lesson video from a script in your likeness:
+every lesson video from a script in your likeness. The seam names three providers
+(`AVATAR_PROVIDER=heygen|synthesia|tavus`, §3.1) — pick one, train the avatar, wire its SDK:
 
 - **HeyGen** — market leader for script→avatar video; "Instant Avatar" from a short clip.
 - **Synthesia** — enterprise custom avatars, strong for structured courses.
 - **Tavus** — developer API + real-time/conversational avatars (good if you want an
   interactive "ask the instructor" mode later).
-- **D-ID / Argil / Captions** — talking-portrait / creator-focused alternatives.
+- **D-ID / Argil / Captions** — talking-portrait / creator-focused alternatives (not named
+  in the seam's provider set yet; add one the same way if you pick one of these instead).
 
-**Recommended "it's my course" stack:** ElevenLabs (your voice) → HeyGen or Synthesia
-(your face lip-synced to that audio) → composite the talking head as a corner PiP over the
-slide/terminal capture (ffmpeg or Remotion, from the manifest timings) → MP4 per lesson →
-host on the platform. One recording session bootstraps voice + avatar; after that, **new
-lessons are just new scripts** — no re-recording.
+**Recommended "it's my course" stack:** ElevenLabs (your voice) → HeyGen (your face
+lip-synced to that audio, matching the seam's default recommendation) → composite the
+talking head as a corner PiP over the slide/terminal capture (ffmpeg or Remotion, from the
+manifest timings) → MP4 per lesson → host on the platform. One recording session bootstraps
+voice + avatar; after that, **new lessons are just new scripts** — no re-recording.
 
 **Production cost** (subscriptions, verify current): HeyGen ~$29–89/mo · Synthesia ~$18–89+/mo ·
 ElevenLabs Creator ~$22 / Pro ~$99/mo. Rendering a course fits inside a month or two of a
@@ -148,6 +192,70 @@ plan — a modest one-time production cost, not a per-student cost.
 
 **Guardrail:** the *format* can be inspired by any course; the **scripts, examples, slides,
 labs, and grading are our own original content** (the standing no-proprietary-content rule).
+
+## 6.1 Consent, likeness rights & data handling — the gate before any premium render
+
+The seam (§3, §3.1) makes premium rendering *possible*; it does not make it *permitted*. A
+cloned voice and a talking-head avatar are someone's biometric likeness. Before anyone flips
+`NARRATE_PROVIDER=elevenlabs` or `AVATAR_PROVIDER=heygen` with a real key, all of the
+following must hold — this is a **content/process policy**, layered on top of the code-level
+gates (off by default, presence-only keys, fail-closed redaction) that already exist:
+
+> **Premium voice/avatar rendering may only be enabled for an authorised likeness with
+> explicit consent, approved source samples, documented provider retention/deletion posture,
+> and local records of what was rendered. No provider calls in CI. No keys in repo. No
+> generated likeness/audio/video assets committed unless separately approved.**
+
+**1. Consent & likeness rights.** Only clone a voice or train an avatar for a subject who has
+given **explicit, informed consent** to that specific use — themselves, or someone with
+documented authorization on file. Recording yourself for your own course satisfies this by
+construction; cloning anyone else requires their written consent, kept on record, before a
+single sample is submitted to any provider. This is independent of, and does not relax,
+whatever identity-verification a vendor (ElevenLabs, HeyGen, …) runs on their side — it is
+the studio's own gate, checked first.
+
+**2. Approved source-sample handling.** The raw recordings that train a voice/avatar model
+are sensitive inputs:
+- Only samples from an authorised, consenting subject may be submitted to a provider.
+- Source recordings are **never committed to this repository** — they live outside git, in
+  storage access-restricted to whoever is doing the training, and are deleted once the model
+  is trained and verified (or retained only as long as a provider's own re-training flow
+  requires, whichever is shorter).
+- Keep a local record of *which* samples were submitted to *which* provider and when — this
+  is what makes a future deletion request possible to fulfil completely.
+
+**3. Provider data-retention & deletion posture.** Before enabling a provider, document (in
+your own private ops notes, not this repo) its answers to: how long does it retain uploaded
+samples and trained voice/avatar models; what is the process and turnaround to request full
+deletion; does it use submitted samples for its own model training by default (opt out if
+so). Revisit this whenever a provider's terms change. The studio does not implement or audit
+a vendor's retention systems — it requires that *someone* has read and recorded them before
+the key goes live.
+
+**4. Generated-asset handling.** A rendered file (audio in your cloned voice, video of your
+avatar) carries the same likeness sensitivity as the source samples that produced it:
+- **No generated premium audio/video is committed to this repository** unless separately
+  reviewed and approved — the default posture is the same as for source samples: stored
+  outside git, access-restricted.
+- If a generated asset is later hosted for learners, apply the same access controls you'd
+  apply to the source samples, and be able to name which script produced it — the seam's
+  content-addressed cache key (`sha256(provider|avatar|voice|text)`, §3.1) already gives you
+  that audit trail for free: the filename **is** the record of what was rendered from what.
+- Deleting a source sample or revoking consent means deleting every generated asset that
+  cache key traces back to, not just the source.
+
+**5. No-impersonation / authorised-likeness-only.** Never render a script in a voice or
+likeness the studio does not have standing, on-file authorization for. This is an absolute
+rule, not a judgment call per lesson — the same authorized-lab-only discipline the studio
+already applies to attack targets (11-safety-legal-ethics.md §1) applies here to whose voice
+and face the platform is allowed to speak with.
+
+**What this is not (yet):** none of the above is enforced in code — the seam's code-level
+gates (off by default, fail-closed, presence-only keys, no CI calls to any provider) are
+enforced and tested; this section is the **process** a human follows before ever turning
+those code-level gates on for real. See `docs/adopting-narrated-lessons.md` for what a
+second course (e.g. the CC cert project) additionally owes on top of what it inherits from
+the shared package.
 
 ## 7. Pricing — realistic & competitive
 
@@ -175,13 +283,30 @@ cost — that pushes toward the subscription/lab-time model rather than a cheap 
 - ✅ **Built:** the provider-agnostic narration seam (`narration.py`), the `narrate
   status/plan/render` CLI, script parsing, deterministic plan/manifest + WebVTT captions +
   cost model, gated fail-closed render. OSS-default, off by default, no keys, CI-green.
-- ✅ **Proven (this PR):** the **first real lesson**, `spine/lessons/L03.json`, renders
-  end-to-end through the local OSS seam — manifest + captions + per-segment audio — tested
-  offline in `tests/test_lesson_l03.py` (§4.1).
-- ✅ **Built (this PR):** the repo `/lessons/[id]` **player** — consumes the committed
-  manifest + VTT, synced slides/captions, audio-when-present with a graceful captions/timing
-  fallback, contract-tested against the script. Live at `/lessons/L03`.
-- ▶ **Next (in order):** (1) author the Track-2 lesson scripts (more real lessons);
-  (2) wire the ElevenLabs + HeyGen premium pipeline behind the same seam; (3) package +
-  price per §7. The repo-backed `/tutor` · `/report` · lab-grader web vertical slice still
-  stands as a parallel track.
+- ✅ **Proven:** the **first real lesson**, `spine/lessons/L03.json`, renders end-to-end
+  through the local OSS seam — manifest + captions + per-segment audio — tested offline in
+  `tests/test_lesson_l03.py` (§4.1).
+- ✅ **Built:** the repo `/lessons/[id]` **player** — consumes the committed manifest + VTT,
+  synced slides/captions, audio-when-present with a graceful captions/timing fallback,
+  contract-tested against the script. Live at `/lessons/L03`.
+- ✅ **Extracted:** the renderer is now the shared, installable `osai-narrate` package
+  (`packages/osai-narrate`) — stdlib-only, no course-app coupling — so voice/avatar/render
+  upgrades land once and every dependent course inherits them; OSAI consumes it via a thin
+  adapter. See `docs/adopting-narrated-lessons.md`.
+- ✅ **Built (this PR):** the **avatar (talking-head) seam** (§3.1) — plumbing only,
+  mirroring the voice seam's safety posture exactly: off by default, presence-only keys,
+  fail-closed, and `heygen` / `synthesia` / `tavus` are documented extension points with no
+  SDK wired. The render plan gains a `video` field only when opted in (additive, byte-
+  identical otherwise); the player plays it when present. The ElevenLabs voice-clone
+  extension point (§6) is likewise fully documented at `render_segment`, unimplemented.
+- ✅ **Documented (this PR):** the **consent/likeness/data-handling gate** (§6.1) that must
+  be satisfied by a human, on record, before either seam is ever turned on for real —
+  consent & likeness rights, approved source-sample handling, provider retention/deletion
+  posture, generated-asset handling, and a no-impersonation policy. This is process, not
+  code — it does not relax or replace the seams' existing code-level gates.
+- ▶ **Next:** (1) keep authoring lesson scripts across the tracks — the seam and the
+  player are proven, so this is now pure content work; (2) **needs your keys + recorded
+  samples + the §6.1 gate satisfied, separately greenlit** — record your ElevenLabs voice
+  clone and train a HeyGen avatar under §6.1, then wire each SDK at its documented
+  extension point; (3) package + price per §7. The repo-backed `/tutor` · `/report` ·
+  lab-grader web vertical slice still stands as a parallel track.

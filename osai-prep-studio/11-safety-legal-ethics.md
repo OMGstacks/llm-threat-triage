@@ -47,7 +47,7 @@ Track 6 teaches the professional ethic alongside the technical skill: scope/auth
 Learners agree to: use the platform only for authorized learning; not point studio tooling at systems they don't own or aren't authorized to test; not attempt to extract other learners' flags or data; not use the tutor to generate real-world attack assistance. Violations disable lab access. The platform's own abuse controls (egress deny-all, per-learner isolation, flag integrity) are in [13-platform-threat-model.md](13-platform-threat-model.md).
 
 ## Cross-references
-[03-tutor-examiner-bot.md](03-tutor-examiner-bot.md) · [04-evaluation-harness.md](04-evaluation-harness.md) · [09a-source-library.md](09a-source-library.md) · [13-platform-threat-model.md](13-platform-threat-model.md) · [18-ai-use-policy-for-exam-mode.md](18-ai-use-policy-for-exam-mode.md)
+[03-tutor-examiner-bot.md](03-tutor-examiner-bot.md) · [04-evaluation-harness.md](04-evaluation-harness.md) · [09a-source-library.md](09a-source-library.md) · [13-platform-threat-model.md](13-platform-threat-model.md) · [18-ai-use-policy-for-exam-mode.md](18-ai-use-policy-for-exam-mode.md) · [27-narrated-lessons.md](27-narrated-lessons.md) §6.1 (consent/likeness-rights/data-handling gate for premium voice-clone + avatar rendering)
 
 ## Sources
 - NIST AI 600-1 GenAI Profile: <https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence>

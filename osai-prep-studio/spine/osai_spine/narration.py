@@ -37,4 +37,17 @@ from osai_narrate.core import (  # noqa: E402,F401 — re-export the public API 
     status,
     to_vtt,
     write_manifest,
+    # avatar (talking-head) seam — plumbing only, see 27-narrated-lessons.md §6
+    AVATAR_PROVIDERS,
+    DEFAULT_AVATAR_PROVIDER,
+    avatar_enabled,
+    avatar_id,
+    avatar_key_present,
+    avatar_key_source,
+    avatar_provider_available,
+    avatar_provider_kind,
+    avatar_provider_name,
+    avatar_status,
+    render_avatar_segment,
+    video_cache_key,
 )

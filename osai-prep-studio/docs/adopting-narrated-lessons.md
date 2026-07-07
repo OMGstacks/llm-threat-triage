@@ -222,16 +222,49 @@ Because both courses depend on the same package, the roadmap items land in **one
 - **Premium neural voice** (e.g. an ElevenLabs voice clone) — wire the `elevenlabs` provider's
   SDK at the documented extension point in `render_segment`. Both courses get it by bumping
   the package version; neither changes a line of course code.
-- **Talking-head avatar** (e.g. HeyGen/Synthesia) — add an avatar render stage that consumes
-  the same manifest (it already has per-segment text + timing). Ships to every course at once.
+- **Talking-head avatar** (e.g. HeyGen/Synthesia/Tavus) — the package now ships the **avatar
+  seam's plumbing**: `AVATAR_PROVIDER`, presence-only key checks, a gated + fail-closed
+  `render_avatar_segment`, and a cache-keyed `video` field that a render plan gains only when
+  the seam is opted into (every existing manifest is unaffected). Wiring one of those three
+  providers' real SDK call at that extension point ships the avatar to every dependent course
+  at once — the manifest already carries per-segment text + timing for it to consume.
 - **Better timing / caption model, new cache strategy, new output format** — same story.
 
 Fork the renderer into each course and you'd re-do every one of these per course, and they'd
 drift. That is the failure mode this package exists to prevent.
 
-> None of those premium providers are implemented yet, and this package pulls in **no**
-> provider SDKs, keys, avatar rendering, or cloud calls. They are documented extension points
-> behind the seam so the plumbing is ready when the work is greenlit.
+> The avatar seam is plumbing only — **no** HeyGen/Synthesia/Tavus SDK is wired, no key is
+> ever used to make a real call, and no video is produced. Same for the ElevenLabs voice
+> clone: the contract (`voice` = your cloned voice_id) is documented, but the SDK call itself
+> is still an extension point. Both are ready for the work to be wired in, once it's greenlit.
+
+---
+
+## Premium seam adoption: what does *not* come for free
+
+The **code** upgrades once and every dependent course inherits it automatically, the moment
+it bumps the package version — that is the whole point of §"upgrade once, inherit
+everywhere" above. A second course adopting the premium voice/avatar seam does **not**
+inherit any of the following; each is a per-course, per-provider-account obligation the
+adopting team must supply on its own:
+
+- **Its own consent & likeness authorization.** Whoever's voice/face a course renders in must
+  have given explicit, informed consent to *that course's* use — OSAI's consent record for
+  its own instructor's voice does not transfer to a different course rendering a different
+  person. See the full policy in [`27-narrated-lessons.md`](../27-narrated-lessons.md) §6.1.
+- **Its own provider account & configuration.** Its own ElevenLabs/HeyGen/Synthesia/Tavus
+  account, its own API key (never shared across courses, never committed), and its own
+  `NARRATE_PROVIDER`/`AVATAR_PROVIDER` configuration.
+- **Its own approved source samples.** Voice/video recordings it submits to a provider must
+  come from *its own* authorised, consenting subject — stored outside its repo, access-
+  restricted, on the same terms §6.1 sets for OSAI.
+- **Its own provider retention/deletion posture on file**, and **its own local record of what
+  it rendered** (the seam's content-addressed cache key gives it the audit trail; recording
+  which key maps to which real person's likeness is the adopting course's job).
+
+**No-impersonation applies to every adopter, without exception:** never render a script in a
+voice or likeness a course does not have standing, on-file authorization for. Adopting the
+shared package inherits safe, gated *code*; it does not, and cannot, inherit *permission*.
 
 ---
 

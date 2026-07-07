@@ -133,3 +133,6 @@ def test_spine_adapter_reexports_the_same_package(tmp_path):
     assert via_spine.render_plan(_CC_LESSON) == via_pkg.render_plan(_CC_LESSON)
     # the adapter re-exports the package objects themselves, not copies
     assert via_spine.render_plan.__module__ == "osai_narrate.core"
+    # the avatar (talking-head) seam is re-exported the same way — same object, same result
+    assert via_spine.avatar_status() == via_pkg.avatar_status()
+    assert via_spine.render_avatar_segment.__module__ == "osai_narrate.core"
