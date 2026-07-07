@@ -240,6 +240,34 @@ drift. That is the failure mode this package exists to prevent.
 
 ---
 
+## Premium seam adoption: what does *not* come for free
+
+The **code** upgrades once and every dependent course inherits it automatically, the moment
+it bumps the package version — that is the whole point of §"upgrade once, inherit
+everywhere" above. A second course adopting the premium voice/avatar seam does **not**
+inherit any of the following; each is a per-course, per-provider-account obligation the
+adopting team must supply on its own:
+
+- **Its own consent & likeness authorization.** Whoever's voice/face a course renders in must
+  have given explicit, informed consent to *that course's* use — OSAI's consent record for
+  its own instructor's voice does not transfer to a different course rendering a different
+  person. See the full policy in [`27-narrated-lessons.md`](../27-narrated-lessons.md) §6.1.
+- **Its own provider account & configuration.** Its own ElevenLabs/HeyGen/Synthesia/Tavus
+  account, its own API key (never shared across courses, never committed), and its own
+  `NARRATE_PROVIDER`/`AVATAR_PROVIDER` configuration.
+- **Its own approved source samples.** Voice/video recordings it submits to a provider must
+  come from *its own* authorised, consenting subject — stored outside its repo, access-
+  restricted, on the same terms §6.1 sets for OSAI.
+- **Its own provider retention/deletion posture on file**, and **its own local record of what
+  it rendered** (the seam's content-addressed cache key gives it the audit trail; recording
+  which key maps to which real person's likeness is the adopting course's job).
+
+**No-impersonation applies to every adopter, without exception:** never render a script in a
+voice or likeness a course does not have standing, on-file authorization for. Adopting the
+shared package inherits safe, gated *code*; it does not, and cannot, inherit *permission*.
+
+---
+
 ## Security posture (inherited by every adopter)
 
 The package is safe-by-default, and every course that depends on it inherits that posture:

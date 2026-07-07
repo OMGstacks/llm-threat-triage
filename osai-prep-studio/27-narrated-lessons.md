@@ -7,7 +7,8 @@
 > `tests/test_narration.py`), and now so is the **avatar (talking-head) seam** (§3.1) —
 > both live in the shared, installable `packages/osai-narrate` package so every course that
 > depends on it inherits the same upgrades. This doc is the design around them, plus the
-> premium "your voice + your face" path and a pricing model.
+> premium "your voice + your face" path, its **consent/likeness/data-handling gate (§6.1)**,
+> and a pricing model.
 
 ## 1. The experience
 
@@ -192,6 +193,70 @@ plan — a modest one-time production cost, not a per-student cost.
 **Guardrail:** the *format* can be inspired by any course; the **scripts, examples, slides,
 labs, and grading are our own original content** (the standing no-proprietary-content rule).
 
+## 6.1 Consent, likeness rights & data handling — the gate before any premium render
+
+The seam (§3, §3.1) makes premium rendering *possible*; it does not make it *permitted*. A
+cloned voice and a talking-head avatar are someone's biometric likeness. Before anyone flips
+`NARRATE_PROVIDER=elevenlabs` or `AVATAR_PROVIDER=heygen` with a real key, all of the
+following must hold — this is a **content/process policy**, layered on top of the code-level
+gates (off by default, presence-only keys, fail-closed redaction) that already exist:
+
+> **Premium voice/avatar rendering may only be enabled for an authorised likeness with
+> explicit consent, approved source samples, documented provider retention/deletion posture,
+> and local records of what was rendered. No provider calls in CI. No keys in repo. No
+> generated likeness/audio/video assets committed unless separately approved.**
+
+**1. Consent & likeness rights.** Only clone a voice or train an avatar for a subject who has
+given **explicit, informed consent** to that specific use — themselves, or someone with
+documented authorization on file. Recording yourself for your own course satisfies this by
+construction; cloning anyone else requires their written consent, kept on record, before a
+single sample is submitted to any provider. This is independent of, and does not relax,
+whatever identity-verification a vendor (ElevenLabs, HeyGen, …) runs on their side — it is
+the studio's own gate, checked first.
+
+**2. Approved source-sample handling.** The raw recordings that train a voice/avatar model
+are sensitive inputs:
+- Only samples from an authorised, consenting subject may be submitted to a provider.
+- Source recordings are **never committed to this repository** — they live outside git, in
+  storage access-restricted to whoever is doing the training, and are deleted once the model
+  is trained and verified (or retained only as long as a provider's own re-training flow
+  requires, whichever is shorter).
+- Keep a local record of *which* samples were submitted to *which* provider and when — this
+  is what makes a future deletion request possible to fulfil completely.
+
+**3. Provider data-retention & deletion posture.** Before enabling a provider, document (in
+your own private ops notes, not this repo) its answers to: how long does it retain uploaded
+samples and trained voice/avatar models; what is the process and turnaround to request full
+deletion; does it use submitted samples for its own model training by default (opt out if
+so). Revisit this whenever a provider's terms change. The studio does not implement or audit
+a vendor's retention systems — it requires that *someone* has read and recorded them before
+the key goes live.
+
+**4. Generated-asset handling.** A rendered file (audio in your cloned voice, video of your
+avatar) carries the same likeness sensitivity as the source samples that produced it:
+- **No generated premium audio/video is committed to this repository** unless separately
+  reviewed and approved — the default posture is the same as for source samples: stored
+  outside git, access-restricted.
+- If a generated asset is later hosted for learners, apply the same access controls you'd
+  apply to the source samples, and be able to name which script produced it — the seam's
+  content-addressed cache key (`sha256(provider|avatar|voice|text)`, §3.1) already gives you
+  that audit trail for free: the filename **is** the record of what was rendered from what.
+- Deleting a source sample or revoking consent means deleting every generated asset that
+  cache key traces back to, not just the source.
+
+**5. No-impersonation / authorised-likeness-only.** Never render a script in a voice or
+likeness the studio does not have standing, on-file authorization for. This is an absolute
+rule, not a judgment call per lesson — the same authorized-lab-only discipline the studio
+already applies to attack targets (11-safety-legal-ethics.md §1) applies here to whose voice
+and face the platform is allowed to speak with.
+
+**What this is not (yet):** none of the above is enforced in code — the seam's code-level
+gates (off by default, fail-closed, presence-only keys, no CI calls to any provider) are
+enforced and tested; this section is the **process** a human follows before ever turning
+those code-level gates on for real. See `docs/adopting-narrated-lessons.md` for what a
+second course (e.g. the CC cert project) additionally owes on top of what it inherits from
+the shared package.
+
 ## 7. Pricing — realistic & competitive
 
 You're the **affordable, practical prep** that gets someone ready for the exam — priced
@@ -234,9 +299,14 @@ cost — that pushes toward the subscription/lab-time model rather than a cheap 
   SDK wired. The render plan gains a `video` field only when opted in (additive, byte-
   identical otherwise); the player plays it when present. The ElevenLabs voice-clone
   extension point (§6) is likewise fully documented at `render_segment`, unimplemented.
+- ✅ **Documented (this PR):** the **consent/likeness/data-handling gate** (§6.1) that must
+  be satisfied by a human, on record, before either seam is ever turned on for real —
+  consent & likeness rights, approved source-sample handling, provider retention/deletion
+  posture, generated-asset handling, and a no-impersonation policy. This is process, not
+  code — it does not relax or replace the seams' existing code-level gates.
 - ▶ **Next:** (1) keep authoring lesson scripts across the tracks — the seam and the
   player are proven, so this is now pure content work; (2) **needs your keys + recorded
-  samples, separately greenlit** — record your ElevenLabs voice clone and train a HeyGen
-  avatar, then wire each SDK at its documented extension point; (3) package + price per §7.
-  The repo-backed `/tutor` · `/report` · lab-grader web vertical slice still stands as a
-  parallel track.
+  samples + the §6.1 gate satisfied, separately greenlit** — record your ElevenLabs voice
+  clone and train a HeyGen avatar under §6.1, then wire each SDK at its documented
+  extension point; (3) package + price per §7. The repo-backed `/tutor` · `/report` ·
+  lab-grader web vertical slice still stands as a parallel track.
