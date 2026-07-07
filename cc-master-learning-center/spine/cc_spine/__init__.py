@@ -185,6 +185,16 @@ ids/counts/accuracies/verdicts — never a stem, answer, key, correction text, o
 ``dashboard-check`` CI gate proves determinism + no answer/PII leak; the committed
 reports/readiness-dashboard-sample.json is exactly what the code produces from the synthetic fixture
 (regenerable, drift-checked by a test). 10th schema (readiness-dashboard).
+PR-11b adds the VISUAL layer (``dashboard_view``): ``render_html(dashboard, standalone=True)`` is a
+pure, deterministic HTML formatter over the PR-11a dashboard dict — it never receives a stem, answer,
+key, or PII field, so it cannot leak one; the verdict, score, and hard blockers are rendered verbatim,
+never recomputed. The one visual classification the view makes of its own — the domain-gauge
+good/bad color — is calibrated to the EXACT same 75% hard-blocker threshold
+``learner_state.readiness_report`` already enforces (strict two-tone, no intermediate tier), so the
+gauge can never contradict a real blocker (independent review caught and fixed a prior three-tier
+draft that could). ``standalone=True`` yields a complete document; ``standalone=False`` yields a
+head-less fragment for host embedding (e.g. an Artifact). CLI ``dashboard --html [--out file]``; a
+``dashboard-html-check`` CI gate proves determinism + no answer-bearing field in the rendered markup.
 """
 
-__version__ = "0.8.6"
+__version__ = "0.8.7"

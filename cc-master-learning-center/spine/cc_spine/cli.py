@@ -9,7 +9,7 @@
     python -m cc_spine.cli learner replay --attempts stream.json --now 5    # PR-9 learner state
     python -m cc_spine.cli mock [assemble|validate|render] --draw-key K      # PR-10 mock assembler
     python -m cc_spine.cli variant [prompt|ingest|requests|validate] ...     # PR-10.4b intake
-    python -m cc_spine.cli dashboard --attempts stream.json --now 5          # PR-11a dashboard
+    python -m cc_spine.cli dashboard --attempts stream.json --now 5 [--html] # PR-11a/11b dashboard
 
 Stdlib-only; no third-party dependencies.
 """
@@ -24,8 +24,8 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import (dashboard as dashboard_mod, ipboundary, learner_state, mock_exam, presentation,
-               quiz, registry, scaffold_validate, sources, variant_intake, variants)
+from . import (dashboard as dashboard_mod, dashboard_view, ipboundary, learner_state, mock_exam,
+               presentation, quiz, registry, scaffold_validate, sources, variant_intake, variants)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -222,9 +222,10 @@ def _mock_render(mock) -> int:
 
 
 def cmd_dashboard(args) -> int:
-    """PR-11a readiness dashboard (data model): replay an attempt stream into a learner state and
-    project the content-free readiness dashboard. Optionally fold in a graded mock. Deterministic in
-    the injected --now; the output carries only ids/counts/accuracies/verdicts, no answers or PII."""
+    """PR-11a/11b readiness dashboard: replay an attempt stream into a learner state and project the
+    content-free readiness dashboard, as JSON (default) or the PR-11b HTML render (--html). Optionally
+    fold in a graded mock. Deterministic in the injected --now; the output carries only
+    ids/counts/accuracies/verdicts, no answers or PII."""
     attempts = json.loads(Path(args.attempts).read_text(encoding="utf-8"))
     try:
         state = learner_state.replay(attempts, now=args.now)
@@ -237,8 +238,12 @@ def cmd_dashboard(args) -> int:
         if not isinstance(mock_result, dict):
             print("FAIL --mock must be a graded-mock JSON object (grade_mock output)", file=sys.stderr)
             return 1
-    print(json.dumps(dashboard_mod.build_dashboard(state, mock_result=mock_result, now=args.now),
-                     indent=2))
+    d = dashboard_mod.build_dashboard(state, mock_result=mock_result, now=args.now)
+    out_text = dashboard_view.render_html(d) if args.html else json.dumps(d, indent=2)
+    if args.out:
+        Path(args.out).write_text(out_text, encoding="utf-8")
+    else:
+        print(out_text)
     return 0
 
 
@@ -386,6 +391,9 @@ def build_parser() -> argparse.ArgumentParser:
     p_dash.add_argument("--attempts", required=True, help="attempt-stream JSON")
     p_dash.add_argument("--now", type=int, default=0, help="injected day counter (determinism)")
     p_dash.add_argument("--mock", default=None, help="optional graded-mock JSON (grade_mock output)")
+    p_dash.add_argument("--html", action="store_true",
+                        help="PR-11b: emit the standalone HTML render instead of JSON")
+    p_dash.add_argument("--out", default=None, help="write output to this path instead of stdout")
     p_dash.set_defaults(func=cmd_dashboard)
 
     p_variant = sub.add_parser("variant",

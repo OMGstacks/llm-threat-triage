@@ -51,3 +51,5 @@ slice starts. At minimum:
 | [`pr11a-readiness-dashboard.md`](pr11a-readiness-dashboard.md) | PR-11a | readiness dashboard DATA MODEL (content-free, deterministic); composes readiness_report; P1-3 content-scale caveat |
 | [`pr11a-readiness-dashboard-review.json`](pr11a-readiness-dashboard-review.json) | PR-11a | independent review accept-with-fixes; F1 (non-dict mock crash) + F2/F3 nits fixed; value-leak guarantee made test-enforced |
 | [`readiness-dashboard-sample.json`](readiness-dashboard-sample.json) | PR-11a | the dashboard produced from the synthetic fixture (regenerable; drift-checked by a test) |
+| [`pr11b-visual-dashboard.md`](pr11b-visual-dashboard.md) | PR-11b | the visual layer (`dashboard_view.render_html`) — pure formatter over the PR-11a model; instrument-panel design |
+| [`pr11b-visual-dashboard-review.json`](pr11b-visual-dashboard-review.json) | PR-11b | independent review needs-work → all fixed: 1 major (domain-gauge miscalibration vs the real hard-blocker gate) + 4 minor/nit |

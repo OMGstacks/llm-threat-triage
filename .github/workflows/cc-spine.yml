@@ -86,6 +86,15 @@ jobs:
             echo "FAIL: dashboard contains an answer-bearing or PII field"; exit 1
           fi
           echo "OK: dashboard is deterministic and content-free"
+      - name: Readiness-dashboard HTML gate (PR-11b: deterministic visual render; no answer field)
+        run: |
+          python -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > "$RUNNER_TEMP/dash_a.html"
+          python -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > "$RUNNER_TEMP/dash_b.html"
+          cmp "$RUNNER_TEMP/dash_a.html" "$RUNNER_TEMP/dash_b.html" || { echo "FAIL: dashboard HTML not deterministic"; exit 1; }
+          if grep -qE 'correct_index|answer_key_ref|rationale_refs|distractor_misconceptions|selected_index' "$RUNNER_TEMP/dash_a.html"; then
+            echo "FAIL: dashboard HTML contains an answer-bearing field"; exit 1
+          fi
+          echo "OK: dashboard HTML is deterministic and content-free"
       - name: Spine test suite (stdlib unittest — no third-party deps)
         run: python -m unittest discover -s tests
       - name: Ingestion determinism smoke (dictionary + note are reproducible)

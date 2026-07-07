@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check dashboard-html-check ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -76,6 +76,14 @@ dashboard-check:
 	! grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|rationale_refs|correction|one_sentence_rule|trap|selected_index|name|email|user|username)"[[:space:]]*:' /tmp/cc_dash_a.json
 	@echo "OK   dashboard is deterministic and carries no answer/PII field"
 
+# PR-11b dashboard HTML gate: the visual render is byte-deterministic and carries no answer field.
+dashboard-html-check:
+	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > /tmp/cc_dash_a.html
+	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > /tmp/cc_dash_b.html
+	cmp /tmp/cc_dash_a.html /tmp/cc_dash_b.html
+	! grep -qE 'correct_index|answer_key_ref|rationale_refs|distractor_misconceptions|selected_index' /tmp/cc_dash_a.html
+	@echo "OK   dashboard HTML is deterministic and carries no answer-bearing field"
+
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
 	python3 -m cc_spine.cli ingest --source tests/fixtures/sample_transcript.txt \
@@ -89,4 +97,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check dashboard-html-check test ingest-check
