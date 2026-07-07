@@ -132,6 +132,27 @@ them that way on purpose.
 
 ---
 
+## What's registered for this project
+
+`cli.py` registers two generators:
+
+- **`cognition_inventory`** (`cognition_inventory_generator.py`) — this project's
+  real, gated generator. Indexes the toolkit's own five subsystems (memory,
+  friction, ci-governance, codebase-index, active-work), reporting
+  INSTANTIATED vs. TEMPLATE-ONLY per a marker-file check — see that file's
+  module docstring for the full rationale. Output:
+  `cc-master-learning-center/docs/codebase_index/cognition_inventory.{md,json}`.
+  Gated in CI via `--check --only cognition_inventory`.
+- **`env_var_index`** (`example_generator.py`) — the toolkit's shipped
+  worked example, kept registered as a reference/demo (`--list`,
+  `--only env_var_index` still work) but **not** committed or gated in CI:
+  its generated header bakes in an absolute filesystem path derived from
+  this project's root, which will never byte-match between two different
+  checkout locations (a known limitation of the example generator itself,
+  not something specific to this project — see `cli.py`'s NOTE comment).
+
+---
+
 _This framework was extracted from patterns proven in a production
 trading-system's migration-table and cron-schedule index generators, where
 the extract/render/check shape closed a real class of "the docs say X, the
