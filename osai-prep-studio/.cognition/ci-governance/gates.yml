@@ -1,0 +1,155 @@
+# gates.yml — single source of truth for this project's CI gate surface.
+#
+# Captures what .github/workflows/osai-spine.yml already does (3 jobs: spine, prod-api,
+# docker), in the toolkit's declarative format. NOT YET adopted as the generator of
+# osai-spine.yml itself (gen_ci.py --write has not been run against the real workflow
+# file) — osai-spine.yml remains the hand-authored, currently working CI. This file
+# exists so the gate surface is documented in a form gen_ci.py can validate and, when
+# the project is ready, actually generate from. See this directory's README.md.
+#
+# Path-filtering note: the real workflow only triggers on changes under
+# osai-prep-studio/spine|web|packages/**, reference/**, and one shared detector file in
+# the sibling llm-log-triage project — that trigger scoping is CI-workflow-level
+# (on.push.paths / on.pull_request.paths), not expressible per-gate in this schema, and
+# is preserved as hand-authored scaffolding outside the generated marker region when/if
+# this file is adopted.
+
+version: 1
+
+gates:
+  # --- spine job (stdlib-only core, Python 3.10/3.11/3.12 matrix) ---
+
+  - name: spine-manifest-validation
+    description: "Validate lab manifests (taxonomy gate)"
+    group: "spine"
+    command: "cd osai-prep-studio/spine && python -m osai_spine.cli validate-manifests"
+    extra_yaml: |
+      defaults:
+        run:
+          working-directory: osai-prep-studio/spine
+      strategy:
+        matrix:
+          python-version: ["3.10", "3.11", "3.12"]
+
+  - name: spine-test-suite
+    description: "Spine test suite (stdlib-only; FastAPI tests auto-skip here)"
+    group: "spine"
+    command: "cd osai-prep-studio/spine && python -m pytest -q"
+    extra_yaml: |
+      defaults:
+        run:
+          working-directory: osai-prep-studio/spine
+      strategy:
+        matrix:
+          python-version: ["3.10", "3.11", "3.12"]
+
+  - name: spine-factstore-validate
+    description: "Fact store validate (provenance + drift + no answer-key leak)"
+    group: "spine"
+    command: "cd osai-prep-studio/spine && python -m osai_spine.cli factstore validate"
+
+  - name: spine-goldset-ship-gate
+    description: "Tutor ship gate (gold set — no hallucination / abstain / refuse / no leak)"
+    group: "spine"
+    command: "cd osai-prep-studio/spine && python -m osai_spine.cli goldset"
+
+  - name: spine-transcript-selfredteam
+    description: "Transcript sign-off self-redteam (no learner-content leak)"
+    group: "spine"
+    non_pytest: true
+    sibling_test_gate: spine-test-suite
+    command: |
+      cd osai-prep-studio/spine
+      python -c "import sys; from osai_spine import selfredteam; \
+        r = selfredteam.run(); \
+        print('self-redteam probes:', len(r['probes']), 'all_clean:', r['all_clean']); \
+        [print('  LEAK', p['id'], '->', p['detail']) for p in r['probes'] if not p['ok']]; \
+        sys.exit(0 if r['all_clean'] else 1)"
+
+  - name: spine-transcript-signoff-controls
+    description: "Transcript sign-off control checks pass (redaction / store / base-url)"
+    group: "spine"
+    non_pytest: true
+    sibling_test_gate: spine-test-suite
+    command: |
+      cd osai-prep-studio/spine
+      python -c "import sys; from osai_spine import signoff; \
+        rep = signoff.run_preflight(); \
+        bad = [c['id'] for c in rep['checks'] if c['kind']=='control' and not c['ok']]; \
+        print('control checks failed:', bad or 'none'); \
+        sys.exit(0 if not bad else 1)"
+
+  - name: spine-transcript-judging-off-in-ci
+    description: "Assert transcript judging is OFF in CI (fail-closed)"
+    group: "spine"
+    non_pytest: true
+    sibling_test_gate: spine-test-suite
+    command: |
+      cd osai-prep-studio/spine
+      python -c "import sys; from osai_spine import llm; \
+        off = (not llm.transcripts_enabled()) and (not llm.key_present()); \
+        print('transcripts_enabled:', llm.transcripts_enabled(), 'key_present:', llm.key_present()); \
+        sys.exit(0 if off else 1)"
+
+  - name: spine-catalog-smoke
+    description: "Smoke-test the catalog command"
+    group: "spine"
+    command: "cd osai-prep-studio/spine && python -m osai_spine.cli catalog"
+
+  # --- prod-api job (real FastAPI deps, single Python 3.11 run) ---
+
+  - name: prod-api-test-suite
+    description: "Full suite incl. FastAPI API tests (prod + dev dependencies)"
+    group: "prod-api"
+    command: "cd osai-prep-studio/spine && pip install -r requirements-dev.txt && python -m pytest -q"
+
+  # --- docker job (requires a local Docker daemon; real image builds + smoke tests) ---
+
+  - name: docker-compose-config-validate
+    description: "Validate compose configs (dev, beta, overlays) parse cleanly"
+    group: "docker"
+    requires: ["docker"]
+    command: |
+      DEPLOY=osai-prep-studio/spine/deploy
+      docker compose -f $DEPLOY/docker-compose.yml config -q
+      docker compose -f $DEPLOY/docker-compose.yml -f $DEPLOY/docker-compose.ollama.yml --profile pull config -q
+      OSAI_ADMIN_USERS=ci@example.com OSAI_SERVER_SEED=ci-seed \
+        docker compose -f $DEPLOY/docker-compose.beta.yml config -q
+      OSAI_ADMIN_USERS=ci@example.com OSAI_SERVER_SEED=ci-seed \
+        docker compose -f $DEPLOY/docker-compose.beta.yml -f $DEPLOY/docker-compose.tls.yml config -q
+
+  - name: docker-images-build
+    description: "Build grader, lab-target, and web images"
+    group: "docker"
+    requires: ["docker"]
+    command: |
+      DEPLOY=osai-prep-studio/spine/deploy
+      docker build -f $DEPLOY/Dockerfile.grader -t osai-grader:ci .
+      docker build -f $DEPLOY/Dockerfile.labtarget -t osai-labtarget:ci .
+      docker build -f $DEPLOY/Dockerfile.web -t osai-web:ci .
+
+  - name: docker-grader-smoke
+    description: "Smoke-run the grader container and check /health"
+    group: "docker"
+    requires: ["docker"]
+    non_pytest: true
+    sibling_test_gate: docker-images-build
+    command: |
+      docker run -d --name grader -p 8077:8077 -e OSAI_SERVER_SEED=ci osai-grader:ci
+      for i in $(seq 1 15); do curl -sf http://127.0.0.1:8077/health && break; sleep 2; done
+      curl -sf http://127.0.0.1:8077/health | grep -q '"status":"ok"'
+      docker rm -f grader
+
+  - name: docker-fail-closed-guard
+    description: "Fail-closed guard fires on an unsecured public deploy"
+    group: "docker"
+    requires: ["docker"]
+    non_pytest: true
+    sibling_test_gate: docker-images-build
+    command: |
+      if docker run --rm -e OSAI_PUBLIC=1 osai-grader:ci \
+           python -c "from osai_spine import auth; auth.enforce_deploy_policy()"; then
+        echo "guard did NOT fail closed"; exit 1
+      else
+        echo "OK: guard fails closed on OSAI_PUBLIC=1 without auth"
+      fi

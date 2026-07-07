@@ -24,14 +24,20 @@
   branch — `.cognition/` (memory, codebase-index, friction, ci-governance) and `.claude/`
   (commands, hooks, settings) are present; this `MEMORY.md` and the `feedback_*.md` files
   linked below are the first real (non-template) content in it.
-- **`.claude/` hooks are now actually wired (2026-07-07, fixed same day as diagnosed).**
-  `.claude/settings.json` was registering hooks via a hardcoded absolute Windows path
-  (`C:/Users/izuuh/...`) left over from the original install — resolved only on the
-  installing author's machine. Root-caused and fixed upstream in the toolkit itself
-  (`cognition-os-toolkit` commit `b7365a7`, `init.py`'s `hooks_settings_snippet()`) to emit
-  `$CLAUDE_PROJECT_DIR`-relative paths instead, which Claude Code resolves to the actual
-  project root per-session — portable across every clone/machine/CI runner. Propagated to
-  this file and the sibling installs (repo root, `osai-prep-studio/`) the same session.
+- **Hook-path fix + full content-authoring pass (2026-07-07).** `.claude/settings.json`'s
+  hook commands were a hardcoded absolute Windows path (author-machine-only); fixed
+  upstream (`cognition-os-toolkit` commit `b7365a7`) to `$CLAUDE_PROJECT_DIR`-relative,
+  portable across every clone/CI runner — propagated here and to the sibling installs.
+  Same session: `ci-governance/gates.yml` authored + schema-validated (captures
+  `cc-cognition-substrate.yml`'s 8 real jobs; NOT yet adopted as that workflow's
+  generator — needs `jsonschema` + a `gen_ci.py --write` run, separate step);
+  `PROJECT_FACTS.yml` and `.claude/commands/*.md` placeholders filled or marked N/A
+  (`deploy-ops.md`/`migration.md` genuinely not applicable — flat-JSON fact store, no
+  deploy target); `sitrep.md` now points at the real `claims_cli.py` instead of a
+  generic placeholder; `friction_log.jsonl` + `threshold_config.yml` initialized;
+  `cognition_inventory` regenerated (5/5 instantiated, up from 3/5). `PROJECTS.md` and
+  this repo's CI-workflow comment updated to match (both previously overstated
+  ci-governance/`.claude` as fully un-instantiated).
 
 ## Reference
 

@@ -19,7 +19,7 @@ Change intent: $ARGUMENTS
 ## Phase 0 — concurrency check
 
 Before creating anything, run the shared check: see
-`<TOOLKIT_ROOT>/commands/_shared/concurrency-check.md`. Is another session/teammate
+`.claude/commands/_shared/concurrency-check.md`. Is another session/teammate
 already shipping this same change? If so, coordinate instead of duplicating.
 
 ## Phase 1 — isolate the workspace
@@ -27,12 +27,12 @@ already shipping this same change? If so, coordinate instead of duplicating.
 Never write directly in the primary/shared checkout if concurrent writers are possible.
 
 1. Inspect the primary checkout's current state (branch, divergence) without touching it:
-   `git -C <PRIMARY_CHECKOUT_PATH> worktree list`
+   `git -C C:/Users/izuuh/projects/llm-threat-triage/osai-prep-studio worktree list`
 2. Fetch the default branch fresh (not local disk, which may be stale):
-   `git -C <PRIMARY_CHECKOUT_PATH> fetch <REMOTE_NAME> <DEFAULT_BRANCH> --quiet`
+   `git -C C:/Users/izuuh/projects/llm-threat-triage/osai-prep-studio fetch origin main --quiet`
 3. Create an ISOLATED workspace (a worktree, a separate clone, or your project's
    equivalent) branched off that fresh fetch — not off local HEAD:
-   `git -C <PRIMARY_CHECKOUT_PATH> worktree add -b <descriptive-branch-name> <ISOLATED_WORKSPACE_PATH> <REMOTE_NAME>/<DEFAULT_BRANCH>`
+   `git -C C:/Users/izuuh/projects/llm-threat-triage/osai-prep-studio worktree add -b <descriptive-branch-name> C:/tmp/llm-threat-triage-<task> origin/main`
 
 Do ALL edits in the isolated workspace via absolute paths. Do not edit the primary
 checkout for this task.
@@ -50,15 +50,15 @@ toolkit has one installed) rather than bundling them into this diff.
 
 All of the following must hold. This is a hard gate, not a suggestion:
 
-1. **Scope.** `git -C <ISOLATED_WORKSPACE_PATH> status --porcelain` and
-   `git -C <ISOLATED_WORKSPACE_PATH> diff --name-only` must contain ONLY files this task
+1. **Scope.** `git -C C:/tmp/llm-threat-triage-<task> status --porcelain` and
+   `git -C C:/tmp/llm-threat-triage-<task> diff --name-only` must contain ONLY files this task
    owns. A foreign path or stray file FAILS the gate — go back and unstage/revert it.
    This check exists because a diff that silently touches files outside its declared
    ownership is exactly the failure mode that turns a small change into a
    cross-contamination incident.
 2. **Tests/linters.** Run the relevant test suite and any project-defined gate the
-   change touches: `<TEST_COMMAND>`, `<LINT_COMMAND>`, or the project's fast local CI
-   equivalent: `<LOCAL_CI_FALLBACK_COMMAND>`.
+   change touches: `python -m pytest -q (from this project's test root; see PROJECT_FACTS.yml)`, `not applicable — no dedicated lint step beyond what CI's test job runs`, or the project's fast local CI
+   equivalent: `not applicable — no local-CI mirror script exists; CI IS the check`.
 3. **Secrets.** No credential, token, connection string, or `.env`-style secret appears
    anywhere in the diff.
 
@@ -70,9 +70,9 @@ not something to "fix up later in review" — fix it before the commit exists.
 4. Stage SPECIFIC files by name. **Never** use a blanket add-everything command — that
    is how out-of-scope files sneak into a commit. Commit with a concise, why-focused
    message (plus any project-required co-author/attribution trailer).
-   Push to the remote: `git push -u <REMOTE_NAME> <descriptive-branch-name>`.
+   Push to the remote: `git push -u origin <descriptive-branch-name>`.
 5. Open a review request (pull/merge request) with a summary and a test plan:
-   `<CODE_HOST_CLI> <open-review-command>`.
+   `gh pr create`.
    **Do NOT self-approve. Do NOT self-merge.** Report the review URL and CI status, then
    STOP.
 
@@ -85,17 +85,17 @@ authorized an immediate merge.
 Only perform this phase when explicitly told to merge — never as a default continuation
 of Phase 4.
 
-7. **Re-verify scope, not just the first time:** `<CODE_HOST_CLI> <diff-review-command> --name-only`
+7. **Re-verify scope, not just the first time:** `gh pr diff --name-only`
    must still show only this task's files (a review can drift via force-pushes or
    additional commits). Confirm CI is green and the review is actually approved/mergeable
-   (`<CODE_HOST_CLI> <check-status-command>`), not just "not failing yet."
-8. Merge: `<CODE_HOST_CLI> <merge-command>`. If your project's merge tool cannot also
+   (`gh pr checks`), not just "not failing yet."
+8. Merge: `gh pr merge`. If your project's merge tool cannot also
    delete the remote branch when the primary checkout holds the default branch, do the
    cleanup explicitly and separately:
    ```
-   git -C <PRIMARY_CHECKOUT_PATH> worktree remove --force <ISOLATED_WORKSPACE_PATH>
-   git -C <PRIMARY_CHECKOUT_PATH> branch -D <descriptive-branch-name>
-   git push <REMOTE_NAME> --delete <descriptive-branch-name>
+   git -C C:/Users/izuuh/projects/llm-threat-triage/osai-prep-studio worktree remove --force C:/tmp/llm-threat-triage-<task>
+   git -C C:/Users/izuuh/projects/llm-threat-triage/osai-prep-studio branch -D <descriptive-branch-name>
+   git push origin --delete <descriptive-branch-name>
    ```
    Confirm the merge commit landed on the remote default branch. Update any persistent
    cross-session memory the project keeps if this change shifts program/system state.

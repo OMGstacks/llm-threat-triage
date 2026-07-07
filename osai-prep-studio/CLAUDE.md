@@ -393,6 +393,19 @@ only deploy via a fully-managed PaaS with no host-level access; adapt the
 Fill in the placeholder tokens below with your project's actual facts, then
 delete this instructional preamble.
 
+**Status for this project (confirmed 2026-07-07): deploy TOOLING exists, no fixed
+host does.** Real deploy artifacts exist under `spine/deploy/` (dev/beta/tls/ollama/llm
+Docker Compose overlays, a Caddy TLS reverse-proxy config, three Dockerfiles — see
+`spine/deploy/README.md`), and real secrets discipline is documented in
+`PROJECT_FACTS.yml` (`secret_locations`, `container_topology`). What's genuinely
+missing is a *currently-provisioned, named* production host — the runbook describes
+standing the studio up on whatever host you choose, from a laptop demo to a
+controlled beta, not a fixed one that exists today. The `<DEPLOY_HOST>`/SSH-specific
+placeholders below are therefore left unfilled deliberately, not by oversight — do
+not invent a host identity. When one is provisioned, fill in
+`deploy_host`/`deploy_user`/`app_directory` in `PROJECT_FACTS.yml` first, then the
+tokens below.
+
 ---
 
 ## Deploy surface — canonical facts

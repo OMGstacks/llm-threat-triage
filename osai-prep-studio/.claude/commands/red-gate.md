@@ -12,7 +12,7 @@ wrong fix, and merging or proceeding over a check that was never actually classi
 turns "I don't know why this is red" into silent risk. Target: $ARGUMENTS
 
 Evidence tier for this command: see
-`<TOOLKIT_ROOT>/commands/_shared/evidence-contract.md`. You must reach
+`.claude/commands/_shared/evidence-contract.md`. You must reach
 `EVIDENCE_CURRENT` on the actual job log before classifying — a check's pass/fail label
 alone is not sufficient evidence.
 
@@ -21,8 +21,8 @@ alone is not sufficient evidence.
 ## Step 1 — fetch the actual evidence (read-only)
 
 Never react to the check's name. Fetch the real error output:
-- List failing checks: `<CODE_HOST_CLI> <list-checks-command> <review-request-id>`
-- Pull the actual job log: `<CODE_HOST_CLI> <view-job-log-command> <job-id>`
+- List failing checks: `gh pr checks <review-request-id>`
+- Pull the actual job log: `gh run view --job <job-id>`
 
 Identify the ACTUAL error class: collection error, assertion failure, lint violation,
 or infra/transient failure. Do not proceed to classification without having read the
@@ -34,7 +34,7 @@ real output — the check name (e.g. "tests failed") is not enough information.
 
 Check the failure against your project's maintained list of known-transient infra
 patterns. Keep this list current as a project artifact — do not rebuild it from memory
-each time. Suggested location: `<KNOWN_TRANSIENT_PATTERNS_DOC_PATH>`. Typical entries:
+each time. Suggested location: `this file's own "Known-transient CI patterns" section below (no separate doc yet — inline is fine at this project's current CI size)`. Typical entries:
 
 - Checkout/auth failures at the source-fetch step (e.g. an auth prompt / credential
   error during repo checkout) → the job's real work never ran.
@@ -53,7 +53,7 @@ each time. Suggested location: `<KNOWN_TRANSIENT_PATTERNS_DOC_PATH>`. Typical en
 3. The authoritative, path-scoped remote CI result is the arbiter — not a local
    flake or a guess.
 
-If transient: re-run the job (`<CODE_HOST_CLI> <rerun-job-command> <run-id>`). Touch NO
+If transient: re-run the job (`gh run rerun <run-id>`). Touch NO
 code. Re-verify green afterward.
 
 **STOP POINT:** do not label something transient to avoid doing the work of a real fix.

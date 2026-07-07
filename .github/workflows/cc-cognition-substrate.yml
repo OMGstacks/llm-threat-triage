@@ -17,13 +17,19 @@ on:
       - 'cc-master-learning-center/.cognition/active-work/**'
       - '.github/workflows/cc-cognition-substrate.yml'
 
-# NOTE: this workflow deliberately does NOT cover
-# cc-master-learning-center/.cognition/ci-governance/ or .claude/ -- neither
-# subsystem is instantiated or used by this project yet (ci-governance's
-# self-test needs a `jsonschema` dependency this repo doesn't install, and
-# .claude/'s hooks are inert here -- see MEMORY.md's Current State). Add
-# both to the path filter and a corresponding test step together, the day
-# either subsystem actually gets wired up -- not before, since an untested
+# NOTE (updated 2026-07-07): this workflow deliberately does NOT cover
+# cc-master-learning-center/.cognition/ci-governance/. gates.yml has since been
+# authored and schema-validated (documenting the gate surface this project actually
+# runs), but ci-governance's own self-test (test_gen_ci_self.py) needs a
+# `jsonschema` dependency this repo doesn't install, and gen_ci.py --write has not
+# been run against this real workflow file -- cc-cognition-substrate.yml is still
+# hand-authored, not generated. .claude/'s hooks are no longer inert (their
+# $CLAUDE_PROJECT_DIR-relative paths now resolve correctly in an interactive Claude
+# Code session -- see MEMORY.md's Current State) but CI is a non-interactive runner
+# that never invokes SessionStart/PreToolUse hooks regardless, so there is nothing
+# for this workflow to gate there either way. Add ci-governance to the path filter
+# and a corresponding test step together, the day it actually gets wired up (jsonschema
+# installed + gen_ci.py adopted as the generator) -- not before, since an untested
 # subsystem in the trigger path is a coverage gap, not a safety net.
 
 jobs:

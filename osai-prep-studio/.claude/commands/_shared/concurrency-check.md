@@ -12,7 +12,7 @@ identifiers — not after.
 ## The three checks, in order
 
 1. **Open reviews by keyword** — search open pull/merge requests for the topic:
-   `<CODE_HOST_CLI> <list-open-reviews-command> --search "<keyword>"`
+   `gh pr list --search "<keyword>"`
    (e.g. a GitHub-flavored example: `gh pr list --state open --search "<keyword>" --json number,title,headRefName`)
 2. **Remote branches by keyword** — search remote branch names for the topic:
    `git ls-remote --heads origin | grep -i "<keyword>"`
@@ -33,7 +33,7 @@ Instead, either:
 If the project has a single-call live registry of "who is working on what right now"
 (a dashboard, a tool, a status board), prefer it over the three manual greps above —
 it should collapse this three-step manual check into one call. Reference it here:
-`<ACTIVE_WORK_REGISTRY_TOOL_OR_DOC>`. Until such a registry exists, the three-step
+`not applicable — no such registry exists for this project`. Until such a registry exists, the three-step
 manual check above is the fallback and should not be skipped.
 
 ## Why this exists

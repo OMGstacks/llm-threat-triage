@@ -1,0 +1,17 @@
+{
+  "branch": "main",
+  "claimed_at": "2026-07-07T19:44:04.059518+00:00",
+  "expires_at": "2026-07-07T22:44:04.059518+00:00",
+  "files_scope": [
+    ".claude",
+    ".cognition/ci-governance",
+    ".cognition/friction",
+    "CLAUDE.md",
+    "PROJECT_FACTS.yml"
+  ],
+  "owner": "Claude Code (Sauron session)",
+  "released_at": "2026-07-07T20:13:19.907876+00:00",
+  "session_id": null,
+  "task_description": "Fix hardcoded hook paths; fill CLAUDE.md/command placeholders, author real gates.yml, init friction log",
+  "task_slug": "toolkit-activation-content-authoring"
+}

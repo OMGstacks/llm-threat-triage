@@ -1,0 +1,71 @@
+# gates.yml — single source of truth for this project's CI gate surface, ON THIS BRANCH.
+#
+# IMPORTANT (2026-07-07, see MEMORY.md's Current State): this project's CI is currently
+# SPLIT ACROSS TWO BRANCHES.
+#   - main (this checkout): ../../.github/workflows/cc-cognition-substrate.yml — covers
+#     only .cognition/{memory,friction,codebase-index,active-work}. This file captures
+#     THOSE jobs, below.
+#   - claude/cc-cert-learning-plan-xqo5g7 (unmerged): ../../.github/workflows/cc-spine.yml
+#     — covers the actual application source (spine/cc_spine/*.py), which does not exist
+#     on main. That branch's own .cognition/ci-governance/gates.yml (a SEPARATE file,
+#     since it's a different checkout) captures those jobs instead — do not assume this
+#     file is complete once the branches merge; it will need the spine-side gates added.
+#
+# NOT YET adopted as the generator of cc-cognition-substrate.yml itself (gen_ci.py
+# --write has not been run against the real workflow file) — that file remains the
+# hand-authored, currently working CI. See this directory's README.md.
+
+version: 1
+
+gates:
+  # --- toolkit-self-tests job ---
+
+  - name: friction-diary-self-test
+    description: "Friction diary CLI self-test"
+    group: "toolkit-self-tests"
+    command: "python3 .cognition/friction/tests/test_friction_cli_self.py"
+
+  - name: codebase-index-framework-self-test
+    description: "Codebase-index framework self-test"
+    group: "toolkit-self-tests"
+    command: "python3 .cognition/codebase-index/tests/test_framework_self.py"
+
+  - name: cognition-inventory-generator-self-test
+    description: "Cognition-inventory generator self-test"
+    group: "toolkit-self-tests"
+    command: "python3 .cognition/codebase-index/tests/test_cognition_inventory_generator_self.py"
+
+  - name: memory-decay-checker-self-test
+    description: "Memory decay checker self-test"
+    group: "toolkit-self-tests"
+    command: "python3 .cognition/memory/tests/test_memory_decay_self.py"
+
+  - name: concurrency-claims-registry-self-test
+    description: "Concurrency claims registry self-test"
+    group: "toolkit-self-tests"
+    command: "python3 .cognition/active-work/tests/test_claims_cli_self.py"
+
+  # --- memory-gates job ---
+
+  - name: memory-decay-check
+    description: "Memory decay check against the live MEMORY.md"
+    group: "memory-gates"
+    non_pytest: true
+    sibling_test_gate: memory-decay-checker-self-test
+    command: "python3 .cognition/memory/check_memory_decay.py --file .cognition/memory/MEMORY.md --repo-root . --check-topic-files"
+
+  - name: memory-size-check
+    description: "Memory size budget check against the live MEMORY.md"
+    group: "memory-gates"
+    non_pytest: true
+    sibling_test_gate: memory-decay-checker-self-test
+    command: "python3 .cognition/memory/check_memory_size.py --file .cognition/memory/MEMORY.md --config .cognition/memory/.memory-lint.yml"
+
+  # --- codebase-index-gate job ---
+
+  - name: cognition-inventory-drift-check
+    description: "Cognition inventory generator drift check (env_var_index demo generator is NOT gated — see cli.py's NOTE)"
+    group: "codebase-index-gate"
+    non_pytest: true
+    sibling_test_gate: cognition-inventory-generator-self-test
+    command: "cd .cognition/codebase-index && python3 cli.py --check --only cognition_inventory"

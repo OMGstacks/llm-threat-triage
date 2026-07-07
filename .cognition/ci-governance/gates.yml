@@ -1,0 +1,41 @@
+# gates.yml — single source of truth for this project's CI gate surface.
+#
+# Captures what .github/workflows/ci.yml already does, in the toolkit's declarative
+# format. NOT YET adopted as the generator of ci.yml itself (gen_ci.py --write has not
+# been run against the real workflow file) — ci.yml remains the hand-authored, currently
+# working CI. This file exists so the gate surface is documented in a form gen_ci.py can
+# validate and, when the project is ready, actually generate from. See this directory's
+# README.md for the adoption walkthrough.
+#
+# Regenerate/check (once adopted):
+#   python gen_ci.py --gates gates.yml --local-ci-out <local runner> --ci-yml-out ../../.github/workflows/ci.yml --write
+
+version: 1
+
+gates:
+  - name: test-suite
+    description: "Unit test suite (flagship — llm-log-triage)"
+    group: "core"
+    command: "cd projects/llm-log-triage && python -m pytest -q"
+    extra_yaml: |
+      defaults:
+        run:
+          working-directory: projects/llm-log-triage
+      strategy:
+        matrix:
+          python-version: ["3.10", "3.11", "3.12"]
+
+  - name: smoke-test-pipeline
+    description: "Smoke-test the end-to-end pipeline (ingest -> detect -> query)"
+    group: "core"
+    command: |
+      cd projects/llm-log-triage
+      python -m src.cli run --db /tmp/ci.db --logs data/sample_logs.jsonl
+      python -m src.cli query --db /tmp/ci.db --sql sql/analysis/01_attack_overview.sql
+    extra_yaml: |
+      defaults:
+        run:
+          working-directory: projects/llm-log-triage
+      strategy:
+        matrix:
+          python-version: ["3.10", "3.11", "3.12"]

@@ -1,0 +1,66 @@
+# threshold_config.example.yml
+#
+# Pluggable per-instance build-eligibility formula for the friction diary.
+# Copy this file to `threshold_config.yml` (the CLI's default path) and tune
+# the values for your project. NONE of these values are hardcoded in
+# friction_cli.py or friction_render.py — every project instance can set its
+# own severity taxonomy and numeric bars without touching shared code.
+#
+# An entry becomes build_eligible when ALL THREE hold simultaneously:
+#
+#   1. recurrence_count            >= min_recurrence_count
+#   2. severity_signal              in required_severity_values
+#   3. (last_seen_date - created_date), in days,
+#                                   >= min_days_between_first_and_last
+#
+# Condition 3 exists specifically so that 3 occurrences observed in one
+# afternoon do NOT count the same as 3 occurrences spread over a month —
+# recurrence must be demonstrated over time, not just repetition-count.
+#
+# `severity_values` is the full enum this project instance allows for the
+# `severity_signal` field on any entry (the CLI validates against this list
+# at `log` / `bump` / `promote` time). `required_severity_values` is the
+# subset of that enum which counts toward build-eligibility — e.g. you might
+# allow logging `low`-severity friction for visibility, without it ever being
+# build-eligible on its own.
+
+# Full enum of allowed severity_signal values for this project instance.
+# The CLI rejects any --severity value not in this list.
+severity_values:
+  - critical_path   # blocks or risks blocking the main user-facing path
+  - normal          # real friction, not on the critical path
+  - low             # minor annoyance, nice-to-fix
+
+# Subset of severity_values that counts toward build-eligibility.
+# Example policy below: only critical_path friction is worth automating
+# purely on recurrence; "normal" is excluded until it's demonstrated to
+# matter more (a project could choose to include "normal" too).
+required_severity_values:
+  - critical_path
+
+# Minimum number of independent observations (recurrence_count) required.
+min_recurrence_count: 3
+
+# Minimum elapsed days between created_date and last_seen_date.
+# Guards against "3 times in one afternoon" gaming the recurrence_count bar.
+min_days_between_first_and_last: 7
+
+# --- Notes for tuning ---
+#
+# - A fast-moving, high-blast-radius project (e.g. an on-call rotation with
+#   daily incidents) might tighten min_days_between_first_and_last down to 3
+#   and loosen min_recurrence_count to 2, because "3 times in a week" is
+#   already a strong signal there.
+#
+# - A slow-moving project (e.g. a quarterly compliance process) might widen
+#   min_days_between_first_and_last to 30 and keep min_recurrence_count low
+#   (e.g. 2), since "twice in a quarter" may already be the natural cadence
+#   ceiling for that kind of friction.
+#
+# - required_severity_values can be widened to accept multiple severities,
+#   e.g. [critical_path, normal], if the project wants normal-severity
+#   friction to also be automatable purely on recurrence + time-spread.
+#
+# - This file is intentionally NOT bundled with defaults baked into the CLI.
+#   friction_cli.py review / promote will raise a clear error if
+#   --config points at a missing file, rather than silently assuming values.

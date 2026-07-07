@@ -3,8 +3,12 @@ description: Deployed-environment operations safety rail — load canonical fact
 argument-hint: <operation: deploy | query | data-mutation | health-probe>
 ---
 
-> Fill in every placeholder token (`<LIKE_THIS>`) before this command is safe to use in
-> a new project.
+> **NOT APPLICABLE to this project (confirmed 2026-07-07).** CC Master Learning Center
+> is a content-authoring/validation system with a JSON fact store — no deployed
+> service, no host to SSH into, no runtime identity to check (see `PROJECT_FACTS.yml`).
+> Do not invoke this command for this project; the placeholders below were never
+> filled in because there is no deploy surface to fill them with. If this project ever
+> gains one, fill in every `<LIKE_THIS>` token first.
 
 **Purpose.** Front-load the canonical facts about a project's deployed/remote
 environment once per session, instead of re-deriving them from scratch or guessing.
@@ -23,7 +27,7 @@ Read these from the project's facts file rather than restating them ad hoc:
   `<DEPLOY_HOST_ACCESS_COMMAND>`. If the project has retired a legacy access identity
   (e.g. an old admin/root account that no longer works), name that explicitly here so
   it never gets reused out of an old doc.
-- **App/working directory on the remote environment.** `<REMOTE_APP_DIR>`.
+- **App/working directory on the remote environment.** `not-applicable`.
 - **Routing between components,** if more than one process/container/service exists on
   the same host and only one of them is the "real" one for a given kind of operation
   (e.g. "use component A for direct queries, component B for scripts; a third,
@@ -46,7 +50,7 @@ identity — check the map first.
 ## Concurrency check
 
 For any deploy, migration, or otherwise state-changing operation, run the shared check
-first: see `<TOOLKIT_ROOT>/commands/_shared/concurrency-check.md`. If another
+first: see `.claude/commands/_shared/concurrency-check.md`. If another
 session/teammate already owns this track, stay read-only unless you have explicit
 ownership.
 

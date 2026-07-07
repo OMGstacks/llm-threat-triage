@@ -102,7 +102,7 @@
 # Git / branching conventions
 # ---------------------------------------------------------------------------
 
-# default_branch_name: "main"                 # or "master", "trunk", etc.
+default_branch_name: "main"
 
 # ---------------------------------------------------------------------------
 # Cognition OS toolkit component locations (usually the installer's defaults)
@@ -110,15 +110,30 @@
 # Only change these if you moved a component to a non-default location after
 # running init.py.
 
-# memory_file_path: ".cognition/memory/MEMORY.md"
-# friction_log_path: ".cognition/friction/friction_log.jsonl"
-# gates_file_path: ".cognition/ci-governance/gates.yml"
-# codebase_index_output_dir: "docs/generated/"
+memory_file_path: ".cognition/memory/MEMORY.md"
+friction_log_path: ".cognition/friction/friction_log.jsonl"
+gates_file_path: ".cognition/ci-governance/gates.yml"
+codebase_index_output_dir: "docs/codebase_index/"
 
 # ---------------------------------------------------------------------------
 # CI
 # ---------------------------------------------------------------------------
 
-# ci_provider: "github-actions"                # or "gitlab-ci", "circleci", etc.
-# ci_workflow_path: ".github/workflows/ci.yml"
-# local_ci_script_path: "scripts/local_ci.sh"
+ci_provider: "github-actions"
+ci_workflow_path: ".github/workflows/ci.yml"
+# local_ci_script_path: not applicable — no local-CI mirror script exists;
+# the test entrypoint is `python -m pytest -q` from projects/llm-log-triage/,
+# run directly, matching what ci.yml itself invokes.
+
+# ---------------------------------------------------------------------------
+# Not applicable to this project (confirmed 2026-07-07, not just unfilled)
+# ---------------------------------------------------------------------------
+# deploy_host / deploy_user / app_directory / secret_locations /
+#   container_topology: no remote deploy target. This is a portfolio project
+#   demonstrated as "zero setup (Python standard library only)" per the root
+#   README — there is nothing to SSH into or administer.
+# migration_directory_convention: no versioned schema. The one schema file
+#   (projects/llm-log-triage/sql/schema.sql) is applied fresh each run by
+#   `python -m src.cli run`, not migrated incrementally.
+# scheduled_pipelines: no cron/scheduler. The pipeline runs on-demand via CLI.
+# automated_remediation: no watchdog or automated restart/mutate loop exists.

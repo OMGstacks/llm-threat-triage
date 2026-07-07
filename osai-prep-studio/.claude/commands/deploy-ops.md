@@ -3,8 +3,19 @@ description: Deployed-environment operations safety rail — load canonical fact
 argument-hint: <operation: deploy | query | data-mutation | health-probe>
 ---
 
-> Fill in every placeholder token (`<LIKE_THIS>`) before this command is safe to use in
-> a new project.
+> **NOT YET USABLE as a live runbook (confirmed 2026-07-07) — deploy TOOLING exists,
+> but no fixed host does.** This project has real deploy artifacts
+> (`spine/deploy/`: dev/beta/tls/ollama/llm Docker Compose overlays, a Caddy TLS
+> reverse-proxy config, three Dockerfiles) and real secrets discipline (see
+> `PROJECT_FACTS.yml`'s `secret_locations`/`container_topology` — Docker secrets
+> files, never env values, never committed). What it does NOT have yet is a
+> currently-provisioned, named production host to SSH into — the runbook in
+> `spine/deploy/README.md` describes standing the studio up on whatever host you
+> choose, from a laptop demo to a controlled beta. The placeholders below (SSH
+> commands, remote divergence checks, host-level restart commands) assume a fixed
+> host identity that doesn't exist yet — do not invent one. When a host is
+> provisioned, fill in `deploy_host`/`deploy_user`/`app_directory` in
+> `PROJECT_FACTS.yml` first, then fill in every `<LIKE_THIS>` token below.
 
 **Purpose.** Front-load the canonical facts about a project's deployed/remote
 environment once per session, instead of re-deriving them from scratch or guessing.
@@ -23,7 +34,7 @@ Read these from the project's facts file rather than restating them ad hoc:
   `<DEPLOY_HOST_ACCESS_COMMAND>`. If the project has retired a legacy access identity
   (e.g. an old admin/root account that no longer works), name that explicitly here so
   it never gets reused out of an old doc.
-- **App/working directory on the remote environment.** `<REMOTE_APP_DIR>`.
+- **App/working directory on the remote environment.** `not-applicable`.
 - **Routing between components,** if more than one process/container/service exists on
   the same host and only one of them is the "real" one for a given kind of operation
   (e.g. "use component A for direct queries, component B for scripts; a third,
@@ -46,7 +57,7 @@ identity — check the map first.
 ## Concurrency check
 
 For any deploy, migration, or otherwise state-changing operation, run the shared check
-first: see `<TOOLKIT_ROOT>/commands/_shared/concurrency-check.md`. If another
+first: see `.claude/commands/_shared/concurrency-check.md`. If another
 session/teammate already owns this track, stay read-only unless you have explicit
 ownership.
 

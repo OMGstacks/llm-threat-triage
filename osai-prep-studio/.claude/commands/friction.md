@@ -7,7 +7,7 @@ argument-hint: [optional focus area]
 > a new project.
 
 **Purpose.** A thin end-of-session playbook, not a reimplementation. It wraps the
-friction-diary toolkit component at `<TOOLKIT_ROOT>/friction-diary/` — that directory
+friction-diary toolkit component at `.cognition/friction/` — that directory
 owns the actual schema, storage format, and threshold-computation tooling. This command
 just tells you when and how to invoke it. This is a documentation pass: make no code or
 production changes. Optional focus: $ARGUMENTS
@@ -37,7 +37,7 @@ production changes. Optional focus: $ARGUMENTS
 
 5. **Everything else** — the entry schema, state/lifecycle fields, scoring/threshold
    logic for when a recurring gap becomes build-eligible, and the storage format — is
-   owned by `<TOOLKIT_ROOT>/friction-diary/`. Follow that component's actual interface;
+   owned by `.cognition/friction/`. Follow that component's actual interface;
    do not invent a parallel format here.
 
 Report back briefly: what was searched, what was found/created, and stop.

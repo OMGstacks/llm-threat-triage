@@ -26,25 +26,28 @@
 # otherwise administer directly (VPS, bare-metal, cloud VM). Corresponds to
 # CLAUDE-MD/modules/deploy-surface.md and commands/deploy-ops.md.
 
-# deploy_host:
-#   primary: "deploy@203.0.113.10"          # user@host or user@ip you SSH into by default
-#   alternate: "deploy@100.64.0.5"          # e.g. a VPN/tailnet overlay address, if one exists
-#   alternate_use_when: "on the tailnet"    # short note on when to prefer the alternate
-#   never_use: "root@*"                     # explicitly forbidden login pattern, if any, and why
-#   never_use_reason: "root login disabled; deploy user is the only account with a key on file"
+# deploy_host: not applicable — no fixed, provisioned production host exists yet.
+#   Deploy TOOLING exists (spine/deploy/: docker-compose.yml [dev] /
+#   docker-compose.beta.yml [auth + fail-closed] / docker-compose.tls.yml [Caddy
+#   reverse proxy] overlays, per spine/deploy/README.md), but it's "bring your own
+#   host" — the runbook describes standing up the studio on whatever host you choose,
+#   not a named, currently-live one. If a specific host is provisioned, fill in
+#   deploy_host/deploy_user/app_directory here at that time.
 
-# deploy_user: "deploy"                     # canonical non-root account with deploy rights
+# deploy_user: not applicable — see deploy_host note above.
 
-# app_directory: "/opt/myapp"               # absolute path to the app on the remote host
+# app_directory: not applicable — see deploy_host note above.
 
 # ---------------------------------------------------------------------------
 # Secrets — locations only, never values
 # ---------------------------------------------------------------------------
 
-# secret_locations:
-#   db_password: "/run/secrets/db_password"          # path inside the running container/host
-#   api_key_env_var: "MYAPP_API_KEY"                 # name of the env var, not its value
-#   secrets_manager: "not applicable"                 # e.g. "AWS Secrets Manager: myapp/prod/*"
+secret_locations:
+  osai_auth_secret: "spine/deploy/secrets/osai_auth_secret (Docker secrets file, beta compose overlay)"
+  anthropic_api_key: "spine/deploy/secrets/anthropic_api_key, mounted at /run/secrets/anthropic_api_key (llm compose overlay only — the tutor's generative path is OFF by default)"
+  server_seed_env_var: "OSAI_SERVER_SEED (env var, not a file — flag-derivation seed, generate with openssl rand -hex 32)"
+  admin_users_env_var: "OSAI_ADMIN_USERS (env var — instructor account emails, not a secret value but not committed either)"
+  secrets_manager: "none — plain Docker secrets files under spine/deploy/secrets/ (gitignored), no external manager"
 
 # ---------------------------------------------------------------------------
 # Container / runtime topology
@@ -53,14 +56,22 @@
 # it's non-obvious which one talks to which (e.g. "the host's own postgres is
 # stale; the app container talks to a separate db container").
 
-# container_topology:
-#   app_container: "myapp-web"
-#   db_container: "myapp-db"
-#   notes: >
-#     myapp-web connects to myapp-db over the docker network; the host's own
-#     postgres on :5432 is NOT the one the app uses and may be stale/absent.
-#   exec_pattern_sql: 'docker exec myapp-db psql -U myapp -d myapp -c "<sql>"'
-#   exec_pattern_python: 'docker exec myapp-web python -c "..."'
+container_topology:
+  grader_container: "grader — FastAPI grader API (Dockerfile.grader), vendors the
+    detection engine + reference corpus. Not published externally in beta (web-only
+    is public); auth + cookie/CSRF + fail-closed guard when OSAI_PUBLIC is set."
+  labtarget_container: "labtarget — deliberately-vulnerable lab-target
+    (Dockerfile.labtarget), one image serves any lab via the OSAI_LAB env var.
+    Deny-all egress by design (platform threat model)."
+  web_container: "web — Next.js front-end (Dockerfile.web), standalone production
+    build, non-root. The only container exposed publicly in the beta profile."
+  notes: >
+    No database container — the fact store is flat JSON files (spine/facts/), not a
+    running DB service. docker-compose.tls.yml adds a Caddy reverse-proxy container
+    terminating HTTPS in front of web only.
+  exec_pattern_python: "docker run --rm osai-grader:ci python -c \"...\" (or
+    docker exec into a running compose service by name, e.g. `docker compose exec
+    grader python -c \"...\"`)"
 
 # ---------------------------------------------------------------------------
 # Database migrations
@@ -68,11 +79,9 @@
 # Fill this in if your project has a versioned database schema. Corresponds
 # to CLAUDE-MD/modules/database-migrations.md and commands/migration.md.
 
-# migration_directory_convention:
-#   path: "migrations/"
-#   filename_pattern: "NNN_description.sql"     # e.g. zero-padded numeric prefix + snake_case
-#   prefix_source_of_truth: "origin/main"       # branch to check for the next free prefix against
-#   next_prefix_script: "scripts/next_migration_prefix.py"   # if you have one; else omit
+# migration_directory_convention: not applicable — no migrations/ directory and no
+#   versioned schema. The fact store (spine/facts/, spine/banks/, spine/gold/) is flat
+#   JSON, versioned by git history directly, not by an incremental migration chain.
 
 # ---------------------------------------------------------------------------
 # Scheduled data pipelines
@@ -80,10 +89,8 @@
 # Fill this in if your project has scheduled jobs whose output other things
 # depend on. Corresponds to CLAUDE-MD/modules/pipeline-automation-levels.md.
 
-# scheduled_pipelines:
-#   manifest_path: "deploy/cron_manifest.yml"    # where cron entries are declared, if any
-#   scheduler_entrypoint: "pipeline/scheduler.py"  # if pipelines are triggered from in-process code
-#   freshness_ledger_table: "not applicable"      # DB table tracking pipeline output freshness, if any
+# scheduled_pipelines: not applicable — no cron/scheduler exists. Content generation
+#   (lessons, quiz banks, gold-set items) runs on demand via the CLI, not on a schedule.
 
 # ---------------------------------------------------------------------------
 # Automated remediation / watchdogs
@@ -92,17 +99,17 @@
 # a live service without a human approving each action. Corresponds to
 # CLAUDE-MD/modules/automated-remediation.md.
 
-# automated_remediation:
-#   watchdog_script: "deploy/host_watchdog.sh"
-#   services_it_can_restart: ["myapp-web"]
-#   cooldown_seconds: 300
-#   max_attempts_before_alert: 3
+# automated_remediation: not applicable — no watchdog or automated restart/mutate loop
+#   exists. The "fail-closed guard" (auth.enforce_deploy_policy, CI gate
+#   docker-fail-closed-guard) is a preflight CHECK that refuses to start, not a running
+#   remediation loop that acts on a live service — no sensor/actuator/cooldown table
+#   applies here.
 
 # ---------------------------------------------------------------------------
 # Git / branching conventions
 # ---------------------------------------------------------------------------
 
-# default_branch_name: "main"                 # or "master", "trunk", etc.
+default_branch_name: "main"
 
 # ---------------------------------------------------------------------------
 # Cognition OS toolkit component locations (usually the installer's defaults)
@@ -110,15 +117,17 @@
 # Only change these if you moved a component to a non-default location after
 # running init.py.
 
-# memory_file_path: ".cognition/memory/MEMORY.md"
-# friction_log_path: ".cognition/friction/friction_log.jsonl"
-# gates_file_path: ".cognition/ci-governance/gates.yml"
-# codebase_index_output_dir: "docs/generated/"
+memory_file_path: ".cognition/memory/MEMORY.md"
+friction_log_path: ".cognition/friction/friction_log.jsonl"
+gates_file_path: ".cognition/ci-governance/gates.yml"
+codebase_index_output_dir: "docs/codebase_index/"
 
 # ---------------------------------------------------------------------------
 # CI
 # ---------------------------------------------------------------------------
 
-# ci_provider: "github-actions"                # or "gitlab-ci", "circleci", etc.
-# ci_workflow_path: ".github/workflows/ci.yml"
-# local_ci_script_path: "scripts/local_ci.sh"
+ci_provider: "github-actions"
+ci_workflow_path: "../.github/workflows/osai-spine.yml"   # lives at repo root, not here
+# local_ci_script_path: not applicable — no local-CI mirror script exists; the spine
+# job's checks (validate-manifests, pytest, factstore validate, goldset, etc.) are run
+# directly via `python -m osai_spine.cli <subcommand>` from spine/, matching what CI runs.

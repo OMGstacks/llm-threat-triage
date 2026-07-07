@@ -18,7 +18,7 @@ aborting the whole pass. Optional session notes to embed in the archive: $ARGUME
 ## Phase 1 — open review-request triage
 
 List every review request (PR/MR) you opened or touched this session and its CI state:
-`<CODE_HOST_CLI> <list-open-reviews-command> --json <fields>`
+`gh pr list --json <fields>`
 
 For each:
 - **All green, not draft** — note as merge-eligible. Do NOT auto-merge without explicit
@@ -34,13 +34,13 @@ After any fix + re-push, wait for CI to re-run, then merge only if authorized an
 
 For any remote or deployed environment this session touched, check for drift:
 ```
-<REMOTE_ACCESS_COMMAND> 'cd <REMOTE_APP_DIR> && echo "=== unpushed ===" && git log --oneline <REMOTE_NAME>/<DEFAULT_BRANCH>..HEAD && echo "=== modified ===" && git status --short'
+not applicable — no remote host to reach; this project has no deploy target
 ```
 
 - **Unpushed commits on the remote environment** → these need to reach the shared
   remote before you pull anything else there. If the remote environment cannot push
   directly (e.g. a read-only deploy credential), use your project's bundle/patch-transfer
-  fallback: `<BUNDLE_OR_PATCH_TRANSFER_RUNBOOK>`.
+  fallback: `not applicable — no remote host, so no bundle-transfer workflow is needed`.
 - **Untracked ad hoc files** (debug scripts, one-off receipts/output) — for each, decide:
   - Valuable → copy it back to a normal checkout, open a review request for it, then
     remove it from the remote environment.
@@ -54,7 +54,7 @@ For any remote or deployed environment this session touched, check for drift:
 
 Only after all of the above is resolved, fast-forward the remote environment:
 ```
-<REMOTE_ACCESS_COMMAND> 'cd <REMOTE_APP_DIR> && git pull --ff-only <REMOTE_NAME> <DEFAULT_BRANCH> && git rev-parse --short HEAD'
+not applicable — no remote host to reach; this project has no deploy target
 ```
 
 **STOP POINT:** do not pull the remote environment while it has unpushed commits or
@@ -63,7 +63,7 @@ unresolved untracked/modified files — resolve those first, in the order above.
 ## Phase 3 — stash audit (remote environment, if applicable)
 
 ```
-<REMOTE_ACCESS_COMMAND> 'cd <REMOTE_APP_DIR> && git stash list'
+not applicable — no remote host to reach; this project has no deploy target
 ```
 For each stash entry, view its diff. If the same change is now on the default branch,
 the stash is superseded — drop it. If not superseded, note it explicitly in the memory
@@ -77,10 +77,10 @@ git worktree list
 
 For every workspace that is NOT the primary checkout and NOT on the project's
 long-lived/exempted list (read the exemption list from
-`<LONG_LIVED_WORKTREE_EXEMPTION_LIST_PATH_OR_DOC>` — do not assume any workspace is
+`not applicable — no standing exemption list exists; none of this repo's worktrees are long-lived by convention` — do not assume any workspace is
 exempt without checking it):
 
-1. Check its review-request state: `<CODE_HOST_CLI> <check-review-state-command> <branch>`
+1. Check its review-request state: `gh pr view <branch>`
 2. **MERGED** → remove the workspace and delete both local and remote branches.
 3. **OPEN with failing CI** → apply the Phase 1 fix if not already done; note if blocked.
 4. **OPEN with passing CI and you hold merge authority** → merge, then clean up as above.
@@ -91,8 +91,8 @@ exempt without checking it):
 ## Phase 5 — local branch cleanup
 
 ```
-git fetch <REMOTE_NAME> --prune
-git branch --merged <REMOTE_NAME>/<DEFAULT_BRANCH>
+git fetch origin --prune
+git branch --merged origin/main
 ```
 Delete every already-merged branch from that list that is not currently checked out in
 any active workspace.
@@ -101,8 +101,8 @@ any active workspace.
 
 Switch to the default branch and fast-forward:
 ```
-git checkout <DEFAULT_BRANCH>
-git pull --ff-only <REMOTE_NAME> <DEFAULT_BRANCH>
+git checkout main
+git pull --ff-only origin main
 ```
 If the primary checkout has uncommitted modifications: evaluate each file individually.
 Discard stale/generated-artifact diffs. If a modification is meaningful, branch it,
@@ -127,7 +127,7 @@ deleting it — leave that archived record in place, it's the audit trail. Skip 
 if no claim was ever registered for this session's work.
 
 If this project maintains cross-session memory (a memory file, index, or equivalent),
-open it: `<PERSISTENT_MEMORY_PATH>`.
+open it: `.cognition/memory/MEMORY.md`.
 
 Record, at minimum:
 
@@ -150,7 +150,7 @@ condensed summary line each.
 ## Phase 8 — memory hygiene + final verification
 
 If the project has memory-hygiene tooling (a size-budget check, a stale-reference
-checker), run it now: `<MEMORY_HYGIENE_CHECK_COMMAND>`. If over budget, compress further
+checker), run it now: `python3 .cognition/memory/check_memory_size.py --file .cognition/memory/MEMORY.md --config .cognition/memory/.memory-lint.yml`. If over budget, compress further
 — move detailed narrative into topic-specific files and keep only a one-line summary +
 pointer in the index.
 

@@ -26,83 +26,55 @@
 # otherwise administer directly (VPS, bare-metal, cloud VM). Corresponds to
 # CLAUDE-MD/modules/deploy-surface.md and commands/deploy-ops.md.
 
-# deploy_host:
-#   primary: "deploy@203.0.113.10"          # user@host or user@ip you SSH into by default
-#   alternate: "deploy@100.64.0.5"          # e.g. a VPN/tailnet overlay address, if one exists
-#   alternate_use_when: "on the tailnet"    # short note on when to prefer the alternate
-#   never_use: "root@*"                     # explicitly forbidden login pattern, if any, and why
-#   never_use_reason: "root login disabled; deploy user is the only account with a key on file"
+# deploy_host: not applicable — content-authoring/validation system with a JSON fact
+#   store (spine/facts/, spine/banks/, spine/gold/). No deployed service, no host to
+#   SSH into.
 
-# deploy_user: "deploy"                     # canonical non-root account with deploy rights
+# deploy_user: not applicable — see deploy_host note above.
 
-# app_directory: "/opt/myapp"               # absolute path to the app on the remote host
+# app_directory: not applicable — see deploy_host note above.
 
 # ---------------------------------------------------------------------------
 # Secrets — locations only, never values
 # ---------------------------------------------------------------------------
 
-# secret_locations:
-#   db_password: "/run/secrets/db_password"          # path inside the running container/host
-#   api_key_env_var: "MYAPP_API_KEY"                 # name of the env var, not its value
-#   secrets_manager: "not applicable"                 # e.g. "AWS Secrets Manager: myapp/prod/*"
+# secret_locations: not applicable — no secrets. Fact-store content is public exam-prep
+#   material; no API keys, DB passwords, or credentials are used by this project's
+#   scaffold, ingestion, or validation tooling.
 
 # ---------------------------------------------------------------------------
 # Container / runtime topology
 # ---------------------------------------------------------------------------
-# Fill this in if your deploy target runs multiple containers/processes and
-# it's non-obvious which one talks to which (e.g. "the host's own postgres is
-# stale; the app container talks to a separate db container").
 
-# container_topology:
-#   app_container: "myapp-web"
-#   db_container: "myapp-db"
-#   notes: >
-#     myapp-web connects to myapp-db over the docker network; the host's own
-#     postgres on :5432 is NOT the one the app uses and may be stale/absent.
-#   exec_pattern_sql: 'docker exec myapp-db psql -U myapp -d myapp -c "<sql>"'
-#   exec_pattern_python: 'docker exec myapp-web python -c "..."'
+# container_topology: not applicable — no containers, no deployed runtime.
 
 # ---------------------------------------------------------------------------
 # Database migrations
 # ---------------------------------------------------------------------------
-# Fill this in if your project has a versioned database schema. Corresponds
-# to CLAUDE-MD/modules/database-migrations.md and commands/migration.md.
 
-# migration_directory_convention:
-#   path: "migrations/"
-#   filename_pattern: "NNN_description.sql"     # e.g. zero-padded numeric prefix + snake_case
-#   prefix_source_of_truth: "origin/main"       # branch to check for the next free prefix against
-#   next_prefix_script: "scripts/next_migration_prefix.py"   # if you have one; else omit
+# migration_directory_convention: not applicable — no versioned database schema. The
+#   fact store is flat JSON, one file per scope (spine/facts/D1.json etc.), versioned
+#   by git history directly, not by an incremental migration chain.
 
 # ---------------------------------------------------------------------------
 # Scheduled data pipelines
 # ---------------------------------------------------------------------------
-# Fill this in if your project has scheduled jobs whose output other things
-# depend on. Corresponds to CLAUDE-MD/modules/pipeline-automation-levels.md.
 
-# scheduled_pipelines:
-#   manifest_path: "deploy/cron_manifest.yml"    # where cron entries are declared, if any
-#   scheduler_entrypoint: "pipeline/scheduler.py"  # if pipelines are triggered from in-process code
-#   freshness_ledger_table: "not applicable"      # DB table tracking pipeline output freshness, if any
+# scheduled_pipelines: not applicable — no cron/scheduler. Ingestion, validation, and
+#   fact-store operations all run on demand via the spine CLI
+#   (`python3 -m cc_spine.cli <subcommand>`), not on a schedule.
 
 # ---------------------------------------------------------------------------
 # Automated remediation / watchdogs
 # ---------------------------------------------------------------------------
-# Fill this in if your project runs any loop that can restart/disable/mutate
-# a live service without a human approving each action. Corresponds to
-# CLAUDE-MD/modules/automated-remediation.md.
 
-# automated_remediation:
-#   watchdog_script: "deploy/host_watchdog.sh"
-#   services_it_can_restart: ["myapp-web"]
-#   cooldown_seconds: 300
-#   max_attempts_before_alert: 3
+# automated_remediation: not applicable — no automated restart/mutate loop exists.
 
 # ---------------------------------------------------------------------------
 # Git / branching conventions
 # ---------------------------------------------------------------------------
 
-# default_branch_name: "main"                 # or "master", "trunk", etc.
+default_branch_name: "main"
 
 # ---------------------------------------------------------------------------
 # Cognition OS toolkit component locations (usually the installer's defaults)
@@ -110,15 +82,24 @@
 # Only change these if you moved a component to a non-default location after
 # running init.py.
 
-# memory_file_path: ".cognition/memory/MEMORY.md"
-# friction_log_path: ".cognition/friction/friction_log.jsonl"
-# gates_file_path: ".cognition/ci-governance/gates.yml"
-# codebase_index_output_dir: "docs/generated/"
+memory_file_path: ".cognition/memory/MEMORY.md"
+friction_log_path: ".cognition/friction/friction_log.jsonl"
+gates_file_path: ".cognition/ci-governance/gates.yml"
+codebase_index_output_dir: "docs/codebase_index/"
 
 # ---------------------------------------------------------------------------
 # CI
 # ---------------------------------------------------------------------------
+# NOTE (2026-07-07): this project's CI is currently SPLIT ACROSS TWO BRANCHES, not
+# unified on one workflow file — see MEMORY.md's Current State for the full context.
 
-# ci_provider: "github-actions"                # or "gitlab-ci", "circleci", etc.
-# ci_workflow_path: ".github/workflows/ci.yml"
-# local_ci_script_path: "scripts/local_ci.sh"
+ci_provider: "github-actions"
+# On `main` (this branch): ../../.github/workflows/cc-cognition-substrate.yml — covers
+# only .cognition/{memory,friction,codebase-index,active-work}; deliberately excludes
+# .cognition/ci-governance and .claude (neither is instantiated/functional there yet).
+# On `claude/cc-cert-learning-plan-xqo5g7` (unmerged): ../../.github/workflows/cc-spine.yml
+# — covers the actual application source (spine/cc_spine/*.py), NOT present on main.
+ci_workflow_path: "../.github/workflows/cc-cognition-substrate.yml"   # main-branch reality
+# local_ci_script_path: not applicable — no local-CI mirror script exists. On the
+# unmerged branch, `make ci` from spine/ runs the equivalent local checks (see that
+# branch's spine/Makefile and spine/README.md).

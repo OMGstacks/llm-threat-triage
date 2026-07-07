@@ -248,8 +248,8 @@ it:
 
 ```
 # Search open PRs/issues by keyword
-<vcs-cli> pr list --state open --search "<deliverable keyword>"
-<vcs-cli> issue list --state open --search "<deliverable keyword>"
+gh pr list --state open --search "<deliverable keyword>"
+gh issue list --state open --search "<deliverable keyword>"
 
 # Check remote branches by keyword
 git ls-remote --heads origin | grep -i <keyword>

@@ -18,7 +18,7 @@ the whole report.
 ## Step 1 — evidence contract
 
 Before emitting any recommendation, declare one of the three evidence states defined in
-`<TOOLKIT_ROOT>/commands/_shared/evidence-contract.md`:
+`.claude/commands/_shared/evidence-contract.md`:
 `EVIDENCE_CURRENT` / `EVIDENCE_STALE` / `EVIDENCE_UNAVAILABLE`.
 
 ## Step 2 — capability staleness check
@@ -26,7 +26,7 @@ Before emitting any recommendation, declare one of the three evidence states def
 Before relying on any introspection tool/capability, check whether it might have been
 registered or deployed **after** this session started, making it invisible right now.
 If the project has a way to compare "how many capabilities exist" vs "how many this
-session can see," use it: `<CAPABILITY_COUNT_CHECK_COMMAND_OR_TOOL>`. If a mismatch is
+session can see," use it: `not applicable — no such tool exists for this project; use the documented fallback above`. If a mismatch is
 found, declare `EVIDENCE_UNAVAILABLE` for anything that depends on the missing
 capability and suggest starting a fresh session rather than guessing around the gap.
 
@@ -35,15 +35,16 @@ capability and suggest starting a fresh session rather than guessing around the 
 Gather, preferring dedicated read-only introspection tools where the project has them,
 falling back to documented manual commands otherwise:
 
-- Health/uptime of the running service(s): `<HEALTH_CHECK_TOOL_OR_ENDPOINT>`
-- Running version/build identifier vs. the default branch: `<RUNNING_VERSION_CHECK>`
+- Health/uptime of the running service(s): `not applicable — no such tool exists for this project; use the documented fallback above`
+- Running version/build identifier vs. the default branch: `not applicable — no such tool exists for this project; use the documented fallback above`
 - Any staleness/freshness signal the project tracks (see the evidence-contract's note
-  on frozen-vs-aging signals if this applies): `<FRESHNESS_SIGNAL_SOURCE>`
-- Recent errors/events: `<RECENT_EVENTS_LOG_SOURCE>` (widen the time window if errors
+  on frozen-vs-aging signals if this applies): `not applicable — no data-freshness ledger/pipeline in this project`
+- Recent errors/events: `gh run list --limit 20 (recent CI activity is the closest equivalent)` (widen the time window if errors
   are found near the edge of the default window)
 - Cross-session/teammate work-in-progress map, if the project has one:
-  `<ACTIVE_WORK_REGISTRY_TOOL>` — otherwise fall back to the concurrency-check steps in
-  `<TOOLKIT_ROOT>/commands/_shared/concurrency-check.md`.
+  `python3 .cognition/active-work/claims_cli.py status` (live for this project) —
+  otherwise fall back to the concurrency-check steps in
+  `.claude/commands/_shared/concurrency-check.md`.
 
 If dedicated tools are absent, declare `EVIDENCE_UNAVAILABLE` for that specific gap
 rather than silently reporting nothing.
@@ -56,7 +57,7 @@ look related but move on different schedules), check each one's actual deployed 
 against the default branch, not just against each other:
 
 ```
-<REMOTE_ACCESS_COMMAND> 'cd <REMOTE_APP_DIR> && git fetch <REMOTE_NAME> <DEFAULT_BRANCH> --quiet && echo HOST=$(git rev-parse --short HEAD) DEFAULT=$(git rev-parse --short <REMOTE_NAME>/<DEFAULT_BRANCH>) && git log --oneline <REMOTE_NAME>/<DEFAULT_BRANCH>..HEAD && echo ARTIFACT=$(<ARTIFACT_VERSION_CHECK_COMMAND>)'
+not applicable — no remote host to reach; this project has no deploy target
 ```
 
 Flag: host/environment behind the default branch => a deploy is pending; host AHEAD =>
@@ -68,8 +69,8 @@ treating a mismatch as a problem.
 ## Step 5 — open work
 
 - Read the project's persistent cross-session memory (if any) for the current
-  arc/state and any explicitly held/gated next step: `<PERSISTENT_MEMORY_PATH>`.
-- Search for open incidents or problem-reports: `<OPEN_INCIDENT_SEARCH_COMMAND>`.
+  arc/state and any explicitly held/gated next step: `.cognition/memory/MEMORY.md`.
+- Search for open incidents or problem-reports: `gh issue list --state open --search "<keyword>"`.
 
 ## Step 6 — intent drill
 
@@ -80,12 +81,12 @@ mapping every session:
 
 | Question class | Pull before advising |
 |---|---|
-| Deploy / runtime change | `<RUNTIME_VERSION_TOOL>` + `<HEALTH_CHECK_TOOL>` + deploy-surface check (Step 4) |
-| Incident / problem-report work | `<INCIDENT_STATUS_TOOL>` + `<RECENT_EVENTS_LOG_SOURCE>` |
-| Data/pipeline quality | `<FRESHNESS_SIGNAL_SOURCE>` + `<RECENT_EVENTS_LOG_SOURCE>` + `<SCHEDULE_TRUTH_SOURCE>` |
-| Scheduler/cron truth | `<SCHEDULE_TRUTH_SOURCE>` + `<RECENT_EVENTS_LOG_SOURCE>` |
-| Cross-session coordination | `<ACTIVE_WORK_REGISTRY_TOOL>` (fallback: concurrency-check.md) |
-| Code scope/ownership | `<CODEBASE_INDEX_TOOL>` |
+| Deploy / runtime change | `not applicable — no such tool exists for this project; use the documented fallback above` + `not applicable — no such tool exists for this project` + deploy-surface check (Step 4) |
+| Incident / problem-report work | `not applicable — no incident-tracking system; use gh issue list` + `gh run list --limit 20 (recent CI activity is the closest equivalent)` |
+| Data/pipeline quality | `not applicable — no data-freshness ledger/pipeline in this project` + `gh run list --limit 20 (recent CI activity is the closest equivalent)` + `not applicable — no scheduler/cron in this project` |
+| Scheduler/cron truth | `not applicable — no scheduler/cron in this project` + `gh run list --limit 20 (recent CI activity is the closest equivalent)` |
+| Cross-session coordination | `python3 .cognition/active-work/claims_cli.py status` (live for this project; fallback: concurrency-check.md) |
+| Code scope/ownership | `python3 .cognition/codebase-index/cli.py --list (this project's own installed instance)` |
 | Pure design/doc-only | evidence optional — but `EVIDENCE_STALE`/`EVIDENCE_UNAVAILABLE` disclosure still required if the recommendation references runtime state |
 
 If a focus area was given in `$ARGUMENTS`, drill into the matching row above.

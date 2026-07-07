@@ -23,16 +23,22 @@ SQL.
 A content-authoring/validation system with a JSON fact store: quiz generation, mock exams,
 cram sheets, a learner dashboard — no deployed service, no pipelines.
 
-- **Governance doc:** `cc-master-learning-center/CLAUDE.md` (generic Cognition OS toolkit
-  CORE rules; not yet customized with project-specific content).
+- **Governance doc:** `cc-master-learning-center/CLAUDE.md` (Cognition OS toolkit CORE
+  rules; `.claude/commands/*.md` placeholders filled/marked-N/A and `PROJECT_FACTS.yml`
+  populated 2026-07-07 — see this project's own memory file for what remains generic vs.
+  project-specific).
 - **CI workflow:** `.github/workflows/cc-cognition-substrate.yml` — covers the toolkit's
   `memory/`, `friction/`, `codebase-index/`, and `active-work/` subsystems (memory gates,
-  toolkit self-tests, a codebase-index drift check). Deliberately does NOT cover
-  `ci-governance/` or `.claude/` — neither is instantiated/functional yet, see this
-  project's own memory file. **Important:** this project's actual application source
-  (`spine/cc_spine/*.py`, its test suite, and a `cc-spine.yml` CI workflow covering it)
-  exists only on the unmerged `claude/cc-cert-learning-plan-xqo5g7` branch, not on `main` —
-  do not assume it is present here until that branch merges.
+  toolkit self-tests, a codebase-index drift check). Does NOT yet cover `ci-governance/`
+  (a `gates.yml` documenting the existing gate surface was authored and schema-validated
+  2026-07-07, but `gen_ci.py --write` has not been run against the real workflow file —
+  `cc-cognition-substrate.yml` is still hand-authored) or run `.claude/` hooks in this CI
+  context (hooks fire in an interactive Claude Code session, not a CI runner — their
+  `$CLAUDE_PROJECT_DIR`-relative paths, fixed 2026-07-07, are portable but there's still
+  no CI job that invokes them, nor would one need to). **Important:** this project's
+  actual application source (`spine/cc_spine/*.py`, its test suite, and a `cc-spine.yml`
+  CI workflow covering it) exists only on the unmerged `claude/cc-cert-learning-plan-xqo5g7`
+  branch, not on `main` — do not assume it is present here until that branch merges.
 - **Test entrypoint:** none on `main` yet (see above); on the unmerged branch it is
   `python -m pytest` from `cc-master-learning-center/spine/`.
 - **Memory file:** `cc-master-learning-center/.cognition/memory/MEMORY.md` — the first

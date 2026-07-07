@@ -29,7 +29,7 @@ capability was registered/deployed **after** this session started — if so, it 
 invisible to the current session, not actually absent. A capability registered mid-session
 requires a **fresh session** to become visible. If a project has a way to compare
 "how many capabilities does the source know about" vs "how many does this session see,"
-use it here: `<CAPABILITY_COUNT_CHECK_COMMAND_OR_TOOL>`.
+use it here: `not applicable — no such tool exists for this project; use the documented fallback above`.
 
 ## Which recommendation types require which evidence tier
 
@@ -50,4 +50,4 @@ computed a different way (e.g. a heartbeat/liveness flag that never ages vs. a c
 lag/staleness metric that does age). If a project has two sources of truth for the same
 question, the one that mechanically ages with time is the decision source; the one that
 is a static/write-instant flag is diagnostic-only. Name both sources explicitly in
-`<PROJECT_FACTS>` if this pattern applies to your project.
+`PROJECT_FACTS.yml` if this pattern applies to your project.
