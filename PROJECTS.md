@@ -25,17 +25,23 @@ cram sheets, a learner dashboard — no deployed service, no pipelines.
 
 - **Governance doc:** `cc-master-learning-center/CLAUDE.md` (generic Cognition OS toolkit
   CORE rules; not yet customized with project-specific content).
-- **CI workflow:** `.github/workflows/cc-cognition-substrate.yml` — currently covers only the
-  `.cognition/`/`.claude/` toolkit surface (memory gates, toolkit self-tests). **Important:**
-  this project's actual application source (`spine/cc_spine/*.py`, its test suite, and a
-  `cc-spine.yml` CI workflow covering it) exists only on the unmerged
-  `claude/cc-cert-learning-plan-xqo5g7` branch, not on `main` — do not assume it is present
-  here until that branch merges. See the memory file below for the full note.
+- **CI workflow:** `.github/workflows/cc-cognition-substrate.yml` — covers the toolkit's
+  `memory/`, `friction/`, `codebase-index/`, and `active-work/` subsystems (memory gates,
+  toolkit self-tests, a codebase-index drift check). Deliberately does NOT cover
+  `ci-governance/` or `.claude/` — neither is instantiated/functional yet, see this
+  project's own memory file. **Important:** this project's actual application source
+  (`spine/cc_spine/*.py`, its test suite, and a `cc-spine.yml` CI workflow covering it)
+  exists only on the unmerged `claude/cc-cert-learning-plan-xqo5g7` branch, not on `main` —
+  do not assume it is present here until that branch merges.
 - **Test entrypoint:** none on `main` yet (see above); on the unmerged branch it is
   `python -m pytest` from `cc-master-learning-center/spine/`.
 - **Memory file:** `cc-master-learning-center/.cognition/memory/MEMORY.md` — the first
   instantiated (non-template) memory file in the repo, seeded with feedback lessons from this
   project's PR-10/PR-11 development series.
+- **Self-index:** `cc-master-learning-center/docs/codebase_index/cognition_inventory.md` —
+  generated, drift-checked inventory of which of the toolkit's own 5 subsystems are
+  instantiated vs. still template-only (regenerate: `python3 cli.py --write --only
+  cognition_inventory` from `cc-master-learning-center/.cognition/codebase-index/`).
 
 ## `osai-prep-studio` — spec-doc-heavy exam-prep platform (FastAPI/Next sibling)
 

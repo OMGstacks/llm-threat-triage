@@ -65,3 +65,17 @@ jobs:
           python3 cc-master-learning-center/.cognition/memory/check_memory_size.py \
             --file cc-master-learning-center/.cognition/memory/MEMORY.md \
             --config cc-master-learning-center/.cognition/memory/.memory-lint.yml
+
+  codebase-index-gate:
+    name: cognition inventory generator drift check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: cognition_inventory --check (only this generator; env_var_index is a
+          demo, not gated -- see cli.py's NOTE)
+        working-directory: cc-master-learning-center/.cognition/codebase-index
+        run: python3 cli.py --check --only cognition_inventory
