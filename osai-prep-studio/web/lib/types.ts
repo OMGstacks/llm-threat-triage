@@ -319,3 +319,22 @@ export interface LessonManifest {
   est_cost_usd: number;
   rate_per_million_usd: number;
 }
+
+// The lessons catalog, served statically from /public/lessons/index.json — built offline
+// by the course-side lessons builder (osai_spine.lessons). The /lessons index lists these.
+export interface LessonCard {
+  lesson_id: string;
+  title: string;
+  track: number;
+  module: string | null;
+  frameworks: string[];
+  detector: string | null;
+  segment_count: number;
+  est_duration: string;
+  est_seconds: number;
+}
+
+export interface LessonIndex {
+  lessons: LessonCard[];
+  count: number;
+}

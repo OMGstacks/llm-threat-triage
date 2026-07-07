@@ -1,0 +1,30 @@
+{
+  "lesson_id": "T2-L01",
+  "title": "Three maps for AI red teaming",
+  "track": 2,
+  "module": "M1",
+  "frameworks": ["LLM01:2025", "LLM02:2025", "LLM06:2025", "LLM10:2025", "AML.TA0002", "AML.T0051.000"],
+  "voice": "en-GB",
+  "segments": [
+    { "slide": "title",
+      "text": "Welcome to Track 2, lesson one: three maps for AI red teaming. Before we attack anything, you need a shared vocabulary — a way to name what you found and where it sits. This lesson gives you the three reference frameworks the rest of the course, and your exam report, will lean on." },
+    { "slide": "why-frameworks",
+      "text": "Why frameworks at all? Because a finding that isn't named is hard to triage, hard to compare, and hard to defend in a report. When you can say 'this is prompt injection, OWASP LLM01, ATLAS technique T0051', a reviewer instantly knows the class, the impact, and the likely fix. Naming is half the job." },
+    { "slide": "map-1-owasp",
+      "text": "The first map is the OWASP LLM Top 10 for 2025. It lists the ten most important risk categories for LLM applications — from prompt injection at LLM01, through sensitive information disclosure, supply chain, and improper output handling, to unbounded consumption at LLM10. It's your everyday classification scheme." },
+    { "slide": "owasp-examples",
+      "text": "A few you'll meet often. LLM01 is prompt injection. LLM02 is sensitive information disclosure — the model leaking data it shouldn't. LLM06 is excessive agency — an agent doing more than it should. And LLM10 is unbounded consumption — draining cost or availability. Each finding you write will carry one of these ids." },
+    { "slide": "map-2-atlas",
+      "text": "The second map is MITRE ATLAS. Where OWASP names the risk, ATLAS names the adversary's move. It's a matrix of tactics — the attacker's goal, like reconnaissance — and techniques — the specific method. Prompt injection, for instance, is technique T0051, split into direct and indirect sub-techniques." },
+    { "slide": "atlas-why",
+      "text": "ATLAS matters because it describes the whole engagement, not just one bug. Reconnaissance, then initial access, then persistence and impact — the same shape a traditional red team uses, adapted for machine-learning systems. It lets you tell a story: how the attacker got in, and what they did next." },
+    { "slide": "map-3-killchain",
+      "text": "The third map is the NVIDIA AI Kill Chain, built for attacks on AI-powered applications. Its stages are recon, then poison, hijack, persist, and impact — with a pivot loop back to recon as you learn the system. Think of it as the timeline your ATLAS techniques hang on, and roughly the order an engagement against an AI system tends to unfold." },
+    { "slide": "how-they-fit",
+      "text": "The three fit together, they don't compete. The kill chain gives you the phase you're in. ATLAS gives you the technique you're using in that phase. OWASP gives you the risk category you'll cite in the finding. One attack, three lenses: sequence, method, and classification." },
+    { "slide": "anti-hallucination",
+      "text": "One discipline to build now: never invent an id. Every OWASP LLM number and every ATLAS technique either exists or it doesn't. A made-up id in a report destroys credibility faster than a missed finding. In this range the tutor and the grader both reject ids that aren't real — hold yourself to the same bar." },
+    { "slide": "takeaway",
+      "text": "The takeaway: these three maps are the coordinate system for everything ahead. As you work each lab, practise saying where you are — which kill-chain phase, which ATLAS technique, which OWASP category. Do that habitually and your findings, and your exam report, will almost write themselves." }
+  ]
+}

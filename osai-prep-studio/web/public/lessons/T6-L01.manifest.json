@@ -1,0 +1,115 @@
+{
+  "lesson_id": "T6-L01",
+  "title": "Writing the finding: impact, root cause, reproduction, retest",
+  "voice": "en-GB",
+  "provider": "cmd",
+  "kind": "local",
+  "segments": [
+    {
+      "id": "001-welcome-to-track-6-lesson-one-writing",
+      "text": "Welcome to Track 6, lesson one: writing the finding. In the OSAI exam the report is weighted as heavily as the technical work \u2014 a brilliant exploit with a weak write-up can still fail you. This lesson turns a fired exploit into a finding a reader can act on.",
+      "chars": 258,
+      "start": 0.0,
+      "end": 17.79,
+      "est_seconds": 17.8,
+      "audio": "T6-L01/001-welcome-to-track-6-lesson-one-writing.9f594b78e145cbe9.mp3",
+      "slide": "title"
+    },
+    {
+      "id": "002-a-finding-is-not-a-screenshot-of-a-flag",
+      "text": "A finding is not a screenshot of a flag. It's a small, self-contained argument: here is a problem, here is why it matters, here is how to see it for yourself, and here is how you'll know it's fixed. Four moves \u2014 impact, root cause, reproduction, retest. Get those four right and the rest is polish.",
+      "chars": 298,
+      "start": 17.79,
+      "end": 38.34,
+      "est_seconds": 20.6,
+      "audio": "T6-L01/002-a-finding-is-not-a-screenshot-of-a-flag.52ff449945bee0ef.mp3",
+      "slide": "what-is-a-finding"
+    },
+    {
+      "id": "003-start-by-classifying-give-the-finding-a",
+      "text": "Start by classifying. Give the finding a title and a category from the shared taxonomy \u2014 for our worked example, a prompt-injection issue, OWASP LLM01. The id lets a reader instantly place the risk. And cite only real ids: an invented LLM number or ATLAS technique is an immediate credibility hit.",
+      "chars": 297,
+      "start": 38.34,
+      "end": 58.83,
+      "est_seconds": 20.5,
+      "audio": "T6-L01/003-start-by-classifying-give-the-finding-a.ddd722d7eeb4b8d5.mp3",
+      "slide": "classification"
+    },
+    {
+      "id": "004-impact-answers-so-what-not-the-mode",
+      "text": "Impact answers 'so what?'. Not 'the model printed a flag' \u2014 but what that flag stands in for. Could an attacker read another user's data, run an unintended action, or drain the budget? State the business consequence in one or two concrete sentences. Impact is what gets a finding prioritised.",
+      "chars": 292,
+      "start": 58.83,
+      "end": 78.97,
+      "est_seconds": 20.1,
+      "audio": "T6-L01/004-impact-answers-so-what-not-the-mode.df3e232df661a930.mp3",
+      "slide": "impact"
+    },
+    {
+      "id": "005-root-cause-answers-why-does-this-happen",
+      "text": "Root cause answers 'why does this happen?'. Push past the symptom to the underlying weakness. Not 'the model followed my instruction' but 'retrieved content is passed to the model without a trust boundary, so data is treated as instructions'. The fix follows from the root cause, not the symptom.",
+      "chars": 296,
+      "start": 78.97,
+      "end": 99.38,
+      "est_seconds": 20.4,
+      "audio": "T6-L01/005-root-cause-answers-why-does-this-happen.d9ec2220b4cfba85.mp3",
+      "slide": "root-cause"
+    },
+    {
+      "id": "006-reproduction-lets-the-reader-see-it-them",
+      "text": "Reproduction lets the reader see it themselves. Number the steps, give the exact input you sent, and show the actual response. Someone with no context should be able to follow your steps and get the same result. If they can't reproduce it, they can't fix it \u2014 and they may not believe it.",
+      "chars": 288,
+      "start": 99.38,
+      "end": 119.24,
+      "est_seconds": 19.9,
+      "audio": "T6-L01/006-reproduction-lets-the-reader-see-it-them.d8adfd4732840a02.mp3",
+      "slide": "reproduction"
+    },
+    {
+      "id": "007-evidence-is-what-makes-reproduction-cred",
+      "text": "Evidence is what makes reproduction credible. In this range every real finding rests on a produced token \u2014 the flag, a changed database record, a callback hit \u2014 not just the model emitting a sentence. Attach that evidence, and label it, so the impact you claimed is visibly grounded in something that happened.",
+      "chars": 310,
+      "start": 119.24,
+      "end": 140.62,
+      "est_seconds": 21.4,
+      "audio": "T6-L01/007-evidence-is-what-makes-reproduction-cred.1857a65b13656a16.mp3",
+      "slide": "evidence"
+    },
+    {
+      "id": "008-retest-closes-the-loop-state-how-a-defe",
+      "text": "Retest closes the loop. State how a defender confirms the fix worked: rerun these exact steps against the patched system and the injection should now be refused or the data withheld. A finding without a retest path leaves everyone guessing whether the remediation actually landed.",
+      "chars": 280,
+      "start": 140.62,
+      "end": 159.93,
+      "est_seconds": 19.3,
+      "audio": "T6-L01/008-retest-closes-the-loop-state-how-a-defe.60959a6c50c72ea6.mp3",
+      "slide": "retest"
+    },
+    {
+      "id": "009-then-recommend-the-fix-tied-to-the-root",
+      "text": "Then recommend the fix, tied to the root cause. For our injection example: treat retrieved content as untrusted, enforce a trust boundary between data and instructions, and screen inputs at ingestion. Concrete and actionable beats generic advice like 'add more validation' every time.",
+      "chars": 284,
+      "start": 159.93,
+      "end": 179.52,
+      "est_seconds": 19.6,
+      "audio": "T6-L01/009-then-recommend-the-fix-tied-to-the-root.300ca91f7e5065b6.mp3",
+      "slide": "remediation"
+    },
+    {
+      "id": "010-the-takeaway-a-finding-is-a-persuasive",
+      "text": "The takeaway: a finding is a persuasive, reproducible argument, not a trophy. Impact, root cause, reproduction, retest \u2014 with real evidence and real taxonomy ids. Practise this structure on every lab you solve, and by exam day the report writes itself while the clock is still your friend.",
+      "chars": 289,
+      "start": 179.52,
+      "end": 199.45,
+      "est_seconds": 19.9,
+      "audio": "T6-L01/010-the-takeaway-a-finding-is-a-persuasive.1303cff1b51a2841.mp3",
+      "slide": "takeaway"
+    }
+  ],
+  "segment_count": 10,
+  "total_chars": 2892,
+  "est_duration": "3:19",
+  "est_seconds": 199.4,
+  "est_cost_usd": 0.0,
+  "rate_per_million_usd": 0.0
+}

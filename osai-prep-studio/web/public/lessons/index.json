@@ -1,0 +1,64 @@
+{
+  "lessons": [
+    {
+      "lesson_id": "T2-L01",
+      "title": "Three maps for AI red teaming",
+      "track": 2,
+      "module": "M1",
+      "frameworks": [
+        "LLM01:2025",
+        "LLM02:2025",
+        "LLM06:2025",
+        "LLM10:2025",
+        "AML.TA0002",
+        "AML.T0051.000"
+      ],
+      "detector": null,
+      "segment_count": 10,
+      "est_duration": "3:28",
+      "est_seconds": 208.3
+    },
+    {
+      "lesson_id": "L03",
+      "title": "Encoded payload smuggling",
+      "track": 3,
+      "module": "M3",
+      "frameworks": [
+        "LLM01:2025"
+      ],
+      "detector": null,
+      "segment_count": 10,
+      "est_duration": "3:19",
+      "est_seconds": 198.6
+    },
+    {
+      "lesson_id": "T3-L02",
+      "title": "Indirect prompt injection: the payload rides in on the data",
+      "track": 3,
+      "module": "M5",
+      "frameworks": [
+        "LLM01:2025",
+        "LLM08:2025",
+        "AML.T0051.001"
+      ],
+      "detector": "indirect_prompt_injection",
+      "segment_count": 10,
+      "est_duration": "3:30",
+      "est_seconds": 209.7
+    },
+    {
+      "lesson_id": "T6-L01",
+      "title": "Writing the finding: impact, root cause, reproduction, retest",
+      "track": 6,
+      "module": "M10",
+      "frameworks": [
+        "LLM01:2025"
+      ],
+      "detector": null,
+      "segment_count": 10,
+      "est_duration": "3:19",
+      "est_seconds": 199.4
+    }
+  ],
+  "count": 4
+}
