@@ -1,0 +1,66 @@
+# Example gates.yml — illustrates the five gate patterns the codegen supports.
+# Validate this file against gates.schema.json with:
+#   python gen_ci.py --gates gates.example.yml --local-ci-out /tmp/local_ci.sh --ci-yml-out /tmp/ci.yml --check
+# (a --check run performs full schema validation before diffing anything)
+
+version: 1
+
+gates:
+  # 1. A plain pytest gate — the common case. Runs identically local and CI.
+  - name: unit-tests
+    description: "Unit test suite"
+    group: "core"
+    command: "python -m pytest tests/unit -q"
+
+  # 2. A non-pytest lint gate WITH a sibling_test_gate cross-reference.
+  #    sibling-test-gate declares which OTHER gate provides regression coverage
+  #    for this lint's own logic, replacing a free-text exceptions dict with a
+  #    structured, validatable cross-reference (gen_ci.py fails loudly if the
+  #    named gate does not exist).
+  - name: check-no-gate-deletion
+    description: "Gate-deletion guard (no gate silently vanishes across surfaces)"
+    group: "governance"
+    command: "python scripts/check_gate_deletion.py --gates ci-governance/gates.yml"
+    non_pytest: true
+    sibling_test_gate: gate-deletion-guard-tests
+
+  - name: gate-deletion-guard-tests
+    description: "Regression tests for the gate-deletion guard"
+    group: "governance"
+    command: "python -m pytest tests/test_check_gate_deletion.py -q"
+
+  # 3. A requires:[docker] gate that is local-only (allow_ci: false) — e.g. a
+  #    developer-machine smoke test that assumes a local Docker daemon CI
+  #    runners don't provide in this project.
+  - name: docker-image-smoke-test
+    description: "Build and smoke-test the local dev image"
+    group: "docker"
+    command: "docker build -t dev-image:local . && docker run --rm dev-image:local python -c 'import app'"
+    allow_ci: false
+    requires: ["docker"]
+
+  # 4. A gate whose CI invocation legitimately differs from the local one
+  #    (more verbose / parallelism flags in CI where log capture matters),
+  #    AND uses extra_yaml to bolt on a CI-only postgres services block.
+  - name: integration-tests
+    description: "Integration test suite (requires Postgres)"
+    group: "core"
+    command: "python -m pytest tests/integration -q"
+    ci_command: "python -m pytest tests/integration -vv -p no:cacheprovider"
+    requires: ["docker"]
+    extra_yaml: |
+      services:
+        postgres:
+          image: postgres:16
+          env:
+            POSTGRES_PASSWORD: postgres
+            POSTGRES_DB: test_db
+          ports:
+            - 5432:5432
+          options: >-
+            --health-cmd pg_isready
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
