@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "migration_policy": "additive until 1.x; breaking changes require migration note, fixture update, backwards-compatibility decision, explicit reviewer approval",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CC cram sheet (weak-area review packet)",
+  "description": "A deterministic weak-area review packet built by cc_spine.cram_sheet.build_cram_sheet (PR-11c). Unlike the content-free readiness dashboard, a cram sheet DELIBERATELY carries teaching content (trap/correction/one_sentence_rule) — the committed, vetted misconception-registry explanation behind the learner's own past misses on items they already attempted. It never carries the item's choices, the isolated-key fields (correct_index / answer_key_ref / rationale_refs / distractor_misconceptions / hashes), the learner's own selected_index, or any holdout content (learner_state.replay rejects holdout attempts fail-closed, so no holdout item id can reach the journal this reads).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "generated_at_day", "open_count", "closed_count", "priority_count", "domains", "closed_recap"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "generated_at_day": {"type": "integer", "description": "The injected day counter — never a wall-clock timestamp (determinism)."},
+    "open_count": {"type": "integer", "description": "Total open (unclosed) journal entries across all domains."},
+    "closed_count": {"type": "integer"},
+    "priority_count": {"type": "integer", "description": "Open entries flagged priority (an overconfident wrong answer)."},
+    "domains": {
+      "type": "array",
+      "description": "Ordered weakest-accuracy-first among SCORED domains; unscored domains (accuracy null — e.g. 'global'/exam_strategy, which learner_state.readiness_report excludes from per-domain accuracy, or 'unknown') sort last rather than being treated as 0% (review F1). Only domains with at least one open entry appear.",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["domain", "accuracy", "attempts", "entries"],
+        "properties": {
+          "domain": {"enum": ["D1", "D2", "D3", "D4", "D5", "global", "unknown"],
+                    "description": "'unknown' is a schema-valid fallback for a journal entry whose item_id no longer resolves in the goldset (review F2) — never null."},
+          "accuracy": {"type": ["number", "null"]},
+          "attempts": {"type": "integer"},
+          "entries": {
+            "type": "array",
+            "items": {
+              "type": "object", "additionalProperties": false,
+              "required": ["item_id", "objective", "bank", "misconception_id", "trap", "correction",
+                          "one_sentence_rule", "recorded_at_day", "priority", "stem"],
+              "properties": {
+                "item_id": {"type": "string"},
+                "objective": {"type": "string"},
+                "bank": {"enum": ["definition_recall", "concept_discrimination", "scenario_application", "exam_strategy"]},
+                "misconception_id": {"type": "string"},
+                "trap": {"type": "string", "description": "The registry's misconception text — the wrong belief."},
+                "correction": {"type": "string", "description": "The registry's correct-concept text."},
+                "one_sentence_rule": {"type": "string", "description": "The distilled first-sentence takeaway."},
+                "recorded_at_day": {"type": "integer"},
+                "priority": {"type": "boolean", "description": "An overconfident wrong answer — the most dangerous kind of miss."},
+                "stem": {"type": ["string", "null"], "description": "The item's stem for context. Never its choices or any answer field."}
+              }
+            }
+          }
+        }
+      }
+    },
+    "closed_recap": {
+      "type": "array", "maxItems": 5,
+      "description": "Positive reinforcement: the latest occurrence of each recently-closed misconception (deduplicated), capped at 5.",
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["misconception_id", "one_sentence_rule"],
+        "properties": {
+          "misconception_id": {"type": "string"},
+          "one_sentence_rule": {"type": "string"}
+        }
+      }
+    }
+  }
+}

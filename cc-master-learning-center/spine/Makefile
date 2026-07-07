@@ -1,4 +1,4 @@
-.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check dashboard-html-check ingest-check test ci
+.PHONY: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check dashboard-html-check cram-sheet-check cram-sheet-html-check ingest-check test ci
 
 # PR-1 scaffold gate.
 validate:
@@ -73,7 +73,7 @@ dashboard-check:
 	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 > /tmp/cc_dash_a.json
 	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 > /tmp/cc_dash_b.json
 	cmp /tmp/cc_dash_a.json /tmp/cc_dash_b.json
-	! grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|rationale_refs|correction|one_sentence_rule|trap|selected_index|name|email|user|username)"[[:space:]]*:' /tmp/cc_dash_a.json
+	! grep -qE '"(stem|choices|correct_index|correct|answer|answer_key_ref|answer_key_hash|item_hash|rationale_refs|correction|one_sentence_rule|trap|distractor_misconceptions|selected_index|fact_ids|expected_keywords|name|email|user|username)"[[:space:]]*:' /tmp/cc_dash_a.json
 	@echo "OK   dashboard is deterministic and carries no answer/PII field"
 
 # PR-11b dashboard HTML gate: the visual render is byte-deterministic and carries no answer field.
@@ -81,8 +81,25 @@ dashboard-html-check:
 	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > /tmp/cc_dash_a.html
 	python3 -m cc_spine.cli dashboard --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > /tmp/cc_dash_b.html
 	cmp /tmp/cc_dash_a.html /tmp/cc_dash_b.html
-	! grep -qE 'correct_index|answer_key_ref|rationale_refs|distractor_misconceptions|selected_index' /tmp/cc_dash_a.html
+	! grep -qE 'correct_index|answer_key_ref|answer_key_hash|item_hash|rationale_refs|distractor_misconceptions|selected_index|choices|fact_ids|expected_keywords' /tmp/cc_dash_a.html
 	@echo "OK   dashboard HTML is deterministic and carries no answer-bearing field"
+
+# PR-11c cram-sheet gate: deliberately content-bearing (trap/correction/rule), but still no
+# isolated-key field, no choices, and no selected_index. JSON shape.
+cram-sheet-check:
+	python3 -m cc_spine.cli cram-sheet --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 > /tmp/cc_cram_a.json
+	python3 -m cc_spine.cli cram-sheet --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 > /tmp/cc_cram_b.json
+	cmp /tmp/cc_cram_a.json /tmp/cc_cram_b.json
+	! grep -qE '"(choices|correct_index|answer_key_ref|rationale_refs|distractor_misconceptions|answer_key_hash|item_hash|selected_index|fact_ids|expected_keywords)"[[:space:]]*:' /tmp/cc_cram_a.json
+	@echo "OK   cram sheet is deterministic and carries no answer-key/PII field"
+
+# PR-11c cram-sheet HTML gate: same deterministic + no-answer-key-field proof over the render.
+cram-sheet-html-check:
+	python3 -m cc_spine.cli cram-sheet --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > /tmp/cc_cram_a.html
+	python3 -m cc_spine.cli cram-sheet --attempts tests/fixtures/synthetic_attempt_stream.json --now 5 --html > /tmp/cc_cram_b.html
+	cmp /tmp/cc_cram_a.html /tmp/cc_cram_b.html
+	! grep -qE 'correct_index|answer_key_ref|answer_key_hash|item_hash|rationale_refs|distractor_misconceptions|selected_index|choices|fact_ids|expected_keywords' /tmp/cc_cram_a.html
+	@echo "OK   cram sheet HTML is deterministic and carries no answer-bearing field"
 
 # PR-2 ingestion determinism smoke: ingest the fixture twice, prove byte-identical.
 ingest-check:
@@ -97,4 +114,4 @@ test:
 	python3 -m unittest discover -s tests -v
 
 # Everything CI runs, in order.
-ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check dashboard-html-check test ingest-check
+ci: validate validate-sources check-ip factstore-validate quiz-validate quiz-holdout-validate quiz-export-scan quiz-render-scan learner-demo mock-validate mock-render variant-check dashboard-check dashboard-html-check cram-sheet-check cram-sheet-html-check test ingest-check

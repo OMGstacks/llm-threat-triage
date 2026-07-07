@@ -53,3 +53,5 @@ slice starts. At minimum:
 | [`readiness-dashboard-sample.json`](readiness-dashboard-sample.json) | PR-11a | the dashboard produced from the synthetic fixture (regenerable; drift-checked by a test) |
 | [`pr11b-visual-dashboard.md`](pr11b-visual-dashboard.md) | PR-11b | the visual layer (`dashboard_view.render_html`) — pure formatter over the PR-11a model; instrument-panel design |
 | [`pr11b-visual-dashboard-review.json`](pr11b-visual-dashboard-review.json) | PR-11b | independent review needs-work → all fixed: 1 major (domain-gauge miscalibration vs the real hard-blocker gate) + 4 minor/nit |
+| [`pr11c-cram-sheets.md`](pr11c-cram-sheets.md) | PR-11c | weak-area review packets — deliberately content-bearing (trap/correction/rule), never choices/isolated-key fields |
+| [`pr11c-cram-sheets-review.json`](pr11c-cram-sheets-review.json) | PR-11c | independent review accept-with-fixes; F1 (major, domain-sort mis-ranking) + F2-F4 all fixed/documented before commit |

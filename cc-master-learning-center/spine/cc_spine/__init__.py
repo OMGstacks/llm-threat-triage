@@ -195,6 +195,23 @@ gauge can never contradict a real blocker (independent review caught and fixed a
 draft that could). ``standalone=True`` yields a complete document; ``standalone=False`` yields a
 head-less fragment for host embedding (e.g. an Artifact). CLI ``dashboard --html [--out file]``; a
 ``dashboard-html-check`` CI gate proves determinism + no answer-bearing field in the rendered markup.
+PR-11c completes the deferred "dashboard + cram sheets" slice: ``cram_sheet`` + ``cram_sheet_view``.
+Unlike the content-free dashboard, a cram sheet is DELIBERATELY content-bearing — its whole point is
+surfacing the teaching content (the misconception registry's trap/correction/one_sentence_rule text)
+behind the learner's own past misses, grouped weakest-SCORED-domain-first (unscored domains — e.g.
+``exam_strategy`` items, all domain ``"global"``, which ``learner_state.readiness_report`` excludes
+from per-domain accuracy — sort last rather than being treated as 0%; independent review F1),
+priority-miss-first within a domain. This is not a leak: every fact shown came from an item the
+learner already attempted; holdout content cannot reach it (``learner_state.replay`` rejects holdout
+attempts fail-closed, so no holdout id ever enters the journal this reads). Still withheld even here:
+the item's ``choices``, the isolated-key fields (``correct_index``/``answer_key_ref``/
+``rationale_refs``/``distractor_misconceptions``/hashes), and the learner's own ``selected_index``. A
+short "recently closed" recap (deduplicated, capped at 5) gives positive reinforcement. An item_id
+absent from the goldset falls back to an explicit ``"unknown"`` domain, never a Python ``None``
+(review F2 — a None would emit schema-invalid JSON and crash the HTML render). CLI ``cram-sheet
+--html [--out file]``; ``cram-sheet-check``/``cram-sheet-html-check`` CI gates prove determinism + no
+isolated-key field (widened to the same compound-identifier set as the dashboard's HTML gate —
+review F4). 11th schema (cram-sheet).
 """
 
-__version__ = "0.8.7"
+__version__ = "0.8.8"

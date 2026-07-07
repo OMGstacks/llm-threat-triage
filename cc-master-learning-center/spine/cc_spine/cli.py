@@ -10,6 +10,7 @@
     python -m cc_spine.cli mock [assemble|validate|render] --draw-key K      # PR-10 mock assembler
     python -m cc_spine.cli variant [prompt|ingest|requests|validate] ...     # PR-10.4b intake
     python -m cc_spine.cli dashboard --attempts stream.json --now 5 [--html] # PR-11a/11b dashboard
+    python -m cc_spine.cli cram-sheet --attempts stream.json --now 5 [--html] # PR-11c cram sheet
 
 Stdlib-only; no third-party dependencies.
 """
@@ -24,8 +25,9 @@ from pathlib import Path
 
 from . import factstore as factstore_mod
 from . import ingest as ingest_mod
-from . import (dashboard as dashboard_mod, dashboard_view, ipboundary, learner_state, mock_exam,
-               presentation, quiz, registry, scaffold_validate, sources, variant_intake, variants)
+from . import (cram_sheet as cram_sheet_mod, cram_sheet_view, dashboard as dashboard_mod,
+               dashboard_view, ipboundary, learner_state, mock_exam, presentation, quiz, registry,
+               scaffold_validate, sources, variant_intake, variants)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 REFERENCE = PROJECT_ROOT / "reference"
@@ -247,6 +249,27 @@ def cmd_dashboard(args) -> int:
     return 0
 
 
+def cmd_cram_sheet(args) -> int:
+    """PR-11c weak-area review packet: replay an attempt stream into a learner state and project the
+    cram sheet — the teaching content (trap/correction/rule) behind the learner's own past misses, as
+    JSON (default) or the HTML render (--html). Unlike the dashboard, this is deliberately
+    content-bearing (that is the point): the registry's vetted explanation for each open misconception,
+    never the item's choices or any isolated-key field."""
+    attempts = json.loads(Path(args.attempts).read_text(encoding="utf-8"))
+    try:
+        state = learner_state.replay(attempts, now=args.now)
+    except learner_state.LearnerStateError as exc:
+        print(f"FAIL replay rejected an attempt: {exc}", file=sys.stderr)
+        return 1
+    c = cram_sheet_mod.build_cram_sheet(state, now=args.now)
+    out_text = cram_sheet_view.render_html(c) if args.html else json.dumps(c, indent=2)
+    if args.out:
+        Path(args.out).write_text(out_text, encoding="utf-8")
+    else:
+        print(out_text)
+    return 0
+
+
 def cmd_variant(args) -> int:
     """PR-10.4b variant-intake pipeline (NO live API — that is PR-12): build the locked generation
     prompt for a missed practice item, validate untrusted candidate JSON into a local gitignored
@@ -395,6 +418,14 @@ def build_parser() -> argparse.ArgumentParser:
                         help="PR-11b: emit the standalone HTML render instead of JSON")
     p_dash.add_argument("--out", default=None, help="write output to this path instead of stdout")
     p_dash.set_defaults(func=cmd_dashboard)
+
+    p_cram = sub.add_parser("cram-sheet",
+        help="weak-area review packet (PR-11c): project a learner state's open misses into JSON/HTML")
+    p_cram.add_argument("--attempts", required=True, help="attempt-stream JSON")
+    p_cram.add_argument("--now", type=int, default=0, help="injected day counter (determinism)")
+    p_cram.add_argument("--html", action="store_true", help="emit the standalone HTML render instead of JSON")
+    p_cram.add_argument("--out", default=None, help="write output to this path instead of stdout")
+    p_cram.set_defaults(func=cmd_cram_sheet)
 
     p_variant = sub.add_parser("variant",
         help="variant-intake pipeline (PR-10.4b): prompt/ingest/requests/validate — no live API")
