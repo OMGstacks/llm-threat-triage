@@ -1,0 +1,83 @@
+name: OSAI Prep Studio — Cognition Substrate
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'osai-prep-studio/.cognition/memory/**'
+      - 'osai-prep-studio/.cognition/friction/**'
+      - 'osai-prep-studio/.cognition/codebase-index/**'
+      - 'osai-prep-studio/.cognition/active-work/**'
+      - '.github/workflows/osai-cognition-substrate.yml'
+  pull_request:
+    paths:
+      - 'osai-prep-studio/.cognition/memory/**'
+      - 'osai-prep-studio/.cognition/friction/**'
+      - 'osai-prep-studio/.cognition/codebase-index/**'
+      - 'osai-prep-studio/.cognition/active-work/**'
+      - '.github/workflows/osai-cognition-substrate.yml'
+
+# NOTE: this workflow deliberately does NOT cover
+# osai-prep-studio/.cognition/ci-governance/ or .claude/ -- neither
+# subsystem is instantiated or used by this project yet (ci-governance's
+# self-test needs a `jsonschema` dependency this repo doesn't install, and
+# .claude/'s hooks are inert here -- see MEMORY.md's Current State). Add
+# both to the path filter and a corresponding test step together, the day
+# either subsystem actually gets wired up -- not before, since an untested
+# subsystem in the trigger path is a coverage gap, not a safety net.
+
+jobs:
+  toolkit-self-tests:
+    name: cognition toolkit self-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run friction diary self-test
+        run: python3 osai-prep-studio/.cognition/friction/tests/test_friction_cli_self.py
+      - name: Run codebase-index framework self-test
+        run: python3 osai-prep-studio/.cognition/codebase-index/tests/test_framework_self.py
+      - name: Run cognition-inventory generator self-test
+        run: python3 osai-prep-studio/.cognition/codebase-index/tests/test_cognition_inventory_generator_self.py
+      - name: Run memory decay checker self-test
+        run: python3 osai-prep-studio/.cognition/memory/tests/test_memory_decay_self.py
+      - name: Run concurrency claims registry self-test
+        run: python3 osai-prep-studio/.cognition/active-work/tests/test_claims_cli_self.py
+
+  memory-gates:
+    name: memory decay + size checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Memory decay check
+        run: |
+          python3 osai-prep-studio/.cognition/memory/check_memory_decay.py \
+            --file osai-prep-studio/.cognition/memory/MEMORY.md \
+            --repo-root osai-prep-studio \
+            --check-topic-files
+      - name: Memory size check
+        run: |
+          python3 osai-prep-studio/.cognition/memory/check_memory_size.py \
+            --file osai-prep-studio/.cognition/memory/MEMORY.md \
+            --config osai-prep-studio/.cognition/memory/.memory-lint.yml
+
+  codebase-index-gate:
+    name: cognition inventory generator drift check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: cognition_inventory --check (only this generator; env_var_index is a
+          demo, not gated -- see cli.py's NOTE)
+        working-directory: osai-prep-studio/.cognition/codebase-index
+        run: python3 cli.py --check --only cognition_inventory
