@@ -48,13 +48,16 @@ stop and coordinate.
 
 Never write directly in the primary/shared checkout if concurrent writers are possible.
 
-1. Inspect the primary checkout's current state (branch, divergence) without touching it:
-   `git -C C:/Users/izuuh/projects/llm-threat-triage worktree list`
+1. Inspect the primary checkout's current state (branch, divergence) without touching it,
+   run from inside the primary checkout (never hardcode its path — that varies per
+   machine/session; see CORE.md's worktree-isolation convention below):
+   `git worktree list`
 2. Fetch the default branch fresh (not local disk, which may be stale):
-   `git -C C:/Users/izuuh/projects/llm-threat-triage fetch origin main --quiet`
+   `git fetch origin main --quiet`
 3. Create an ISOLATED workspace (a worktree, a separate clone, or your project's
-   equivalent) branched off that fresh fetch — not off local HEAD:
-   `git -C C:/Users/izuuh/projects/llm-threat-triage worktree add -b <descriptive-branch-name> C:/tmp/llm-threat-triage-<task> origin/main`
+   equivalent) branched off that fresh fetch — not off local HEAD — as a sibling
+   directory to this checkout:
+   `git worktree add -b <descriptive-branch-name> ../llm-threat-triage-wt-<task> origin/main`
 
 Do ALL edits in the isolated workspace via absolute paths. Do not edit the primary
 checkout for this task.
@@ -72,8 +75,8 @@ toolkit has one installed) rather than bundling them into this diff.
 
 All of the following must hold. This is a hard gate, not a suggestion:
 
-1. **Scope.** `git -C C:/tmp/llm-threat-triage-<task> status --porcelain` and
-   `git -C C:/tmp/llm-threat-triage-<task> diff --name-only` must contain ONLY files this task
+1. **Scope.** From inside the isolated workspace (`../llm-threat-triage-wt-<task>`):
+   `git status --porcelain` and `git diff --name-only` must contain ONLY files this task
    owns. A foreign path or stray file FAILS the gate — go back and unstage/revert it.
    This check exists because a diff that silently touches files outside its declared
    ownership is exactly the failure mode that turns a small change into a
@@ -113,10 +116,10 @@ of Phase 4.
    (`gh pr checks`), not just "not failing yet."
 8. Merge: `gh pr merge`. If your project's merge tool cannot also
    delete the remote branch when the primary checkout holds the default branch, do the
-   cleanup explicitly and separately:
+   cleanup explicitly and separately (from the primary checkout):
    ```
-   git -C C:/Users/izuuh/projects/llm-threat-triage worktree remove --force C:/tmp/llm-threat-triage-<task>
-   git -C C:/Users/izuuh/projects/llm-threat-triage branch -D <descriptive-branch-name>
+   git worktree remove --force ../llm-threat-triage-wt-<task>
+   git branch -D <descriptive-branch-name>
    git push origin --delete <descriptive-branch-name>
    ```
    Confirm the merge commit landed on the remote default branch. Update any persistent
