@@ -1,0 +1,29 @@
+# .memory-lint.yml — configuration for check_memory_size.py
+#
+# Copy this file to the root of your project (or the directory you run the
+# linter from) as `.memory-lint.yml` and adjust the values below. Every key
+# is optional; check_memory_size.py falls back to sane defaults for any key
+# that is missing or if this file does not exist at all.
+
+# Path to your project's MEMORY.md, relative to this config file's directory
+# (or absolute). Common locations: "memory/MEMORY.md", "MEMORY.md",
+# "~/.claude/projects/<project>/memory/MEMORY.md" (expand manually — the
+# loader does not expand `~`, use an absolute path if outside the repo).
+memory_file_path: MEMORY.md
+
+# The exact ## section heading (without the leading "## ") that holds your
+# current/active-state entries. This is the section that gets checked for
+# staleness and for not dominating the file's total size.
+active_section_name: "Current State"
+
+# An active-section entry whose most recent YYYY-MM-DD date is older than
+# this many days is flagged as a compaction candidate (WARN tier).
+stale_days: 30
+
+# Hard ceiling in KB. Exceeding this is a FAIL.
+max_kb: 24
+
+# Soft warning threshold in KB. Between soft_kb and max_kb is a WARN,
+# queuing compaction before the hard ceiling is hit. Defaults to max_kb - 2
+# if omitted.
+soft_kb: 22

@@ -114,6 +114,19 @@ you must explicitly report why it could not be.
 
 ## Phase 7 — persistent memory update (if the project uses one)
 
+**Release any concurrency claim first (this toolkit install, scoped to
+`projects/llm-log-triage`).** If this session registered a claim via `claims_cli.py claim`
+(see Phase 0 of `ship.md`), release it now so other sessions stop seeing this scope as active
+the moment they next `git fetch`:
+
+```
+python3 .cognition/active-work/claims_cli.py release <task-slug>
+```
+
+This archives the claim (`.cognition/active-work/archive/<task-slug>.json`) rather than
+deleting it — leave that archived record in place, it's the audit trail. Skip this step only
+if no claim was ever registered for this session's work.
+
 If this project maintains cross-session memory (a memory file, index, or equivalent),
 open it: `<PERSISTENT_MEMORY_PATH>`.
 

@@ -1,0 +1,56 @@
+{
+  "_generated_by": {
+    "check": "python cli.py --check --only cognition_inventory",
+    "generator": "cognition_inventory",
+    "inputs": [
+      ".cognition/memory/MEMORY.md",
+      ".cognition/memory/MEMORY.template.md",
+      ".cognition/friction/friction_log.jsonl",
+      ".cognition/friction/friction_log.example.jsonl",
+      ".cognition/ci-governance/gates.yml",
+      ".cognition/ci-governance/gates.example.yml",
+      ".cognition/codebase-index/cognition_inventory_generator.py",
+      ".cognition/codebase-index/example_generator.py",
+      ".cognition/active-work/claims_cli.py"
+    ],
+    "notice": "GENERATED FILE \u2014 DO NOT EDIT BY HAND",
+    "regenerate": "python cli.py --write --only cognition_inventory"
+  },
+  "subsystems": [
+    {
+      "marker": "memory/MEMORY.md",
+      "marker_exists": true,
+      "status": "INSTANTIATED",
+      "subsystem": "memory",
+      "template_reference": "memory/MEMORY.template.md"
+    },
+    {
+      "marker": "friction/friction_log.jsonl",
+      "marker_exists": false,
+      "status": "TEMPLATE-ONLY",
+      "subsystem": "friction",
+      "template_reference": "friction/friction_log.example.jsonl"
+    },
+    {
+      "marker": "ci-governance/gates.yml",
+      "marker_exists": false,
+      "status": "TEMPLATE-ONLY",
+      "subsystem": "ci-governance",
+      "template_reference": "ci-governance/gates.example.yml"
+    },
+    {
+      "marker": "codebase-index/cognition_inventory_generator.py",
+      "marker_exists": true,
+      "status": "INSTANTIATED",
+      "subsystem": "codebase-index",
+      "template_reference": "codebase-index/example_generator.py"
+    },
+    {
+      "marker": "active-work/claims_cli.py",
+      "marker_exists": true,
+      "status": "INSTANTIATED",
+      "subsystem": "active-work",
+      "template_reference": null
+    }
+  ]
+}

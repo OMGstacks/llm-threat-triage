@@ -22,6 +22,28 @@ Before creating anything, run the shared check: see
 `<TOOLKIT_ROOT>/commands/_shared/concurrency-check.md`. Is another session/teammate
 already shipping this same change? If so, coordinate instead of duplicating.
 
+**Automated registry check (osai-prep-studio; run after the fresh fetch, before touching
+anything).** The manual grep above only catches what's already visible in PR/branch names.
+Also check and register against the live claims registry (`.cognition/active-work/`, see
+its `README.md`):
+
+```
+python3 .cognition/active-work/claims_cli.py status
+```
+
+If this shows an unexpired claim whose `files_scope` overlaps the files this task will touch,
+STOP and coordinate with that claim's owner instead of proceeding. Otherwise, claim this
+task's scope before starting work so a concurrent session sees it on their next `git fetch`:
+
+```
+python3 .cognition/active-work/claims_cli.py claim <task-slug> --owner <you> \
+  --scope <path> [<path> ...] --branch <descriptive-branch-name>
+```
+
+A nonzero exit from `claim` means it detected an overlap with another active claim even if
+`status` looked clear a moment earlier (a race) — treat that the same as a manual-grep hit:
+stop and coordinate.
+
 ## Phase 1 — isolate the workspace
 
 Never write directly in the primary/shared checkout if concurrent writers are possible.
