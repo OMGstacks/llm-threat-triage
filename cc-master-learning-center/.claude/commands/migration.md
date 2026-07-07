@@ -3,8 +3,13 @@ description: Schema/state-change preflight + gated apply — collision-free iden
 argument-hint: <migration topic>
 ---
 
-> Fill in every placeholder token (`<LIKE_THIS>`) before this command is safe to use in
-> a new project.
+> **NOT APPLICABLE to this project (confirmed 2026-07-07).** CC Master Learning Center
+> has no `migrations/` directory and no versioned schema — the fact store
+> (`spine/facts/`, `spine/banks/`, `spine/gold/`) is flat JSON, one file per scope,
+> versioned by git history directly (see `PROJECT_FACTS.yml`). Do not invoke this
+> command for this project; the placeholders below were never filled in because there
+> is no migration surface to fill them with. If this project ever adopts versioned
+> migrations, fill in every `<LIKE_THIS>` token first.
 
 **Purpose.** Any migration or schema/state-change file goes through this discipline
 before it is written, and again before it is applied to a live/production system. The
@@ -17,7 +22,7 @@ with "just running it to see." Topic: $ARGUMENTS
 ## Step 0 — concurrency check
 
 Before reserving an identifier or writing anything, run the shared check: see
-`<TOOLKIT_ROOT>/commands/_shared/concurrency-check.md`. Is another session already
+`.claude/commands/_shared/concurrency-check.md`. Is another session already
 authoring a migration or holding a claim on the next identifier (e.g. a
 branch/topic name suggesting an in-flight migration)? If so, coordinate — do not open a
 competing migration that will collide.
@@ -30,7 +35,7 @@ competing migration that will collide.
    disk.** Local disk may be stale relative to what other sessions/teammates have
    already merged. Use a project-provided identifier-reservation tool if one exists:
    `<NEXT_MIGRATION_IDENTIFIER_TOOL>`. If none exists, derive it from
-   `<REMOTE_NAME>/<DEFAULT_BRANCH>` directly (e.g. list existing migration
+   `origin/main` directly (e.g. list existing migration
    identifiers there and take max+1), not from your local checkout's file listing.
 2. **No self-recording of apply-state inside the migration file itself**, if your
    project's apply tooling records migration state automatically (a ledger/tracking
@@ -62,7 +67,7 @@ wrapping it in a transaction and hoping the rollback holds.**
 
 Run your project's reference linter, identifier-uniqueness check, and fast local
 verification suite: `<MIGRATION_REFERENCE_LINT_COMMAND>` + `<IDENTIFIER_UNIQUENESS_CHECK>`
-+ `<LOCAL_CI_FALLBACK_COMMAND>`.
++ `not applicable — no local-CI mirror script exists; CI IS the check`.
 
 **STOP POINT:** do not proceed to Phase C until Phase B is fully green. A migration that
 hasn't passed its own linters has no business being scheduled for a live apply.
