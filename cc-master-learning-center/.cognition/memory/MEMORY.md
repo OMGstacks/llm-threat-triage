@@ -23,12 +23,15 @@
   via cherry-pick of the original install/activate commits (`fbb0fca`, `72e1e76`) onto this
   branch — `.cognition/` (memory, codebase-index, friction, ci-governance) and `.claude/`
   (commands, hooks, settings) are present; this `MEMORY.md` and the `feedback_*.md` files
-  linked below are the first real (non-template) content in it. **`.claude/`'s hooks are not
-  actually functional here**: `.claude/settings.json` registers them, but each hook command is
-  a hardcoded Windows path (`C:/Users/izuuh/...`) left over from the original install, which
-  doesn't resolve on this or any other non-original-author machine — "registered" is true,
-  "wired" would overstate it. Fixing that path is out of scope for this slice (see the
-  cognition-substrate plan's explicit exclusions).
+  linked below are the first real (non-template) content in it.
+- **`.claude/` hooks are now actually wired (2026-07-07, fixed same day as diagnosed).**
+  `.claude/settings.json` was registering hooks via a hardcoded absolute Windows path
+  (`C:/Users/izuuh/...`) left over from the original install — resolved only on the
+  installing author's machine. Root-caused and fixed upstream in the toolkit itself
+  (`cognition-os-toolkit` commit `b7365a7`, `init.py`'s `hooks_settings_snippet()`) to emit
+  `$CLAUDE_PROJECT_DIR`-relative paths instead, which Claude Code resolves to the actual
+  project root per-session — portable across every clone/machine/CI runner. Propagated to
+  this file and the sibling installs (repo root, `osai-prep-studio/`) the same session.
 
 ## Reference
 
