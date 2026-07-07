@@ -1,0 +1,67 @@
+name: CC Master Learning Center — Cognition Substrate
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'cc-master-learning-center/.cognition/memory/**'
+      - 'cc-master-learning-center/.cognition/friction/**'
+      - 'cc-master-learning-center/.cognition/codebase-index/**'
+      - 'cc-master-learning-center/.cognition/active-work/**'
+      - '.github/workflows/cc-cognition-substrate.yml'
+  pull_request:
+    paths:
+      - 'cc-master-learning-center/.cognition/memory/**'
+      - 'cc-master-learning-center/.cognition/friction/**'
+      - 'cc-master-learning-center/.cognition/codebase-index/**'
+      - 'cc-master-learning-center/.cognition/active-work/**'
+      - '.github/workflows/cc-cognition-substrate.yml'
+
+# NOTE: this workflow deliberately does NOT cover
+# cc-master-learning-center/.cognition/ci-governance/ or .claude/ -- neither
+# subsystem is instantiated or used by this project yet (ci-governance's
+# self-test needs a `jsonschema` dependency this repo doesn't install, and
+# .claude/'s hooks are inert here -- see MEMORY.md's Current State). Add
+# both to the path filter and a corresponding test step together, the day
+# either subsystem actually gets wired up -- not before, since an untested
+# subsystem in the trigger path is a coverage gap, not a safety net.
+
+jobs:
+  toolkit-self-tests:
+    name: cognition toolkit self-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run friction diary self-test
+        run: python3 cc-master-learning-center/.cognition/friction/tests/test_friction_cli_self.py
+      - name: Run codebase-index framework self-test
+        run: python3 cc-master-learning-center/.cognition/codebase-index/tests/test_framework_self.py
+      - name: Run memory decay checker self-test
+        run: python3 cc-master-learning-center/.cognition/memory/tests/test_memory_decay_self.py
+      - name: Run concurrency claims registry self-test
+        run: python3 cc-master-learning-center/.cognition/active-work/tests/test_claims_cli_self.py
+
+  memory-gates:
+    name: memory decay + size checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Memory decay check
+        run: |
+          python3 cc-master-learning-center/.cognition/memory/check_memory_decay.py \
+            --file cc-master-learning-center/.cognition/memory/MEMORY.md \
+            --repo-root cc-master-learning-center \
+            --check-topic-files
+      - name: Memory size check
+        run: |
+          python3 cc-master-learning-center/.cognition/memory/check_memory_size.py \
+            --file cc-master-learning-center/.cognition/memory/MEMORY.md \
+            --config cc-master-learning-center/.cognition/memory/.memory-lint.yml
