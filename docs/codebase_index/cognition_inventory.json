@@ -26,15 +26,15 @@
     },
     {
       "marker": "friction/friction_log.jsonl",
-      "marker_exists": false,
-      "status": "TEMPLATE-ONLY",
+      "marker_exists": true,
+      "status": "INSTANTIATED",
       "subsystem": "friction",
       "template_reference": "friction/friction_log.example.jsonl"
     },
     {
       "marker": "ci-governance/gates.yml",
-      "marker_exists": false,
-      "status": "TEMPLATE-ONLY",
+      "marker_exists": true,
+      "status": "INSTANTIATED",
       "subsystem": "ci-governance",
       "template_reference": "ci-governance/gates.example.yml"
     },

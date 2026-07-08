@@ -22,14 +22,19 @@
   other two; it is not exclusively single-project the way `ci.yml` is.) This `MEMORY.md`, a
   `cognition_inventory` codebase-index generator, and the
   concurrency claims registry (`.cognition/active-work/claims_cli.py`) are now real — ported
-  from the pattern first proven on this repo's `cc-master-learning-center` project. `friction/`
-  and `ci-governance/` remain template-only; see the generated inventory (regenerate:
-  `python3 cli.py --write --only cognition_inventory` from `.cognition/codebase-index/`) for
-  the live count. **`.claude/`'s hooks are not actually functional here**: `.claude/settings.json`
-  registers them, but each hook command is a hardcoded Windows path (`C:/Users/izuuh/...`) left
-  over from the original install, which doesn't resolve on this or any other
-  non-original-author machine — "registered" is true, "wired" would overstate it. Same known
-  issue as `cc-master-learning-center`'s copy; fixing it is out of scope for this slice.
+  from the pattern first proven on this repo's `cc-master-learning-center` project. See the
+  generated inventory (regenerate: `python3 cli.py --write --only cognition_inventory` from
+  `.cognition/codebase-index/`) for the live per-subsystem count.
+- **All 5 subsystems now instantiated + hooks fixed to be portable (2026-07-07, same-day
+  follow-up).** A concurrent session authored `.cognition/friction/friction_log.jsonl` +
+  `.cognition/ci-governance/gates.yml` here (previously template-only) and fixed
+  `.claude/settings.json`'s
+  hook commands from a hardcoded Windows path to `$CLAUDE_PROJECT_DIR`-relative — portable
+  across every clone/CI runner now, not just the original author's machine. That direct-to-main
+  push regenerated `cc-master-learning-center`'s committed `cognition_inventory.md`/`.json` but
+  not this project's or `osai-prep-studio`'s, leaving `codebase-index-gate` red on `main` until
+  a follow-up commit ran `--write` here too — exactly the drift the generator's `--check` gate
+  exists to catch, once someone actually re-ran it.
 - **Scope caveat for `cognition_inventory`'s `env_var_index` demo generator:** at repo root,
   `PROJECT_ROOT` is the whole repo, not just `projects/llm-log-triage/` — the env-var-scanning
   demo generator (kept registered, never gated/committed — see `cli.py`'s NOTE) would scan

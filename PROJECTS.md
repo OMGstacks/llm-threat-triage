@@ -69,9 +69,9 @@ A second, independently-built exam-prep platform with its own `spine/` (FastAPI 
   (`00a-vision.md` … `25-fact-store-epic.md` and beyond) — its own decision-trail convention,
   distinct from the `CLAUDE.md`/memory pattern used elsewhere in this repo, and deliberately
   left in place (not replaced) by the cognition-substrate port. Also carries a Cognition OS
-  toolkit install (`.cognition/`, `.claude/`) — `memory/`, `codebase-index/`, and
-  `active-work/` are now instantiated (see below); `friction/` and `ci-governance/` remain
-  template-only.
+  toolkit install (`.cognition/`, `.claude/`) — all 5 subsystems are now instantiated (see
+  the self-index below for the live count); `osai-cognition-substrate.yml` does not yet gate
+  `ci-governance/` or `.claude/` (see that workflow's own NOTE comment for why).
 - **CI workflow:** `.github/workflows/osai-spine.yml` (path-filtered to
   `osai-prep-studio/spine/**`, `osai-prep-studio/web/**`, `osai-prep-studio/packages/**`,
   `reference/**`, and one shared file in `projects/llm-log-triage`). A second workflow,
