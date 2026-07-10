@@ -19,13 +19,13 @@ Check (CI gate):
 
 # Cognition OS Toolkit Inventory
 
-3/5 subsystems instantiated (marker file present) vs. still template-only, for this project's `.cognition/` toolkit.
+5/5 subsystems instantiated (marker file present) vs. still template-only, for this project's `.cognition/` toolkit.
 
 | Subsystem | Status | Marker |
 |---|---|---|
 | memory | INSTANTIATED | `memory/MEMORY.md` |
-| friction | TEMPLATE-ONLY | `friction/friction_log.jsonl` |
-| ci-governance | TEMPLATE-ONLY | `ci-governance/gates.yml` |
+| friction | INSTANTIATED | `friction/friction_log.jsonl` |
+| ci-governance | INSTANTIATED | `ci-governance/gates.yml` |
 | codebase-index | INSTANTIATED | `codebase-index/cognition_inventory_generator.py` |
 | active-work | INSTANTIATED | `active-work/claims_cli.py` |
 

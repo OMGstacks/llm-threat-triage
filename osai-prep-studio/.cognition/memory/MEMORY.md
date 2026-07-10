@@ -19,13 +19,17 @@
   repo's `cc-master-learning-center` project (see that project's own memory file for its
   history; not linked here as a path since it lives outside this project's repo-root). See
   the generated inventory (regenerate: `python3 cli.py --write --only cognition_inventory`
-  from `.cognition/codebase-index/`) for which subsystems are instantiated vs. still
-  template-only — `friction/` and `ci-governance/` remain template-only as of this note.
-  **`.claude/`'s hooks are not actually functional here**: `.claude/settings.json` registers
-  them, but each hook command is a hardcoded Windows path (`C:/Users/izuuh/...`) left over
-  from the original install, which doesn't resolve on this or any other non-original-author
-  machine — "registered" is true, "wired" would overstate it. Same known issue as
-  `cc-master-learning-center`'s copy; fixing it is out of scope for this slice.
+  from `.cognition/codebase-index/`) for the live per-subsystem count.
+- **All 5 subsystems now instantiated + hooks fixed to be portable (2026-07-07, same-day
+  follow-up).** A concurrent session authored `.cognition/friction/friction_log.jsonl` +
+  `.cognition/ci-governance/gates.yml` here (previously template-only) and fixed
+  `.claude/settings.json`'s
+  hook commands from a hardcoded Windows path to `$CLAUDE_PROJECT_DIR`-relative — portable
+  across every clone/CI runner now, not just the original author's machine. That direct-to-main
+  push regenerated `cc-master-learning-center`'s committed `cognition_inventory.md`/`.json` but
+  not this project's or root's, leaving `codebase-index-gate` red on `main` until a follow-up
+  commit ran `--write` here too — exactly the drift the generator's `--check` gate exists to
+  catch, once someone actually re-ran it.
 - **This project's primary decision-trail is its numbered planning-doc series** (`00a-vision.md`
   through `26-completion-plan-750.md` and growing), not this `MEMORY.md`. That convention
   predates the toolkit install and is intentionally left in place — this file is a narrower
