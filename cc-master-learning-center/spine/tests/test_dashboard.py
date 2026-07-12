@@ -152,7 +152,12 @@ class ContentScaleTest(unittest.TestCase):
         self.assertEqual(cs["status"], "proof_scale")
         self.assertIsNotNone(cs["caveat"])
         self.assertEqual(cs["practice_items"], len(quiz.load_goldset()))
-        self.assertLess(cs["practice_items"] + cs["holdout_scenarios"], cs["mock_target_min"])
+        # PR-12: definition_recall growth pushed total items to/over the mock floor, yet the content
+        # stays proof-scale because the fresh (holdout) scenario pool is below the scenario-draw
+        # floor. Growing a single recall bank must NOT hide the caveat (false-confidence guard); the
+        # caveat names the scenario shortfall.
+        self.assertGreaterEqual(cs["practice_items"] + cs["holdout_scenarios"], cs["mock_target_min"])
+        self.assertIn("scenario", cs["caveat"])
 
 
 if __name__ == "__main__":

@@ -55,3 +55,5 @@ slice starts. At minimum:
 | [`pr11b-visual-dashboard-review.json`](pr11b-visual-dashboard-review.json) | PR-11b | independent review needs-work → all fixed: 1 major (domain-gauge miscalibration vs the real hard-blocker gate) + 4 minor/nit |
 | [`pr11c-cram-sheets.md`](pr11c-cram-sheets.md) | PR-11c | weak-area review packets — deliberately content-bearing (trap/correction/rule), never choices/isolated-key fields |
 | [`pr11c-cram-sheets-review.json`](pr11c-cram-sheets-review.json) | PR-11c | independent review accept-with-fixes; F1 (major, domain-sort mis-ranking) + F2-F4 all fixed/documented before commit |
+| [`pr12-definition-recall-growth.md`](pr12-definition-recall-growth.md) | PR-12 | +51 definition_recall items (45→96 goldset), grounded on existing cards; distribution + zero-card gaps + a fail-closed content_scale correction (single-bank growth must not hide the proof-scale caveat) |
+| [`pr12-definition-recall-review.json`](pr12-definition-recall-review.json) | PR-12 | per-domain adversarial review — 51/51 accepted; 2 quality tells fixed pre-commit; misconception-tag looseness documented as a registry-coverage follow-up |

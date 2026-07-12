@@ -81,12 +81,12 @@
   ],
   "mock": null,
   "content_scale": {
-    "practice_items": 45,
+    "practice_items": 96,
     "holdout_scenarios": 5,
     "mock_target_min": 100,
     "mock_target_max": 125,
     "status": "proof_scale",
-    "caveat": "content is proof-scale: 45 practice + 5 holdout scenario(s) support a short mock, well under the 100-125 item exam target \u2014 a passing mock here is an engine proof, not exam readiness"
+    "caveat": "content is proof-scale: only 5 of the 60 holdout scenarios a scenario-dominant exam draw needs exist \u2014 a passing mock here is an engine proof, not exam readiness"
   },
   "next_recommended_review": [
     "D1.1.1.definition.0001",

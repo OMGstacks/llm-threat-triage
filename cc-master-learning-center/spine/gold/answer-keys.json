@@ -51,6 +51,102 @@
       "item_hash": "sha256:6fec2176d875826899ed690f6d3e285dc75cec96e1619ec7171cb9faaaec95f6"
     },
     {
+      "answer_key_ref": "D1.1.1.definition.0003.key",
+      "item_id": "D1.1.1.definition.0003",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D1.11-availability"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "authn-authz-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:dcccadcdb53062b4831ad8ca82d1ec0c526b097cdd9076c868a88df01d3eda94",
+      "item_hash": "sha256:e0e139f42c2ef399bf2535eecfc51f6b1cf7443ffdbd1fd6ee8f8e796c7997ca"
+    },
+    {
+      "answer_key_ref": "D1.1.1.definition.0004.key",
+      "item_id": "D1.1.1.definition.0004",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D1.11-non-repudiation"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "authn-authz-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:cf9dd902ad3149503e179bb3d11ac73bac55a2f2c192ce152b98c93dd04addff",
+      "item_hash": "sha256:c90dfdb71baddd48327932764268bc7d84f011b3fa3046a3ad22baaca392e6e8"
+    },
+    {
+      "answer_key_ref": "D1.1.1.definition.0005.key",
+      "item_id": "D1.1.1.definition.0005",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D1.11-authentication"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "authn-authz-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:e7ea6546813bdb563a248b075168c7562f25919a3a228e0066149b1d0c1f87da",
+      "item_hash": "sha256:6011b5a4ffee7adc3743e618bfdf4a293fedf1979411b2bfdbbcd92ccf5b0dd0"
+    },
+    {
+      "answer_key_ref": "D1.1.1.definition.0006.key",
+      "item_id": "D1.1.1.definition.0006",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D1.11-authorization"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "authn-authz-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "cia-property-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:0766ba0029e9d745747a7eeac57959da1d0c503ea7084ceecec45eb7be284fc7",
+      "item_hash": "sha256:9262cc41a2ab40900d486de2e29ee4b83302c70c5b2b3636217615d9c28c8d5c"
+    },
+    {
       "answer_key_ref": "D1.1.1.discrimination.0001.key",
       "item_id": "D1.1.1.discrimination.0001",
       "correct_index": 2,
@@ -99,6 +195,102 @@
       "item_hash": "sha256:d93156bc1559b85f68cfc0572313f6eeecf48275fc6e0a860eb3e500479ac7e9"
     },
     {
+      "answer_key_ref": "D1.1.2.definition.0002.key",
+      "item_id": "D1.1.2.definition.0002",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D1.12-threat"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:b1eb1c51dff8209c33120b225ed68fccfba7df5cae42f77e15d652d4a2b530a8",
+      "item_hash": "sha256:efea75958425f898afbdd56a2a851d56d8da6fc473265f36bd5cfc8693d65ce5"
+    },
+    {
+      "answer_key_ref": "D1.1.2.definition.0003.key",
+      "item_id": "D1.1.2.definition.0003",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D1.12-likelihood"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:4bdb6b964d2090eac5783bdd5c88d161b4f2dab5f8939179a0e5cb97eb5fee4a",
+      "item_hash": "sha256:58552e63487a71ebffb5f1b99d431a103f689c3e8b522cde5df941fe5bd4a81a"
+    },
+    {
+      "answer_key_ref": "D1.1.2.definition.0004.key",
+      "item_id": "D1.1.2.definition.0004",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D1.12-impact"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "risk-terminology-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:6d78eb1ce9f3ea1207e85e4932c873866352e335f05055be73b48cfd639f5d12",
+      "item_hash": "sha256:699ed42f97a13cf0d20d74ed3581830e395fc73a715aff322b3ea53927ac9513"
+    },
+    {
+      "answer_key_ref": "D1.1.2.definition.0005.key",
+      "item_id": "D1.1.2.definition.0005",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D1.12-risk-treatment"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "risk-treatment-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "risk-treatment-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "risk-treatment-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:9778cfa54f2685dff37e5ab04f00dab1c78bfbb8a52c4a1159b5f304ad68cb20",
+      "item_hash": "sha256:c7b8fea60e78af308529b765a46e0f88c885975721c8517cc6b121edf30d5653"
+    },
+    {
       "answer_key_ref": "D1.1.2.discrimination.0001.key",
       "item_id": "D1.1.2.discrimination.0001",
       "correct_index": 2,
@@ -145,6 +337,102 @@
       },
       "answer_key_hash": "sha256:df83a0c52c3109e9bd14e135b832624b4c58774912f33ba590d74b60af3eded4",
       "item_hash": "sha256:bd0f3a8aaa840f3d4b54cf0e0052965855addd00fad1fd0d61b133819fccff78"
+    },
+    {
+      "answer_key_ref": "D1.1.3.definition.0002.key",
+      "item_id": "D1.1.3.definition.0002",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D1.13-technical-controls"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "1": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "3": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:887a0d37959312e54cf94249db6b6ffeeaa928f4bb2e8f76d8353dd48247064f",
+      "item_hash": "sha256:7ac0d66caea841808b839689ed580122564b6f4035029074e7d8c42a1a34934f"
+    },
+    {
+      "answer_key_ref": "D1.1.3.definition.0003.key",
+      "item_id": "D1.1.3.definition.0003",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D1.13-physical-controls"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "1": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "2": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:7a874d431b59160bee07e29fb29f777c11ceb19993b2fd50c26d2cfcd8db9890",
+      "item_hash": "sha256:05b82829cef0f90ad2f7c62b50d71a254f59e326f73dd4deca4bad7528ff1160"
+    },
+    {
+      "answer_key_ref": "D1.1.3.definition.0004.key",
+      "item_id": "D1.1.3.definition.0004",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D1.13-preventive-controls"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "2": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "3": {
+          "misconception_id": "preventive-detective-confusion",
+          "category": "control_category_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:0118e85b3aaabfa8e9ba11113141d8789372376a0d0be9c374aefdaa66405558",
+      "item_hash": "sha256:701bcf67f2d116e6ae67de2ce63e411ca7a5357983e75653732e78f91eb57289"
+    },
+    {
+      "answer_key_ref": "D1.1.3.definition.0005.key",
+      "item_id": "D1.1.3.definition.0005",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D1.13-detective-controls"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "2": {
+          "misconception_id": "control-category-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "3": {
+          "misconception_id": "preventive-detective-confusion",
+          "category": "control_category_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:3d506ff36252a83fe20613da60659f0933a17cf8aa22583fca9931b65e940fc5",
+      "item_hash": "sha256:90c48c6850e5e0a6ba8ba128cc1cd7c5d2921460f1d1400ef48d75140af31a31"
     },
     {
       "answer_key_ref": "D1.1.3.discrimination.0001.key",
@@ -217,6 +505,102 @@
       },
       "answer_key_hash": "sha256:28786d97f8a890debcaabb522656ad6201ef43b63dc25d19ab18813629cd6e5e",
       "item_hash": "sha256:6a0a072da5f5d2a9660c2f085165a8c42eb375330eb8556e7b5e574f041ff1f6"
+    },
+    {
+      "answer_key_ref": "D2.2.1.definition.0002.key",
+      "item_id": "D2.2.1.definition.0002",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D2.21-bc"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "bc-vs-dr-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "bia-vs-risk-assessment",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "rto-exceeds-mtd",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:90a3bf2bdb2b469f1c04036578bfefc7875265d97790fcd849ba08a9d629bfb4",
+      "item_hash": "sha256:54f2205ec1f2ad41a67b5aa83f77a5b7375bb1f9fa627729db38f641371177ad"
+    },
+    {
+      "answer_key_ref": "D2.2.1.definition.0003.key",
+      "item_id": "D2.2.1.definition.0003",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D2.21-dr"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "bc-vs-dr-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "rto-vs-rpo-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "rto-exceeds-mtd",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:27269be3068d8c2cb4c6b9f948891be6880006c196fe1fc1285c16bb05013d01",
+      "item_hash": "sha256:debd447d5b4f8a93ce2d964a8aed37d493076301aeb039477048b01ef7d4018f"
+    },
+    {
+      "answer_key_ref": "D2.2.1.definition.0004.key",
+      "item_id": "D2.2.1.definition.0004",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D2.21-mtd"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "rto-exceeds-mtd",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "rto-vs-rpo-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "bia-vs-risk-assessment",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:700573bd8285fa731ebf5a00c232713125f08dcea4f0eef341f0f0480acd2bf0",
+      "item_hash": "sha256:879cc12393931ca0333999540c1a26313ad58fa692c2505eacba2c2e31a3c60c"
+    },
+    {
+      "answer_key_ref": "D2.2.1.definition.0005.key",
+      "item_id": "D2.2.1.definition.0005",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D2.21-rto"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "rto-vs-rpo-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "rto-exceeds-mtd",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "bc-vs-dr-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:a57fa4808bb73313babe328d1ec42235d012b7144c2e705af8416c57b47e5d34",
+      "item_hash": "sha256:907ca408e41f14cd8ff4c0315cd4631779f76f457af3042e65c70ed1adf40b50"
     },
     {
       "answer_key_ref": "D2.2.1.discrimination.0001.key",
@@ -293,6 +677,102 @@
       "item_hash": "sha256:5bb7842aba1662e89941764cbe154c681f88ec07f642e2d94ff47e09679e4778"
     },
     {
+      "answer_key_ref": "D2.2.2.definition.0002.key",
+      "item_id": "D2.2.2.definition.0002",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D2.22-warm-site"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "dr-site-tier-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "cold-site-readiness-overstated",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "dr-site-tier-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:db2d0608fcda314dde4628ddec7fd6b287ab8d16276ba18af6f695901eb5000e",
+      "item_hash": "sha256:5bf0994edc7e28856bc2ad86d7f6eee8b880352383a2be26cbb23bfbed74ad19"
+    },
+    {
+      "answer_key_ref": "D2.2.2.definition.0003.key",
+      "item_id": "D2.2.2.definition.0003",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D2.22-full-backup"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:80eb5ba8ded37aeeb43834583aadf41d8a9f62260a0d9ac545f660ae9ba7eb69",
+      "item_hash": "sha256:46c72378766ab2cd498bbf0997b0c94fd40f468e03f29a30f59bcacbf85c71e8"
+    },
+    {
+      "answer_key_ref": "D2.2.2.definition.0004.key",
+      "item_id": "D2.2.2.definition.0004",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D2.22-incremental-backup"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:679f136b0adf5420165efbcc3385633815687cb3bb378ef3ce5706c7ef2780ca",
+      "item_hash": "sha256:06ede4bbb6e7d66a7fa6d4a03fd55a2979fea9217a1b40b76a449a8aa72e6ae8"
+    },
+    {
+      "answer_key_ref": "D2.2.2.definition.0005.key",
+      "item_id": "D2.2.2.definition.0005",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D2.22-differential-backup"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "incremental-vs-differential-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:2524463ee57d2fa4874b8262a9100c0cdb9158094d70041dcbafbbde272794bc",
+      "item_hash": "sha256:80e73ba078d775b8fb48d1ba6358987582971aee30fdfbd50faace9649988863"
+    },
+    {
       "answer_key_ref": "D2.2.2.discrimination.0001.key",
       "item_id": "D2.2.2.discrimination.0001",
       "correct_index": 2,
@@ -364,6 +844,54 @@
       },
       "answer_key_hash": "sha256:3345f0e35bf52613a5351b77a6ff874fa3127f91e707bb44e2d17bce64510a83",
       "item_hash": "sha256:a5c9513a1321b878184aeb0a00e318714bf995df210d0fefea44800db6c37937"
+    },
+    {
+      "answer_key_ref": "D2.2.3.definition.0003.key",
+      "item_id": "D2.2.3.definition.0003",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D2.23-ir-preparation"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "ir-detection-phase-misid",
+          "category": "process_order_confusion"
+        },
+        "2": {
+          "misconception_id": "postincident-vs-recovery-confusion",
+          "category": "process_order_confusion"
+        },
+        "3": {
+          "misconception_id": "ir-six-phase",
+          "category": "process_order_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:bc5136dac0800d874f48c268a4deab34a389c3bedb100fe8c7a9f5f6ac502ddb",
+      "item_hash": "sha256:294e53a17d8346f89ca91be87bc2f811224469cda07ea880867ffb6e110e62d4"
+    },
+    {
+      "answer_key_ref": "D2.2.3.definition.0004.key",
+      "item_id": "D2.2.3.definition.0004",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D2.23-ir-detection"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "ir-detection-phase-misid",
+          "category": "process_order_confusion"
+        },
+        "1": {
+          "misconception_id": "postincident-vs-recovery-confusion",
+          "category": "process_order_confusion"
+        },
+        "3": {
+          "misconception_id": "ir-six-phase",
+          "category": "process_order_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:93d8d693ac612d1cbd809dfe27a0d3d84682b360f47fcd1c2ea98c417df43b6d",
+      "item_hash": "sha256:677b17fab86697d40d34b8f3f9fd2c3cd6bcc7849d02676ec56ffef2361249b6"
     },
     {
       "answer_key_ref": "D2.2.3.scenario.0001.key",
@@ -438,6 +966,126 @@
       "item_hash": "sha256:0469b5a4a2aa7e49b036f577abd8636548c25b9709c20fd5250a53ea37b82f0a"
     },
     {
+      "answer_key_ref": "D3.3.1.definition.0003.key",
+      "item_id": "D3.3.1.definition.0003",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D3.31-badges"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:f8dbb819cb7a9a745b30200a76e2847b3bd5d5bbc332abd88fcd2a08e7e4efbb",
+      "item_hash": "sha256:5b8dccd77c37aae5bce303d305d10cf5bf2aa094327ad90a903b20b7a1bfa747"
+    },
+    {
+      "answer_key_ref": "D3.3.1.definition.0004.key",
+      "item_id": "D3.3.1.definition.0004",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D3.31-cctv"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "physical-control-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "1": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "physical-control-function-confusion",
+          "category": "control_category_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:28c74b3fcd8362957cb55e2b8d7cc2d77a3d93db902b61bd3cf56fbfeb1b8a26",
+      "item_hash": "sha256:3d4bb8f8322ad04b4ccb737267eed89876c3f29580696fa27500dc4accf9c4e6"
+    },
+    {
+      "answer_key_ref": "D3.3.1.definition.0005.key",
+      "item_id": "D3.3.1.definition.0005",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D3.31-locks"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "physical-control-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "2": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:6b90a9161e40336a37d12c36936b1ce3f4d5bd0e04676a9e80fba6ef6ee7b50d",
+      "item_hash": "sha256:3307acf2113e21021a11f0f9e6dc51557c9fe0f95593af515a68e4014000b043"
+    },
+    {
+      "answer_key_ref": "D3.3.1.definition.0006.key",
+      "item_id": "D3.3.1.definition.0006",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D3.31-fencing"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:5ee51afb2687695ad703555480a54d1c3e9d18e6550bd419d3b1099bbf999e3b",
+      "item_hash": "sha256:915b531182dd14a1bf5e3bcde4ca6c359441fc9d89e48ef2052b074eeb30569a"
+    },
+    {
+      "answer_key_ref": "D3.3.1.definition.0007.key",
+      "item_id": "D3.3.1.definition.0007",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D3.31-lighting"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "physical-control-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "1": {
+          "misconception_id": "physical-control-function-confusion",
+          "category": "control_category_confusion"
+        },
+        "3": {
+          "misconception_id": "physical-control-name-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:12e905e592a584acc8a7a9ef0e0bd3042c6931d1fecd73fe0c9bf7f15389c6cf",
+      "item_hash": "sha256:9fe86775b11ab6fd32093bd6ffe47b31a3f33ee93521a2b9672d246b46678e45"
+    },
+    {
       "answer_key_ref": "D3.3.1.discrimination.0001.key",
       "item_id": "D3.3.1.discrimination.0001",
       "correct_index": 1,
@@ -509,6 +1157,102 @@
       },
       "answer_key_hash": "sha256:7f58115f3c5b7d437e611f7f331e50aa85df094ae82e9d2ae1e35c3f56528b4a",
       "item_hash": "sha256:10278a6038394e979d913debf033e092d84c70557ad01d7b641deaccc93cfc09"
+    },
+    {
+      "answer_key_ref": "D3.3.2.definition.0003.key",
+      "item_id": "D3.3.2.definition.0003",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D3.32-dac"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "dac-mac-swap",
+          "category": "control_category_confusion"
+        },
+        "1": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:3637e7e62a1c35106d519af100a9da5bfd21aa86a48b7b3c9495a5ae0a91a85d",
+      "item_hash": "sha256:7ff6fd1eef2901e7d14055ec6e07059dcb958a25019c15b4111d983ad3e35f90"
+    },
+    {
+      "answer_key_ref": "D3.3.2.definition.0004.key",
+      "item_id": "D3.3.2.definition.0004",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D3.32-mac"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "dac-mac-swap",
+          "category": "control_category_confusion"
+        },
+        "2": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:d50c8e1f2ad8d1175c1d7c24429bb879dd39cafd04993c60fff4e7773c8d072e",
+      "item_hash": "sha256:70c2ccb509d9700662df340db3fa15394d8eabdbe5e2ab122119887218011b11"
+    },
+    {
+      "answer_key_ref": "D3.3.2.definition.0005.key",
+      "item_id": "D3.3.2.definition.0005",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D3.32-need-to-know"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "least-priv-need-to-know-swap",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "access-principle-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "access-principle-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:c56f47ae342ce4ecacf5de65b79b4197df55cbb14c7523562541e8aca577c98d",
+      "item_hash": "sha256:f5ff1a773407ce4440233941914b27a6949428bdc01f40dc657e95a01bea3608"
+    },
+    {
+      "answer_key_ref": "D3.3.2.definition.0006.key",
+      "item_id": "D3.3.2.definition.0006",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D3.32-pam"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "access-model-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "access-principle-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:61767329a79a62f29b2ea138fe7064a384589f8992c8e213e4cbadd97019a0d4",
+      "item_hash": "sha256:8516e5d8e5db6b27bdd26b3280594d65b51e633905957fca70c6a69c27680e93"
     },
     {
       "answer_key_ref": "D3.3.2.discrimination.0001.key",
@@ -605,6 +1349,150 @@
       },
       "answer_key_hash": "sha256:7e764c4267de4e8783cd6111d5fec73b21abbe9e0320ede858e56055d77b7768",
       "item_hash": "sha256:6fc53f155b47a8ff4583dee8ce5c1ee7bd46d66aee3817f0f86ed81c0ceb7804"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.0002.key",
+      "item_id": "D4.4.1.definition.0002",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D4.41-osi-model"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "3": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:063987f22173a756b6cf4c8b4e9414b6de690cf25d314f1af0249804944b3ddd",
+      "item_hash": "sha256:308c8d0ad538da876e9dea68bf44aa2d07d939180893a75ef2ec611ee35479d4"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.0003.key",
+      "item_id": "D4.4.1.definition.0003",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D4.41-tcpip-model"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "3": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:f7bc2ef04f036a5e6c2bffcc24b2e6864135d5ea24bfa3b062d30404c9af5767",
+      "item_hash": "sha256:dbbeda66bd94e05bf948c903aca5eea5eb65f92701505063030783c9991a6ef5"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.0004.key",
+      "item_id": "D4.4.1.definition.0004",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D4.41-ipv4-private-ranges"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "1": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "3": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:c65ed55cef8b3c9c16ad7f6eb188423905932bc5c5ed4c3bbc3488c8b0232ab5",
+      "item_hash": "sha256:e1efbf25b40a5ea88e1a55a6ea8031c437f1b5ce2e9fba43a0fb12d7b5e9c938"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.0005.key",
+      "item_id": "D4.4.1.definition.0005",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D4.41-tcp-handshake"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "1": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "udp-reliable",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:c5f37964400d81ffc5673b6b147e09c0a5621e2de762d70997fd3632c8a611b8",
+      "item_hash": "sha256:8a0a252817055c55f4ddbcdaf231dbe59c0ef700f7b1fc62c83c825557684fbe"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.0006.key",
+      "item_id": "D4.4.1.definition.0006",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D4.41-tcp-reliability"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        },
+        "3": {
+          "misconception_id": "osi-tcpip-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:89e5aed215bd0b471ef7c49d0726388521ee789defb11a483d028a133890dd91",
+      "item_hash": "sha256:a673a5381440dbb6f679a16f54fa4f0d10c6f5a465afa0ff3e4c2dae5a241857"
+    },
+    {
+      "answer_key_ref": "D4.4.1.definition.0007.key",
+      "item_id": "D4.4.1.definition.0007",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D4.41-ports-email-file"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "https-port-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "ssh-port-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "udp-reliable",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:2b6587f2a26755a8c19d7bab618b7f2fa6680c6e702d2e426a815ce16f08430d",
+      "item_hash": "sha256:26ce8749ddb4939cb75bb269242e3fe78135f81ee32eef319c001d4c7e78d0ba"
     },
     {
       "answer_key_ref": "D4.4.1.discrimination.0001.key",
@@ -727,6 +1615,150 @@
       "item_hash": "sha256:4ef53bcd22f84c23c558c0b3246bd91b5b775b09e5927a079b841e5fcf0c3e69"
     },
     {
+      "answer_key_ref": "D4.4.3.definition.0003.key",
+      "item_id": "D4.4.3.definition.0003",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D4.43-dmz"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        },
+        "2": {
+          "misconception_id": "vpn-vs-segmentation-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "zero-trust-implicit-internal-trust",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:e1547833fb79a46f9e5b2333a5ab9a8120883907d5db7bb200125fb374ed786d",
+      "item_hash": "sha256:3df33f8981c3e4843494fe83b08fa576d77eeca4d01dc44050b214e1cc9a6606"
+    },
+    {
+      "answer_key_ref": "D4.4.3.definition.0004.key",
+      "item_id": "D4.4.3.definition.0004",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D4.43-vlan"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        },
+        "1": {
+          "misconception_id": "vpn-vs-segmentation-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "zero-trust-implicit-internal-trust",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:b6de66c2458bb6f3b4255b3b66e55e4022154440b99a7e2d7247910d85d3e0d3",
+      "item_hash": "sha256:406fe0109d77a1acd4b4bd916d9aad447e9eebfd912cf163e08f75fadd2c5932"
+    },
+    {
+      "answer_key_ref": "D4.4.3.definition.0005.key",
+      "item_id": "D4.4.3.definition.0005",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D4.43-nac"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "zero-trust-implicit-internal-trust",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "vpn-vs-segmentation-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:e194713f089a393059de891f87eff7aeee4e49e4f272d6ac6a8b61165269236a",
+      "item_hash": "sha256:605db5c88ff269f201f038ef6db75b38d14c61a95f9f3d26d40b40a18cb0a6fe"
+    },
+    {
+      "answer_key_ref": "D4.4.3.definition.0006.key",
+      "item_id": "D4.4.3.definition.0006",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D4.43-segmentation"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "vpn-vs-segmentation-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "zero-trust-implicit-internal-trust",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:3a414f1368e9274244ba0f5779c72177fb408f7b28a1f98e16074f6cdcc13d2d",
+      "item_hash": "sha256:eeabca5f808d4cfcbee04de8a5d9c4eb13291e7118a76655bd9bc03bd9d9f21c"
+    },
+    {
+      "answer_key_ref": "D4.4.3.definition.0007.key",
+      "item_id": "D4.4.3.definition.0007",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D4.43-defense-in-depth"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "zero-trust-implicit-internal-trust",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "vpn-vs-segmentation-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:70d634dd83aacf146e5fd9fb338a284e237dadc34a965ebf9be7fdbf0683832a",
+      "item_hash": "sha256:5d034506db5d4b4295800c97f17280987d68d9bdffca1038dc060949a3e040e4"
+    },
+    {
+      "answer_key_ref": "D4.4.3.definition.0008.key",
+      "item_id": "D4.4.3.definition.0008",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D4.43-zero-trust"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "zero-trust-implicit-internal-trust",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "vpn-vs-segmentation-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "dmz-vs-vlan-confusion",
+          "category": "network_device_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:ba9b79415608c9b0dbe3cfe2272456025c28bc2bd63fbf1a4e6815cd06f12aa2",
+      "item_hash": "sha256:335620b3430b63e104e857a61d99de494dcf28642fda7c43d6bcb247c9c196dd"
+    },
+    {
       "answer_key_ref": "D4.4.3.discrimination.0001.key",
       "item_id": "D4.4.3.discrimination.0001",
       "correct_index": 0,
@@ -846,6 +1878,198 @@
       },
       "answer_key_hash": "sha256:297544fb9814a118d499cb13cdfa703d0d2d90a668cc476ae5a0702b09c1bb5f",
       "item_hash": "sha256:eb5878c40101c667d5604cb3c559a9ae296d85f177a337162863aeb8f3c86b82"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0004.key",
+      "item_id": "D5.5.1.definition.0004",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D5.51-data-lifecycle"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:76a18c0ba2d1c0f204a89c5d54a248c367c5775dcf227e465d2875de96d81c60",
+      "item_hash": "sha256:95dc5a98ac3ae354f573faea21da6f8c59c5fce516b036e51d6c13113cc27316"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0005.key",
+      "item_id": "D5.5.1.definition.0005",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D5.51-data-retention"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "1": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:1680877b4d095921d31bff6a44745ae16a508ce0f18a8e3c34bb997d1cc26673",
+      "item_hash": "sha256:c7f66f7c40b1da2f3843bb1ef73bd59738addcdd92f61cfaff856ba13dedc40f"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0006.key",
+      "item_id": "D5.5.1.definition.0006",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D5.51-hashing"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "hashing-is-encryption",
+          "category": "crypto_property_confusion"
+        },
+        "2": {
+          "misconception_id": "hashing-is-encryption",
+          "category": "crypto_property_confusion"
+        },
+        "3": {
+          "misconception_id": "hashing-is-encryption",
+          "category": "crypto_property_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:2d79bc7f24e08b9d0631bcc0df63ab053b378ed21c70b191942a120bcf16adae",
+      "item_hash": "sha256:bcc7290d47951ba80ad497acf179d3a365fb4425301fe8b79941a335e1c2960b"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0007.key",
+      "item_id": "D5.5.1.definition.0007",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D5.51-digital-signature"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "signing-vs-encryption",
+          "category": "crypto_property_confusion"
+        },
+        "2": {
+          "misconception_id": "signing-vs-encryption",
+          "category": "crypto_property_confusion"
+        },
+        "3": {
+          "misconception_id": "hashing-is-encryption",
+          "category": "crypto_property_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:58f685a71a17c6ed65428ef08d537a6649d39d77ed40ef81349fdf0cce012c65",
+      "item_hash": "sha256:01b6ab1446ab92b7147a9e57d01055815a4b2897729dac92ce61a15f2359c384"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0008.key",
+      "item_id": "D5.5.1.definition.0008",
+      "correct_index": 2,
+      "rationale_refs": [
+        "D5.51-hybrid-encryption"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "hybrid-vs-pure-asymmetric",
+          "category": "crypto_property_confusion"
+        },
+        "1": {
+          "misconception_id": "symmetric-vs-asymmetric",
+          "category": "crypto_property_confusion"
+        },
+        "3": {
+          "misconception_id": "signing-vs-encryption",
+          "category": "crypto_property_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:193059e64842bfb7d4e5e5f4bcf78c24932fa18affde7fa422031b322fcf3a17",
+      "item_hash": "sha256:7a1464a9fc5a823e0956594547c91d82556facaa0a0514688bb04da82a212fe6"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0009.key",
+      "item_id": "D5.5.1.definition.0009",
+      "correct_index": 3,
+      "rationale_refs": [
+        "D5.51-aes-standard"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "symmetric-vs-asymmetric",
+          "category": "crypto_property_confusion"
+        },
+        "1": {
+          "misconception_id": "hashing-is-encryption",
+          "category": "crypto_property_confusion"
+        },
+        "2": {
+          "misconception_id": "symmetric-vs-asymmetric",
+          "category": "crypto_property_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:2acf96f7caf0320717e5fee40930362b305d4ac1f610710d16ced95bccdeb815",
+      "item_hash": "sha256:5f0208e4d8ab114a6e3e763a3c5e52eca595286edece957630148d0985b186fe"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0010.key",
+      "item_id": "D5.5.1.definition.0010",
+      "correct_index": 0,
+      "rationale_refs": [
+        "D5.51-sanitization-definition"
+      ],
+      "distractor_misconceptions": {
+        "1": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:4e2858833a58f5238a207fb64e51d7a4c5799b3e4a6f353c98351c90183f7145",
+      "item_hash": "sha256:48d8bc8607812c3f5a53f4786947b7274677d01f4799e6ca79d2d89450f75520"
+    },
+    {
+      "answer_key_ref": "D5.5.1.definition.0011.key",
+      "item_id": "D5.5.1.definition.0011",
+      "correct_index": 1,
+      "rationale_refs": [
+        "D5.51-sanitization-clear"
+      ],
+      "distractor_misconceptions": {
+        "0": {
+          "misconception_id": "clear-vs-purge",
+          "category": "definition_confusion"
+        },
+        "2": {
+          "misconception_id": "clear-vs-purge",
+          "category": "definition_confusion"
+        },
+        "3": {
+          "misconception_id": "data-handling-term-confusion",
+          "category": "definition_confusion"
+        }
+      },
+      "answer_key_hash": "sha256:782993d85c4e6a8898a0ce2f7286cbace0f8c30bebbc48735ee1f7f8ca55cbb1",
+      "item_hash": "sha256:09fbb9494d2c6a8c5cfe182dee8d8250fbda09af89be428dee9e168f4bd49fce"
     },
     {
       "answer_key_ref": "D5.5.1.discrimination.0001.key",

@@ -1,0 +1,529 @@
+{
+  "report_id": "pr12-definition-recall-review",
+  "slice": "PR-12 definition_recall growth (+51 items)",
+  "method": "Per-domain adversarial review (independent reviewer pass per domain: factual correctness vs ISC2 CC canon, single-defensible-answer, verbatim expected_keyword grounding, distractor plausibility, misconception-tag fit, length/format/leakage tells). Governance \u00a716.0: review completed BEFORE the content-growth commit.",
+  "outcome": "ACCEPT ALL 51 \u2014 no item rejected; every verdict accept=true. All flagged issues are minor (non-disqualifying); two were remediated pre-commit (below).",
+  "counts": {
+    "reviewed": 51,
+    "accepted": 51,
+    "rejected": 0
+  },
+  "fixes_applied_pre_commit": [
+    {
+      "item": "D4.4.1.definition.0005",
+      "flag": "Stem enumerated the three TCP segments (SYN/SYN-ACK/ACK), letting a taker count to 'three-way' without knowing the term.",
+      "fix": "Reworded stem to name the concept without enumerating the segment count."
+    },
+    {
+      "item": "D4.4.3.definition.0006",
+      "flag": "Correct answer 'Network segmentation' (20 chars) was >1.5x longer than every distractor (length tell); assembler length-tell gate would reject.",
+      "fix": "Lengthened the 'Zero Trust' distractor to 'Zero Trust architecture' (23 chars) so the correct answer is no longer the longest; gate passes."
+    }
+  ],
+  "known_limitation": "misconception-tag precision: several distractors across 4.1, 2.x, 5.1, 1.1 carry the closest-available umbrella misconception from the objective's allowed list rather than an exact-fit entry (e.g. osi-tcpip-confusion applied to RFC-1918-range/handshake-count lures; data-handling-term-confusion as the only 5.1 definition_confusion umbrella). Every tag IS in the objective's allowed set and passes the distractor_registry gate \u2014 the looseness is a registry-coverage gap, not a correctness or fairness defect. Recommended follow-up: enrich reference/misconception-registry.json for 4.1/2.1/2.2/2.3/5.1 and retag. NO registry mutation was done in this slice (scope kept to goldset + keys + reports + the display-metric fix).",
+  "domains": {
+    "D1": {
+      "overall": "All 12 D1 items are factually correct per ISC2 CC canon, each entailed by its cited card claim, with exactly one defensible answer and all expected_keyword values appearing verbatim (case-insensitive) in the cited card claim/support. Accept all 12; no major defects. Three minor notes: (1) D1.11-availability and (2) D1.11-non-repudiation carry loose authn-authz-confusion tags on their Authorization/Authentication distractors (the tags are in the 1.1 allowed set, but the true lures are keyword-matching and non-repudiation-vs-authentication confusion respectively; the 1.1 misconception set offers no better fit); (3) D1.13-detective-controls uses two technical examples (IDS + audit log), making the Technical-category distractor more tempting than in the parallel preventive item \u2014 recommend swapping 'audit log' for 'a CCTV camera' to span categories. None of these change the single-defensible answer, so all remain accept=true.",
+      "verdicts": [
+        {
+          "item": "D1.1.1.definition.0003",
+          "source_card": "D1.11-availability",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Minor misconception-tag fit: the Authorization distractor is tagged authn-authz-confusion, but the actual lure is keyword-matching on the word 'authorized users' in the stem, not authentication/authorization confusion. Tag is in the 1.1 allowed list, so acceptable.",
+            "No single-defensible-answer or factual problem: correct_answer matches card claim verbatim; Confidentiality/Integrity are correct CIA siblings; expected_keyword 'accessible when needed' is a verbatim substring of the claim."
+          ]
+        },
+        {
+          "item": "D1.1.1.definition.0004",
+          "source_card": "D1.11-non-repudiation",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Minor misconception-tag fit: the Authentication distractor is tagged authn-authz-confusion, but picking Authentication for a non-repudiation stem is really non-repudiation-vs-authentication confusion; there is no non-repudiation-specific misconception in the 1.1 set (only cia-property-confusion and authn-authz-confusion), so authn-authz-confusion is the least-bad allowed tag.",
+            "Factually correct; single defensible (Integrity/Confidentiality/Authentication are all plausible wrong siblings); expected_keyword 'inability to deny' is a verbatim substring of the claim."
+          ]
+        },
+        {
+          "item": "D1.1.1.definition.0005",
+          "source_card": "D1.11-authentication",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Correct_answer entailed by card ('verifying the identity of a user, process, or device'); Authorization is a clean sibling ruled out because the stem asks about confirming identity, not permissions; expected_keyword 'verifying the identity' is a verbatim substring."
+          ]
+        },
+        {
+          "item": "D1.1.1.definition.0006",
+          "source_card": "D1.11-authorization",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Stem's 'After a subject's identity has been verified' cleanly excludes Authentication, giving a single defensible answer; expected_keyword 'granting or denying permissions' is a verbatim substring of the claim."
+          ]
+        },
+        {
+          "item": "D1.1.2.definition.0002",
+          "source_card": "D1.12-threat",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Stem is the NIST/CC definition of threat; Vulnerability/Risk/Likelihood are correct siblings; risk-terminology-confusion is in the 1.2 allowed list; expected_keyword 'adversely impact organizational operations' is a verbatim substring."
+          ]
+        },
+        {
+          "item": "D1.1.2.definition.0003",
+          "source_card": "D1.12-likelihood",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Correct per card ('probability that a threat will exploit a vulnerability'); single defensible (Impact/Risk/Vulnerability distinct); expected_keyword 'probability that a threat' is a verbatim substring."
+          ]
+        },
+        {
+          "item": "D1.1.2.definition.0004",
+          "source_card": "D1.12-impact",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Correct per card ('magnitude of harm that would result from a threat exploiting a vulnerability'); single defensible; expected_keyword 'magnitude of harm' is a verbatim substring."
+          ]
+        },
+        {
+          "item": "D1.1.2.definition.0005",
+          "source_card": "D1.12-risk-treatment",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. 'Avoid = eliminate the risk-creating activity' is canon and matches the card verbatim; Accept/Transfer/Mitigate are the other three of the four AATR options (single defensible); expected_keyword 'eliminate the risk-creating activity' is a verbatim substring; L2 difficulty appropriate."
+          ]
+        },
+        {
+          "item": "D1.1.3.definition.0002",
+          "source_card": "D1.13-technical-controls",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Examples match card verbatim; the Detective distractor is a deliberate, allowed category-vs-function lure (control-category-function-confusion); question explicitly asks 'category', so Technical is single defensible; expected_keyword 'firewalls, encryption, access control lists' is a verbatim substring; no length tells (all 2-word options)."
+          ]
+        },
+        {
+          "item": "D1.1.3.definition.0003",
+          "source_card": "D1.13-physical-controls",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect. Question asks 'category', so Physical is single defensible even though CCTV is functionally detective; Detective is an intentional category-vs-function distractor; expected_keyword 'locks, guards, CCTV, fencing' is a verbatim substring."
+          ]
+        },
+        {
+          "item": "D1.1.3.definition.0004",
+          "source_card": "D1.13-preventive-controls",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "No defect, and notably well-built: examples 'firewall or a lock' span technical + physical so neither the Technical nor Physical category distractor is defensible, forcing the functional answer (Preventive). expected_keyword 'block threats before they occur' is a verbatim substring; preventive-detective-confusion and control-category-function-confusion tags both allowed."
+          ]
+        },
+        {
+          "item": "D1.1.3.definition.0005",
+          "source_card": "D1.13-detective-controls",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Single-defensible-answer is intact (the stem's discriminating clause 'identifies and records threat events' is the detective-function definition, and IDS/audit log are the canonical CC examples of detective controls), but the item is weaker than its sibling preventive item: both examples (IDS, audit log) are technical controls, so the 'Technical controls' category distractor is more tempting than ideal for a category-based reasoner. Unlike D1.13-preventive-controls, the examples do not span categories.",
+            "expected_keyword 'identify and record threat events' is a verbatim substring of the claim; no factual error."
+          ]
+        }
+      ]
+    },
+    "D2": {
+      "overall": "All 10 D2 items are factually correct per ISC2 CC / NIST canon, each has exactly one defensible answer, and every expected_keyword is a verbatim (case-insensitive) substring of its cited card claim. Distractors are real, plausible sibling concepts with no synonyms of the correct answer, and there are no length tells, format tells, or answer leakage (correct answers are never the longest; acronym formatting is consistent within each item). The only recurring flaw is imperfect misconception_id labeling on some distractors (e.g., BIA tagged 'bia-vs-risk-assessment' in a BC item; all three backup distractors sharing 'incremental-vs-differential-confusion'; IR distractors tagged 'ir-six-phase'/'postincident-vs-recovery-confusion'), driven by the limited per-objective allowed misconception lists rather than any correctness or fairness defect. Recommend accepting all 10; optionally enrich the 2.1/2.2/2.3 misconception lists (e.g., add BC-vs-BIA and a general backup-type confusion) to improve distractor tagging precision. No item should be rejected.",
+      "verdicts": [
+        {
+          "item": "D2.2.1.definition.0002",
+          "source_card": "D2.21-bc",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Factually correct and single-defensible: BC is the only choice spanning people/processes/technology; keyword 'keeping the organization operational' is a verbatim substring of the claim.",
+            "Weak misconception fit: BIA distractor is tagged 'bia-vs-risk-assessment' (BIA-vs-risk-assessment) and MTD is tagged 'rto-exceeds-mtd', neither of which explains why a learner would pick that term for a BC definition. The true confusion (BC-vs-BIA) has no misconception id in the 2.1 list.",
+            "No length tell, no leakage; distractors are plausible siblings."
+          ]
+        },
+        {
+          "item": "D2.2.1.definition.0003",
+          "source_card": "D2.21-dr",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: 'technology-focused portion of continuity planning' cleanly excludes BC; keyword 'restoring IT systems and data' is verbatim in the claim.",
+            "Weak misconception fit: RTO tagged 'rto-vs-rpo-confusion' and MTD tagged 'rto-exceeds-mtd' do not directly explain choosing a time-metric for a process definition, but the distractors remain plausibly wrong siblings."
+          ]
+        },
+        {
+          "item": "D2.2.1.definition.0004",
+          "source_card": "D2.21-mtd",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: 'longest period before unacceptable harm' is uniquely MTD; RTO is a target that must be <= MTD, not the ceiling. Keyword 'before unacceptable harm occurs' is verbatim in the claim.",
+            "RTO->'rto-exceeds-mtd' and RPO->'rto-vs-rpo-confusion' are good fits; only BIA->'bia-vs-risk-assessment' is a loose fit."
+          ]
+        },
+        {
+          "item": "D2.2.1.definition.0005",
+          "source_card": "D2.21-rto",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: the word 'goal' disambiguates RTO from MTD (a ceiling); RPO is a data-loss point. Keyword 'target time to restore' is verbatim in the claim.",
+            "DR->'bc-vs-dr-confusion' is a weak fit for why one would pick DR here, but DR is a plausible wrong sibling."
+          ]
+        },
+        {
+          "item": "D2.2.2.definition.0002",
+          "source_card": "D2.22-warm-site",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Correct and single-defensible: warm site = partially configured, hardware/connectivity present, needs data restoration, hours-to-days. Hot (near-instant), Cold (no hardware), Mirror (real-time) are all excluded.",
+            "Keyword 'partially configured backup site' is verbatim in the claim; misconception fits (dr-site-tier-confusion, cold-site-readiness-overstated) are all appropriate.",
+            "No tells, no leakage."
+          ]
+        },
+        {
+          "item": "D2.2.2.definition.0003",
+          "source_card": "D2.22-full-backup",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: complete copy, slowest-create/fastest-restore, baseline is canonically the full backup. Snapshot/incremental/differential all excluded. Keyword 'complete copy of all data' is verbatim in the claim.",
+            "Weak misconception fit: all three distractors are tagged 'incremental-vs-differential-confusion', which is the only backup misconception in the 2.2 list; it does not describe confusing FULL with incremental/differential, nor snapshot behavior."
+          ]
+        },
+        {
+          "item": "D2.2.2.definition.0004",
+          "source_card": "D2.22-incremental-backup",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: 'since the last backup of any type' is the incremental signature (excludes differential, which is since last full); fastest-create/slowest-restore canonical. Keyword 'changed since the last backup' is verbatim in the claim.",
+            "Differential->'incremental-vs-differential-confusion' is a good fit; Full and Synthetic distractors reuse the same tag as a loose best-available label."
+          ]
+        },
+        {
+          "item": "D2.2.2.definition.0005",
+          "source_card": "D2.22-differential-backup",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: 'since the most recent full backup' with middle cost/restore is uniquely differential. Keyword 'since the last full backup' is verbatim in the claim.",
+            "Incremental->'incremental-vs-differential-confusion' is a good fit; Full and Mirror distractors reuse the same tag as a loose label."
+          ]
+        },
+        {
+          "item": "D2.2.3.definition.0003",
+          "source_card": "D2.23-ir-preparation",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: distractors use the exact NIST SP 800-61 4-phase names; only Preparation is pre-incident and establishes policy/team/tools/training/comms. Keyword 'establishes IR capability' is verbatim in the claim.",
+            "Weak misconception fit: Containment->'postincident-vs-recovery-confusion' and Post-Incident->'ir-six-phase' do not directly explain choosing those phases for a Preparation definition; Detection->'ir-detection-phase-misid' is the closest.",
+            "Definitional phrasing in stem ('before any incident occurs') is expected for L1 recall, not undue leakage."
+          ]
+        },
+        {
+          "item": "D2.2.3.definition.0004",
+          "source_card": "D2.23-ir-detection",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Correct and single-defensible: identify/validate incidents, classify severity, notify stakeholders map uniquely to Detection and Analysis (NIST 4-phase). Keyword 'identify and validate incidents' is verbatim in the claim.",
+            "Preparation->'ir-detection-phase-misid' is a reasonable fit; Containment->'postincident-vs-recovery-confusion' and Post-Incident->'ir-six-phase' are loose fits.",
+            "No length tell, consistent phase-name formatting."
+          ]
+        }
+      ]
+    },
+    "D3": {
+      "overall": "All 9 D3 items accept. Every expected_keyword is a verbatim case-insensitive substring of its cited card claim; every correct_answer is entailed by the card and correct per ISC2 CC canon; every distractor is a plausible sibling with an allowed misconception_id; no stem leaks its answer term; no length or structure tells. One minor flag: D3.31-locks depends on the 'most fundamental' qualifier to exclude the also-preventive distractor 'Bollards' (single-answer holds, but 'Bollards' could be swapped for a clearly non-preventive control to tighten it). A couple of physical-control misconception tags (badges under cctv item; lighting under locks item) are loose-fitting but remain within the allowed set and do not affect fairness or answer uniqueness.",
+      "verdicts": [
+        {
+          "item": "D3.3.1.definition.0003",
+          "source_card": "D3.31-badges",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D3.3.1.definition.0004",
+          "source_card": "D3.31-cctv",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Minor misconception-category looseness: 'Access badges' is tagged physical-control-name-confusion, but selecting a preventive/authentication control for a detective-function question reads slightly more like function-confusion. Both allowed; not a defect."
+          ]
+        },
+        {
+          "item": "D3.3.1.definition.0005",
+          "source_card": "D3.31-locks",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Single-answer relies on the qualifier: the distractor 'Bollards' is itself a preventive physical control (anti-vehicle perimeter barrier), so 'Bollards' is not simply wrong-function like 'Cameras'. Uniqueness depends entirely on 'most fundamental ... for stopping unauthorized entry to facilities and equipment', which canonically points to locks.",
+            "'Lighting' is a deterrent control, so tagging it physical-control-name-confusion (vs function-confusion) is a loose fit, though the name-confusion definition ('selecting the wrong device for a described function') is broad enough to cover it."
+          ]
+        },
+        {
+          "item": "D3.3.1.definition.0006",
+          "source_card": "D3.31-fencing",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D3.3.1.definition.0007",
+          "source_card": "D3.31-lighting",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D3.3.2.definition.0003",
+          "source_card": "D3.32-dac",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Mild definitional cue: 'at their own authority' echoes 'discretion', but does not use the answer term 'discretionary'; acceptable for L1 definition recall."
+          ]
+        },
+        {
+          "item": "D3.3.2.definition.0004",
+          "source_card": "D3.32-mac",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D3.3.2.definition.0005",
+          "source_card": "D3.32-need-to-know",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "'Least privilege' is a close sibling, but the clause 'even when they already hold the appropriate clearance' is the canonical differentiator for need-to-know, so exactly one answer is defensible."
+          ]
+        },
+        {
+          "item": "D3.3.2.definition.0006",
+          "source_card": "D3.32-pam",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        }
+      ]
+    },
+    "D4": {
+      "overall": "All 12 D4 items are factually correct per ISC2 CC canon and are entailed by their cited cards, each has exactly one defensible answer, and every expected_keyword is a verbatim (case-insensitive) substring of its card claim. No major factual or single-answer defects were found \u2014 recommend ACCEPT on all 12. Notable minor issues, none disqualifying: (1) Recurring misconception mislabeling in objective 4.1 \u2014 the IPv4-range, TCP-handshake, and TCP-reliability items tag distractors with osi-tcpip-confusion (an OSI-vs-TCP/IP model error) even though the real reasoning errors are RFC 1918 range confusion, handshake-count confusion, and TCP reliability-mechanism confusion respectively; the 4.1 allowed list lacks a fitting misconception, so authors should add ones and retag. (2) Minor leakage in D4.41-tcp-handshake: the stem enumerates exactly three segments, letting a test-taker count to 'three-way' and eliminate the 2-way/4-way distractors without knowing the term. (3) Minor length tell in D4.43-segmentation (correct answer longer than all distractors). (4) A benign single-answer nuance in D4.41-ipv4-private-ranges \u2014 192.0.2.0/24 is a reserved/non-routable documentation prefix, but the qualifier 'private' correctly disambiguates to 10.0.0.0/8; optionally swap it for a clearly public block. The cleanest items are D4.41-ports-email-file, D4.43-dmz/vlan/zero-trust.",
+      "verdicts": [
+        {
+          "item": "D4.4.1.definition.0002",
+          "source_card": "D4.41-osi-model",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D4.4.1.definition.0003",
+          "source_card": "D4.41-tcpip-model",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Single-defensible nuance: some teaching texts (Tanenbaum, Kurose-Ross) use a 5-layer hybrid Internet model, so the 'Five layers' distractor is the strongest trap. Defensible for ISC2 CC because the canonical DoD/RFC-1122 TCP/IP model and the card both state 4 layers, and the stem says 'the TCP/IP protocol suite' (not a hybrid teaching model)."
+          ]
+        },
+        {
+          "item": "D4.4.1.definition.0004",
+          "source_card": "D4.41-ipv4-private-ranges",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Misconception mismatch: all three distractors are tagged osi-tcpip-confusion (OSI vs TCP/IP model layer/role confusion), which does not explain choosing a wrong CIDR block. The actual error is RFC 1918 private-range confusion. The 4.1 allowed list contains no fitting misconception.",
+            "Minor single-answer nuance: 192.0.2.0/24 (TEST-NET-1, RFC 5737) is a 'reserved' and 'non-routable' documentation prefix, so the parenthetical '(non-routable)' slightly overlaps it; the qualifier 'private' correctly disambiguates to RFC 1918, so 10.0.0.0/8 remains the single defensible answer."
+          ]
+        },
+        {
+          "item": "D4.4.1.definition.0005",
+          "source_card": "D4.41-tcp-handshake",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Leakage/tell: the stem enumerates exactly three segments (SYN, SYN-ACK, ACK), so a test-taker can count three and select 'Three-way' without knowing the term; 'Four-way' and 'Two-way' are trivially eliminable by counting.",
+            "Misconception mismatch: 'Four-way'/'Two-way' are tagged osi-tcpip-confusion, which does not explain a handshake-count error. 'Connectionless exchange'/udp-reliable is only a loose fit."
+          ]
+        },
+        {
+          "item": "D4.4.1.definition.0006",
+          "source_card": "D4.41-tcp-reliability",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Misconception mismatch: all three distractors (Acknowledgments, Retransmission, Flow control) are tagged osi-tcpip-confusion, but the reasoning error is confusing TCP's own reliability mechanisms, not OSI-vs-TCP/IP model confusion. No fitting misconception exists in the 4.1 allowed list."
+          ]
+        },
+        {
+          "item": "D4.4.1.definition.0007",
+          "source_card": "D4.41-ports-email-file",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D4.4.3.definition.0003",
+          "source_card": "D4.43-dmz",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D4.4.3.definition.0004",
+          "source_card": "D4.43-vlan",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        },
+        {
+          "item": "D4.4.3.definition.0005",
+          "source_card": "D4.43-nac",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Minor overlap check: 'Zero Trust' also 'verifies every access request', but the stem's specific posture checks (identity, patch level, antivirus status) at pre-admission time pin the answer to NAC; Zero Trust is continuous per-request verification, not device-posture admission control. Single defensible answer holds."
+          ]
+        },
+        {
+          "item": "D4.4.3.definition.0006",
+          "source_card": "D4.43-segmentation",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Length tell: 'Network segmentation' (~20 chars) is longer than every distractor ('VPN' 3, 'VLAN' 4, 'Zero Trust' 10), exceeding the >1.5x threshold vs the longest distractor. Low practical risk since the term length is intrinsic.",
+            "Minor overlap: VLAN is a technology used to implement segmentation, but the stem describes the practice/concept ('which practice', zones such as internal/management/public-facing, restrict lateral movement/contain breaches), which pins it to network segmentation."
+          ]
+        },
+        {
+          "item": "D4.4.3.definition.0007",
+          "source_card": "D4.43-defense-in-depth",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Weak misconception fit: 'Network segmentation'/vpn-vs-segmentation-confusion and 'VLAN'/dmz-vs-vlan-confusion describe VPN- and VLAN-specific confusions, which only loosely explain choosing those options for a defense-in-depth stem. Tags are in the allowed list, so acceptable."
+          ]
+        },
+        {
+          "item": "D4.4.3.definition.0008",
+          "source_card": "D4.43-zero-trust",
+          "accept": true,
+          "severity": "none",
+          "issues": []
+        }
+      ]
+    },
+    "D5": {
+      "overall": "All 8 D5 (objective 5.1) items are ACCEPTED \u2014 no major factual or single-defensible-answer defects. Every correct_answer is correct per ISC2/CC canon (and NIST SP 800-88 for the sanitization items) and is entailed by its cited card claim; every expected_keyword is a verbatim case-insensitive substring of its card; no stem leaks its answer; and no item shows a length-domination tell. Only minor issues remain: (a) recurring loose misconception-label fit where 'data-handling-term-confusion' is applied to distractors outside its stated example set (lifecycle phases in D5.51-data-lifecycle; Clear/Purge sub-levels in D5.51-sanitization-definition; Destroy in D5.51-sanitization-clear) \u2014 acceptable because it is the only umbrella definition_confusion tag available in the 5.1 list; (b) a mild structural odd-one-out in D5.51-hashing (single-word correct answer vs two-word distractors); and (c) a stem/option category mismatch in D5.51-sanitization-clear where 'Degaussing' is a technique, not a 'level'. None of these compromise fairness or the single-answer requirement.",
+      "verdicts": [
+        {
+          "item": "D5.5.1.definition.0004",
+          "source_card": "D5.51-data-lifecycle",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Factually correct: card claim explicitly lists Create->Store->Use->Share->Archive->Destroy and states the Destroy phase requires secure sanitization. Single defensible answer holds (Archive/Store/Share do not require sanitization to prevent recovery).",
+            "Keyword 'Destroy phase requires secure sanitization' is a verbatim substring of the card claim. No leakage (term 'Destroy' absent from stem). No length tell.",
+            "Minor misconception-fit gap: distractors Archive/Store/Share are lifecycle PHASES, but the assigned 'data-handling-term-confusion' is defined by examples (classification, retention, masking, tokenization) that do not include lifecycle phases. A student picking 'Archive' is confusing lifecycle stages, not those terms."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0005",
+          "source_card": "D5.51-data-retention",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Factually correct and entailed by card ('Data retention policy defines the minimum and maximum periods data must be kept ... before authorized destruction'). Single defensible answer: classification/masking/tokenization do not specify retention periods.",
+            "Keyword 'Data retention policy' is verbatim in the card. Distractors are all real data-handling terms and are exactly the examples named in the 'data-handling-term-confusion' misconception, so fit is strong. No length tell (correct answer is not the longest). No leakage."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0006",
+          "source_card": "D5.51-hashing",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Factually correct: hashing is a one-way function producing a fixed-size digest from which the original cannot be recovered; card matches. Single defensible answer holds (symmetric/asymmetric encryption are reversible; a digital signature is not the described one-way digest function).",
+            "Keyword 'one-way function producing a fixed-size digest' is verbatim in the card. No leakage.",
+            "Minor structural tell: the correct answer 'Hashing' is the only single-word option; all three distractors are two-word phrases, making the answer a structural odd-one-out that a test-wise candidate could flag.",
+            "Minor misconception-fit gap: the 'Digital signature' distractor is tagged 'hashing-is-encryption', but that misconception (hashing is reversible encryption) does not cleanly explain why a student would pick 'Digital signature' for this stem."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0007",
+          "source_card": "D5.51-digital-signature",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Factually correct at CC level: the stem describes hashing the message and encrypting the hash with the sender's private key = digital signature, which proves authenticity and integrity; card matches. Single defensible answer holds (symmetric/asymmetric encryption alone provide confidentiality, not sender authenticity+integrity; message hashing alone gives integrity but not authenticity).",
+            "Keyword 'proves authenticity and integrity' is verbatim in the card. The stem describes the mechanism but never names 'digital signature', so no term leakage; describing the construction is acceptable for definition recall.",
+            "Minor misconception-fit gap: the 'Message hashing' distractor is tagged 'hashing-is-encryption' (hashing is reversible encryption), but a student picking hashing here is more likely over-crediting hashing with authenticity, not treating it as reversible encryption.",
+            "Note (not a defect at CC scope): 'encrypting a hash with the private key' is an RSA-specific simplification (does not literally hold for DSA/ECDSA); this framing is the accepted ISC2 CC canon."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0008",
+          "source_card": "D5.51-hybrid-encryption",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Factually correct and entailed by card ('Hybrid encryption uses asymmetric to securely exchange a symmetric session key, then symmetric for bulk data encryption', TLS/HTTPS example). Single defensible answer holds: only hybrid uses both asymmetric key exchange and symmetric bulk encryption.",
+            "Keyword 'exchange a symmetric session key' is a verbatim substring of the card. No leakage (term 'hybrid' absent from stem). No length tell.",
+            "Misconception fits are all in the 5.1 allowed list and plausible: asymmetric->hybrid-vs-pure-asymmetric, symmetric->symmetric-vs-asymmetric, digital-signature->signing-vs-encryption."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0009",
+          "source_card": "D5.51-aes-standard",
+          "accept": true,
+          "severity": "none",
+          "issues": [
+            "Factually correct: AES is the NIST-approved symmetric block cipher that replaced DES/3DES; card matches. Single defensible answer holds cleanly (RSA is asymmetric, SHA-256 is a hash, Diffie-Hellman is asymmetric key exchange).",
+            "Keyword 'NIST-approved symmetric block cipher' is verbatim in the card. Distractors are real, well-known algorithms and are strong siblings. Misconception tags (symmetric-vs-asymmetric, hashing-is-encryption) fit and are in the allowed list.",
+            "No length tell favoring the correct answer (AES is among the shortest; longest option is a distractor). No leakage."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0010",
+          "source_card": "D5.51-sanitization-definition",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Factually correct: the phrase 'making access to target data infeasible for a given level of effort' is the NIST SP 800-88 umbrella definition of Sanitization; card matches. Single defensible answer holds because that exact wording is reserved for the umbrella term, whereas Clear/Purge each have their own effort-specific definitions.",
+            "Keyword 'making access to target data infeasible' is verbatim in the card. No leakage. No length tell.",
+            "Minor misconception-fit gap: distractors 'Clearing' and 'Purging' are sanitization sub-levels, but they are tagged 'data-handling-term-confusion' whose examples are classification/retention/masking/tokenization (only 'Data masking' matches). The distractors are still good plausible-but-wrong siblings from the same standard."
+          ]
+        },
+        {
+          "item": "D5.5.1.definition.0011",
+          "source_card": "D5.51-sanitization-clear",
+          "accept": true,
+          "severity": "minor",
+          "issues": [
+            "Factually correct: Clear uses logical techniques (e.g., overwrite) protecting against software-based recovery while leaving media usable (NIST SP 800-88); card matches. Single defensible answer holds (Purge resists lab recovery; Degaussing/Destroy do not leave media usable).",
+            "Keyword 'logical techniques' is verbatim in the card. No leakage. No length tell (correct answer is shortest, tied with a distractor).",
+            "Minor category mismatch: the stem asks for a 'sanitization level', but 'Degaussing' is a technique/method (a Purge/Destroy action), not one of the three NIST levels (Clear/Purge/Destroy). This does not break single-answer or leak the key, but is a slight category inconsistency.",
+            "Minor misconception-fit gap: the 'Destroy' distractor is tagged 'data-handling-term-confusion' rather than a clear/purge-family confusion; loose but acceptable."
+          ]
+        }
+      ]
+    }
+  }
+}

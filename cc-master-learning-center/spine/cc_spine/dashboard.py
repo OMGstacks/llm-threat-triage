@@ -35,13 +35,34 @@ _BANKS_PATH = Path(__file__).resolve().parents[1] / "banks" / "banks.json"
 
 def _content_scale() -> dict:
     """The P1-3 caveat: today's content is proof-scale, not exam-length. A learner must not read a
-    ~15-item mock as exam readiness. Counts are derived from the committed stores; the target is the
-    banks.json mock policy."""
+    short proof-mock as exam readiness. Counts are derived from the committed stores; the target is
+    the banks.json mock policy.
+
+    Exam-scale requires BOTH enough total material to draw a full-length mock AND a fresh (holdout)
+    scenario pool deep enough for the mock's scenario draw — because the mock draws scenarios
+    ``holdout_only`` and the real CC exam is scenario-dominant. Without the scenario gate, growing a
+    single recall bank past the raw item count would silently drop the caveat and imply an exam
+    readiness the content does not have — the false-confidence flip this display exists to prevent
+    (a scenario-thin 100-item draw is ~95% recall, not an exam-representative mock)."""
+    doc = json.loads(_BANKS_PATH.read_text(encoding="utf-8"))
+    mock = doc["mock_exam"]
+    lo, hi = mock["item_count_min"], mock["item_count_max"]
     practice = len(quiz.load_goldset())
     holdout_scenarios = len([h for h in quiz.load_holdout() if h.get("bank") == _SCENARIO_BANK])
-    banks = json.loads(_BANKS_PATH.read_text(encoding="utf-8"))["mock_exam"]
-    lo, hi = banks["item_count_min"], banks["item_count_max"]
-    exam_scale = practice + holdout_scenarios >= lo
+    # the scenario bank's own holdout floor: the fresh-scenario reserve a scenario-dominant mock draw
+    # needs, derived from banks.json (sum of per-domain scenario floors x the scenario holdout_fraction)
+    scen = doc["banks"][_SCENARIO_BANK]
+    scenario_floor = round(sum(t["floor"] for t in scen["targets"].values()) * scen["holdout_fraction"])
+    enough_total = practice + holdout_scenarios >= lo
+    enough_scenarios = holdout_scenarios >= scenario_floor
+    exam_scale = enough_total and enough_scenarios
+    reasons = []
+    if not enough_total:
+        reasons.append(f"{practice} practice + {holdout_scenarios} holdout scenario(s) is under the "
+                       f"{lo}-{hi} item mock target")
+    if not enough_scenarios:
+        reasons.append(f"only {holdout_scenarios} of the {scenario_floor} holdout scenarios a "
+                       f"scenario-dominant exam draw needs exist")
     return {
         "practice_items": practice,
         "holdout_scenarios": holdout_scenarios,
@@ -49,9 +70,8 @@ def _content_scale() -> dict:
         "mock_target_max": hi,
         "status": "exam_scale" if exam_scale else "proof_scale",
         "caveat": (None if exam_scale else
-                   f"content is proof-scale: {practice} practice + {holdout_scenarios} holdout "
-                   f"scenario(s) support a short mock, well under the {lo}-{hi} item exam target — "
-                   "a passing mock here is an engine proof, not exam readiness"),
+                   "content is proof-scale: " + "; ".join(reasons) +
+                   " — a passing mock here is an engine proof, not exam readiness"),
     }
 
 

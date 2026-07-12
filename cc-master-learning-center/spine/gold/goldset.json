@@ -1,6 +1,6 @@
 {
   "version": "0.6.0",
-  "note": "PR-8b gold set: 40 non-holdout items across D1-D5 (three core banks 18/14/8). AUTHORING/VALIDATION SOURCE - not the learner export; the only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions varied per-objective (anti-pattern-learning). no holdout items (deferred to PR-8c).",
+  "note": "PR-8b gold set: 40 non-holdout items across D1-D5 (three core banks 18/14/8). AUTHORING/VALIDATION SOURCE - not the learner export; the only learner-facing representation is quiz.learner_view() / `cc_spine.cli quiz export-learner`. Correct-answer positions varied per-objective (anti-pattern-learning). no holdout items (deferred to PR-8c). | PR-12: +51 definition_recall items grounded on existing cards.",
   "items": [
     {
       "id": "D1.1.1.definition.0001",
@@ -49,6 +49,118 @@
       ],
       "expected_keywords": [
         "accurate, complete, and unaltered"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.1.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "availability",
+      "stem": "Which security property ensures that information and systems are accessible when needed by authorized users?",
+      "choices": [
+        "Availability",
+        "Confidentiality",
+        "Integrity",
+        "Authorization"
+      ],
+      "answer_key_ref": "D1.1.1.definition.0003.key",
+      "fact_ids": [
+        "D1.11-availability"
+      ],
+      "expected_keywords": [
+        "accessible when needed"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.1.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "non-repudiation",
+      "stem": "Which security property provides the inability to deny having taken an action, supported by digital signatures and audit logs?",
+      "choices": [
+        "Integrity",
+        "Non-repudiation",
+        "Confidentiality",
+        "Authentication"
+      ],
+      "answer_key_ref": "D1.1.1.definition.0004.key",
+      "fact_ids": [
+        "D1.11-non-repudiation"
+      ],
+      "expected_keywords": [
+        "inability to deny"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.1.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "authentication",
+      "stem": "Which security concept is the process of verifying the identity of a user, process, or device?",
+      "choices": [
+        "Authorization",
+        "Confidentiality",
+        "Authentication",
+        "Integrity"
+      ],
+      "answer_key_ref": "D1.1.1.definition.0005.key",
+      "fact_ids": [
+        "D1.11-authentication"
+      ],
+      "expected_keywords": [
+        "verifying the identity"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.1.definition.0006",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.1",
+      "topic": "authorization",
+      "stem": "After a subject's identity has been verified, which security concept determines what actions that subject is permitted to perform?",
+      "choices": [
+        "Authentication",
+        "Confidentiality",
+        "Integrity",
+        "Authorization"
+      ],
+      "answer_key_ref": "D1.1.1.definition.0006.key",
+      "fact_ids": [
+        "D1.11-authorization"
+      ],
+      "expected_keywords": [
+        "granting or denying permissions"
       ],
       "difficulty": "L1",
       "holdout": false,
@@ -115,6 +227,118 @@
       ]
     },
     {
+      "id": "D1.1.2.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "threat",
+      "stem": "In risk management, which term describes any circumstance or event with the potential to adversely impact organizational operations, assets, or individuals?",
+      "choices": [
+        "Vulnerability",
+        "Threat",
+        "Risk",
+        "Likelihood"
+      ],
+      "answer_key_ref": "D1.1.2.definition.0002.key",
+      "fact_ids": [
+        "D1.12-threat"
+      ],
+      "expected_keywords": [
+        "adversely impact organizational operations"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.2.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "likelihood",
+      "stem": "In risk management, which term describes the probability that a threat will exploit a vulnerability?",
+      "choices": [
+        "Impact",
+        "Risk",
+        "Likelihood",
+        "Vulnerability"
+      ],
+      "answer_key_ref": "D1.1.2.definition.0003.key",
+      "fact_ids": [
+        "D1.12-likelihood"
+      ],
+      "expected_keywords": [
+        "probability that a threat"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.2.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "impact",
+      "stem": "In risk management, which term describes the magnitude of harm that would result from a threat exploiting a vulnerability?",
+      "choices": [
+        "Likelihood",
+        "Risk",
+        "Threat",
+        "Impact"
+      ],
+      "answer_key_ref": "D1.1.2.definition.0004.key",
+      "fact_ids": [
+        "D1.12-impact"
+      ],
+      "expected_keywords": [
+        "magnitude of harm"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.2.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.2",
+      "topic": "risk-treatment",
+      "stem": "Which of the four risk treatment options responds to a risk by eliminating the risk-creating activity altogether?",
+      "choices": [
+        "Avoid",
+        "Accept",
+        "Transfer",
+        "Mitigate"
+      ],
+      "answer_key_ref": "D1.1.2.definition.0005.key",
+      "fact_ids": [
+        "D1.12-risk-treatment"
+      ],
+      "expected_keywords": [
+        "eliminate the risk-creating activity"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
       "id": "D1.1.2.discrimination.0001",
       "bank": "concept_discrimination",
       "domain": "D1",
@@ -161,6 +385,118 @@
       ],
       "expected_keywords": [
         "policies, procedures, training"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.3.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.3",
+      "topic": "technical-controls",
+      "stem": "Firewalls, encryption, access control lists, and antivirus software are examples of which category of security control?",
+      "choices": [
+        "Physical controls",
+        "Administrative controls",
+        "Technical controls",
+        "Detective controls"
+      ],
+      "answer_key_ref": "D1.1.3.definition.0002.key",
+      "fact_ids": [
+        "D1.13-technical-controls"
+      ],
+      "expected_keywords": [
+        "firewalls, encryption, access control lists"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.3.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.3",
+      "topic": "physical-controls",
+      "stem": "Locks, guards, CCTV, and fencing are examples of which category of security control?",
+      "choices": [
+        "Technical controls",
+        "Administrative controls",
+        "Detective controls",
+        "Physical controls"
+      ],
+      "answer_key_ref": "D1.1.3.definition.0003.key",
+      "fact_ids": [
+        "D1.13-physical-controls"
+      ],
+      "expected_keywords": [
+        "locks, guards, CCTV, fencing"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.3.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.3",
+      "topic": "preventive-controls",
+      "stem": "Which type of control blocks threats before they occur, such as a firewall or a lock?",
+      "choices": [
+        "Preventive controls",
+        "Technical controls",
+        "Physical controls",
+        "Detective controls"
+      ],
+      "answer_key_ref": "D1.1.3.definition.0004.key",
+      "fact_ids": [
+        "D1.13-preventive-controls"
+      ],
+      "expected_keywords": [
+        "block threats before they occur"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion"
+      ]
+    },
+    {
+      "id": "D1.1.3.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D1",
+      "objective": "1.3",
+      "topic": "detective-controls",
+      "stem": "Which type of control identifies and records threat events, such as an IDS or a CCTV camera?",
+      "choices": [
+        "Technical controls",
+        "Detective controls",
+        "Physical controls",
+        "Preventive controls"
+      ],
+      "answer_key_ref": "D1.1.3.definition.0005.key",
+      "fact_ids": [
+        "D1.13-detective-controls"
+      ],
+      "expected_keywords": [
+        "identify and record threat events"
       ],
       "difficulty": "L2",
       "holdout": false,
@@ -255,6 +591,118 @@
       ]
     },
     {
+      "id": "D2.2.1.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "business-continuity",
+      "stem": "Which term describes keeping an organization operational during and after a disruption, spanning people, processes, and technology?",
+      "choices": [
+        "Disaster Recovery (DR)",
+        "Business Impact Analysis (BIA)",
+        "Maximum Tolerable Downtime (MTD)",
+        "Business Continuity (BC)"
+      ],
+      "answer_key_ref": "D2.2.1.definition.0002.key",
+      "fact_ids": [
+        "D2.21-bc"
+      ],
+      "expected_keywords": [
+        "keeping the organization operational"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.1.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "disaster-recovery",
+      "stem": "Which term refers to restoring IT systems and data after a major outage, as the technology-focused portion of an organization's continuity planning?",
+      "choices": [
+        "Disaster Recovery (DR)",
+        "Business Continuity (BC)",
+        "Recovery Time Objective (RTO)",
+        "Maximum Tolerable Downtime (MTD)"
+      ],
+      "answer_key_ref": "D2.2.1.definition.0003.key",
+      "fact_ids": [
+        "D2.21-dr"
+      ],
+      "expected_keywords": [
+        "restoring IT systems and data"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.1.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "mtd",
+      "stem": "Which term names the longest period a business function can be offline before unacceptable harm occurs?",
+      "choices": [
+        "Recovery Time Objective (RTO)",
+        "Maximum Tolerable Downtime (MTD)",
+        "Recovery Point Objective (RPO)",
+        "Business Impact Analysis (BIA)"
+      ],
+      "answer_key_ref": "D2.2.1.definition.0004.key",
+      "fact_ids": [
+        "D2.21-mtd"
+      ],
+      "expected_keywords": [
+        "before unacceptable harm occurs"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.1.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.1",
+      "topic": "rto",
+      "stem": "Which term refers to the organization's goal for how quickly a function must be restored after a disruption?",
+      "choices": [
+        "Recovery Point Objective (RPO)",
+        "Maximum Tolerable Downtime (MTD)",
+        "Recovery Time Objective (RTO)",
+        "Disaster Recovery (DR)"
+      ],
+      "answer_key_ref": "D2.2.1.definition.0005.key",
+      "fact_ids": [
+        "D2.21-rto"
+      ],
+      "expected_keywords": [
+        "target time to restore"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
       "id": "D2.2.1.discrimination.0001",
       "bank": "concept_discrimination",
       "domain": "D2",
@@ -331,6 +779,118 @@
       ],
       "expected_keywords": [
         "space and power only"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "warm-site",
+      "stem": "Which recovery site is partially configured with hardware and connectivity in place but requires data restoration before use, taking hours to days to activate?",
+      "choices": [
+        "Warm site",
+        "Hot site",
+        "Cold site",
+        "Mirror site"
+      ],
+      "answer_key_ref": "D2.2.2.definition.0002.key",
+      "fact_ids": [
+        "D2.22-warm-site"
+      ],
+      "expected_keywords": [
+        "partially configured backup site"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "full-backup",
+      "stem": "Which backup type makes a complete copy of all data, is slowest to create but fastest to restore, and serves as the baseline for other backup types?",
+      "choices": [
+        "Incremental backup",
+        "Full backup",
+        "Differential backup",
+        "Snapshot backup"
+      ],
+      "answer_key_ref": "D2.2.2.definition.0003.key",
+      "fact_ids": [
+        "D2.22-full-backup"
+      ],
+      "expected_keywords": [
+        "complete copy of all data"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "incremental-backup",
+      "stem": "Which backup type copies only data changed since the last backup of any type, making it the fastest to create but slowest to restore?",
+      "choices": [
+        "Differential backup",
+        "Full backup",
+        "Incremental backup",
+        "Synthetic backup"
+      ],
+      "answer_key_ref": "D2.2.2.definition.0004.key",
+      "fact_ids": [
+        "D2.22-incremental-backup"
+      ],
+      "expected_keywords": [
+        "changed since the last backup"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.2.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.2",
+      "topic": "differential-backup",
+      "stem": "A backup that captures all data modified since the most recent full backup, with middle-range cost and restore time, is known as what?",
+      "choices": [
+        "Incremental backup",
+        "Full backup",
+        "Mirror backup",
+        "Differential backup"
+      ],
+      "answer_key_ref": "D2.2.2.definition.0005.key",
+      "fact_ids": [
+        "D2.22-differential-backup"
+      ],
+      "expected_keywords": [
+        "since the last full backup"
       ],
       "difficulty": "L2",
       "holdout": false,
@@ -426,6 +986,62 @@
       ]
     },
     {
+      "id": "D2.2.3.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.3",
+      "topic": "ir-preparation",
+      "stem": "Which phase of the incident response lifecycle establishes IR capability such as policy, team, tools, training, and a communication plan, before any incident occurs?",
+      "choices": [
+        "Detection and Analysis",
+        "Preparation",
+        "Containment, Eradication, and Recovery",
+        "Post-Incident Activity"
+      ],
+      "answer_key_ref": "D2.2.3.definition.0003.key",
+      "fact_ids": [
+        "D2.23-ir-preparation"
+      ],
+      "expected_keywords": [
+        "establishes IR capability"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "process_order_confusion"
+      ]
+    },
+    {
+      "id": "D2.2.3.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D2",
+      "objective": "2.3",
+      "topic": "ir-detection",
+      "stem": "During which incident response phase do analysts identify and validate incidents, classify severity, and notify stakeholders to confirm a security incident has occurred?",
+      "choices": [
+        "Preparation",
+        "Containment, Eradication, and Recovery",
+        "Detection and Analysis",
+        "Post-Incident Activity"
+      ],
+      "answer_key_ref": "D2.2.3.definition.0004.key",
+      "fact_ids": [
+        "D2.23-ir-detection"
+      ],
+      "expected_keywords": [
+        "identify and validate incidents"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "process_order_confusion"
+      ]
+    },
+    {
       "id": "D2.2.3.scenario.0001",
       "bank": "scenario_application",
       "domain": "D2",
@@ -510,6 +1126,149 @@
       ]
     },
     {
+      "id": "D3.3.1.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "badges-access-cards",
+      "stem": "Which physical control authenticates identity at controlled entry points and is often combined with a PIN or biometric for higher-security areas?",
+      "choices": [
+        "Perimeter fencing",
+        "Surveillance cameras",
+        "Access badges",
+        "Motion lighting"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0003.key",
+      "fact_ids": [
+        "D3.31-badges"
+      ],
+      "expected_keywords": [
+        "authenticate identity at controlled entry"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "cctv",
+      "stem": "Which physical security measure serves as the primary detective control, recording footage that supports later investigation and forensic review?",
+      "choices": [
+        "Perimeter fencing",
+        "Access badges",
+        "Security lighting",
+        "CCTV cameras"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0004.key",
+      "fact_ids": [
+        "D3.31-cctv"
+      ],
+      "expected_keywords": [
+        "primary detective control"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion",
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "locks",
+      "stem": "Which control is considered the most fundamental preventive physical control for stopping unauthorized entry to facilities and equipment?",
+      "choices": [
+        "Locks",
+        "Cameras",
+        "Bollards",
+        "Lighting"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0005.key",
+      "fact_ids": [
+        "D3.31-locks"
+      ],
+      "expected_keywords": [
+        "prevent unauthorized physical access"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion",
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.definition.0006",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "fencing-bollards",
+      "stem": "Which physical controls act as perimeter barriers that resist both pedestrian and vehicle intrusion?",
+      "choices": [
+        "Locks and deadbolts",
+        "Fencing and bollards",
+        "Badges and readers",
+        "Cameras and sensors"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0006.key",
+      "fact_ids": [
+        "D3.31-fencing"
+      ],
+      "expected_keywords": [
+        "perimeter barriers against pedestrian"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.1.definition.0007",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.1",
+      "topic": "lighting",
+      "stem": "Which physical control deters covert intrusion and improves the image quality of surveillance cameras?",
+      "choices": [
+        "Fencing",
+        "Locks",
+        "Lighting",
+        "Bollards"
+      ],
+      "answer_key_ref": "D3.3.1.definition.0007.key",
+      "fact_ids": [
+        "D3.31-lighting"
+      ],
+      "expected_keywords": [
+        "deters unauthorized activity"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion",
+        "definition_confusion"
+      ]
+    },
+    {
       "id": "D3.3.1.discrimination.0001",
       "bank": "concept_discrimination",
       "domain": "D3",
@@ -587,6 +1346,120 @@
         "permissions tied to roles"
       ],
       "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "dac",
+      "stem": "Which access control model lets the resource owner decide, at their own authority, who may access a resource?",
+      "choices": [
+        "Mandatory access control",
+        "Role-based access control",
+        "Rule-based access control",
+        "Discretionary access control"
+      ],
+      "answer_key_ref": "D3.3.2.definition.0003.key",
+      "fact_ids": [
+        "D3.32-dac"
+      ],
+      "expected_keywords": [
+        "resource owner controls who may access"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion",
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "mac",
+      "stem": "In which access model does the system enforce access by comparing classification labels, so that even the resource owner cannot override the decision?",
+      "choices": [
+        "Mandatory access control",
+        "Discretionary access control",
+        "Role-based access control",
+        "Rule-based access control"
+      ],
+      "answer_key_ref": "D3.3.2.definition.0004.key",
+      "fact_ids": [
+        "D3.32-mac"
+      ],
+      "expected_keywords": [
+        "comparing classification labels"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "control_category_confusion",
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "need-to-know",
+      "stem": "Which access principle grants a user access only to the specific information required for a task, even when they already hold the appropriate clearance?",
+      "choices": [
+        "Least privilege",
+        "Need to know",
+        "Separation of duties",
+        "Defense in depth"
+      ],
+      "answer_key_ref": "D3.3.2.definition.0005.key",
+      "fact_ids": [
+        "D3.32-need-to-know"
+      ],
+      "expected_keywords": [
+        "information required for a specific task"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D3.3.2.definition.0006",
+      "bank": "definition_recall",
+      "domain": "D3",
+      "objective": "3.2",
+      "topic": "pam",
+      "stem": "Which solution controls, monitors, and audits accounts with elevated rights, enforcing just-in-time access and credential vaulting?",
+      "choices": [
+        "Role-based access control",
+        "Discretionary access control",
+        "Privileged access management",
+        "Least privilege enforcement"
+      ],
+      "answer_key_ref": "D3.3.2.definition.0006.key",
+      "fact_ids": [
+        "D3.32-pam"
+      ],
+      "expected_keywords": [
+        "accounts with elevated rights"
+      ],
+      "difficulty": "L1",
       "holdout": false,
       "status": "active",
       "source_policy": "factstore|required",
@@ -704,6 +1577,175 @@
       "source_policy": "factstore|required",
       "misconception_tags": [
         "definition_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0002",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "osi-model",
+      "stem": "The OSI reference model separates network functions into how many layers?",
+      "choices": [
+        "Seven layers",
+        "Four layers",
+        "Six layers",
+        "Five layers"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0002.key",
+      "fact_ids": [
+        "D4.41-osi-model"
+      ],
+      "expected_keywords": [
+        "7-layer reference framework"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "tcpip-model",
+      "stem": "In the widely used TCP/IP protocol suite, communication is grouped into what number of layers?",
+      "choices": [
+        "Seven layers",
+        "Four layers",
+        "Five layers",
+        "Three layers"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0003.key",
+      "fact_ids": [
+        "D4.41-tcpip-model"
+      ],
+      "expected_keywords": [
+        "4-layer internet protocol suite"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "ipv4-private-ranges",
+      "stem": "Which of the following CIDR blocks is a reserved IPv4 private (non-routable) address range?",
+      "choices": [
+        "11.0.0.0/8",
+        "172.32.0.0/12",
+        "10.0.0.0/8",
+        "192.0.2.0/24"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0004.key",
+      "fact_ids": [
+        "D4.41-ipv4-private-ranges"
+      ],
+      "expected_keywords": [
+        "10.0.0.0/8, 172.16.0.0/12"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "tcp-handshake",
+      "stem": "By what name is the TCP connection-establishment exchange that a client and server complete before any application data is transferred?",
+      "choices": [
+        "Four-way handshake",
+        "Two-way handshake",
+        "Connectionless exchange",
+        "Three-way handshake"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0005.key",
+      "fact_ids": [
+        "D4.41-tcp-handshake"
+      ],
+      "expected_keywords": [
+        "3-way handshake"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0006",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "tcp-reliability",
+      "stem": "In TCP, which reliability mechanism ensures that received segments are reassembled in their original order?",
+      "choices": [
+        "Sequence numbers",
+        "Acknowledgments",
+        "Retransmission",
+        "Flow control"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0006.key",
+      "fact_ids": [
+        "D4.41-tcp-reliability"
+      ],
+      "expected_keywords": [
+        "sequence numbers ensure ordering"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.1.definition.0007",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.1",
+      "topic": "ports-email-file",
+      "stem": "Which well-known transport-layer port is assigned to the SMTP protocol for delivering email?",
+      "choices": [
+        "TCP 443",
+        "TCP 25",
+        "TCP 22",
+        "UDP 25"
+      ],
+      "answer_key_ref": "D4.4.1.definition.0007.key",
+      "fact_ids": [
+        "D4.41-ports-email-file"
+      ],
+      "expected_keywords": [
+        "SMTP = TCP 25"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
       ]
     },
     {
@@ -847,6 +1889,180 @@
       ]
     },
     {
+      "id": "D4.4.3.definition.0003",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "dmz",
+      "stem": "A network segment situated between the internet and the internal network, hosting public-facing web, mail, and DNS servers, is called what?",
+      "choices": [
+        "VLAN",
+        "DMZ",
+        "VPN",
+        "Zero Trust"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0003.key",
+      "fact_ids": [
+        "D4.43-dmz"
+      ],
+      "expected_keywords": [
+        "Demilitarized Zone"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "vlan",
+      "stem": "Which technology logically divides one physical switched network into separate broadcast domains without requiring extra hardware?",
+      "choices": [
+        "DMZ",
+        "VPN",
+        "VLAN",
+        "Zero Trust"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0004.key",
+      "fact_ids": [
+        "D4.43-vlan"
+      ],
+      "expected_keywords": [
+        "Virtual LAN"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "nac",
+      "stem": "Before a device is allowed onto the network, which solution verifies its identity, patch level, and antivirus status?",
+      "choices": [
+        "Zero Trust",
+        "VPN",
+        "VLAN",
+        "NAC"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0005.key",
+      "fact_ids": [
+        "D4.43-nac"
+      ],
+      "expected_keywords": [
+        "Network Access Control"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0006",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "segmentation",
+      "stem": "Dividing a network into isolated zones—such as internal, management, and public-facing—to restrict lateral movement and contain breaches describes which practice?",
+      "choices": [
+        "Network segmentation",
+        "VPN",
+        "Zero Trust architecture",
+        "VLAN"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0006.key",
+      "fact_ids": [
+        "D4.43-segmentation"
+      ],
+      "expected_keywords": [
+        "divides a network into zones"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0007",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "defense-in-depth",
+      "stem": "Which approach layers multiple independent controls so that the failure of any single control does not leave the system exposed?",
+      "choices": [
+        "Zero Trust",
+        "Defense in depth",
+        "Network segmentation",
+        "VLAN"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0007.key",
+      "fact_ids": [
+        "D4.43-defense-in-depth"
+      ],
+      "expected_keywords": [
+        "multiple independent security controls in layers"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
+      ]
+    },
+    {
+      "id": "D4.4.3.definition.0008",
+      "bank": "definition_recall",
+      "domain": "D4",
+      "objective": "4.3",
+      "topic": "zero-trust",
+      "stem": "Which security model grants no implicit trust to any user, device, or location and verifies every access request before granting access?",
+      "choices": [
+        "Perimeter security",
+        "Network segmentation",
+        "Zero Trust",
+        "VLAN"
+      ],
+      "answer_key_ref": "D4.4.3.definition.0008.key",
+      "fact_ids": [
+        "D4.43-zero-trust"
+      ],
+      "expected_keywords": [
+        "no implicit trust"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion",
+        "network_device_confusion"
+      ]
+    },
+    {
       "id": "D4.4.3.discrimination.0001",
       "bank": "concept_discrimination",
       "domain": "D4",
@@ -980,6 +2196,230 @@
         "replace, test, and validate"
       ],
       "difficulty": "L3",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0004",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "data-lifecycle",
+      "stem": "In the standard data lifecycle, which phase requires secure sanitization to prevent recovery of sensitive data?",
+      "choices": [
+        "Archive",
+        "Store",
+        "Destroy",
+        "Share"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0004.key",
+      "fact_ids": [
+        "D5.51-data-lifecycle"
+      ],
+      "expected_keywords": [
+        "Destroy phase requires secure sanitization"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0005",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "data-retention",
+      "stem": "Which data-handling term specifies the minimum and maximum periods that data must be kept before authorized destruction?",
+      "choices": [
+        "Data classification",
+        "Data masking",
+        "Tokenization",
+        "Data retention"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0005.key",
+      "fact_ids": [
+        "D5.51-data-retention"
+      ],
+      "expected_keywords": [
+        "Data retention policy"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0006",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "hashing",
+      "stem": "Which cryptographic operation applies a one-way function that produces a fixed-size digest from which the original data cannot be recovered?",
+      "choices": [
+        "Hashing",
+        "Symmetric encryption",
+        "Asymmetric encryption",
+        "Digital signature"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0006.key",
+      "fact_ids": [
+        "D5.51-hashing"
+      ],
+      "expected_keywords": [
+        "one-way function producing a fixed-size digest"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0007",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "digital-signature",
+      "stem": "Which cryptographic mechanism proves both authenticity and integrity by encrypting a hash of the message with the sender's private key?",
+      "choices": [
+        "Symmetric encryption",
+        "Digital signature",
+        "Asymmetric encryption",
+        "Message hashing"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0007.key",
+      "fact_ids": [
+        "D5.51-digital-signature"
+      ],
+      "expected_keywords": [
+        "proves authenticity and integrity"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0008",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "hybrid-encryption",
+      "stem": "Which encryption approach uses asymmetric cryptography to exchange a session key and then symmetric cryptography for bulk data encryption?",
+      "choices": [
+        "Asymmetric encryption",
+        "Symmetric encryption",
+        "Hybrid encryption",
+        "Digital signature"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0008.key",
+      "fact_ids": [
+        "D5.51-hybrid-encryption"
+      ],
+      "expected_keywords": [
+        "exchange a symmetric session key"
+      ],
+      "difficulty": "L2",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0009",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "aes-standard",
+      "stem": "Which NIST-approved symmetric block cipher replaced DES and 3DES as the dominant symmetric encryption standard?",
+      "choices": [
+        "RSA",
+        "SHA-256",
+        "Diffie-Hellman",
+        "AES"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0009.key",
+      "fact_ids": [
+        "D5.51-aes-standard"
+      ],
+      "expected_keywords": [
+        "NIST-approved symmetric block cipher"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "crypto_property_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0010",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "sanitization",
+      "stem": "Which term names the process of making access to target data infeasible for a given level of effort?",
+      "choices": [
+        "Sanitization",
+        "Clearing",
+        "Purging",
+        "Data masking"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0010.key",
+      "fact_ids": [
+        "D5.51-sanitization-definition"
+      ],
+      "expected_keywords": [
+        "making access to target data infeasible"
+      ],
+      "difficulty": "L1",
+      "holdout": false,
+      "status": "active",
+      "source_policy": "factstore|required",
+      "misconception_tags": [
+        "definition_confusion"
+      ]
+    },
+    {
+      "id": "D5.5.1.definition.0011",
+      "bank": "definition_recall",
+      "domain": "D5",
+      "objective": "5.1",
+      "topic": "sanitization-clear",
+      "stem": "Which sanitization level uses logical techniques such as overwriting to protect against software-based data recovery while leaving media usable?",
+      "choices": [
+        "Purge",
+        "Clear",
+        "Degaussing",
+        "Destroy"
+      ],
+      "answer_key_ref": "D5.5.1.definition.0011.key",
+      "fact_ids": [
+        "D5.51-sanitization-clear"
+      ],
+      "expected_keywords": [
+        "logical techniques"
+      ],
+      "difficulty": "L1",
       "holdout": false,
       "status": "active",
       "source_policy": "factstore|required",
