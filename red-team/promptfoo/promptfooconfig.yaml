@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
 #
-# promptfoo eval + red-team config — illustrative scaffold for a TIA portfolio.
+# promptfoo eval + red-team config — illustrative scaffold for an AI-security portfolio.
 # Run:  npx promptfoo@latest redteam run -c promptfooconfig.yaml   (generate + eval)
 #       npx promptfoo@latest eval        -c promptfooconfig.yaml   (the `tests:` below)
 # Docs: https://www.promptfoo.dev/docs/red-team/
@@ -9,7 +9,7 @@
 # system-under-test. A provider API key is required to hit a real model — see
 # `providers:` below.
 
-description: "TIA portfolio red-team scaffold — OWASP LLM Top-10 plugins + explicit refusal tests"
+description: "AI-security portfolio red-team scaffold — OWASP LLM Top-10 plugins + explicit refusal tests"
 
 # ---------------------------------------------------------------------------
 # prompts: the prompt template(s) under test. `{{prompt}}` is the variable the

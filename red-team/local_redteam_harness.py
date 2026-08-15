@@ -2,7 +2,7 @@
 
 PyRIT / garak / promptfoo (the sibling folders) are the industry tools for
 *generating* adversarial traffic against a live model. This harness demonstrates
-the other half of a Technical Intelligence Analyst's job — proving the detection
+the other half of an AI security analyst's job — proving the detection
 engine you built actually *catches* that traffic — and it runs fully offline with
 zero dependencies (standard library only, no API keys).
 

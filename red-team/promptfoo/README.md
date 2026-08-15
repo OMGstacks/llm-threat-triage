@@ -15,9 +15,9 @@ CI gate. Where PyRIT (the sibling dir) is a Python framework you script, promptf
 is the **declarative, CI-native** member of this repo's red-team set: the same
 attack themes, expressed as config you can diff and review.
 
-## Why this matters for a Technical Intelligence Analyst
+## Why this matters for an AI security analyst
 
-A TIA investigates *how LLMs break*. The flagship project in this repo
+An AI security analyst investigates *how LLMs break*. The flagship project in this repo
 (`projects/llm-log-triage`) is the **detection / forensics** half of that loop —
 it ingests model logs and flags attacks that already happened, mapped to OWASP
 LLM Top-10 categories. promptfoo is part of the **offensive / generation** half:

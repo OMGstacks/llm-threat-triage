@@ -8,9 +8,9 @@ which ones landed. Instead of hand-typing jailbreaks one at a time, garak runs
 the whole battery, judges every response automatically, and emits a structured
 report you can diff between model versions.
 
-## Why this matters for a Technical Intelligence Analyst
+## Why this matters for an AI security analyst
 
-A TIA investigates *how LLMs break* — not networks. The flagship project in this
+An AI security analyst investigates *how LLMs break* — not networks. The flagship project in this
 repo (`projects/llm-log-triage`) is the **detection / forensics** half of that
 loop: it ingests messy model logs and flags attacks that already happened, mapped
 to OWASP LLM Top-10 categories. garak is one of the **offensive / generation**
@@ -28,7 +28,7 @@ one model against another before an attacker does.
 
 It sits alongside the `pyrit/` scaffold: PyRIT is a *framework* for composing
 your own attacks turn-by-turn; garak is a *batteries-included scanner* you run as
-one command for broad, repeatable coverage. A TIA wants both — bespoke and broad.
+one command for broad, repeatable coverage. An AI security analyst wants both — bespoke and broad.
 
 ## Install
 
@@ -134,7 +134,7 @@ Every run writes (default dir `garak_runs/`, overridable via `report_dir`):
 - `<prefix>.report.html` — a rendered summary.
 
 The exact filenames are printed at the start and end of the run. The JSONL is the
-artifact a TIA actually queries — each line records the probe, prompt, model
+artifact an AI security analyst actually queries — each line records the probe, prompt, model
 output, detector verdict, and score. Count failures by probe with `jq`:
 
 ```bash
@@ -168,7 +168,7 @@ one probe can touch several OWASP categories. IDs below follow OWASP **2025**
 | `realtoxicityprompts`, `lmrc`, `continuation` | Toxic / harmful content elicitation | **LLM09** Misinformation & harms-adjacent |
 | `donotanswer`, `misleading` | Confident-but-wrong / unsafe answers | **LLM09** Misinformation |
 
-The honest framing for a TIA: this table is a *bridge* for reporting, not a
+The honest framing for an AI security analyst: this table is a *bridge* for reporting, not a
 ground truth garak emits. State the mapping is indicative and cite the probe's own
 tags when you file a finding.
 
