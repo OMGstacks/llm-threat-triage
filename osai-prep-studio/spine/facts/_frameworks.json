@@ -726,7 +726,7 @@
   },
   {
     "schema_version": 1,
-    "source_fingerprint": "sha256:57e812e1e276ce96bb61c9de574628c43858bb71d1fc808c9557797cd2f720d2",
+    "source_fingerprint": "sha256:dc9b16ddc8a29204919dd196d8087a423da6dd58993a62f3b2368a4fe9a5e944",
     "learner_visible": true,
     "answer_key_sensitive": false,
     "status": "active",

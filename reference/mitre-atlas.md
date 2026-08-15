@@ -14,7 +14,7 @@ living knowledge base of adversary **tactics** (the *why* — the attacker's goa
 and **techniques** (the *how* — the method used), specific to AI/ML-enabled systems. It is
 modeled on MITRE ATT&CK and backed by real-world case studies.
 
-### ATLAS vs ATT&CK — and why a TIA uses both
+### ATLAS vs ATT&CK — and why an AI security analyst uses both
 
 | | MITRE ATT&CK | MITRE ATLAS |
 |---|---|---|
@@ -25,7 +25,7 @@ modeled on MITRE ATT&CK and backed by real-world case studies.
 
 ATLAS **complements** ATT&CK rather than replacing it: a real attack on an LLM-backed
 product often chains both — e.g. ATT&CK Initial Access to reach the app, then ATLAS
-`AML.T0051` to subvert the model. As a Technical Intelligence Analyst, ATLAS gives a shared
+`AML.T0051` to subvert the model. As an AI security analyst, ATLAS gives a shared
 vocabulary to (1) classify an observed LLM abuse, (2) crosswalk it to OWASP LLM Top 10 for
 the product-risk view, and (3) communicate it to a SOC that already speaks ATT&CK.
 

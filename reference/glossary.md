@@ -1,6 +1,6 @@
 # AI-Security Glossary
 
-A fast-reference glossary of the LLM-security terms a Technical Intelligence Analyst should be
+A fast-reference glossary of the LLM-security terms an AI security analyst should be
 able to define on the spot. Terms are alphabetical. Cross-links point to the companion docs in
 this directory:
 
@@ -123,8 +123,8 @@ filters because the malicious payload never appears in the literal prompt string
 ## Novel harms
 Failure modes that don't map cleanly onto known categories — emergent, unanticipated, or
 capability-driven risks discovered through investigation rather than from a checklist. Surfacing
-and characterizing novel harms (vs. cataloguing known ones) is the core investigative work of a
-TIA. In `llm-log-triage` these are the events that *don't* match an existing detector but still
+and characterizing novel harms (vs. cataloguing known ones) is the core investigative work of an
+AI security analyst. In `llm-log-triage` these are the events that *don't* match an existing detector but still
 look anomalous.
 
 ## Prompt template
