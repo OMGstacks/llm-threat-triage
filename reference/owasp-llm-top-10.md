@@ -4,7 +4,7 @@
 > Canonical PDF: `OWASP-Top-10-for-LLMs-v2025.pdf` (v2025). Verified against
 > genai.owasp.org and owasp.org on 2026-06-28.
 
-## What this is and why a TIA must know it cold
+## What this is and why an AI security analyst must know it cold
 
 The OWASP Top 10 for LLM Applications is the industry-standard taxonomy for the ways
 LLM-backed systems get attacked and fail. It is **not** the classic web-app Top 10 —
@@ -12,7 +12,7 @@ it is organized around how LLM applications are actually built (prompts, RAG con
 tool/plugin calls, training data, embeddings) and where trust boundaries leak between
 those layers.
 
-For a Technical Intelligence Analyst the taxonomy is the shared vocabulary for triage.
+For an AI security analyst the taxonomy is the shared vocabulary for triage.
 When an incident, a red-team finding, or a pile of production logs lands on your desk,
 the first move is to classify it: *which OWASP category is this, what is the trust
 boundary that broke, and what is the detectable signature?* Knowing the IDs cold means:
@@ -32,7 +32,7 @@ Two things to internalize:
 2. **Detectability varies wildly.** Prompt injection has loud lexical signatures in a
    message log. Data poisoning and supply-chain compromise leave almost nothing in an
    inference log — they are caught upstream (provenance, SBOM, eval drift), not in chat
-   transcripts. A TIA must state *where* a category is detectable, not pretend the log
+   transcripts. An AI security analyst must state *where* a category is detectable, not pretend the log
    sees everything.
 
 ---
