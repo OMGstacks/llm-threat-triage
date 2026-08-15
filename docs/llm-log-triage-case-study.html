@@ -24,7 +24,7 @@ strong.k { color:#0f172a; }
 </style></head><body>
 <h1>LLM Log Triage</h1>
 <div class="sub">An LLM threat-detection pipeline — Python + SQL applied to adversarial-ML log analysis</div>
-<div class="by">Izu Uhiara · Targeting: Technical Intelligence Analyst, Strategic Intelligence &amp; Analysis (SIA), OpenAI · github.com/OMGstacks/llm-threat-triage</div>
+<div class="by">Izu Uhiara · AI offensive security &amp; LLM threat triage · github.com/OMGstacks/llm-threat-triage</div>
 <p class="lead">Frontier-AI threat intelligence means investigating how large language models break — prompt injection, jailbreaks, data exfiltration — not how networks break. This project does that work end to end: it ingests deliberately <strong class="k">messy</strong> LLM interaction logs, normalizes them, flags adversarial activity with detectors <strong class="k">dual-mapped to the OWASP LLM Top 10 (2025) and MITRE ATLAS</strong>, and answers investigative questions in SQL — the day-to-day of <strong class="k">surfacing novel harms and abuse patterns</strong> and turning them into <strong class="k">structured, decision-ready intelligence</strong>.</p>
 <div class="diagram">
 <svg xmlns="http://www.w3.org/2000/svg" width="1240" height="500" viewBox="0 0 1240 500" font-family="ui-sans-serif, Segoe UI, Helvetica, Arial, sans-serif">
@@ -168,7 +168,7 @@ strong.k { color:#0f172a; }
     </div>
     <h2>Built with</h2>
     <p>Python (standard-library-only at runtime) · SQLite · pytest · GitHub Actions CI. Red-team tooling: Microsoft <strong class="k">PyRIT</strong> (runnable offline probe), NVIDIA <strong class="k">garak</strong>, <strong class="k">promptfoo</strong> — plus an offline harness that grades attacks with the same detection engine.</p>
-    <h2>Why it maps to the role (SIA, OpenAI)</h2>
+    <h2>Why it maps to AI offensive-security &amp; threat-intelligence roles</h2>
     <ul>
       <li><strong class="k">Surface novel harms &amp; abuse patterns</strong> with an ensemble of technical tools and discovery methods — 9 detectors, base64/leetspeak decoding, and a PyRIT/garak/promptfoo red-team loop.</li>
       <li><strong class="k">SQL, Python &amp; AI tooling that improves analysis speed, coverage, and consistency</strong> — a std-lib pipeline, 7 analyst queries, and a tested CLI + CI for repeatable results.</li>
