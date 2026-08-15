@@ -1,9 +1,31 @@
 # Red-team tooling
 
 The offensive half of the toolkit: generate adversarial traffic against LLMs, then
-prove the [`llm-log-triage`](../projects/llm-log-triage/) detectors catch it. A
-Technical Intelligence Analyst lives on both sides of that loop — finding novel
+prove the [`llm-log-triage`](../projects/llm-log-triage/) detectors catch it. An
+AI offensive-security analyst lives on both sides of that loop — finding novel
 harms *and* building the detection that flags them at scale.
+
+## ⭐ Full application security assessment
+
+[`vulnerable-app/`](./vulnerable-app/vulnerable_app.py) + [`assessment/`](./assessment/) are a
+self-contained **intentionally-vulnerable LLM agent** and an **end-to-end assessment** that
+attacks it and grades every result with the *same* flagship detection engine — the complete
+offensive→defensive loop, with detection on **both sides** of the model:
+
+```
+attack → vulnerable agent → response → detect(input + output) → OWASP/ATLAS + severity → mitigation → retest(hardened)
+```
+
+```bash
+python red-team/assessment/run_assessment.py   # regenerates EVIDENCE.md + results.json; std-lib only, zero keys
+```
+
+Latest run — **9/9 attacks exploited the vulnerable target · 9/9 detected · 9/9 blocked after
+hardening · 0 false positives** on the benign control. Full evidence table (attack → request →
+response → exploit → OWASP → ATLAS → severity → mitigation → retest):
+[`assessment/EVIDENCE.md`](./assessment/EVIDENCE.md). The target is a deterministic mock (no live
+model), so exploit success is **ground truth** and the run is reproducible; the script exits
+non-zero if any invariant fails, so it doubles as a self-test.
 
 | Tool | What it is | Runs offline? | Maps to |
 |------|------------|---------------|---------|
