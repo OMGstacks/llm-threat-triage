@@ -34,6 +34,20 @@ non-zero if any invariant fails, so it doubles as a self-test.
 | [**promptfoo**](./promptfoo/) | LLM eval + red-team harness, CI-friendly | ⚠️ Needs Node + provider API keys; `redteam` config included | LLM01/02/06 |
 | [**local_redteam_harness.py**](./local_redteam_harness.py) | Closes the loop — runs an attack battery through a mock model and grades it with **our own detectors** | ✅ Yes — std-lib only, zero keys | OWASP LLM01/02/05/07 |
 
+## ⭐ Multi-step agent range
+
+[`agent-range/`](./agent-range/) takes it further: a **RAG + tool-using agent** where a poisoned
+retrieved document chains through tool calls to exfiltration and destruction — credential access,
+unsafe delegation, sandbox escape. Every step is instrumented, graded with the flagship detectors,
+and the hardened agent's **kill point** is identified.
+
+```bash
+python red-team/agent-range/run_range.py       # regenerates EVIDENCE.md + results.json
+```
+
+Latest run — **3/3 attacks exploited · 3/3 detected · 3/3 broken on the hardened agent · 0 false
+positives**. Evidence: [`agent-range/EVIDENCE.md`](./agent-range/EVIDENCE.md).
+
 ## Quickstart (fully offline, no keys)
 
 ```bash
