@@ -56,6 +56,6 @@ non-zero if any invariant fails**, so it's also a self-test:
 - The hardened guard reuses the same heuristic detectors — good for first-line triage, but the same
   limitations apply (see the root `README.md` "Limitations & scope"): it needs model-based
   classifiers and behavioral baselines to hold up against novel phrasings at production scale.
-- Wiring PyRIT / Garak / Promptfoo (configs in the sibling directories) at this same target over an
-  HTTP shim is the documented next step — the offense→detect→classify loop and taxonomy are already
-  in place for their transcripts to plug into.
+- The real PyRIT / Garak / Promptfoo CLIs can attack this same target: [`../vulnerable-app/serve.py`](../vulnerable-app/serve.py)
+  exposes it as an OpenAI-compatible endpoint (no keys) — see the red-team [README](../README.md#point-the-real-tools-at-the-local-vulnerable-app-no-keys).
+  The offense→detect→classify loop and taxonomy are already in place for their transcripts to plug into.
