@@ -7,18 +7,20 @@
 [![OWASP LLM Top 10 (2025)](https://img.shields.io/badge/OWASP-LLM%20Top%2010%20(2025)-000000.svg)](reference/owasp-llm-top-10.md)
 [![MITRE ATLAS](https://img.shields.io/badge/MITRE-ATLAS-cc0000.svg)](reference/mitre-atlas.md)
 
-A portfolio demonstrating hands-on **frontier-AI threat detection** — investigating how large language models (not networks) break: prompt injection, jailbreaks, sensitive-data leakage, and other novel harms, using **Python + SQL**. It's built to the shape of a **Technical Intelligence Analyst (TIA)** workflow.
+**AI offensive security & LLM threat triage.** A hands-on toolkit for investigating how large language models and LLM-powered agents break — direct, indirect, and encoded prompt injection, jailbreaks, system-prompt extraction, excessive agency, and sensitive-data exfiltration — detecting each, mapping it to the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**, and triaging findings at scale with **Python + SQL**.
 
 > This README covers the flagship project below. This repo also holds two other independently
 > governed projects (`cc-master-learning-center`, `osai-prep-studio`) — see
 > [`PROJECTS.md`](PROJECTS.md) for the full index.
 
-I lead **security incident management** and design **governed, AI-assisted workflows** within a global CISO organization — triage, severity, root-cause, and escalation, now aimed at how AI systems get used and misused. Detecting how models break is the next step on that roadmap, and this repo is me building the capability in the open: a real, tested pipeline that ingests **messy LLM interaction logs**, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL — the exact day-to-day shape of TIA work.
+Built from an operations background — 20 years in major-incident command and security incident management, now designing governed, AI-assisted workflows inside a global CISO organization — this repo turns that investigative discipline on AI systems. The thesis it demonstrates: once an organization starts producing LLM telemetry and AI-generated findings at volume, **discovery stops being the hard part — triage, verification, correlation, and remediation become the scaling problem.** The flagship is an end-to-end pipeline that ingests messy LLM interaction logs, detects adversarial-ML attack patterns mapped to industry frameworks, and answers investigative questions with SQL.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/architecture-dark.png">
   <img alt="LLM Log Triage detection pipeline: messy logs → normalize → events → 9 detectors → detections → SQL/report, all mapped to OWASP LLM Top 10 + MITRE ATLAS" src="docs/architecture.png">
 </picture>
+
+**Pipeline flow:** `adversarial input → LLM / agent → telemetry → normalization → detection → OWASP LLM Top 10 + MITRE ATLAS mapping → SQL correlation → analyst triage → remediation / retest`
 
 ### See it run — zero setup (Python standard library only)
 
@@ -73,12 +75,10 @@ llm-threat-triage/
 │   ├── garak/                     NVIDIA garak scan config + commands
 │   ├── promptfoo/                 promptfoo redteam config
 │   └── local_redteam_harness.py  offline: attacks graded by our own detectors
-└── docs/                         career package (apply · interview · do the job)
-    ├── application/              cover letter, résumé + LinkedIn copy
-    ├── interview/               demo script, printable cheat-sheet (+PDF)
-    ├── playbook/                day-to-day analyst runbook, 30-60-90 plan
-    ├── interview-prep.md        the dossier (repo→JD, 18 Q&As, STAR, study plan)
-    └── *-case-study.pdf         one-page PDF case study
+└── docs/                         shared assets (used across projects)
+    ├── architecture.svg/.png    pipeline diagram (light + dark)
+    ├── playbook/                 day-to-day AI-security triage runbook
+    └── *-case-study.pdf          one-page case study of the flagship
 ```
 
 | Area | What it is |
@@ -86,7 +86,7 @@ llm-threat-triage/
 | [`projects/llm-log-triage/`](projects/llm-log-triage/) | **Flagship.** End-to-end, tested triage pipeline (details below). |
 | [`reference/`](reference/) | Framework references — [OWASP LLM Top 10 (2025)](reference/owasp-llm-top-10.md), [MITRE ATLAS](reference/mitre-atlas.md), [glossary](reference/glossary.md). |
 | [`red-team/`](red-team/) | Offensive-tooling scaffolds: [PyRIT](red-team/pyrit/), [Garak](red-team/garak/), [Promptfoo](red-team/promptfoo/), + an offline [harness](red-team/local_redteam_harness.py). |
-| [`docs/`](docs/) | **Career package** — [apply · interview · do the job](docs/README.md): cover letter & résumé, demo script & cheat-sheet, and a day-to-day [analyst runbook](docs/playbook/analyst-runbook.md). |
+| [`docs/`](docs/) | Shared assets — the architecture diagram, a one-page [case study](docs/llm-log-triage-case-study.pdf), and a day-to-day [analyst runbook](docs/playbook/analyst-runbook.md). |
 
 ---
 
@@ -211,13 +211,23 @@ Dual-mapping every finding to both frameworks is intentional: OWASP frames the *
 
 ---
 
+## Limitations & honest scope
+
+This is a **first-line triage and research tool, not a production WAF** — treat it accordingly:
+
+- **Heuristic detectors.** The nine detectors are deterministic (regex + channel provenance + payload decoding): fast, explainable, and good for first-line triage, but they will miss novel phrasings and can be evaded by attacks they haven't seen. At enterprise scale they need augmenting with model-based classifiers, embeddings, and behavioral baselines.
+- **Batch, not streaming.** Detection runs over stored logs in single-node SQLite. Real-time / multi-turn *streaming* detection is a roadmap item, not a claim.
+- **Offline red-team.** The harness grades attacks with the same detectors offline; PyRIT / Garak / Promptfoo are configured, but committed evidence is from controlled/mock targets, not authorized live-target campaigns.
+- **Synthetic data.** The 800-event sample is generated (deliberately messy and evasive), not production telemetry.
+
+Naming what it *doesn't* do is deliberate: knowing the edge of your coverage is half of threat intelligence.
+
 ## Status / roadmap
 
 | Area | Status |
 |------|--------|
 | `projects/llm-log-triage` (pipeline, detectors, SQL, tests) | ✅ Built, working, 83 tests passing |
 | `reference/` (OWASP, ATLAS, glossary) | ✅ Written |
-| `docs/interview-prep.md` | ✅ Written |
 | `red-team/` (PyRIT / Garak / Promptfoo) | 🚧 Scaffolded — runnable offline harness + PyRIT probe; Garak/Promptfoo configs |
 | CI workflow | ✅ Built — test suite + end-to-end smoke test on push (Python 3.10–3.12) |
 
