@@ -3,7 +3,7 @@
 Ingest messy LLM interaction logs, normalize them into a clean event store, and flag
 adversarial activity — prompt injection, jailbreaks, secret/PII leakage, output-handling
 exfil — each mapped to the **OWASP LLM Top 10 (2025)** and **MITRE ATLAS**. The point is to
-mirror a Technical Intelligence Analyst's day-to-day: take raw, heterogeneous model traffic,
+mirror an AI security analyst's day-to-day: take raw, heterogeneous model traffic,
 make it queryable, run detection over it, and produce a triage report an analyst can act on.
 Everything here is runnable end-to-end with deterministic, synthetic data and is covered by a
 passing test suite.
@@ -135,7 +135,7 @@ are stripped, and spaced-letter and leetspeak obfuscations are folded before mat
 
 ## The data is deliberately messy
 
-Real model traffic is never clean. `generate_logs.py` injects the kind of mess a TIA actually
+Real model traffic is never clean. `generate_logs.py` injects the kind of mess an AI security analyst actually
 has to absorb, and `normalize.py` is responsible for taming it:
 
 - **5+ timestamp formats** — ISO-8601 with and without timezone, space-separated

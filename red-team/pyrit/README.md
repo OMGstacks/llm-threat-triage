@@ -13,9 +13,9 @@ and PyRIT runs the cross-product, records every turn, and tells you which attack
 landed. That turns "I tried a few prompts and one worked" into a repeatable,
 measurable harness — the difference between an anecdote and a finding.
 
-## Why this matters for a Technical Intelligence Analyst
+## Why this matters for an AI security analyst
 
-A TIA investigates *how LLMs break* — not networks. The flagship project in this
+An AI security analyst investigates *how LLMs break* — not networks. The flagship project in this
 repo (`projects/llm-log-triage`) is the **detection / forensics** half of that
 loop: it ingests messy model logs and flags attacks that already happened, mapped
 to OWASP LLM Top-10 categories. PyRIT is the **offensive / generation** half:
