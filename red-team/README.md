@@ -58,7 +58,37 @@ python red-team/pyrit/prompt_injection_probe.py
 python red-team/local_redteam_harness.py
 ```
 
-## Running the real tools (need install / keys / an authorized target)
+## Point the real tools at the local vulnerable app (no keys)
+
+[`vulnerable-app/serve.py`](./vulnerable-app/serve.py) exposes the vulnerable agent as an
+**OpenAI-compatible** endpoint — so PyRIT / Garak / Promptfoo can attack it locally with no API
+key and no cost, against an authorized target you own. It returns the normal completion plus a
+non-standard `x_acme` block (`leaked_secret` / `obeyed_injection` / `tool_invoked` / `refused`), so
+a harness can score each tool's transcripts with the same ground truth the offline assessment uses.
+
+```bash
+# 1. Start the target (VULN_APP_MODE=hardened to attack the defended build instead)
+python red-team/vulnerable-app/serve.py                 # http://127.0.0.1:8000/v1
+
+# 2a. PyRIT probe against the shim (uses the real-target path already in the probe)
+PYRIT_PROBE_USE_REAL_TARGET=1 \
+  OPENAI_CHAT_ENDPOINT=http://127.0.0.1:8000/v1/chat/completions OPENAI_API_KEY=dummy \
+  python red-team/pyrit/prompt_injection_probe.py
+
+# 2b. Garak — point its OpenAI generator at the shim
+pip install garak
+OPENAI_API_KEY=dummy OPENAI_BASE_URL=http://127.0.0.1:8000/v1 \
+  garak --model_type openai --model_name acme-assistant \
+        --probes promptinject,dan,encoding,leakreplay
+
+# 2c. Promptfoo — an OpenAI provider with a local base URL
+#   providers:
+#     - id: openai:chat:acme-assistant
+#       config: { apiBaseUrl: http://127.0.0.1:8000/v1, apiKey: dummy }
+npx promptfoo@latest redteam run -c red-team/promptfoo/promptfooconfig.yaml
+```
+
+## Running the real tools against an external model (need install / keys / an authorized target)
 
 ```bash
 # garak — scan an OpenAI model for prompt-injection & jailbreak probes
