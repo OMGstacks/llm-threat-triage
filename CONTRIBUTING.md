@@ -9,8 +9,8 @@ forks are welcome.
 ```
 projects/llm-log-triage/   # the flagship — Python + SQL detection pipeline
 reference/                 # OWASP LLM Top 10, MITRE ATLAS, glossary
-red-team/                  # PyRIT / garak / promptfoo + an offline harness
-docs/                      # interview-prep dossier
+red-team/                  # vulnerable app + 3 ranges (LLM assessment, agent, web/API) + tool configs
+docs/                      # engagement report, analyst playbook, case study, architecture diagrams
 ```
 
 ## Setup

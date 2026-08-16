@@ -71,22 +71,25 @@ llm-threat-triage/
 │   └── glossary.md                adversarial-ML / LLM-security glossary
 ├── red-team/
 │   ├── README.md                 red-team index + offline quickstart
-│   ├── pyrit/                     Microsoft PyRIT (runnable offline probe)
-│   ├── garak/                     NVIDIA garak scan config + commands
-│   ├── promptfoo/                 promptfoo redteam config
+│   ├── vulnerable-app/           intentionally-vulnerable LLM agent + OpenAI-compatible shim
+│   ├── assessment/               end-to-end LLM assessment (A01–A11) + evidence
+│   ├── agent-range/              multi-step tool-using agent range (S1–S4) + evidence
+│   ├── web-api-range/            conventional web/API layer — SSRF/IDOR/auth/XSS/SQLi (W1–W6)
+│   ├── pyrit/ garak/ promptfoo/  real red-team tool configs (point them at the shim)
 │   └── local_redteam_harness.py  offline: attacks graded by our own detectors
 └── docs/                         shared assets (used across projects)
-    ├── architecture.svg/.png    pipeline diagram (light + dark)
-    ├── playbook/                 day-to-day AI-security triage runbook
-    └── *-case-study.pdf          one-page case study of the flagship
+    ├── architecture.svg/.png             pipeline diagram (light + dark)
+    ├── playbook/                         day-to-day AI-security triage runbook
+    ├── pentest-engagement-report.md      full engagement report (findings + CVSS + retest)
+    └── *-case-study.pdf                  one-page case study of the flagship
 ```
 
 | Area | What it is |
 |------|-----------|
 | [`projects/llm-log-triage/`](projects/llm-log-triage/) | **Flagship.** End-to-end, tested triage pipeline (details below). |
 | [`reference/`](reference/) | Framework references — [OWASP LLM Top 10 (2025)](reference/owasp-llm-top-10.md), [MITRE ATLAS](reference/mitre-atlas.md), [glossary](reference/glossary.md). |
-| [`red-team/`](red-team/) | **Runnable assessment range** — a [vulnerable app](red-team/vulnerable-app/vulnerable_app.py) + hardened target, an [end-to-end assessment](red-team/assessment/) and a [multi-step agent range](red-team/agent-range/) with committed evidence, plus an OpenAI-compatible [local target](red-team/vulnerable-app/serve.py) so [PyRIT](red-team/pyrit/) / [Garak](red-team/garak/) / [Promptfoo](red-team/promptfoo/) can attack it. |
-| [`docs/`](docs/) | Shared assets — the architecture diagram, a one-page [case study](docs/llm-log-triage-case-study.pdf), and a day-to-day [analyst runbook](docs/playbook/analyst-runbook.md). |
+| [`red-team/`](red-team/) | **Three runnable assessment ranges** against a [vulnerable app](red-team/vulnerable-app/vulnerable_app.py) + hardened target — an [LLM assessment](red-team/assessment/), a [multi-step agent range](red-team/agent-range/), and a [web/API range](red-team/web-api-range/) (SSRF/IDOR/auth/XSS/SQLi) — each with committed exploit→detect→harden→retest evidence, plus an OpenAI-compatible [local target](red-team/vulnerable-app/serve.py) so [PyRIT](red-team/pyrit/) / [Garak](red-team/garak/) / [Promptfoo](red-team/promptfoo/) can attack it. |
+| [`docs/`](docs/) | Shared assets — the architecture diagram, the [engagement report](docs/pentest-engagement-report.md) (all findings + CVSS + retest), a one-page [case study](docs/llm-log-triage-case-study.pdf), and a day-to-day [analyst runbook](docs/playbook/analyst-runbook.md). |
 
 ---
 
@@ -205,7 +208,7 @@ Dual-mapping every finding to both frameworks is intentional: OWASP frames the *
 - **Messy-data ingestion** — normalizing real-world-grade logs: 156 unparseable timestamps recovered, 63 missing IDs synthesized, zero records silently dropped. ([`src/normalize.py`](projects/llm-log-triage/src/normalize.py))
 - **Detection engineering** — nine independent detectors with channel-aware logic, evasion-resistant matching, encoded-payload decoding, severity tiers, and false-positive-conscious gating. ([`src/detectors.py`](projects/llm-log-triage/src/detectors.py))
 - **SQL analytics** — schema design plus a library of investigative queries that answer "what attacked us, how badly, and through which channel" — now including a pure-SQL unbounded-consumption anomaly check (LLM10). ([`sql/`](projects/llm-log-triage/sql/))
-- **Offensive security — built and executed** — a self-contained vulnerable LLM app + hardened target, an 11-case end-to-end assessment, and a multi-step tool-using agent range, with committed *attack → detection → mitigation → retest* evidence. PyRIT / Garak / Promptfoo are **wired** against a local OpenAI-compatible target (native campaign runs are the documented next step, not yet committed). ([`red-team/`](red-team/))
+- **Offensive security — built and executed** — a self-contained vulnerable LLM app + hardened target and **three assessment ranges**: an 11-case LLM assessment, a multi-step tool-using agent range, and a **web/API range** covering the conventional layer beneath the model (SSRF, IDOR/BOLA, broken auth, XSS, SQLi) — all with committed *attack → detection → mitigation → retest* evidence, written up as a full [engagement report](docs/pentest-engagement-report.md) with CVSS v3.1 and a remediation roadmap. PyRIT / Garak / Promptfoo are **wired** against a local OpenAI-compatible target (native campaign runs are the documented next step, not yet committed). ([`red-team/`](red-team/))
 - **Framework fluency** — OWASP LLM Top 10 (2025) + MITRE ATLAS applied, not just cited.
 - **Testing discipline** — 83 passing pytest tests covering normalization, every detector, the self-review hardening, DB load, and the end-to-end pipeline.
 - **Security regression in CI** — beyond unit tests, every push re-runs both red-team ranges as a **regression gate**: CI fails if an attack path stops exploiting the vulnerable target, a detector stops catching it, a hardened control regresses, or the benign control starts false-positiving — plus a check that the committed evidence regenerates byte-identically. ([`ci.yml`](.github/workflows/ci.yml))
@@ -218,7 +221,7 @@ This is a **first-line triage and research tool, not a production WAF** — trea
 
 - **Heuristic detectors.** The nine detectors are deterministic (regex + channel provenance + payload decoding): fast, explainable, and good for first-line triage, but they will miss novel phrasings and can be evaded by attacks they haven't seen. At enterprise scale they need augmenting with model-based classifiers, embeddings, and behavioral baselines.
 - **Batch, not streaming.** Detection runs over stored logs in single-node SQLite. Real-time / multi-turn *streaming* detection is a roadmap item, not a claim.
-- **Controlled targets, own tooling.** The assessment and agent range run against intentionally-vulnerable mock targets I control (deterministic ground truth), graded by the same detectors — my own infrastructure, built and executed. Native **PyRIT / Garak / Promptfoo** runs are *wired* against the local OpenAI-compatible target but their transcripts aren't committed yet; none of this substitutes for testing a real production system under authorization.
+- **Controlled targets, own tooling.** The LLM assessment, agent range, and web/API range run against intentionally-vulnerable mock targets I control (deterministic ground truth), graded by the same detectors — my own infrastructure, built and executed. Native **PyRIT / Garak / Promptfoo** runs are *wired* against the local OpenAI-compatible target but their transcripts aren't committed yet; none of this substitutes for testing a real production system under authorization.
 - **Synthetic data.** The 800-event sample is generated (deliberately messy and evasive), not production telemetry.
 
 Naming what it *doesn't* do is deliberate: knowing the edge of your coverage is half of threat intelligence.
@@ -229,7 +232,7 @@ Naming what it *doesn't* do is deliberate: knowing the edge of your coverage is 
 |------|--------|
 | `projects/llm-log-triage` (pipeline, detectors, SQL, tests) | ✅ Built, working, 83 tests passing |
 | `reference/` (OWASP, ATLAS, glossary) | ✅ Written |
-| `red-team/` — assessment range | ✅ Runnable — vulnerable + hardened targets, 11-case assessment + multi-step agent range, reproducible exploit/detection/retest evidence, OpenAI-compatible local target for PyRIT/Garak/Promptfoo |
-| CI workflow | ✅ Built — test suite + end-to-end smoke test (Python 3.10–3.12) **plus a security-regression gate**: 12/12 attack paths validated · mitigations verified · benign controls clean · evidence reproducible |
+| `red-team/` — assessment ranges | ✅ Runnable — vulnerable + hardened targets across **three ranges** (LLM assessment · multi-step agent · web/API), reproducible exploit/detection/retest evidence, a full [engagement report](docs/pentest-engagement-report.md) (findings + CVSS + retest), OpenAI-compatible local target for PyRIT/Garak/Promptfoo |
+| CI workflow | ✅ Built — test suite + end-to-end smoke test (Python 3.10–3.12) **plus a security-regression gate**: 17/17 attack paths validated · mitigations verified · 3 benign controls clean · evidence reproducible |
 
 **Next:** execute native PyRIT / Garak / Promptfoo campaigns against the local target → persist their native reports → ingest the transcripts into the triage pipeline → compare scanner coverage and measure false-positive / false-negative rates against the ground-truth range.
