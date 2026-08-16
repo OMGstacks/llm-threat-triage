@@ -47,14 +47,16 @@ jobs:
         run: python3 red-team/assessment/run_assessment.py
       - name: Agent-range invariants (multi-step tool-using agent)
         run: python3 red-team/agent-range/run_range.py
+      - name: Web/API range invariants (conventional layer — SSRF/IDOR/auth/XSS/SQLi)
+        run: python3 red-team/web-api-range/run_web_assessment.py
 
       # The harnesses rewrite their own evidence. If regenerating changes a committed
       # file, the evidence in the repo no longer matches the code that produced it.
       - name: Committed evidence is reproducible (no drift)
         run: |
-          if ! git diff --quiet -- red-team/assessment red-team/agent-range; then
+          if ! git diff --quiet -- red-team/assessment red-team/agent-range red-team/web-api-range; then
             echo "::error::Committed red-team evidence is stale — re-run the harnesses and commit the regenerated EVIDENCE.md / results.json."
-            git --no-pager diff --stat -- red-team/assessment red-team/agent-range
+            git --no-pager diff --stat -- red-team/assessment red-team/agent-range red-team/web-api-range
             exit 1
           fi
           echo "Committed evidence reproduces byte-identically."
@@ -65,8 +67,10 @@ jobs:
           import json, pathlib
           a = json.loads(pathlib.Path("red-team/assessment/results.json").read_text())["attacks"]
           r = json.loads(pathlib.Path("red-team/agent-range/results.json").read_text())
+          w = json.loads(pathlib.Path("red-team/web-api-range/results.json").read_text())
           atk = [x for x in a if x["success_criterion"] != "(detection-only / control)"]
           sc = [x for x in r if x["success_criterion"] != "(control)"]
+          wk = [x for x in w if x["success_criterion"] != "(control)"]
           print("## Security regression\n")
           print(f"- **Assessment:** {sum(x['exploited_vulnerable'] for x in atk)}/{len(atk)} attack paths exploited · "
                 f"{sum(x['detected_on_input'] or x['detected_on_output'] for x in atk)}/{len(atk)} detected · "
@@ -74,5 +78,7 @@ jobs:
           print(f"- **Agent range:** {sum(x['exploited'] for x in sc)}/{len(sc)} chains exploited · "
                 f"{sum(x['detected'] for x in sc)}/{len(sc)} detected · "
                 f"{sum(x['hardened_blocked'] for x in sc)}/{len(sc)} broken at a kill point")
+          print(f"- **Web/API range:** {sum(x['exploited_vulnerable'] for x in wk)}/{len(wk)} web/API flaws exploited · "
+                f"{sum(x['hardened_blocked'] for x in wk)}/{len(wk)} blocked after hardening (retest)")
           print("- **Benign controls:** clean · **evidence:** reproducible")
           PY
