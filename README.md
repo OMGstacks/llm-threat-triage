@@ -85,7 +85,7 @@ llm-threat-triage/
 |------|-----------|
 | [`projects/llm-log-triage/`](projects/llm-log-triage/) | **Flagship.** End-to-end, tested triage pipeline (details below). |
 | [`reference/`](reference/) | Framework references — [OWASP LLM Top 10 (2025)](reference/owasp-llm-top-10.md), [MITRE ATLAS](reference/mitre-atlas.md), [glossary](reference/glossary.md). |
-| [`red-team/`](red-team/) | Offensive-tooling scaffolds: [PyRIT](red-team/pyrit/), [Garak](red-team/garak/), [Promptfoo](red-team/promptfoo/), + an offline [harness](red-team/local_redteam_harness.py). |
+| [`red-team/`](red-team/) | **Runnable assessment range** — a [vulnerable app](red-team/vulnerable-app/vulnerable_app.py) + hardened target, an [end-to-end assessment](red-team/assessment/) and a [multi-step agent range](red-team/agent-range/) with committed evidence, plus an OpenAI-compatible [local target](red-team/vulnerable-app/serve.py) so [PyRIT](red-team/pyrit/) / [Garak](red-team/garak/) / [Promptfoo](red-team/promptfoo/) can attack it. |
 | [`docs/`](docs/) | Shared assets — the architecture diagram, a one-page [case study](docs/llm-log-triage-case-study.pdf), and a day-to-day [analyst runbook](docs/playbook/analyst-runbook.md). |
 
 ---
@@ -205,7 +205,7 @@ Dual-mapping every finding to both frameworks is intentional: OWASP frames the *
 - **Messy-data ingestion** — normalizing real-world-grade logs: 156 unparseable timestamps recovered, 63 missing IDs synthesized, zero records silently dropped. ([`src/normalize.py`](projects/llm-log-triage/src/normalize.py))
 - **Detection engineering** — nine independent detectors with channel-aware logic, evasion-resistant matching, encoded-payload decoding, severity tiers, and false-positive-conscious gating. ([`src/detectors.py`](projects/llm-log-triage/src/detectors.py))
 - **SQL analytics** — schema design plus a library of investigative queries that answer "what attacked us, how badly, and through which channel" — now including a pure-SQL unbounded-consumption anomaly check (LLM10). ([`sql/`](projects/llm-log-triage/sql/))
-- **Red-team tooling fluency** — scaffolding for PyRIT, Garak, and Promptfoo, the standard LLM offensive/eval stack. ([`red-team/`](red-team/))
+- **Offensive security — built and executed** — a self-contained vulnerable LLM app + hardened target, an 11-case end-to-end assessment, and a multi-step tool-using agent range, with committed *attack → detection → mitigation → retest* evidence. PyRIT / Garak / Promptfoo are **wired** against a local OpenAI-compatible target (native campaign runs are the documented next step, not yet committed). ([`red-team/`](red-team/))
 - **Framework fluency** — OWASP LLM Top 10 (2025) + MITRE ATLAS applied, not just cited.
 - **Testing discipline** — 83 passing pytest tests covering normalization, every detector, the self-review hardening, DB load, and the end-to-end pipeline.
 
@@ -217,7 +217,7 @@ This is a **first-line triage and research tool, not a production WAF** — trea
 
 - **Heuristic detectors.** The nine detectors are deterministic (regex + channel provenance + payload decoding): fast, explainable, and good for first-line triage, but they will miss novel phrasings and can be evaded by attacks they haven't seen. At enterprise scale they need augmenting with model-based classifiers, embeddings, and behavioral baselines.
 - **Batch, not streaming.** Detection runs over stored logs in single-node SQLite. Real-time / multi-turn *streaming* detection is a roadmap item, not a claim.
-- **Offline red-team.** The harness grades attacks with the same detectors offline; PyRIT / Garak / Promptfoo are configured, but committed evidence is from controlled/mock targets, not authorized live-target campaigns.
+- **Controlled targets, own tooling.** The assessment and agent range run against intentionally-vulnerable mock targets I control (deterministic ground truth), graded by the same detectors — my own infrastructure, built and executed. Native **PyRIT / Garak / Promptfoo** runs are *wired* against the local OpenAI-compatible target but their transcripts aren't committed yet; none of this substitutes for testing a real production system under authorization.
 - **Synthetic data.** The 800-event sample is generated (deliberately messy and evasive), not production telemetry.
 
 Naming what it *doesn't* do is deliberate: knowing the edge of your coverage is half of threat intelligence.
@@ -228,7 +228,7 @@ Naming what it *doesn't* do is deliberate: knowing the edge of your coverage is 
 |------|--------|
 | `projects/llm-log-triage` (pipeline, detectors, SQL, tests) | ✅ Built, working, 83 tests passing |
 | `reference/` (OWASP, ATLAS, glossary) | ✅ Written |
-| `red-team/` (PyRIT / Garak / Promptfoo) | 🚧 Scaffolded — runnable offline harness + PyRIT probe; Garak/Promptfoo configs |
+| `red-team/` — assessment range | ✅ Runnable — vulnerable + hardened targets, 11-case assessment + multi-step agent range, reproducible exploit/detection/retest evidence, OpenAI-compatible local target for PyRIT/Garak/Promptfoo |
 | CI workflow | ✅ Built — test suite + end-to-end smoke test on push (Python 3.10–3.12) |
 
-**Next:** wire the red-team scaffolds into runnable eval suites and feed their transcripts back through the triage pipeline, closing the loop from *generate attacks* → *detect* → *analyze*.
+**Next:** execute native PyRIT / Garak / Promptfoo campaigns against the local target → persist their native reports → ingest the transcripts into the triage pipeline → compare scanner coverage and measure false-positive / false-negative rates against the ground-truth range.
