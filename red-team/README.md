@@ -48,6 +48,27 @@ python red-team/agent-range/run_range.py       # regenerates EVIDENCE.md + resul
 Latest run — **3/3 attacks exploited · 3/3 detected · 3/3 broken on the hardened agent · 0 false
 positives**. Evidence: [`agent-range/EVIDENCE.md`](./agent-range/EVIDENCE.md).
 
+## ⭐ Web / API range — the conventional layer underneath
+
+[`web-api-range/`](./web-api-range/) attacks the target the way an **application pentester** would.
+A modern LLM app *is* a web/API app, so this range covers the classic flaws that live under the
+model — **SSRF, IDOR/BOLA, broken auth, reflected XSS, SQLi** — each mapped to the **OWASP API/Web
+Top 10 + CWE** (not the LLM Top 10), and each exploited on the vulnerable build then retested on the
+hardened one. The point is the intersection: an agent's URL-fetch tool is both SSRF (CWE-918) *and*
+excessive agency (LLM06); unescaped model output is both XSS (CWE-79) *and* improper output handling
+(LLM05).
+
+```bash
+python red-team/web-api-range/run_web_assessment.py   # regenerates EVIDENCE.md + results.json
+```
+
+Latest run — **5/5 web/API flaws exploited · 5/5 blocked after hardening · 0 false positives**.
+Evidence: [`web-api-range/EVIDENCE.md`](./web-api-range/EVIDENCE.md).
+
+All three ranges run in the `security-regression` CI gate — each exits non-zero if an attack stops
+exploiting the vulnerable target, a mitigation regresses, or the benign control false-positives, so
+they are a live regression suite, not just documentation.
+
 ## Quickstart (fully offline, no keys)
 
 ```bash

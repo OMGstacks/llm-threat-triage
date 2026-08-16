@@ -55,7 +55,12 @@ gates:
     group: "security-regression"
     command: "python3 red-team/agent-range/run_range.py"
 
+  - name: web-api-range-invariants
+    description: "Web/API range invariants (conventional layer: SSRF/IDOR/broken-auth/XSS/SQLi exploit -> harden -> retest)"
+    group: "security-regression"
+    command: "python3 red-team/web-api-range/run_web_assessment.py"
+
   - name: redteam-evidence-reproducible
     description: "Committed red-team evidence regenerates byte-identically (no stale evidence)"
     group: "security-regression"
-    command: "git diff --quiet -- red-team/assessment red-team/agent-range"
+    command: "git diff --quiet -- red-team/assessment red-team/agent-range red-team/web-api-range"

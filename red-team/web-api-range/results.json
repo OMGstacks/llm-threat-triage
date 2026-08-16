@@ -1,0 +1,126 @@
+[
+  {
+    "id": "W1",
+    "name": "SSRF \u2014 agent URL-fetch tool reaches cloud metadata",
+    "owasp": "API7:2023 SSRF / A10:2021",
+    "cwe": "CWE-918",
+    "request": "POST /tools/fetch  url=http://169.254.169.254/latest/meta-data/iam/security-credentials/",
+    "success_criterion": "ssrf_reached_internal",
+    "exploited_vulnerable": true,
+    "vuln_status": 200,
+    "vuln_body": "iam-role: acme-app; secret: AKIAIOSFODNN7EXAMPLE",
+    "vuln_notes": [
+      "SSRF: fetched internal metadata endpoint"
+    ],
+    "hardened_blocked": true,
+    "hardened_status": 403,
+    "hardened_body": "egress blocked: host not on allowlist",
+    "hardened_notes": [
+      "SSRF fix: egress allowlist + internal-range denylist"
+    ],
+    "mitigation": "Egress allowlist + block internal/link-local ranges; never fetch attacker-supplied hosts by raw IP."
+  },
+  {
+    "id": "W2",
+    "name": "IDOR / BOLA \u2014 read another user's conversation",
+    "owasp": "API1:2023 BOLA / A01:2021",
+    "cwe": "CWE-639",
+    "request": "GET /conversations/conv-1002   (as user-alice; conv owned by user-bob)",
+    "success_criterion": "idor_leaked_other_user",
+    "exploited_vulnerable": true,
+    "vuln_status": 200,
+    "vuln_body": "bob: my card ending 4242 was double charged",
+    "vuln_notes": [
+      "IDOR: returned another user's transcript"
+    ],
+    "hardened_blocked": true,
+    "hardened_status": 403,
+    "hardened_body": "forbidden: not your conversation",
+    "hardened_notes": [
+      "IDOR fix: ownership check on the object"
+    ],
+    "mitigation": "Enforce object-level ownership on every access; authorize the subject against the object, not just the route."
+  },
+  {
+    "id": "W3",
+    "name": "Broken authentication \u2014 admin config with no valid token",
+    "owasp": "API2:2023 Broken Auth / A07:2021",
+    "cwe": "CWE-306",
+    "request": "GET /admin/config   (Authorization: empty)",
+    "success_criterion": "auth_bypassed",
+    "exploited_vulnerable": true,
+    "vuln_status": 200,
+    "vuln_body": "{'db_dsn': 'postgres://acme:not-real@db.internal/acme', 'aws_key': 'AKIAIOSFODNN7EXAMPLE'}",
+    "vuln_notes": [
+      "broken auth: secrets served without a valid token"
+    ],
+    "hardened_blocked": true,
+    "hardened_status": 401,
+    "hardened_body": "unauthorized",
+    "hardened_notes": [
+      "auth fix: constant-time token check, deny by default"
+    ],
+    "mitigation": "Deny by default; constant-time token comparison; no unauthenticated path to secrets."
+  },
+  {
+    "id": "W4",
+    "name": "Reflected XSS \u2014 search echoes active content unescaped",
+    "owasp": "A03:2021 Injection (XSS)",
+    "cwe": "CWE-79",
+    "request": "GET /search?q=<script>alert(document.cookie)</script>",
+    "success_criterion": "xss_reflected_unescaped",
+    "exploited_vulnerable": true,
+    "vuln_status": 200,
+    "vuln_body": "<p>No results for: <script>alert(document.cookie)</script></p>",
+    "vuln_notes": [
+      "reflected XSS: active content echoed unescaped"
+    ],
+    "hardened_blocked": true,
+    "hardened_status": 200,
+    "hardened_body": "<p>No results for: &lt;script&gt;alert(document.cookie)&lt;/script&gt;</p>",
+    "hardened_notes": [
+      "XSS fix: HTML-escape reflected input"
+    ],
+    "mitigation": "Context-aware output encoding (HTML-escape reflected input); CSP as defense-in-depth."
+  },
+  {
+    "id": "W5",
+    "name": "SQL injection \u2014 tautology dumps all users' history",
+    "owasp": "A03:2021 Injection (SQLi) / API8:2023",
+    "cwe": "CWE-89",
+    "request": "GET /history?term=' OR '1'='1   (as user-alice)",
+    "success_criterion": "sqli_dumped_extra_rows",
+    "exploited_vulnerable": true,
+    "vuln_status": 200,
+    "vuln_body": "[{'id': 1, 'user': 'user-alice', 'q': 'refund policy?'}, {'id': 2, 'user': 'user-bob', 'q': 'billing address change'}, {'id': 3, 'user': 'user-admin', 'q': 'rot",
+    "vuln_notes": [
+      "SQLi: tautology bypassed the user filter, dumped all rows"
+    ],
+    "hardened_blocked": true,
+    "hardened_status": 200,
+    "hardened_body": "[]",
+    "hardened_notes": [
+      "SQLi fix: parameterized query + user scoping"
+    ],
+    "mitigation": "Parameterized queries / prepared statements; keep the user-scope filter server-side."
+  },
+  {
+    "id": "W6",
+    "name": "Benign control \u2014 normal search + own conversation",
+    "owasp": "\u2014",
+    "cwe": "\u2014",
+    "request": "GET /search?q=refund+policy  \u00b7  GET /conversations/conv-1001 (as owner)",
+    "success_criterion": "(control)",
+    "exploited_vulnerable": false,
+    "vuln_status": 200,
+    "vuln_body": "<p>No results for: refund policy</p>",
+    "vuln_notes": [],
+    "hardened_blocked": false,
+    "hardened_status": 200,
+    "hardened_body": "<p>No results for: refund policy</p>",
+    "hardened_notes": [
+      "XSS fix: HTML-escape reflected input"
+    ],
+    "mitigation": "No action \u2014 must NOT be blocked or flagged (false-positive control)."
+  }
+]
