@@ -208,6 +208,7 @@ Dual-mapping every finding to both frameworks is intentional: OWASP frames the *
 - **Offensive security — built and executed** — a self-contained vulnerable LLM app + hardened target, an 11-case end-to-end assessment, and a multi-step tool-using agent range, with committed *attack → detection → mitigation → retest* evidence. PyRIT / Garak / Promptfoo are **wired** against a local OpenAI-compatible target (native campaign runs are the documented next step, not yet committed). ([`red-team/`](red-team/))
 - **Framework fluency** — OWASP LLM Top 10 (2025) + MITRE ATLAS applied, not just cited.
 - **Testing discipline** — 83 passing pytest tests covering normalization, every detector, the self-review hardening, DB load, and the end-to-end pipeline.
+- **Security regression in CI** — beyond unit tests, every push re-runs both red-team ranges as a **regression gate**: CI fails if an attack path stops exploiting the vulnerable target, a detector stops catching it, a hardened control regresses, or the benign control starts false-positiving — plus a check that the committed evidence regenerates byte-identically. ([`ci.yml`](.github/workflows/ci.yml))
 
 ---
 
@@ -229,6 +230,6 @@ Naming what it *doesn't* do is deliberate: knowing the edge of your coverage is 
 | `projects/llm-log-triage` (pipeline, detectors, SQL, tests) | ✅ Built, working, 83 tests passing |
 | `reference/` (OWASP, ATLAS, glossary) | ✅ Written |
 | `red-team/` — assessment range | ✅ Runnable — vulnerable + hardened targets, 11-case assessment + multi-step agent range, reproducible exploit/detection/retest evidence, OpenAI-compatible local target for PyRIT/Garak/Promptfoo |
-| CI workflow | ✅ Built — test suite + end-to-end smoke test on push (Python 3.10–3.12) |
+| CI workflow | ✅ Built — test suite + end-to-end smoke test (Python 3.10–3.12) **plus a security-regression gate**: 12/12 attack paths validated · mitigations verified · benign controls clean · evidence reproducible |
 
 **Next:** execute native PyRIT / Garak / Promptfoo campaigns against the local target → persist their native reports → ingest the transcripts into the triage pipeline → compare scanner coverage and measure false-positive / false-negative rates against the ground-truth range.
