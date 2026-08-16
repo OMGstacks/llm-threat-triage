@@ -39,3 +39,23 @@ gates:
       strategy:
         matrix:
           python-version: ["3.10", "3.11", "3.12"]
+
+  # --- security regression -------------------------------------------------
+  # The red-team ranges are a regression suite, not just documentation. Each harness
+  # exits non-zero if an attack stops exploiting the vulnerable target, a detector stops
+  # catching it, a hardened control regresses, or the benign control false-positives.
+  # Implemented as the `security-regression` job in .github/workflows/ci.yml.
+  - name: assessment-invariants
+    description: "Red-team assessment invariants (vulnerable app: exploit -> detect -> harden -> retest)"
+    group: "security-regression"
+    command: "python3 red-team/assessment/run_assessment.py"
+
+  - name: agent-range-invariants
+    description: "Agent-range invariants (multi-step tool-using agent: attack chains + kill points)"
+    group: "security-regression"
+    command: "python3 red-team/agent-range/run_range.py"
+
+  - name: redteam-evidence-reproducible
+    description: "Committed red-team evidence regenerates byte-identically (no stale evidence)"
+    group: "security-regression"
+    command: "git diff --quiet -- red-team/assessment red-team/agent-range"
