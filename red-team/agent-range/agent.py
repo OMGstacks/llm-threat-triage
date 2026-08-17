@@ -3,8 +3,8 @@
 Unlike the single-turn target in ``../vulnerable-app/``, this agent runs a **multi-step loop**
 (retrieve -> reason -> act -> observe -> repeat), which is where the interesting failures live:
 an instruction planted in a *retrieved* document (step 1) propagates into a *tool call* (step 3)
-that exfiltrates data or takes a destructive action. That is the attack path Citi's agent-security
-language is about — credential access, unsafe delegation, tool misuse.
+that exfiltrates data or takes a destructive action. That is the attack path enterprise
+agent-security programs are about — credential access, unsafe delegation, tool misuse.
 
 Two modes:
 
